@@ -637,7 +637,7 @@
     [self primaryExpr_]; 
     [self execute:^{
     
-    if (_negation)
+    if (_negative)
 		PUSH([XPUnaryExpression unaryExpressionWithExpression:POP()]);
 
     }];
