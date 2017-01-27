@@ -52,6 +52,8 @@
 		D3689FFB1E3BDE7B005783BB /* XPValue.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FD21E3BDE7B005783BB /* XPValue.m */; };
 		D368A0011E3BDFBB005783BB /* XPContext.m in Sources */ = {isa = PBXBuildFile; fileRef = D368A0001E3BDFBB005783BB /* XPContext.m */; };
 		D368A0031E3BDFDE005783BB /* XPContext.h in Headers */ = {isa = PBXBuildFile; fileRef = D368A0021E3BDFDE005783BB /* XPContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D368A0081E3BE383005783BB /* XPParser.h in Headers */ = {isa = PBXBuildFile; fileRef = D368A0061E3BE383005783BB /* XPParser.h */; };
+		D368A0091E3BE383005783BB /* XPParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D368A0071E3BE383005783BB /* XPParser.m */; settings = {COMPILER_FLAGS = "-Wno-undeclared-selector"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +116,8 @@
 		D368A0001E3BDFBB005783BB /* XPContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPContext.m; path = src/XPContext.m; sourceTree = SOURCE_ROOT; };
 		D368A0021E3BDFDE005783BB /* XPContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPContext.h; path = include/Language/XPContext.h; sourceTree = SOURCE_ROOT; };
 		D368A0041E3BE0C7005783BB /* Language-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Language-Prefix.pch"; path = "src/Language-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		D368A0061E3BE383005783BB /* XPParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPParser.h; path = src/XPParser.h; sourceTree = SOURCE_ROOT; };
+		D368A0071E3BE383005783BB /* XPParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPParser.m; path = src/XPParser.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				D305628F1E3BD929008BEC9A /* Language.h */,
+				D368A0061E3BE383005783BB /* XPParser.h */,
+				D368A0071E3BE383005783BB /* XPParser.m */,
 				D368A0021E3BDFDE005783BB /* XPContext.h */,
 				D368A0001E3BDFBB005783BB /* XPContext.m */,
 				D3689FA81E3BDD7C005783BB /* XPExpression.h */,
@@ -282,6 +288,7 @@
 				D3689FF41E3BDE7B005783BB /* XPSkipException.h in Headers */,
 				D3689FF61E3BDE7B005783BB /* XPStringValue.h in Headers */,
 				D3689FE81E3BDE7B005783BB /* XPNumericValue.h in Headers */,
+				D368A0081E3BE383005783BB /* XPParser.h in Headers */,
 				D3689FF21E3BDE7B005783BB /* XPRelationalExpression.h in Headers */,
 				D3689FE41E3BDE7B005783BB /* XPNegationExpression.h in Headers */,
 				D3689FA91E3BDD7C005783BB /* XPExpression.h in Headers */,
@@ -398,6 +405,7 @@
 				D3689FF71E3BDE7B005783BB /* XPStringValue.m in Sources */,
 				D3689FFB1E3BDE7B005783BB /* XPValue.m in Sources */,
 				D368A0011E3BDFBB005783BB /* XPContext.m in Sources */,
+				D368A0091E3BE383005783BB /* XPParser.m in Sources */,
 				D3689FDF1E3BDE7B005783BB /* XPExpression.m in Sources */,
 				D3689FDA1E3BDE7B005783BB /* XPBooleanValue.m in Sources */,
 				D3689FF11E3BDE7B005783BB /* XPRangeExpression.m in Sources */,

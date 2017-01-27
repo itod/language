@@ -9,18 +9,18 @@
 }
 
 @m {
-#import <XPTemplateEngine/XPBooleanValue.h>
-#import <XPTemplateEngine/XPNumericValue.h>
-#import <XPTemplateEngine/XPStringValue.h>
-#import <XPTemplateEngine/XPUnaryExpression.h>
-#import <XPTemplateEngine/XPNegationExpression.h>
-#import <XPTemplateEngine/XPBooleanExpression.h>
-#import <XPTemplateEngine/XPRelationalExpression.h>
-#import <XPTemplateEngine/XPArithmeticExpression.h>
-#import <XPTemplateEngine/XPLoopExpression.h>
-#import <XPTemplateEngine/XPCollectionExpression.h>
-#import <XPTemplateEngine/XPRangeExpression.h>
-#import <XPTemplateEngine/XPPathExpression.h>
+#import <Language/XPBooleanValue.h>
+#import <Language/XPNumericValue.h>
+#import <Language/XPStringValue.h>
+#import <Language/XPUnaryExpression.h>
+#import <Language/XPNegationExpression.h>
+#import <Language/XPBooleanExpression.h>
+#import <Language/XPRelationalExpression.h>
+#import <Language/XPArithmeticExpression.h>
+#import <Language/XPLoopExpression.h>
+#import <Language/XPCollectionExpression.h>
+#import <Language/XPRangeExpression.h>
+#import <Language/XPPathExpression.h>
 }
 
 @extension {
@@ -57,7 +57,6 @@
 }
 
 @dealloc {
-    self.engine = nil;
     self.openParen = nil;
     self.minus = nil;
     self.colon = nil;
