@@ -16,4 +16,5 @@ FOUNDATION_EXPORT const unsigned char LanguageVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <Language/PublicHeader.h>
 
-
+#import <Language/XPContext.h>
+#import <Language/XPExpression.h>
