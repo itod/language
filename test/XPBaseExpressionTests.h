@@ -17,7 +17,6 @@
 - (PKTokenizer *)tokenizer;
 - (XPExpression *)expressionFromString:(NSString *)str error:(NSError **)outErr;
 - (XPExpression *)expressionFromTokens:(NSArray *)toks error:(NSError **)outErr;
-- (XPExpression *)loopExpressionFromTokens:(NSArray *)toks error:(NSError **)outErr;
 
 @property (nonatomic, retain) XPExpression *expr;
 @property (nonatomic, retain) PKTokenizer *t;

@@ -4,8 +4,6 @@
 
 @interface {
 + (PKTokenizer *)tokenizer;
-
-@property (nonatomic, assign) BOOL doLoopExpr;
 }
 
 @m {
@@ -17,9 +15,6 @@
 #import <Language/XPBooleanExpression.h>
 #import <Language/XPRelationalExpression.h>
 #import <Language/XPArithmeticExpression.h>
-#import <Language/XPLoopExpression.h>
-#import <Language/XPCollectionExpression.h>
-#import <Language/XPRangeExpression.h>
 #import <Language/XPPathExpression.h>
 }
 
@@ -62,39 +57,41 @@
     self.colon = nil;
 }
 
+expr    = orExpr;
+/*
 expr    = loopExpr | orExpr;
-
-loopExpr 
-		= identifiers 'in'! enumExpr {
-	id enumExpr = POP();
-	id vars = POP();
-	PUSH([XPLoopExpression loopExpressionWithVariables:vars enumeration:enumExpr]);
+loopExpr
+        = identifiers 'in'! enumExpr {
+    id enumExpr = POP();
+    id vars = POP();
+    PUSH([XPLoopExpression loopExpressionWithVariables:vars enumeration:enumExpr]);
 };
 identifiers
 @before { PUSH(_openParen); }
-		= identifier (','! identifier)? {
-	id strs = REV(ABOVE(_openParen));
-	POP(); // discard `(`
-	PUSH(strs);
+        = identifier (','! identifier)? {
+    id strs = REV(ABOVE(_openParen));
+    POP(); // discard `(`
+    PUSH(strs);
 };
 enumExpr
-		= rangeExpr | collectionExpr;
-		
+        = rangeExpr | collectionExpr;
+
 collectionExpr = primaryExpr {
-	id expr = POP();
-	PUSH([XPCollectionExpression collectionExpressionWithExpression:expr]);
+    id expr = POP();
+    PUSH([XPCollectionExpression collectionExpressionWithExpression:expr]);
 };
 rangeExpr
-		= unaryExpr 'to'! unaryExpr optBy {
-	id by = POP();
-	id stop = POP();
-	id start = POP();
-	PUSH([XPRangeExpression rangeExpressionWithStart:start stop:stop by:by]);
+        = unaryExpr 'to'! unaryExpr optBy {
+    id by = POP();
+    id stop = POP();
+    id start = POP();
+    PUSH([XPRangeExpression rangeExpressionWithStart:start stop:stop by:by]);
 };
-optBy 	= 'by'! unaryExpr
-		| Empty { PUSH([XPNumericValue numericValueWithNumber:0.0]); }
-		;
+optBy     = 'by'! unaryExpr
+        | Empty { PUSH([XPNumericValue numericValueWithNumber:0.0]); }
+        ;
 
+*/
 orOp    =  'or'! | '||'!;
 orExpr  = andExpr (orOp andExpr {
     XPValue *rhs = POP();
@@ -179,7 +176,7 @@ signedPrimaryExpr
     _negative = NO; 
 }
 @after {
-    if (_negation)
+    if (_negative)
 		PUSH([XPUnaryExpression unaryExpressionWithExpression:POP()]);
 }
     = ('-'! { _negative = !_negative; })+ primaryExpr;

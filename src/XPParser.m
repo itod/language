@@ -9,9 +9,6 @@
 #import <Language/XPBooleanExpression.h>
 #import <Language/XPRelationalExpression.h>
 #import <Language/XPArithmeticExpression.h>
-#import <Language/XPLoopExpression.h>
-#import <Language/XPCollectionExpression.h>
-#import <Language/XPRangeExpression.h>
 #import <Language/XPPathExpression.h>
 
 
@@ -54,7 +51,6 @@
 
         self.startRuleName = @"expr";
         self.tokenKindTab[@"ge"] = @(XP_TOKEN_KIND_GE);
-        self.tokenKindTab[@","] = @(XP_TOKEN_KIND_COMMA);
         self.tokenKindTab[@"-"] = @(XP_TOKEN_KIND_MINUS);
         self.tokenKindTab[@">="] = @(XP_TOKEN_KIND_GE_SYM);
         self.tokenKindTab[@"&&"] = @(XP_TOKEN_KIND_DOUBLE_AMPERSAND);
@@ -72,22 +68,18 @@
         self.tokenKindTab[@"%"] = @(XP_TOKEN_KIND_MOD);
         self.tokenKindTab[@"lt"] = @(XP_TOKEN_KIND_LT);
         self.tokenKindTab[@"false"] = @(XP_TOKEN_KIND_FALSE);
-        self.tokenKindTab[@"to"] = @(XP_TOKEN_KIND_TO);
         self.tokenKindTab[@"le"] = @(XP_TOKEN_KIND_LE);
-        self.tokenKindTab[@"by"] = @(XP_TOKEN_KIND_BY);
         self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
-        self.tokenKindTab[@"in"] = @(XP_TOKEN_KIND_IN);
+        self.tokenKindTab[@"("] = @(XP_TOKEN_KIND_OPEN_PAREN);
         self.tokenKindTab[@"=="] = @(XP_TOKEN_KIND_DOUBLE_EQUALS);
         self.tokenKindTab[@"eq"] = @(XP_TOKEN_KIND_EQ);
         self.tokenKindTab[@"gt"] = @(XP_TOKEN_KIND_GT);
-        self.tokenKindTab[@"*"] = @(XP_TOKEN_KIND_TIMES);
-        self.tokenKindTab[@"("] = @(XP_TOKEN_KIND_OPEN_PAREN);
         self.tokenKindTab[@")"] = @(XP_TOKEN_KIND_CLOSE_PAREN);
+        self.tokenKindTab[@"*"] = @(XP_TOKEN_KIND_TIMES);
         self.tokenKindTab[@"+"] = @(XP_TOKEN_KIND_PLUS);
         self.tokenKindTab[@"||"] = @(XP_TOKEN_KIND_DOUBLE_PIPE);
 
         self.tokenKindNameTab[XP_TOKEN_KIND_GE] = @"ge";
-        self.tokenKindNameTab[XP_TOKEN_KIND_COMMA] = @",";
         self.tokenKindNameTab[XP_TOKEN_KIND_MINUS] = @"-";
         self.tokenKindNameTab[XP_TOKEN_KIND_GE_SYM] = @">=";
         self.tokenKindNameTab[XP_TOKEN_KIND_DOUBLE_AMPERSAND] = @"&&";
@@ -105,17 +97,14 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_MOD] = @"%";
         self.tokenKindNameTab[XP_TOKEN_KIND_LT] = @"lt";
         self.tokenKindNameTab[XP_TOKEN_KIND_FALSE] = @"false";
-        self.tokenKindNameTab[XP_TOKEN_KIND_TO] = @"to";
         self.tokenKindNameTab[XP_TOKEN_KIND_LE] = @"le";
-        self.tokenKindNameTab[XP_TOKEN_KIND_BY] = @"by";
         self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
-        self.tokenKindNameTab[XP_TOKEN_KIND_IN] = @"in";
+        self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_PAREN] = @"(";
         self.tokenKindNameTab[XP_TOKEN_KIND_DOUBLE_EQUALS] = @"==";
         self.tokenKindNameTab[XP_TOKEN_KIND_EQ] = @"eq";
         self.tokenKindNameTab[XP_TOKEN_KIND_GT] = @"gt";
-        self.tokenKindNameTab[XP_TOKEN_KIND_TIMES] = @"*";
-        self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_PAREN] = @"(";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_PAREN] = @")";
+        self.tokenKindNameTab[XP_TOKEN_KIND_TIMES] = @"*";
         self.tokenKindNameTab[XP_TOKEN_KIND_PLUS] = @"+";
         self.tokenKindNameTab[XP_TOKEN_KIND_DOUBLE_PIPE] = @"||";
 
@@ -142,111 +131,9 @@
 
 - (void)expr_ {
     
-    if ([self speculate:^{ [self loopExpr_]; }]) {
-        [self loopExpr_]; 
-    } else if ([self speculate:^{ [self orExpr_]; }]) {
-        [self orExpr_]; 
-    } else {
-        [self raise:@"No viable alternative found in rule 'expr'."];
-    }
+    [self orExpr_]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchExpr:)];
-}
-
-- (void)loopExpr_ {
-    
-    [self identifiers_]; 
-    [self match:XP_TOKEN_KIND_IN discard:YES]; 
-    [self enumExpr_]; 
-    [self execute:^{
-    
-	id enumExpr = POP();
-	id vars = POP();
-	PUSH([XPLoopExpression loopExpressionWithVariables:vars enumeration:enumExpr]);
-
-    }];
-
-    [self fireDelegateSelector:@selector(parser:didMatchLoopExpr:)];
-}
-
-- (void)identifiers_ {
-    
-    [self execute:^{
-     PUSH(_openParen); 
-    }];
-    [self identifier_]; 
-    if ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self identifier_]; }]) {
-        [self match:XP_TOKEN_KIND_COMMA discard:YES]; 
-        [self identifier_]; 
-    }
-    [self execute:^{
-    
-	id strs = REV(ABOVE(_openParen));
-	POP(); // discard `(`
-	PUSH(strs);
-
-    }];
-
-    [self fireDelegateSelector:@selector(parser:didMatchIdentifiers:)];
-}
-
-- (void)enumExpr_ {
-    
-    if ([self speculate:^{ [self rangeExpr_]; }]) {
-        [self rangeExpr_]; 
-    } else if ([self speculate:^{ [self collectionExpr_]; }]) {
-        [self collectionExpr_]; 
-    } else {
-        [self raise:@"No viable alternative found in rule 'enumExpr'."];
-    }
-
-    [self fireDelegateSelector:@selector(parser:didMatchEnumExpr:)];
-}
-
-- (void)collectionExpr_ {
-    
-    [self primaryExpr_]; 
-    [self execute:^{
-    
-	id expr = POP();
-	PUSH([XPCollectionExpression collectionExpressionWithExpression:expr]);
-
-    }];
-
-    [self fireDelegateSelector:@selector(parser:didMatchCollectionExpr:)];
-}
-
-- (void)rangeExpr_ {
-    
-    [self unaryExpr_]; 
-    [self match:XP_TOKEN_KIND_TO discard:YES]; 
-    [self unaryExpr_]; 
-    [self optBy_]; 
-    [self execute:^{
-    
-	id by = POP();
-	id stop = POP();
-	id start = POP();
-	PUSH([XPRangeExpression rangeExpressionWithStart:start stop:stop by:by]);
-
-    }];
-
-    [self fireDelegateSelector:@selector(parser:didMatchRangeExpr:)];
-}
-
-- (void)optBy_ {
-    
-    if ([self predicts:XP_TOKEN_KIND_BY, 0]) {
-        [self match:XP_TOKEN_KIND_BY discard:YES]; 
-        [self unaryExpr_]; 
-    } else {
-        [self matchEmpty:NO]; 
-        [self execute:^{
-         PUSH([XPNumericValue numericValueWithNumber:0.0]); 
-        }];
-    }
-
-    [self fireDelegateSelector:@selector(parser:didMatchOptBy:)];
 }
 
 - (void)orOp_ {
