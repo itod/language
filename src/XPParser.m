@@ -11,6 +11,7 @@
 #import <Language/XPArithmeticExpression.h>
 #import <Language/XPPathExpression.h>
 #import <Language/XPVariableStatement.h>
+#import <Language/XPAssignStatement.h>
 
 
 @interface XPParser ()
@@ -147,9 +148,11 @@
 
 - (void)stat_ {
     
-    if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {
+    if ([self speculate:^{ [self varStat_]; }]) {
         [self varStat_]; 
-    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_TRUE, 0]) {
+    } else if ([self speculate:^{ [self assignStat_]; }]) {
+        [self assignStat_]; 
+    } else if ([self speculate:^{ [self testAndThrow:(id)^{ return _allowNakedExpressions; }]; [self expr_]; }]) {
         [self testAndThrow:(id)^{ return _allowNakedExpressions; }]; 
         [self expr_]; 
     } else {
@@ -183,6 +186,24 @@
     [self matchWord:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchQid:)];
+}
+
+- (void)assignStat_ {
+    
+    [self qid_]; 
+    [self match:XP_TOKEN_KIND_EQUALS discard:NO]; 
+    [self expr_]; 
+    [self match:XP_TOKEN_KIND_SEMI_COLON discard:NO]; 
+    [self execute:^{
+    
+    id rhs = POP();
+    id eq  = POP();
+    id lhs = POP();
+    PUSH([XPAssignStatement assignStatementWithId:lhs token:eq expression:rhs]);
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchAssignStat:)];
 }
 
 - (void)expr_ {

@@ -19,6 +19,7 @@
 #import <Language/XPArithmeticExpression.h>
 #import <Language/XPPathExpression.h>
 #import <Language/XPVariableStatement.h>
+#import <Language/XPAssignStatement.h>
 }
 
 @extension {
@@ -63,6 +64,7 @@
 program     = stat+;
 
 stat        = varStat
+            | assignStat
             | { _allowNakedExpressions }? expr;
 
 varStat     = 'var'! qid '=' expr ';'! {
@@ -72,6 +74,13 @@ varStat     = 'var'! qid '=' expr ';'! {
     PUSH([XPVariableStatement variableStatementWithId:lhs token:eq expression:rhs]);
 };
 qid         = Word;
+
+assignStat  = qid '=' expr ';' {
+    id rhs = POP();
+    id eq  = POP();
+    id lhs = POP();
+    PUSH([XPAssignStatement assignStatementWithId:lhs token:eq expression:rhs]);
+};
 
 expr    = orExpr;
 

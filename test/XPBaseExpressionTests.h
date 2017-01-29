@@ -1,23 +1,13 @@
 //
-//  XPBaseExpressionTests.m
-//  XPTemplateEngineTests
+//  XPBaseExpressionTests.h
+//  Language
 //
-//  Created by Todd Ditchendorf on 3/28/14.
-//  Copyright (c) 2014 Todd Ditchendorf. All rights reserved.
+//  Created by Todd Ditchendorf on 29.01.17.
+//  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "XPTestScaffold.h"
-#import "XPExpression.h"
-#import "XPParser.h"
+#import "XPBaseTests.h"
 
-@class PKTokenizer;
+@interface XPBaseExpressionTests : XPBaseTests
 
-@interface XPBaseExpressionTests : XCTestCase
-- (NSArray *)tokenize:(NSString *)input;
-- (PKTokenizer *)tokenizer;
-- (XPExpression *)expressionFromString:(NSString *)str error:(NSError **)outErr;
-- (XPExpression *)expressionFromTokens:(NSArray *)toks error:(NSError **)outErr;
-
-@property (nonatomic, retain) XPExpression *expr;
-@property (nonatomic, retain) PKTokenizer *t;
 @end
