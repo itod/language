@@ -150,6 +150,7 @@
     if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {
         [self varStat_]; 
     } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_TRUE, 0]) {
+        [self testAndThrow:(id)^{ return _allowNakedExpressions; }]; 
         [self expr_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'stat'."];

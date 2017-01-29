@@ -49,6 +49,7 @@
 
 - (XPParser *)parser {
     XPParser *p = [[[XPParser alloc] initWithDelegate:nil] autorelease];
+    p.allowNakedExpressions = YES;
     return p;
 }
 

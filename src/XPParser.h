@@ -40,5 +40,7 @@ enum {
         
 + (PKTokenizer *)tokenizer;
 
+@property (nonatomic, assign) BOOL allowNakedExpressions;
+
 @end
 

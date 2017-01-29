@@ -4,6 +4,8 @@
 
 @interface {
 + (PKTokenizer *)tokenizer;
+
+@property (nonatomic, assign) BOOL allowNakedExpressions;
 }
 
 @m {
@@ -60,7 +62,8 @@
 
 program     = stat+;
 
-stat        = varStat | expr;
+stat        = varStat
+            | { _allowNakedExpressions }? expr;
 
 varStat     = 'var'! qid '=' expr ';'! {
     id rhs = POP();
