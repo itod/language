@@ -16,6 +16,7 @@
 #import <Language/XPRelationalExpression.h>
 #import <Language/XPArithmeticExpression.h>
 #import <Language/XPPathExpression.h>
+#import <Language/XPVariableStatement.h>
 }
 
 @extension {
@@ -56,6 +57,18 @@
     self.minus = nil;
     self.colon = nil;
 }
+
+program     = stat+;
+
+stat        = varStat | expr;
+
+varStat     = 'var'! qid '=' expr ';'! {
+    id rhs = POP();
+    id eq  = POP();
+    id lhs = POP();
+    PUSH([XPVariableStatement variableStatementWithId:lhs token:eq expression:rhs]);
+};
+qid         = Word;
 
 expr    = orExpr;
 
