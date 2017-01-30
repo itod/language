@@ -71,11 +71,15 @@ program     = stat+ {
     PUSH(block);
 };
 
-stat        = varStat
+stat        = 
+            ( varStat
             | assignStat
-            | { _allowNakedExpressions }? expr;
+            )
+            ';'!
+            | { _allowNakedExpressions }? expr
+            ;
 
-varStat     = 'var' qid '='! expr ';'! {
+varStat     = 'var' qid '='! expr {
     XPExpression *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     PKToken *tok = POP();
@@ -85,7 +89,7 @@ varStat     = 'var' qid '='! expr ';'! {
 };
 qid         = Word;
 
-assignStat  = qid '=' expr ';'! {
+assignStat  = qid '=' expr {
     XPExpression *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     PKToken *tok = POP();

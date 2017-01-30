@@ -159,10 +159,15 @@
 
 - (void)stat_ {
     
-    if ([self speculate:^{ [self varStat_]; }]) {
-        [self varStat_]; 
-    } else if ([self speculate:^{ [self assignStat_]; }]) {
-        [self assignStat_]; 
+    if ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {[self varStat_]; } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {[self assignStat_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}[self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; }]) {
+        if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {
+            [self varStat_]; 
+        } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {
+            [self assignStat_]; 
+        } else {
+            [self raise:@"No viable alternative found in rule 'stat'."];
+        }
+        [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
     } else if ([self speculate:^{ [self testAndThrow:(id)^{ return _allowNakedExpressions; }]; [self expr_]; }]) {
         [self testAndThrow:(id)^{ return _allowNakedExpressions; }]; 
         [self expr_]; 
@@ -179,7 +184,6 @@
     [self qid_]; 
     [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
     [self expr_]; 
-    [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
     [self execute:^{
     
     XPExpression *rhs = POP();
@@ -206,7 +210,6 @@
     [self qid_]; 
     [self match:XP_TOKEN_KIND_EQUALS discard:NO]; 
     [self expr_]; 
-    [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
     [self execute:^{
     
     XPExpression *rhs = POP();
