@@ -53,6 +53,7 @@
     self.enableVerboseErrorReporting = NO;
     self.tokenizer = [[self class] tokenizer];
     self.block = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"BLOCK" doubleValue:0.0];
+    self.block.tokenKind = -2;
     self.openParen = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
     self.minus = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
     self.colon = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@":" doubleValue:0.0];
@@ -76,11 +77,11 @@ stat        = varStat
             | assignStat
             | { _allowNakedExpressions }? expr;
 
-varStat     = 'var'! qid '=' expr ';'! {
+varStat     = 'var' qid '='! expr ';'! {
     id rhs = POP();
-    id eq  = POP();
     id lhs = POP();
-    PUSH([XPVariableStatement variableStatementWithId:lhs token:eq expression:rhs]);
+    id var = POP();
+    PUSH([XPVariableStatement variableStatementWithId:lhs token:var expression:rhs]);
 };
 qid         = Word;
 

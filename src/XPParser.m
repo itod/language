@@ -50,6 +50,7 @@
     self.enableVerboseErrorReporting = NO;
     self.tokenizer = [[self class] tokenizer];
     self.block = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"BLOCK" doubleValue:0.0];
+    self.block.tokenKind = -2;
     self.openParen = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
     self.minus = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
     self.colon = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@":" doubleValue:0.0];
@@ -176,17 +177,17 @@
 
 - (void)varStat_ {
     
-    [self match:XP_TOKEN_KIND_VAR discard:YES]; 
+    [self match:XP_TOKEN_KIND_VAR discard:NO]; 
     [self qid_]; 
-    [self match:XP_TOKEN_KIND_EQUALS discard:NO]; 
+    [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
     [self expr_]; 
     [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
     [self execute:^{
     
     id rhs = POP();
-    id eq  = POP();
     id lhs = POP();
-    PUSH([XPVariableStatement variableStatementWithId:lhs token:eq expression:rhs]);
+    id var = POP();
+    PUSH([XPVariableStatement variableStatementWithId:lhs token:var expression:rhs]);
 
     }];
 

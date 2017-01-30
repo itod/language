@@ -320,14 +320,15 @@
     TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
 }
 
-- (void)testBangOpen1EqSign1Close {
-    NSString *input = @"!(1 = 1)";
+- (void)testBangOpen1EqEqSign1Close {
+    NSString *input = @"!(1 == 1)";
     NSArray *toks = [self tokenize:input];
     
     NSError *err = nil;
     XPExpression *expr = [self expressionFromTokens:toks error:&err];
-    TDNotNil(err);
-    TDNil(expr);
+    TDNil(err);
+    TDNotNil(expr);
+    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
 }
 
 - (void)testBang1EqEqSign1 {
