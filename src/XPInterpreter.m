@@ -81,7 +81,6 @@
     
     TDAssert(_currentSpace);
     [_currentSpace setObject:val forName:name];
-    
 }
 
 @end
