@@ -13,7 +13,7 @@
 
 @implementation XPTreeWalkerDefn
 
-- (void)variable:(XPNode *)node {
+- (void)varDeclStat:(XPNode *)node {
     NSString *name = [[node.children[0] token] stringValue];
     XPExpression *expr = node.children[1];
     XPValue *val = [expr evaluateInContext:nil];

@@ -1,5 +1,5 @@
 //
-//  XPVariableStatementTests.m
+//  XPVarDeclStatTests.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 29.01.17.
@@ -10,11 +10,11 @@
 #import "XPNode.h"
 #import "XPMemorySpace.h"
 
-@interface XPVariableStatementTests : XPBaseStatementTests
+@interface XPVarDeclStatTests : XPBaseStatementTests
 
 @end
 
-@implementation XPVariableStatementTests
+@implementation XPVarDeclStatTests
 
 - (void)setUp {
     [super setUp];

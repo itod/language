@@ -72,14 +72,14 @@ program     = stat+ {
 };
 
 stat        = 
-            ( varStat
+            ( varDeclStat
             | assignStat
             )
             ';'!
             | { _allowNakedExpressions }? expr
             ;
 
-varStat     = 'var' qid '='! expr {
+varDeclStat = 'var' qid '='! expr {
     XPExpression *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     PKToken *tok = POP();
