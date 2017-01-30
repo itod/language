@@ -76,27 +76,7 @@
 
 
 - (XPValue *)evaluateInContext:(id <XPContext>)ctx {
-    TDAssert([_head length]);
-    id obj = [ctx resolveVariable:_head];
-    
-    XPValue *result = nil;
-    
-    if (obj) {
-        if (_tail) {
-            // TODO
-//            NSMutableArray *strs = [NSMutableArray arrayWithCapacity:[_tail count]];
-//            for (PKToken *tok in _tail) {
-//                [strs addObject:tok.stringValue];
-//            }
-//            obj = [obj valueForKeyPath:[strs componentsJoinedByString:@"."]];
-            NSString *path = [_tail componentsJoinedByString:@"."];
-            obj = [obj valueForKeyPath:path];
-        }
-        
-        result = XPValueFromObject(obj);
-    }
-    
-    return result;
+    return nil;
 }
 
 
