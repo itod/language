@@ -8,20 +8,17 @@
 
 #import "XPBaseTests.h"
 #import "XPParser.h"
-#import "XPExpression.h"
 #import <PEGKit/PKAssembly.h>
 
 @implementation XPBaseTests
 
 - (void)setUp {
     [super setUp];
-    
-    self.expr = nil;
+    //
 }
 
 - (void)tearDown {
-    self.expr = nil;
-    
+    //
     [super tearDown];
 }
 
@@ -50,28 +47,6 @@
 - (XPParser *)parser {
     XPParser *p = [[[XPParser alloc] initWithDelegate:nil] autorelease];
     return p;
-}
-
-
-- (XPExpression *)expressionFromString:(NSString *)str error:(NSError **)outErr {
-    TDTrue(self.parser);
-    PKAssembly *a = [self.parser parseString:str error:outErr];
-    
-    XPExpression *expr = [a pop];
-    
-    expr = [expr simplify];
-    return expr;
-}
-
-
-- (XPExpression *)expressionFromTokens:(NSArray *)toks error:(NSError **)outErr {
-    TDTrue(self.parser);
-    PKAssembly *a = [self.parser parseTokens:toks error:outErr];
-    
-    XPExpression *expr = [a pop];
-    
-    expr = [expr simplify];
-    return expr;
 }
 
 @end

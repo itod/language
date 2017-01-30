@@ -6,8 +6,9 @@
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import <PEGKit/PEGKit.h>
+#import <Language/XPStatement.h>
 
+@class XPToken;
 @class XPExpression;
 
 @interface XPAssignStatement : PKAST

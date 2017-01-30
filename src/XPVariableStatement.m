@@ -7,6 +7,7 @@
 //
 
 #import "XPVariableStatement.h"
+#import <PEGKit/PKToken.h>
 #import <Language/XPExpression.h>
 
 @implementation XPVariableStatement

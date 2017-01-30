@@ -1,15 +1,15 @@
 //
-//  XPBaseExpressionTests.m
+//  XPBaseStatementTests.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 29.01.17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "XPBaseExpressionTests.h"
-#import "XPExpression.h"
+#import "XPBaseStatementTests.h"
+#import "XPStatement.h"
 
-@implementation XPBaseExpressionTests
+@implementation XPBaseStatementTests
 
 - (void)setUp {
     [super setUp];
@@ -31,25 +31,25 @@
 }
 
 
-- (XPExpression *)expressionFromString:(NSString *)str error:(NSError **)outErr {
+- (XPStatement *)statementFromString:(NSString *)str error:(NSError **)outErr {
     TDTrue(self.parser);
     PKAssembly *a = [self.parser parseString:str error:outErr];
     
-    XPExpression *expr = [a pop];
+    XPStatement *stat = [a pop];
     
-    expr = [expr simplify];
-    return expr;
+    //stat = [stat simplify];
+    return stat;
 }
 
 
-- (XPExpression *)expressionFromTokens:(NSArray *)toks error:(NSError **)outErr {
+- (XPStatement *)statementFromTokens:(NSArray *)toks error:(NSError **)outErr {
     TDTrue(self.parser);
     PKAssembly *a = [self.parser parseTokens:toks error:outErr];
     
-    XPExpression *expr = [a pop];
+    XPStatement *stat = [a pop];
     
-    expr = [expr simplify];
-    return expr;
+    //stat = [stat simplify];
+    return stat;
 }
 
 @end
