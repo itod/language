@@ -10,4 +10,6 @@
 
 @interface XPNode : PKAST
 
++ (instancetype)nodeWithToken:(PKToken *)tok;
+
 @end

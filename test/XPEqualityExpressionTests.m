@@ -79,10 +79,9 @@
 
 - (void)test1EqSign1 {
     NSString *input = @"1 = 1";
-    NSArray *toks = [self tokenize:input];
-    
+
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    XPExpression *expr = [self expressionFromString:input error:&err];
     TDNotNil(err);
     TDNil(expr);
 }

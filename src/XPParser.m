@@ -1,6 +1,7 @@
 #import "XPParser.h"
 #import <PEGKit/PEGKit.h>
     
+#import <Language/XPNode.h>
 #import <Language/XPBooleanValue.h>
 #import <Language/XPNumericValue.h>
 #import <Language/XPStringValue.h>
@@ -16,6 +17,7 @@
 
 @interface XPParser ()
     
+@property (nonatomic, retain) PKToken *block;
 @property (nonatomic, retain) PKToken *openParen;
 @property (nonatomic, retain) PKToken *minus;
 @property (nonatomic, retain) PKToken *colon;
@@ -47,6 +49,7 @@
             
     self.enableVerboseErrorReporting = NO;
     self.tokenizer = [[self class] tokenizer];
+    self.block = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"BLOCK" doubleValue:0.0];
     self.openParen = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
     self.minus = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
     self.colon = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@":" doubleValue:0.0];
@@ -122,6 +125,7 @@
 
 - (void)dealloc {
         
+    self.block = nil;
     self.openParen = nil;
     self.minus = nil;
     self.colon = nil;
@@ -142,6 +146,14 @@
     do {
         [self stat_]; 
     } while ([self speculate:^{ [self stat_]; }]);
+    [self execute:^{
+    
+    NSArray *stats = REV(ABOVE(nil));
+    XPNode *block = [XPNode nodeWithToken:self.block];
+    for (id stat in stats) [block addChild:stat];
+    PUSH(block);
+
+    }];
 
     [self fireDelegateSelector:@selector(parser:didMatchProgram:)];
 }

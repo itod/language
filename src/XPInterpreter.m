@@ -41,6 +41,9 @@
 
 
 - (void)block:(XPNode *)node {
+//    TDAssert(node.tokenType == BLOCK);
+    
+    
     
 }
 

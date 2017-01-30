@@ -7,6 +7,7 @@
 //
 
 #import "XPBaseExpressionTests.h"
+#import "XPNode.h"
 #import "XPExpression.h"
 
 @implementation XPBaseExpressionTests
@@ -35,7 +36,10 @@
     TDTrue(self.parser);
     PKAssembly *a = [self.parser parseString:str error:outErr];
     
-    XPExpression *expr = [a pop];
+    XPNode *block = [a pop];
+    TDTrue([block isKindOfClass:[XPNode class]]);
+    
+    XPExpression *expr = [block.children firstObject];
     
     expr = [expr simplify];
     return expr;
@@ -46,7 +50,10 @@
     TDTrue(self.parser);
     PKAssembly *a = [self.parser parseTokens:toks error:outErr];
     
-    XPExpression *expr = [a pop];
+    XPNode *block = [a pop];
+    TDTrue([block isKindOfClass:[XPNode class]]);
+    
+    XPExpression *expr = [block.children firstObject];
     
     expr = [expr simplify];
     return expr;

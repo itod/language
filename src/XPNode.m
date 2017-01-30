@@ -10,4 +10,8 @@
 
 @implementation XPNode
 
++ (instancetype)nodeWithToken:(PKToken *)tok {
+    return [self ASTWithToken:tok];
+}
+
 @end
