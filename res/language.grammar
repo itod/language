@@ -83,6 +83,7 @@ varStat     = 'var' qid '='! expr {
     XPExpression *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     PKToken *tok = POP();
+    
     XPNode *stat = [XPNode nodeWithToken:tok];
     [stat addChild:lhs]; [stat addChild:rhs];
     PUSH(stat);
@@ -91,8 +92,9 @@ qid         = Word;
 
 assignStat  = qid '=' expr {
     XPExpression *rhs = POP();
-    XPNode *lhs = [XPNode nodeWithToken:POP()];
     PKToken *tok = POP();
+    XPNode *lhs = [XPNode nodeWithToken:POP()];
+    
     XPNode *stat = [XPNode nodeWithToken:tok];
     [stat addChild:lhs]; [stat addChild:rhs];
     PUSH(stat);

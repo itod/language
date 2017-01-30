@@ -189,6 +189,7 @@
     XPExpression *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     PKToken *tok = POP();
+    
     XPNode *stat = [XPNode nodeWithToken:tok];
     [stat addChild:lhs]; [stat addChild:rhs];
     PUSH(stat);
@@ -213,8 +214,9 @@
     [self execute:^{
     
     XPExpression *rhs = POP();
-    XPNode *lhs = [XPNode nodeWithToken:POP()];
     PKToken *tok = POP();
+    XPNode *lhs = [XPNode nodeWithToken:POP()];
+    
     XPNode *stat = [XPNode nodeWithToken:tok];
     [stat addChild:lhs]; [stat addChild:rhs];
     PUSH(stat);
