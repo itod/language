@@ -11,17 +11,16 @@
 
 @implementation XPAssignStatement
 
-+ (instancetype)assignStatementWithId:(PKToken *)lhs token:(PKToken *)eq expression:(XPExpression *)rhs {
++ (instancetype)assignStatementWithId:(XPNode *)lhs token:(PKToken *)eq expression:(XPExpression *)rhs {
     return [[[self alloc] initWithId:lhs token:eq expression:rhs] autorelease];
 }
 
 
-- (instancetype)initWithId:(PKToken *)lhs token:(PKToken *)eq expression:(XPExpression *)rhs {
-    self = [super init];
+- (instancetype)initWithId:(XPNode *)lhs token:(PKToken *)eq expression:(XPExpression *)rhs {
+    self = [self initWithToken:eq];
     if (self) {
-        self.token = eq;
-        self.children[0] = lhs;
-        self.children[1] = lhs;
+        [self addChild:lhs];
+        [self addChild:rhs];
     }
     return self;
 }

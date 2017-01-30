@@ -12,17 +12,16 @@
 
 @implementation XPVariableStatement
 
-+ (instancetype)variableStatementWithId:(PKToken *)lhs token:(PKToken *)eq expression:(XPExpression *)rhs {
-    return [[[self alloc] initWithId:lhs token:eq expression:rhs] autorelease];
++ (instancetype)variableStatementWithId:(XPNode *)lhs token:(PKToken *)tok expression:(XPExpression *)rhs {
+    return [[[self alloc] initWithId:lhs token:tok expression:rhs] autorelease];
 }
 
 
-- (instancetype)initWithId:(PKToken *)lhs token:(PKToken *)eq expression:(XPExpression *)rhs {
-    self = [super init];
+- (instancetype)initWithId:(XPNode *)lhs token:(PKToken *)tok expression:(XPExpression *)rhs {
+    self = [self initWithToken:tok];
     if (self) {
-        self.token = eq;
-        self.children[0] = lhs;
-        self.children[1] = lhs;
+        [self addChild:lhs];
+        [self addChild:rhs];
     }
     return self;
 }

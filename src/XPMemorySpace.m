@@ -10,7 +10,7 @@
 
 @interface XPMemorySpace ()
 @property (nonatomic, copy, readwrite) NSString *name;
-@property (nonatomic, copy, readwrite) NSMutableDictionary<NSString *, id> *members;
+@property (nonatomic, retain, readwrite) NSMutableDictionary<NSString *, id> *members;
 @end
 
 @implementation XPMemorySpace

@@ -184,10 +184,10 @@
     [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
     [self execute:^{
     
-    id rhs = POP();
-    id lhs = POP();
-    id var = POP();
-    PUSH([XPVariableStatement variableStatementWithId:lhs token:var expression:rhs]);
+    XPExpression *rhs = POP();
+    XPNode *lhs = [XPNode nodeWithToken:POP()];
+    PKToken *tok = POP();
+    PUSH([XPVariableStatement variableStatementWithId:lhs token:tok expression:rhs]);
 
     }];
 
@@ -206,13 +206,13 @@
     [self qid_]; 
     [self match:XP_TOKEN_KIND_EQUALS discard:NO]; 
     [self expr_]; 
-    [self match:XP_TOKEN_KIND_SEMI_COLON discard:NO]; 
+    [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
     [self execute:^{
     
-    id rhs = POP();
-    id eq  = POP();
-    id lhs = POP();
-    PUSH([XPAssignStatement assignStatementWithId:lhs token:eq expression:rhs]);
+    XPExpression *rhs = POP();
+    XPNode *lhs = [XPNode nodeWithToken:POP()];
+    PKToken *tok = POP();
+    PUSH([XPAssignStatement assignStatementWithId:lhs token:tok expression:rhs]);
 
     }];
 

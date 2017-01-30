@@ -33,7 +33,10 @@
     self.parser = [[[XPParser alloc] initWithDelegate:nil] autorelease];
     
     NSError *err = nil;
-    self.root = [_parser parseString:input error:&err];
+    PKAssembly *a = [_parser parseString:input error:&err];
+    TDAssert(a);
+
+    self.root = [a pop];
     
     if (!_root) {
         *outErr = err;
@@ -72,6 +75,12 @@
 - (void)variable:(XPNode *)node {
     TDAssert(XP_TOKEN_KIND_VAR == node.token.tokenKind);
     
+    NSString *name = [[node.children[0] token] stringValue];
+    XPExpression *expr = node.children[1];
+    XPValue *val = [expr evaluateInContext:self];
+    
+    TDAssert(_currentSpace);
+    [_currentSpace setObject:val forName:name];
     
 }
 

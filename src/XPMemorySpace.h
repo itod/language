@@ -16,5 +16,5 @@
 - (void)setObject:(id)obj forName:(NSString *)name;
 
 @property (nonatomic, copy, readonly) NSString *name;
-@property (nonatomic, copy, readonly) NSMutableDictionary<NSString *, id> *members;
+@property (nonatomic, retain, readonly) NSMutableDictionary<NSString *, id> *members;
 @end

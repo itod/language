@@ -11,7 +11,7 @@
 @class XPToken;
 @class XPExpression;
 
-@interface XPAssignStatement : PKAST
-+ (instancetype)assignStatementWithId:(PKToken *)lhs token:(PKToken *)eq expression:(XPExpression *)rhs;
-- (instancetype)initWithId:(PKToken *)lhs token:(PKToken *)eq expression:(XPExpression *)rhs;
+@interface XPAssignStatement : XPStatement
++ (instancetype)assignStatementWithId:(XPNode *)lhs token:(PKToken *)eq expression:(XPExpression *)rhs;
+- (instancetype)initWithId:(XPNode *)lhs token:(PKToken *)eq expression:(XPExpression *)rhs;
 @end

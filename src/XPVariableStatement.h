@@ -12,6 +12,6 @@
 @class XPExpression;
 
 @interface XPVariableStatement : XPStatement
-+ (instancetype)variableStatementWithId:(PKToken *)lhs token:(PKToken *)eq expression:(XPExpression *)rhs;
-- (instancetype)initWithId:(PKToken *)lhs token:(PKToken *)eq expression:(XPExpression *)rhs;
++ (instancetype)variableStatementWithId:(XPNode *)lhs token:(PKToken *)tok expression:(XPExpression *)rhs;
+- (instancetype)initWithId:(XPNode *)lhs token:(PKToken *)tok expression:(XPExpression *)rhs;
 @end

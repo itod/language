@@ -78,18 +78,18 @@ stat        = varStat
             | { _allowNakedExpressions }? expr;
 
 varStat     = 'var' qid '='! expr ';'! {
-    id rhs = POP();
-    id lhs = POP();
-    id var = POP();
-    PUSH([XPVariableStatement variableStatementWithId:lhs token:var expression:rhs]);
+    XPExpression *rhs = POP();
+    XPNode *lhs = [XPNode nodeWithToken:POP()];
+    PKToken *tok = POP();
+    PUSH([XPVariableStatement variableStatementWithId:lhs token:tok expression:rhs]);
 };
 qid         = Word;
 
-assignStat  = qid '=' expr ';' {
-    id rhs = POP();
-    id eq  = POP();
-    id lhs = POP();
-    PUSH([XPAssignStatement assignStatementWithId:lhs token:eq expression:rhs]);
+assignStat  = qid '=' expr ';'! {
+    XPExpression *rhs = POP();
+    XPNode *lhs = [XPNode nodeWithToken:POP()];
+    PKToken *tok = POP();
+    PUSH([XPAssignStatement assignStatementWithId:lhs token:tok expression:rhs]);
 };
 
 expr    = orExpr;
