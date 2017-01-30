@@ -7,6 +7,8 @@
 //
 
 #import "XPTreeWalker.h"
+#import "XPParser.h"
+#import "XPNode.h"
 
 @implementation XPTreeWalker
 
@@ -19,8 +21,29 @@
 }
 
 
-- (void)walk:(XPNode *)root {
-    NSAssert2(0, @"%s is an abstract method and must be implemented in %@", __PRETTY_FUNCTION__, [self class]);
+- (void)walk:(XPNode *)node {
+    switch (node.token.tokenKind) {
+        case XP_TOKEN_KIND_BLOCK:
+            [self block:node];
+            break;
+        case XP_TOKEN_KIND_VAR:
+            [self variable:node];
+            break;
+        default:
+            TDAssert(0);
+            break;
+    }
 }
+
+
+- (void)block:(XPNode *)node {
+    for (XPNode *stat in node.children) {
+        [self walk:stat];
+    }
+}
+
+
+- (void)variable:(XPNode *)node {}
+- (void)assign:(XPNode *)node {}
 
 @end

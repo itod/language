@@ -7,12 +7,19 @@
 //
 
 #import "XPTreeWalkerDefn.h"
-#import "XPExpression.h"
+#import "XPMemorySpace.h"
+#import "XPNode.h"
+#import "XPValue.h"
 
 @implementation XPTreeWalkerDefn
 
-- (void)walk:(XPNode *)root {
-
+- (void)variable:(XPNode *)node {
+    NSString *name = [[node.children[0] token] stringValue];
+    XPExpression *expr = node.children[1];
+    XPValue *val = [expr evaluateInContext:nil];
+    
+    TDAssert(self.currentSpace);
+    [self.currentSpace setObject:val forName:name];
 }
 
 @end
