@@ -22,13 +22,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class TDWriter;
-
 @interface XPContext : NSObject <NSCopying>
 
 - (instancetype)initWithVariables:(NSDictionary *)vars;
-
-@property (nonatomic, retain, readonly) TDWriter *writer;
 
 // Scope
 - (id)resolveVariable:(NSString *)name;
