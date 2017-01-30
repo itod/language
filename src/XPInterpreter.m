@@ -14,6 +14,7 @@
 #import "XPTreeWalkerDecl.h"
 #import "XPTreeWalkerDefn.h"
 
+#import <PEGKit/PKAssembly.h>
 #import <Language/XPContext.h>
 
 @implementation XPInterpreter
