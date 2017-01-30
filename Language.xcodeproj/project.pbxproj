@@ -37,8 +37,6 @@
 		D3689FF91E3BDE7B005783BB /* XPUnaryExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FD01E3BDE7B005783BB /* XPUnaryExpression.m */; };
 		D3689FFA1E3BDE7B005783BB /* XPValue.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FD11E3BDE7B005783BB /* XPValue.h */; };
 		D3689FFB1E3BDE7B005783BB /* XPValue.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FD21E3BDE7B005783BB /* XPValue.m */; };
-		D368A0011E3BDFBB005783BB /* XPContext.m in Sources */ = {isa = PBXBuildFile; fileRef = D368A0001E3BDFBB005783BB /* XPContext.m */; };
-		D368A0031E3BDFDE005783BB /* XPContext.h in Headers */ = {isa = PBXBuildFile; fileRef = D368A0021E3BDFDE005783BB /* XPContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D368A0081E3BE383005783BB /* XPParser.h in Headers */ = {isa = PBXBuildFile; fileRef = D368A0061E3BE383005783BB /* XPParser.h */; };
 		D368A0091E3BE383005783BB /* XPParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D368A0071E3BE383005783BB /* XPParser.m */; settings = {COMPILER_FLAGS = "-Wno-undeclared-selector"; }; };
 		D368A0161E3BE4F8005783BB /* XPArithmeticExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D368A00A1E3BE4F8005783BB /* XPArithmeticExpressionTests.m */; };
@@ -60,6 +58,9 @@
 		D373169E1E3EBA490034798E /* XPBaseStatementTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D373169D1E3EBA490034798E /* XPBaseStatementTests.m */; };
 		D37316A21E3EBD4B0034798E /* XPNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316A01E3EBD4B0034798E /* XPNode.m */; };
 		D37316A41E3EBD5C0034798E /* XPNode.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316A31E3EBD5C0034798E /* XPNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D37316AC1E3EBDD20034798E /* XPInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316AA1E3EBDD20034798E /* XPInterpreter.m */; };
+		D37316AE1E3EBDE20034798E /* XPInterpreter.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316AD1E3EBDE20034798E /* XPInterpreter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D37316B21E3EBF0B0034798E /* XPContext.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316B11E3EBF0B0034798E /* XPContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,8 +107,6 @@
 		D3689FD01E3BDE7B005783BB /* XPUnaryExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPUnaryExpression.m; path = src/XPUnaryExpression.m; sourceTree = SOURCE_ROOT; };
 		D3689FD11E3BDE7B005783BB /* XPValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPValue.h; path = src/XPValue.h; sourceTree = SOURCE_ROOT; };
 		D3689FD21E3BDE7B005783BB /* XPValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPValue.m; path = src/XPValue.m; sourceTree = SOURCE_ROOT; };
-		D368A0001E3BDFBB005783BB /* XPContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPContext.m; path = src/XPContext.m; sourceTree = SOURCE_ROOT; };
-		D368A0021E3BDFDE005783BB /* XPContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPContext.h; path = include/Language/XPContext.h; sourceTree = SOURCE_ROOT; };
 		D368A0041E3BE0C7005783BB /* Language-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Language-Prefix.pch"; path = "src/Language-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		D368A0061E3BE383005783BB /* XPParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPParser.h; path = src/XPParser.h; sourceTree = SOURCE_ROOT; };
 		D368A0071E3BE383005783BB /* XPParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPParser.m; path = src/XPParser.m; sourceTree = SOURCE_ROOT; };
@@ -133,6 +132,9 @@
 		D373169D1E3EBA490034798E /* XPBaseStatementTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPBaseStatementTests.m; path = test/XPBaseStatementTests.m; sourceTree = SOURCE_ROOT; };
 		D37316A01E3EBD4B0034798E /* XPNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPNode.m; path = src/XPNode.m; sourceTree = SOURCE_ROOT; };
 		D37316A31E3EBD5C0034798E /* XPNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPNode.h; path = include/Language/XPNode.h; sourceTree = SOURCE_ROOT; };
+		D37316AA1E3EBDD20034798E /* XPInterpreter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPInterpreter.m; path = src/XPInterpreter.m; sourceTree = SOURCE_ROOT; };
+		D37316AD1E3EBDE20034798E /* XPInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPInterpreter.h; path = include/Language/XPInterpreter.h; sourceTree = SOURCE_ROOT; };
+		D37316B11E3EBF0B0034798E /* XPContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPContext.h; path = include/Language/XPContext.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,8 +184,9 @@
 				D305628F1E3BD929008BEC9A /* Language.h */,
 				D368A0061E3BE383005783BB /* XPParser.h */,
 				D368A0071E3BE383005783BB /* XPParser.m */,
-				D368A0021E3BDFDE005783BB /* XPContext.h */,
-				D368A0001E3BDFBB005783BB /* XPContext.m */,
+				D37316AD1E3EBDE20034798E /* XPInterpreter.h */,
+				D37316AA1E3EBDD20034798E /* XPInterpreter.m */,
+				D37316B11E3EBF0B0034798E /* XPContext.h */,
 				D37316A31E3EBD5C0034798E /* XPNode.h */,
 				D37316A01E3EBD4B0034798E /* XPNode.m */,
 				D37316831E3E6AC50034798E /* Stat */,
@@ -330,9 +333,10 @@
 			files = (
 				D37316871E3E6B1F0034798E /* XPVariableStatement.h in Headers */,
 				D3689FF81E3BDE7B005783BB /* XPUnaryExpression.h in Headers */,
+				D37316AE1E3EBDE20034798E /* XPInterpreter.h in Headers */,
 				D3689FD31E3BDE7B005783BB /* XPArithmeticExpression.h in Headers */,
-				D368A0031E3BDFDE005783BB /* XPContext.h in Headers */,
 				D37316A41E3EBD5C0034798E /* XPNode.h in Headers */,
+				D37316B21E3EBF0B0034798E /* XPContext.h in Headers */,
 				D3689FF61E3BDE7B005783BB /* XPStringValue.h in Headers */,
 				D3689FE81E3BDE7B005783BB /* XPNumericValue.h in Headers */,
 				D368A0081E3BE383005783BB /* XPParser.h in Headers */,
@@ -451,10 +455,10 @@
 			files = (
 				D3689FF71E3BDE7B005783BB /* XPStringValue.m in Sources */,
 				D3689FFB1E3BDE7B005783BB /* XPValue.m in Sources */,
-				D368A0011E3BDFBB005783BB /* XPContext.m in Sources */,
 				D37316881E3E6B1F0034798E /* XPVariableStatement.m in Sources */,
 				D368A0091E3BE383005783BB /* XPParser.m in Sources */,
 				D3689FDF1E3BDE7B005783BB /* XPExpression.m in Sources */,
+				D37316AC1E3EBDD20034798E /* XPInterpreter.m in Sources */,
 				D3689FDA1E3BDE7B005783BB /* XPBooleanValue.m in Sources */,
 				D3689FE91E3BDE7B005783BB /* XPNumericValue.m in Sources */,
 				D3689FD61E3BDE7B005783BB /* XPBinaryExpression.m in Sources */,

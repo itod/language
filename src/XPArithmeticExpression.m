@@ -43,13 +43,13 @@
 }
 
 
-- (XPValue *)evaluateInContext:(XPContext *)ctx {
+- (XPValue *)evaluateInContext:(id <XPContext>)ctx {
     double n = [self evaluateAsNumberInContext:ctx];
     return [XPNumericValue numericValueWithNumber:n];
 }
 
 
-- (double)evaluateAsNumberInContext:(XPContext *)ctx {
+- (double)evaluateAsNumberInContext:(id <XPContext>)ctx {
     double n1 = [self.p1 evaluateAsNumberInContext:ctx];
     double n2 = [self.p2 evaluateAsNumberInContext:ctx];
 

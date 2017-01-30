@@ -56,13 +56,13 @@
 }
 
 
-- (XPValue *)evaluateInContext:(XPContext *)ctx {
+- (XPValue *)evaluateInContext:(id <XPContext>)ctx {
     BOOL b = [self evaluateAsBooleanInContext:ctx];
     return [XPBooleanValue booleanValueWithBoolean:b];
 }
 
 
-- (BOOL)evaluateAsBooleanInContext:(XPContext *)ctx {
+- (BOOL)evaluateAsBooleanInContext:(id <XPContext>)ctx {
     BOOL b1 = [self.p1 evaluateAsBooleanInContext:ctx];
     BOOL b2 = [self.p2 evaluateAsBooleanInContext:ctx];
     

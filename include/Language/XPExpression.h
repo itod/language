@@ -22,7 +22,8 @@
 
 #import <Language/XPNode.h>
 
-@class XPContext;
+@protocol XPContext;
+
 @class XPValue;
 @class PKTokenizer;
 
@@ -36,11 +37,11 @@ typedef NS_ENUM(NSUInteger, XPDataType) {
 
 @interface XPExpression : XPNode
 
-- (XPValue *)evaluateInContext:(XPContext *)ctx;
-- (BOOL)evaluateAsBooleanInContext:(XPContext *)ctx;
-- (double)evaluateAsNumberInContext:(XPContext *)ctx;
-- (NSString *)evaluateAsStringInContext:(XPContext *)ctx;
-- (id)evaluateAsObjectInContext:(XPContext *)ctx;
+- (XPValue *)evaluateInContext:(id <XPContext>)ctx;
+- (BOOL)evaluateAsBooleanInContext:(id <XPContext>)ctx;
+- (double)evaluateAsNumberInContext:(id <XPContext>)ctx;
+- (NSString *)evaluateAsStringInContext:(id <XPContext>)ctx;
+- (id)evaluateAsObjectInContext:(id <XPContext>)ctx;
 
 - (BOOL)isValue;
 

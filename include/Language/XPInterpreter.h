@@ -1,5 +1,5 @@
 //
-//  XPContext.h
+//  XPInterpreter.h
 //  Language
 //
 //  Created by Todd Ditchendorf on 29.01.17.
@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Language/XPContext.h>
 
-@protocol XPContext <NSObject>
+@interface XPInterpreter : NSObject <XPContext>
 
 @end

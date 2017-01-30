@@ -75,7 +75,7 @@
 }
 
 
-- (XPValue *)evaluateInContext:(XPContext *)ctx {
+- (XPValue *)evaluateInContext:(id <XPContext>)ctx {
     TDAssert([_head length]);
     id obj = [ctx resolveVariable:_head];
     

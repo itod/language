@@ -34,28 +34,28 @@
 }
 
 
-- (XPValue *)evaluateInContext:(XPContext *)ctx {
+- (XPValue *)evaluateInContext:(id <XPContext>)ctx {
     NSAssert2(0, @"%s is an abstract method and must be implemented in %@", __PRETTY_FUNCTION__, [self class]);
     return nil;
 }
 
 
-- (BOOL)evaluateAsBooleanInContext:(XPContext *)ctx {
+- (BOOL)evaluateAsBooleanInContext:(id <XPContext>)ctx {
     return [[self evaluateInContext:ctx] boolValue];
 }
 
 
-- (double)evaluateAsNumberInContext:(XPContext *)ctx {
+- (double)evaluateAsNumberInContext:(id <XPContext>)ctx {
     return [[self evaluateInContext:ctx] doubleValue];
 }
 
 
-- (NSString *)evaluateAsStringInContext:(XPContext *)ctx {
+- (NSString *)evaluateAsStringInContext:(id <XPContext>)ctx {
     return [[self evaluateInContext:ctx] stringValue];
 }
 
 
-- (id)evaluateAsObjectInContext:(XPContext *)ctx {
+- (id)evaluateAsObjectInContext:(id <XPContext>)ctx {
     return [[self evaluateInContext:ctx] objectValue];
 }
 

@@ -49,7 +49,7 @@
 }
 
 
-- (XPValue *)evaluateInContext:(XPContext *)ctx {
+- (XPValue *)evaluateInContext:(id <XPContext>)ctx {
     double d = [_expr evaluateAsNumberInContext:ctx];
     XPValue *res = [XPNumericValue numericValueWithNumber:-d];
     return res;

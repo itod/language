@@ -49,7 +49,7 @@
 }
 
 
-- (XPValue *)evaluateInContext:(XPContext *)ctx {
+- (XPValue *)evaluateInContext:(id <XPContext>)ctx {
     BOOL b = [_expr evaluateAsBooleanInContext:ctx];
     XPValue *res = [XPBooleanValue booleanValueWithBoolean:!b];
     return res;
