@@ -9,8 +9,8 @@
 #import "XPBaseTests.h"
 
 @interface XPBaseStatementTests : XPBaseTests
-- (XPStatement *)statementFromString:(NSString *)str error:(NSError **)outErr;
-- (XPStatement *)statementFromTokens:(NSArray *)toks error:(NSError **)outErr;
+- (XPNode *)statementFromString:(NSString *)str error:(NSError **)outErr;
+- (XPNode *)statementFromTokens:(NSArray *)toks error:(NSError **)outErr;
 
-@property (nonatomic, retain) XPStatement *stat;
+@property (nonatomic, retain) XPNode *stat;
 @end

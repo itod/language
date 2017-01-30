@@ -7,7 +7,7 @@
 //
 
 #import "XPBaseStatementTests.h"
-#import "XPStatement.h"
+#import "XPNode.h"
 
 @implementation XPBaseStatementTests
 
@@ -31,22 +31,22 @@
 }
 
 
-- (XPStatement *)statementFromString:(NSString *)str error:(NSError **)outErr {
+- (XPNode *)statementFromString:(NSString *)str error:(NSError **)outErr {
     TDTrue(self.parser);
     PKAssembly *a = [self.parser parseString:str error:outErr];
     
-    XPStatement *stat = [a pop];
+    XPNode *stat = [a pop];
     
     //stat = [stat simplify];
     return stat;
 }
 
 
-- (XPStatement *)statementFromTokens:(NSArray *)toks error:(NSError **)outErr {
+- (XPNode *)statementFromTokens:(NSArray *)toks error:(NSError **)outErr {
     TDTrue(self.parser);
     PKAssembly *a = [self.parser parseTokens:toks error:outErr];
     
-    XPStatement *stat = [a pop];
+    XPNode *stat = [a pop];
     
     //stat = [stat simplify];
     return stat;

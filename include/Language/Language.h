@@ -18,5 +18,4 @@ FOUNDATION_EXPORT const unsigned char LanguageVersionString[];
 
 #import <Language/XPContext.h>
 #import <Language/XPInterpreter.h>
-#import <Language/XPStatement.h>
 #import <Language/XPExpression.h>

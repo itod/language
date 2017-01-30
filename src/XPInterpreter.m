@@ -11,10 +11,9 @@
 #import "XPMemorySpace.h"
 #import "XPParser.h"
 #import "XPNode.h"
-#import "XPStatement.h"
 #import "XPExpression.h"
 
-#define TOKEN_KIND_BLOCK -2
+#define XP_TOKEN_KIND_BLOCK -2
 
 @implementation XPInterpreter
 
@@ -50,7 +49,7 @@
 - (void)exec:(XPNode *)node {
     
     switch (node.token.tokenKind) {
-        case TOKEN_KIND_BLOCK:
+        case XP_TOKEN_KIND_BLOCK:
             [self block:node];
             break;
         case XP_TOKEN_KIND_VAR:
@@ -64,7 +63,7 @@
 
 
 - (void)block:(XPNode *)node {
-    TDAssert([node.token.stringValue isEqualToString:@"BLOCK"]);
+    TDAssert(XP_TOKEN_KIND_BLOCK == node.token.tokenKind);
     
     for (XPNode *stat in node.children) {
         [self exec:stat];

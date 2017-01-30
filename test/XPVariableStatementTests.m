@@ -7,7 +7,7 @@
 //
 
 #import "XPBaseStatementTests.h"
-#import "XPVariableStatement.h"
+#import "XPNode.h"
 #import "XPMemorySpace.h"
 
 @interface XPVariableStatementTests : XPBaseStatementTests
