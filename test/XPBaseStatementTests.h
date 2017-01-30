@@ -12,5 +12,5 @@
 - (XPStatement *)statementFromString:(NSString *)str error:(NSError **)outErr;
 - (XPStatement *)statementFromTokens:(NSArray *)toks error:(NSError **)outErr;
 
-@property (nonatomic, retain) XPStatement *expr;
+@property (nonatomic, retain) XPStatement *stat;
 @end

@@ -14,11 +14,11 @@
 - (void)setUp {
     [super setUp];
     
-    self.expr = nil;
+    self.stat = nil;
 }
 
 - (void)tearDown {
-    self.expr = nil;
+    self.stat = nil;
     
     [super tearDown];
 }
