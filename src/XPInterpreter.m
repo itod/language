@@ -11,9 +11,10 @@
 #import "XPMemorySpace.h"
 #import "XPParser.h"
 #import "XPNode.h"
-#import "XPExpression.h"
+#import "XPTreeWalkerDecl.h"
+#import "XPTreeWalkerDefn.h"
 
-#define XP_TOKEN_KIND_BLOCK -2
+#import <Language/XPContext.h>
 
 @implementation XPInterpreter
 
@@ -21,10 +22,20 @@
     self = [super init];
     if (self) {
         self.globals = [[[XPMemorySpace alloc] initWithName:@"globals"] autorelease];       // global memory
-        self.currentSpace = _globals;
     }
     return self;
 }
+
+
+- (void)dealloc {
+    self.globalScope = nil;
+    self.globals = nil;
+    self.root = nil;
+    self.parser = nil;
+
+    [super dealloc];
+}
+
 
 
 - (void)interpretString:(NSString *)input error:(NSError **)outErr {
@@ -41,45 +52,24 @@
         *outErr = err;
         return;
     }
-
-    [self block:_root];
-}
-
-
-- (void)exec:(XPNode *)node {
     
-    switch (node.token.tokenKind) {
-        case XP_TOKEN_KIND_BLOCK:
-            [self block:node];
-            break;
-        case XP_TOKEN_KIND_VAR:
-            [self variable:node];
-            break;
-        default:
-            TDAssert(0);
-            break;
+    TDAssert(_globals);
+    
+    // DECL WALK
+    @autoreleasepool {
+        XPTreeWalker *decl = [[[XPTreeWalkerDecl alloc] init] autorelease];
+        decl.globals = _globals;
+        decl.currentSpace = _globals;
+        [decl walk:_root];
     }
-}
-
-
-- (void)block:(XPNode *)node {
-    TDAssert(XP_TOKEN_KIND_BLOCK == node.token.tokenKind);
     
-    for (XPNode *stat in node.children) {
-        [self exec:stat];
+    // DEFN WALK
+    @autoreleasepool {
+        XPTreeWalker *defn = [[[XPTreeWalkerDefn alloc] init] autorelease];
+        defn.globals = _globals;
+        defn.currentSpace = _globals;
+        [defn walk:_root];
     }
-}
-
-
-- (void)variable:(XPNode *)node {
-    TDAssert(XP_TOKEN_KIND_VAR == node.token.tokenKind);
-    
-    NSString *name = [[node.children[0] token] stringValue];
-    XPExpression *expr = node.children[1];
-    XPValue *val = [expr evaluateInContext:self];
-    
-    TDAssert(_currentSpace);
-    [_currentSpace setObject:val forName:name];
 }
 
 @end

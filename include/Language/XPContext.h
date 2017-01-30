@@ -6,8 +6,8 @@
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "XPScope.h"
 
-@protocol XPContext <NSObject>
+@protocol XPContext <XPScope>
 
 @end
