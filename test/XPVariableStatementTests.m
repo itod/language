@@ -8,6 +8,7 @@
 
 #import "XPBaseStatementTests.h"
 #import "XPVariableStatement.h"
+#import "XPMemorySpace.h"
 
 @interface XPVariableStatementTests : XPBaseStatementTests
 
@@ -27,14 +28,14 @@
 
 - (void)testFooEq1 {
     NSString *input = @"var foo = 1;";
-    NSArray *toks = [self tokenize:input];
+
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPStatement *stat = [self statementFromTokens:toks error:&err];
+    [interp interpretString:input error:nil];
     TDNil(err);
-    TDNotNil(stat);
-
     
+    TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
 }
 
 @end

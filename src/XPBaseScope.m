@@ -15,6 +15,12 @@
 
 @implementation XPBaseScope
 
+- (instancetype)init {
+    self = [self initWithEnclosingScope:nil];
+    return self;
+}
+
+
 - (instancetype)initWithEnclosingScope:(id <XPScope>)outer {
     self = [super init];
     if (self) {

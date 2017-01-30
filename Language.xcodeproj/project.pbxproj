@@ -72,6 +72,8 @@
 		D37316CC1E3EC49C0034798E /* XPGlobalScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316CA1E3EC49C0034798E /* XPGlobalScope.m */; };
 		D37316CF1E3EC4E50034798E /* XPLocalScope.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316CD1E3EC4E50034798E /* XPLocalScope.h */; };
 		D37316D01E3EC4E50034798E /* XPLocalScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316CE1E3EC4E50034798E /* XPLocalScope.m */; };
+		D37316D31E3EC5430034798E /* XPMemorySpace.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316D11E3EC5430034798E /* XPMemorySpace.h */; };
+		D37316D41E3EC5430034798E /* XPMemorySpace.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316D21E3EC5430034798E /* XPMemorySpace.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +159,8 @@
 		D37316CA1E3EC49C0034798E /* XPGlobalScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPGlobalScope.m; path = src/XPGlobalScope.m; sourceTree = SOURCE_ROOT; };
 		D37316CD1E3EC4E50034798E /* XPLocalScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPLocalScope.h; path = src/XPLocalScope.h; sourceTree = SOURCE_ROOT; };
 		D37316CE1E3EC4E50034798E /* XPLocalScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPLocalScope.m; path = src/XPLocalScope.m; sourceTree = SOURCE_ROOT; };
+		D37316D11E3EC5430034798E /* XPMemorySpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPMemorySpace.h; path = src/XPMemorySpace.h; sourceTree = SOURCE_ROOT; };
+		D37316D21E3EC5430034798E /* XPMemorySpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPMemorySpace.m; path = src/XPMemorySpace.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +216,7 @@
 				D37316A31E3EBD5C0034798E /* XPNode.h */,
 				D37316A01E3EBD4B0034798E /* XPNode.m */,
 				D37316C01E3EC1330034798E /* Scope */,
+				D37316D51E3EC6B80034798E /* MemSpace */,
 				D37316B31E3EBF690034798E /* Sym */,
 				D37316831E3E6AC50034798E /* Stat */,
 				D37316841E3E6AD20034798E /* Expr */,
@@ -373,6 +378,15 @@
 			name = Scope;
 			sourceTree = "<group>";
 		};
+		D37316D51E3EC6B80034798E /* MemSpace */ = {
+			isa = PBXGroup;
+			children = (
+				D37316D11E3EC5430034798E /* XPMemorySpace.h */,
+				D37316D21E3EC5430034798E /* XPMemorySpace.m */,
+			);
+			name = MemSpace;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -394,6 +408,7 @@
 				D3689FE41E3BDE7B005783BB /* XPNegationExpression.h in Headers */,
 				D37316C31E3EC1470034798E /* XPBaseScope.h in Headers */,
 				D3689FA91E3BDD7C005783BB /* XPExpression.h in Headers */,
+				D37316D31E3EC5430034798E /* XPMemorySpace.h in Headers */,
 				D305629D1E3BD929008BEC9A /* Language.h in Headers */,
 				D37316BF1E3EBFEB0034798E /* XPScope.h in Headers */,
 				D3689FEA1E3BDE7B005783BB /* XPObjectValue.h in Headers */,
@@ -510,6 +525,7 @@
 			files = (
 				D3689FF71E3BDE7B005783BB /* XPStringValue.m in Sources */,
 				D3689FFB1E3BDE7B005783BB /* XPValue.m in Sources */,
+				D37316D41E3EC5430034798E /* XPMemorySpace.m in Sources */,
 				D37316881E3E6B1F0034798E /* XPVariableStatement.m in Sources */,
 				D368A0091E3BE383005783BB /* XPParser.m in Sources */,
 				D3689FDF1E3BDE7B005783BB /* XPExpression.m in Sources */,
