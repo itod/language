@@ -11,8 +11,6 @@
 #import <Language/XPRelationalExpression.h>
 #import <Language/XPArithmeticExpression.h>
 #import <Language/XPPathExpression.h>
-#import <Language/XPVariableStatement.h>
-#import <Language/XPAssignStatement.h>
 
 
 @interface XPParser ()
@@ -187,7 +185,9 @@
     XPExpression *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     PKToken *tok = POP();
-    PUSH([XPVariableStatement variableStatementWithId:lhs token:tok expression:rhs]);
+    XPNode *stat = [XPNode nodeWithToken:tok];
+    [stat addChild:lhs]; [stat addChild:rhs];
+    PUSH(stat);
 
     }];
 
@@ -212,7 +212,9 @@
     XPExpression *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     PKToken *tok = POP();
-    PUSH([XPAssignStatement assignStatementWithId:lhs token:tok expression:rhs]);
+    XPNode *stat = [XPNode nodeWithToken:tok];
+    [stat addChild:lhs]; [stat addChild:rhs];
+    PUSH(stat);
 
     }];
 
