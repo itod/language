@@ -1,13 +1,13 @@
 //
-//  XPStatement.h
+//  XPNode.h
 //  Language
 //
 //  Created by Todd Ditchendorf on 29.01.17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import <Language/XPNode.h>
+#import <PEGKit/PEGKit.h>
 
-@interface XPStatement : XPNode
+@interface XPNode : PKAST
 
 @end

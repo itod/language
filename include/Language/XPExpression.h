@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import <Language/XPNode.h>
 
 @class XPContext;
 @class XPValue;
@@ -34,7 +34,7 @@ typedef NS_ENUM(NSUInteger, XPDataType) {
     XPDataTypeAny
 };
 
-@interface XPExpression : NSObject
+@interface XPExpression : XPNode
 
 - (XPValue *)evaluateInContext:(XPContext *)ctx;
 - (BOOL)evaluateAsBooleanInContext:(XPContext *)ctx;
