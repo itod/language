@@ -12,9 +12,14 @@
 #import "XPParser.h"
 #import "XPNode.h"
 #import "XPTreeWalkerEval.h"
+#import "XPException.h"
 
 #import <PEGKit/PKAssembly.h>
 #import <Language/XPContext.h>
+
+NSString * const XPErrorDomain = @"XPErrorDomain";
+NSString * const XPErrorRangeKey = @"range";
+NSString * const XPErrorLineNumberKey = @"line number";
 
 @implementation XPInterpreter
 
@@ -57,11 +62,51 @@
     
     // EVAL WALK
     @autoreleasepool {
-        XPTreeWalker *walker = [[[XPTreeWalkerEval alloc] init] autorelease];
-        walker.globals = _globals;
-        walker.currentSpace = _globals;
-        [walker walk:_root];
+        @try {
+            XPTreeWalker *walker = [[[XPTreeWalkerEval alloc] init] autorelease];
+            walker.globals = _globals;
+            walker.currentSpace = _globals;
+            [walker walk:_root];
+        } @catch (XPException *ex) {
+            if (outErr) {
+                NSString *domain = XPErrorDomain;
+                NSString *name = [ex name];
+                NSString *reason = [ex reason];
+                NSLog(@"%@", reason);
+
+                *outErr = [self errorWithDomain:domain name:name reason:reason range:NSMakeRange(NSNotFound, 0) lineNumber:0];
+            } else {
+                [ex raise];
+            }
+        }
     }
 }
+
+
+- (NSError *)errorWithDomain:(NSString *)domain name:(NSString *)name reason:(NSString *)reason range:(NSRange)r lineNumber:(NSUInteger)lineNum {
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    
+    // get description
+    name = name ? name : NSLocalizedString(@"A runtime exception occured.", @"");
+    [userInfo setObject:name forKey:NSLocalizedDescriptionKey];
+    
+    // get reason
+    reason = reason ? reason : @"";
+    userInfo[NSLocalizedFailureReasonErrorKey] = reason;
+    userInfo[XPErrorRangeKey] = [NSValue valueWithRange:r];
+    
+    id lineNumVal = nil;
+    if (NSNotFound == lineNum) {
+        lineNumVal = NSLocalizedString(@"Unknown", @"");
+    } else {
+        lineNumVal = @(lineNum);
+    }
+    userInfo[XPErrorLineNumberKey] = lineNumVal;
+    
+    // convert to NSError
+    NSError *err = [NSError errorWithDomain:XPErrorDomain code:0 userInfo:[[userInfo copy] autorelease]];
+    return err;
+}
+
 
 @end

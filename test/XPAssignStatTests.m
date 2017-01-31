@@ -26,16 +26,26 @@
     [super tearDown];
 }
 
-- (void)testFooEq1 {
+- (void)testFooEq2 {
     NSString *input = @"var foo = 1; foo = 2;";
-
+    
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    [interp interpretString:input error:nil];
+    [interp interpretString:input error:&err];
     TDNil(err);
     
     TDEquals(2.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+}
+
+- (void)testFooEq2Fail {
+    NSString *input = @"foo = 2;";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNotNil(err);
 }
 
 @end

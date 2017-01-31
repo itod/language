@@ -8,7 +8,7 @@
 
 #import "XPException.h"
 
-extern NSString * const XPExceptionUndeclaredSymbol = @"Undeclared Symbol";
+NSString * const XPExceptionUndeclaredSymbol = @"Undeclared Symbol";
 
 @implementation XPException
 

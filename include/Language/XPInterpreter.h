@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const XPErrorDomain;
+extern NSString * const XPErrorRangeKey;
+extern NSString * const XPErrorLineNumberKey;
+
 @class XPGlobalScope;
 @class XPMemorySpace;
 @class XPNode;
