@@ -126,7 +126,7 @@
 }
 
 
-- (XPNode *)childAtIndex:(NSUInteger)i {
+- (id)childAtIndex:(NSUInteger)i {
     TDAssertMainThread();
     TDAssert(NSNotFound != i);
     TDAssert(_kids);

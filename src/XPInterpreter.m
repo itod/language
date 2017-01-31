@@ -11,8 +11,7 @@
 #import "XPMemorySpace.h"
 #import "XPParser.h"
 #import "XPNode.h"
-#import "XPTreeWalkerDecl.h"
-#import "XPTreeWalkerDefn.h"
+#import "XPTreeWalkerEval.h"
 
 #import <PEGKit/PKAssembly.h>
 #import <Language/XPContext.h>
@@ -56,20 +55,12 @@
     
     TDAssert(_globals);
     
-    // DECL WALK
+    // EVAL WALK
     @autoreleasepool {
-        XPTreeWalker *decl = [[[XPTreeWalkerDecl alloc] init] autorelease];
-        decl.globals = _globals;
-        decl.currentSpace = _globals;
-        [decl walk:_root];
-    }
-    
-    // DEFN WALK
-    @autoreleasepool {
-        XPTreeWalker *defn = [[[XPTreeWalkerDefn alloc] init] autorelease];
-        defn.globals = _globals;
-        defn.currentSpace = _globals;
-        [defn walk:_root];
+        XPTreeWalker *walker = [[[XPTreeWalkerEval alloc] init] autorelease];
+        walker.globals = _globals;
+        walker.currentSpace = _globals;
+        [walker walk:_root];
     }
 }
 
