@@ -11,5 +11,6 @@
 extern NSString * const XPExceptionUndeclaredSymbol;
 
 @interface XPException : NSException
-
+@property (nonatomic, assign) NSUInteger lineNumber;
+@property (nonatomic, assign) NSRange range;
 @end

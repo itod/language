@@ -74,7 +74,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
                 NSString *reason = [ex reason];
                 NSLog(@"%@", reason);
 
-                *outErr = [self errorWithDomain:domain name:name reason:reason range:NSMakeRange(NSNotFound, 0) lineNumber:0];
+                *outErr = [self errorWithDomain:domain name:name reason:reason range:ex.range lineNumber:ex.lineNumber];
             } else {
                 [ex raise];
             }

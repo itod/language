@@ -9,6 +9,7 @@
 #import "XPTreeWalker.h"
 #import "XPParser.h"
 #import "XPNode.h"
+#import "XPException.h"
 
 @implementation XPTreeWalker
 
@@ -18,6 +19,21 @@
     self.currentSpace = nil;
     
     [super dealloc];
+}
+
+
+- (void)raiseExceptionWithName:(NSString *)name node:(XPNode *)node format:(NSString *)fmt, ... {
+    va_list vargs;
+    va_start(vargs, fmt);
+    
+    NSString *reason = [[[NSString alloc] initWithFormat:fmt arguments:vargs] autorelease];
+    
+    va_end(vargs);
+
+    XPException *ex = [[[XPException alloc] initWithName:name reason:reason userInfo:nil] autorelease];
+    ex.lineNumber = node.token.lineNumber;
+    ex.range = NSMakeRange(node.token.offset, [node.token.stringValue length]);
+    [ex raise];
 }
 
 
