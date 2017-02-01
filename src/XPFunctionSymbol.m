@@ -1,0 +1,48 @@
+//
+//  XPFunctionSymbol.m
+//  Language
+//
+//  Created by Todd Ditchendorf on 01.02.17.
+//  Copyright © 2017 Celestial Teapot. All rights reserved.
+//
+
+#import "XPFunctionSymbol.h"
+
+@interface XPFunctionSymbol ()
+@property (nonatomic, retain) NSMutableDictionary<NSString *, XPSymbol *> *params;
+@end
+
+@implementation XPFunctionSymbol
+
+- (instancetype)initWithName:(NSString *)name enclosingScope:(id<XPScope>)scope {
+    self = [super initWithName:name enclosingScope:scope];
+    if (self) {
+        self.params = [NSMutableDictionary dictionary];
+    }
+    return self;
+}
+
+
+- (void)dealloc {
+    self.params = nil;
+    [super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark XPSymbol
+
+- (NSString *)name {
+    return [NSString stringWithFormat:@"%@ (%@)", [super name], [[_params allKeys] componentsJoinedByString:@","]];
+}
+
+
+#pragma mark -
+#pragma mark XPScopedSymbol
+
+- (NSMutableDictionary *)members {
+    TDAssert(_params);
+    return _params;
+}
+
+@end

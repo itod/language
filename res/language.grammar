@@ -24,6 +24,7 @@
 @extension {
 @property (nonatomic, retain) PKToken *blockTok;
 @property (nonatomic, retain) PKToken *openParenTok;
+@property (nonatomic, retain) PKToken *openCurlyTok;
 @property (nonatomic, retain) PKToken *minusTok;
 @property (nonatomic, retain) PKToken *colonTok;
 @property (nonatomic, assign) BOOL negation;
@@ -53,6 +54,7 @@
     self.blockTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"BLOCK" doubleValue:0.0];
     self.blockTok.tokenKind = -2;
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
+    self.openCurlyTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"{" doubleValue:0.0];
     self.minusTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
     self.colonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@":" doubleValue:0.0];
 }
@@ -60,6 +62,7 @@
 @dealloc {
     self.blockTok = nil;
     self.openParenTok = nil;
+    self.openCurlyTok = nil;
     self.minusTok = nil;
     self.colonTok = nil;
 }
@@ -104,12 +107,33 @@ assign      = qid '=' expr {
     PUSH(stat);
 };
 
-funcDecl    = 'sub'! qid '(' paramList? ')'! block;
+funcDecl
+@before {
+    // push scope
+}
+@after {
+    // pop scope
+}
+            = 'sub'! qid {
+                PKToken *funcNameTok = POP();
+                
+            }
+              '(' paramList? ')'! {
+                id params = ABOVE(_openParenTok);
+            }
+            block;
 
-paramList   = param (',' param)*;
-param       = qid ('=' expr)?;
+paramList   = param (','! param)*;
+param       = qid ('='! expr)?;
 
-block       = '{' statList? '}';
+block
+@before {
+    // push scope
+}
+@after {
+    // pop scope
+}
+           = '{'! statList? '}'!;
 
 expr    = orExpr;
 

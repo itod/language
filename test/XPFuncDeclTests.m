@@ -1,5 +1,5 @@
 //
-//  XPAssignStatTests.m
+//  XPFuncDeclTests.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 29.01.17.
@@ -10,11 +10,11 @@
 #import "XPNode.h"
 #import "XPMemorySpace.h"
 
-@interface XPAssignStatTests : XPBaseStatementTests
+@interface XPFuncDeclTests : XPBaseStatementTests
 
 @end
 
-@implementation XPAssignStatTests
+@implementation XPFuncDeclTests
 
 - (void)setUp {
     [super setUp];
@@ -26,26 +26,16 @@
     [super tearDown];
 }
 
-- (void)testFooEq2 {
-    NSString *input = @"var foo = 1; foo = 2;";
-    
+- (void)testSubFoo {
+    NSString *input = @"sub foo() {}";
+
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    [interp interpretString:input error:&err];
+    [interp interpretString:input error:nil];
     TDNil(err);
     
-    TDEquals(2.0, [[interp.globals objectForName:@"foo"] doubleValue]);
-}
-
-- (void)testFooEq2Fail {
-    NSString *input = @"foo = 2;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNotNil(err);
+    //TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
 }
 
 @end
