@@ -10,4 +10,7 @@
 
 @interface XPFunctionSymbol : XPScopedSymbol
 
++ (instancetype)symbolWithName:(NSString *)name enclosingScope:(id<XPScope>)scope;
+- (instancetype)initWithName:(NSString *)name enclosingScope:(id<XPScope>)scope;
+
 @end

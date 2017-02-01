@@ -5,6 +5,8 @@
 @interface {
 + (PKTokenizer *)tokenizer;
 
+@property (nonatomic, retain) XPGlobalScope *currentScope;
+@property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, assign) BOOL allowNakedExpressions;
 }
 
@@ -19,6 +21,9 @@
 #import <Language/XPRelationalExpression.h>
 #import <Language/XPArithmeticExpression.h>
 #import <Language/XPPathExpression.h>
+
+#import <Language/XPGlobalScope.h>
+#import <Language/XPFunctionSymbol.h>
 }
 
 @extension {
@@ -60,6 +65,8 @@
 }
 
 @dealloc {
+    self.currentScope = nil;
+    self.globalScope = nil;
     self.blockTok = nil;
     self.openParenTok = nil;
     self.openCurlyTok = nil;
@@ -67,7 +74,11 @@
     self.colonTok = nil;
 }
 
-program     = statList;
+program
+@before {
+    self.currentScope = _globalScope;
+}
+            = statList;
 
 statList    = stat+ {
     NSArray *stats = REV(ABOVE(nil));
@@ -108,15 +119,13 @@ assign      = qid '=' expr {
 };
 
 funcDecl
-@before {
-    // push scope
-}
 @after {
-    // pop scope
+    self.currentScope = _currentScope.enclosingScope;
 }
             = 'sub'! qid {
-                PKToken *funcNameTok = POP();
-                
+                NSString *name = POP_STR();
+                XPFunctionSymbol *funcSym = [XPFunctionSymbol functionSymbolWithName:name enclosingScope:_currentScope];
+                self.currentScope = funcSym;
             }
               '(' paramList? ')'! {
                 id params = ABOVE(_openParenTok);
@@ -128,10 +137,10 @@ param       = qid ('='! expr)?;
 
 block
 @before {
-    // push scope
+    self.currentScope = XPLocalScope scopeWithEnclosingScope:_currentScope];
 }
 @after {
-    // pop scope
+    self.currentScope = _currentScope.enclosingScope;
 }
            = '{'! statList? '}'!;
 

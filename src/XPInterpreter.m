@@ -46,6 +46,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
 - (void)interpretString:(NSString *)input error:(NSError **)outErr {
     self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
     self.parser = [[[XPParser alloc] initWithDelegate:nil] autorelease];
+    _parser.globalScope = _globalScope;
     
     NSError *err = nil;
     PKAssembly *a = [_parser parseString:input error:&err];

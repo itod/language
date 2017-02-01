@@ -14,6 +14,11 @@
 
 @implementation XPFunctionSymbol
 
++ (instancetype)symbolWithName:(NSString *)name enclosingScope:(id<XPScope>)scope {
+    return [[[self alloc] initWithName:name enclosingScope:scope] autorelease];
+}
+
+
 - (instancetype)initWithName:(NSString *)name enclosingScope:(id<XPScope>)scope {
     self = [super initWithName:name enclosingScope:scope];
     if (self) {
