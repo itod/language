@@ -18,7 +18,7 @@
 
 - (void)walk:(XPNode *)root;
 
-- (void)raiseExceptionWithName:(NSString *)name node:(XPNode *)node format:(NSString *)fmt, ...;
+- (void)raise:(NSString *)name node:(XPNode *)node format:(NSString *)fmt, ...;
 
 @property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, retain) XPMemorySpace *globals;

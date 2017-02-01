@@ -22,7 +22,7 @@
 }
 
 
-- (void)raiseExceptionWithName:(NSString *)name node:(XPNode *)node format:(NSString *)fmt, ... {
+- (void)raise:(NSString *)name node:(XPNode *)node format:(NSString *)fmt, ... {
     va_list vargs;
     va_start(vargs, fmt);
     

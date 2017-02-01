@@ -22,10 +22,10 @@
 }
 
 @extension {
-@property (nonatomic, retain) PKToken *block;
-@property (nonatomic, retain) PKToken *openParen;
-@property (nonatomic, retain) PKToken *minus;
-@property (nonatomic, retain) PKToken *colon;
+@property (nonatomic, retain) PKToken *blockTok;
+@property (nonatomic, retain) PKToken *openParenTok;
+@property (nonatomic, retain) PKToken *minusTok;
+@property (nonatomic, retain) PKToken *colonTok;
 @property (nonatomic, assign) BOOL negation;
 @property (nonatomic, assign) BOOL negative;
 }
@@ -50,36 +50,40 @@
 @init {
     self.enableVerboseErrorReporting = NO;
     self.tokenizer = [[self class] tokenizer];
-    self.block = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"BLOCK" doubleValue:0.0];
-    self.block.tokenKind = -2;
-    self.openParen = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
-    self.minus = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
-    self.colon = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@":" doubleValue:0.0];
+    self.blockTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"BLOCK" doubleValue:0.0];
+    self.blockTok.tokenKind = -2;
+    self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
+    self.minusTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
+    self.colonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@":" doubleValue:0.0];
 }
 
 @dealloc {
-    self.block = nil;
-    self.openParen = nil;
-    self.minus = nil;
-    self.colon = nil;
+    self.blockTok = nil;
+    self.openParenTok = nil;
+    self.minusTok = nil;
+    self.colonTok = nil;
 }
 
-program     = stat+ {
+program     = statList;
+
+statList    = stat+ {
     NSArray *stats = REV(ABOVE(nil));
-    XPNode *block = [XPNode nodeWithToken:self.block];
-    for (id stat in stats) [block addChild:stat];
-    PUSH(block);
+    XPNode *blockTok = [XPNode nodeWithToken:self.blockTok];
+    for (id stat in stats) [blockTok addChild:stat];
+    PUSH(blockTok);
 };
 
 stat        = 
-            ( varDeclStat
-            | assignStat
-            )
+            ( varDecl
+            | assign
+            | funcDecl
+            | block
+            )?
             ';'!
             | { _allowNakedExpressions }? expr
             ;
 
-varDeclStat = 'var' qid '='! expr {
+varDecl     = 'var' qid '='! expr {
     XPExpression *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     PKToken *tok = POP();
@@ -90,7 +94,7 @@ varDeclStat = 'var' qid '='! expr {
 };
 qid         = Word;
 
-assignStat  = qid '=' expr {
+assign      = qid '=' expr {
     XPExpression *rhs = POP();
     PKToken *tok = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
@@ -99,6 +103,13 @@ assignStat  = qid '=' expr {
     [stat addChild:lhs]; [stat addChild:rhs];
     PUSH(stat);
 };
+
+funcDecl    = 'sub'! qid '(' paramList? ')'! block;
+
+paramList   = param (',' param)*;
+param       = qid ('=' expr)?;
+
+block       = '{' statList? '}';
 
 expr    = orExpr;
 
@@ -195,7 +206,7 @@ primaryExpr = atom | subExpr;
 
 subExpr
     = '(' expr ')'! {
-    id objs = ABOVE(_openParen);
+    id objs = ABOVE(_openParenTok);
     POP(); // discard `(`
     PUSH_ALL(REV(objs));
 };
@@ -204,11 +215,11 @@ atom = literal | pathExpr;
 
 pathExpr
 @before {
-    PUSH(_openParen);
+    PUSH(_openParenTok);
 }
 @after {
-    id toks = REV(ABOVE(_openParen));
-    POP(); // discard `_openParen`
+    id toks = REV(ABOVE(_openParenTok));
+    POP(); // discard `_openParenTok`
     PUSH([XPPathExpression pathExpressionWithSteps:toks]);
 }
     = identifier ('.'! step)*;

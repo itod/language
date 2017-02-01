@@ -30,7 +30,7 @@
     NSString *name = idNode.token.stringValue;
     
     if (![self.currentSpace objectForName:name]) {
-        [self raiseExceptionWithName:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", name];
+        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", name];
         return;
     }
     
