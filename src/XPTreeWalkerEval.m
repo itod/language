@@ -30,6 +30,7 @@
 
 @interface XPTreeWalkerEval ()
 @property (nonatomic, retain) XPFlowException *sharedReturnValue;
+@property (nonatomic, retain) NSMutableArray<XPFunctionSpace *> *stack;
 @end
 
 @implementation XPTreeWalkerEval
@@ -37,7 +38,8 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.sharedReturnValue = [[[XPFlowException alloc] init] autorelease];
+        self.sharedReturnValue = [[[XPFlowException alloc] initWithName:@"Flow" reason:nil userInfo:nil] autorelease];
+        self.stack = [NSMutableArray array];
     }
     return self;
 }
@@ -45,6 +47,7 @@
 
 - (void)dealloc {
     self.sharedReturnValue = nil;
+    self.stack = nil;
     [super dealloc];
 }
 
@@ -99,7 +102,16 @@
     XPMemorySpace *saveSpace = self.currentSpace;
     
     id result = nil;
-    
+    TDAssert(_stack);
+    [_stack addObject:funcSpace];
+
+    TDAssert(funcSym.blockNode);
+    @try {
+        [self walk:funcSym.blockNode];
+    } @catch (XPFlowException *ex) {
+        result = ex.value;
+    }
+    [_stack removeLastObject];
     
     self.currentSpace = saveSpace;
     return result;
@@ -109,6 +121,7 @@
 - (void)returnStat:(XPNode *)node {
     XPExpression *expr = [node childAtIndex:0];
     XPValue *val = [expr evaluateInContext:nil];
+    TDAssert(_sharedReturnValue);
     _sharedReturnValue.value = val;
     @throw _sharedReturnValue;
 }

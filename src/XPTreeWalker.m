@@ -56,8 +56,9 @@
         case XP_TOKEN_KIND_RETURN:
             [self returnStat:node];
             break;
+        
         case XP_TOKEN_KIND_CALL:
-            [self funcCall:node];
+            return [self funcCall:node];
             break;
 
         case TOKEN_KIND_BUILTIN_QUOTEDSTRING:

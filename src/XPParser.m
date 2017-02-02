@@ -416,7 +416,7 @@
     [func addChild:block];
 
     XPFunctionSymbol *funcSym = POP();
-    funcSym.blockNode = func;
+    funcSym.blockNode = block;
     PUSH(func);
 
     // pop scope
