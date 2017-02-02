@@ -84,9 +84,9 @@
     }
     
     NSInteger i = 0;
-    for (XPNode *child in _kids) {
+    for (XPNode *kid in _kids) {
         NSString *fmt = 0 == i++ ? @"%@" : @" %@";
-        [ms appendFormat:fmt, [child treeDescription]];
+        [ms appendFormat:fmt, [kid treeDescription]];
     }
     
     if (![self isNil]) {

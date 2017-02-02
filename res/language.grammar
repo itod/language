@@ -145,7 +145,7 @@ assign      = qid '=' expr {
 // FUNCTIONS
 funcList    = funcItem+;
 funcItem    = stat | block | returnStat;
-returnStat  = 'return' expr {
+returnStat  = 'return' expr ';'! {
     XPExpression *expr = POP();
     XPNode *ret = [XPNode nodeWithToken:POP()];
     [ret addChild:expr];

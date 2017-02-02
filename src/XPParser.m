@@ -351,6 +351,7 @@
     
     [self match:XP_TOKEN_KIND_RETURN discard:NO]; 
     [self expr_]; 
+    [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
     [self execute:^{
     
     XPExpression *expr = POP();
