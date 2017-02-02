@@ -62,4 +62,16 @@
     TDEquals(2.0, [[interp.globals objectForName:@"bar"] doubleValue]);
 }
 
+- (void)testCallSubFooRetAPlusB {
+    NSString *input = @"var bar = foo(); sub foo() { var a = 1; var b = 3; return a + b; }";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:nil];
+    TDNil(err);
+    
+    TDEquals(4.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+}
+
 @end

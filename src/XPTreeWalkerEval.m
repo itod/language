@@ -89,6 +89,15 @@
 }
 
 
+- (id)varRef:(XPNode *)node {
+    NSString *name = [[[node childAtIndex:0] token] stringValue];
+    
+    XPExpression *expr = [self.currentSpace objectForName:name];
+    XPValue *val = [expr evaluateInContext:nil];
+    return val;
+}
+
+
 - (id)funcCall:(XPNode *)node {
     NSString *name = [[[node childAtIndex:0] token] stringValue];
     XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
@@ -120,7 +129,7 @@
 
 - (void)returnStat:(XPNode *)node {
     XPExpression *expr = [node childAtIndex:0];
-    XPValue *val = [expr evaluateInContext:nil];
+    XPValue *val = [self walk:expr];
     TDAssert(_sharedReturnValue);
     _sharedReturnValue.value = val;
     @throw _sharedReturnValue;

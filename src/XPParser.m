@@ -23,6 +23,7 @@
 @property (nonatomic, retain) PKToken *blockTok;
 @property (nonatomic, retain) PKToken *callTok;
 @property (nonatomic, retain) PKToken *funcDeclTok;
+@property (nonatomic, retain) PKToken *varRefTok;
 @property (nonatomic, retain) PKToken *subTok;
 @property (nonatomic, retain) PKToken *openParenTok;
 @property (nonatomic, retain) PKToken *openCurlyTok;
@@ -63,6 +64,8 @@
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
     self.funcDeclTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"FUNC_DECL" doubleValue:0.0];
     self.funcDeclTok.tokenKind = XP_TOKEN_KIND_FUNC_DECL;
+    self.varRefTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"VAR_REF" doubleValue:0.0];
+    self.varRefTok.tokenKind = XP_TOKEN_KIND_VAR_REF;
     self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
     self.openCurlyTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:[NSString stringWithFormat:@"%C", 0x7B] doubleValue:0.0];
@@ -156,6 +159,7 @@
     self.blockTok = nil;
     self.callTok = nil;
     self.funcDeclTok = nil;
+    self.varRefTok = nil;
     self.subTok = nil;
     self.openParenTok = nil;
     self.openCurlyTok = nil;
@@ -980,8 +984,8 @@
         [self literal_]; 
     } else if ([self speculate:^{ [self funcCall_]; }]) {
         [self funcCall_]; 
-    } else if ([self speculate:^{ [self qid_]; }]) {
-        [self qid_]; 
+    } else if ([self speculate:^{ [self varRef_]; }]) {
+        [self varRef_]; 
     } else if ([self speculate:^{ [self pathExpr_]; }]) {
         [self pathExpr_]; 
     } else {
@@ -989,6 +993,20 @@
     }
 
     [self fireDelegateSelector:@selector(parser:didMatchAtom:)];
+}
+
+- (void)varRef_ {
+    
+    [self qid_]; 
+    [self execute:^{
+    
+    XPNode *varRef = [XPNode nodeWithToken:_varRefTok];
+    [varRef addChild:[XPNode nodeWithToken:POP()]];
+    PUSH(varRef);
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchVarRef:)];
 }
 
 - (void)pathExpr_ {
