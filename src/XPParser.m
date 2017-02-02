@@ -24,7 +24,6 @@
     
 @property (nonatomic, retain) PKToken *blockTok;
 @property (nonatomic, retain) PKToken *callTok;
-@property (nonatomic, retain) PKToken *funcDeclTok;
 @property (nonatomic, retain) PKToken *subTok;
 @property (nonatomic, retain) PKToken *openParenTok;
 @property (nonatomic, retain) PKToken *openCurlyTok;
@@ -64,8 +63,6 @@
     self.blockTok.tokenKind = XP_TOKEN_KIND_BLOCK;
     self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
-    self.funcDeclTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"FUNC_DECL" doubleValue:0.0];
-    self.funcDeclTok.tokenKind = XP_TOKEN_KIND_FUNC_DECL;
     self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
     self.openCurlyTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:[NSString stringWithFormat:@"%C", 0x7B] doubleValue:0.0];
@@ -158,7 +155,6 @@
     self.globalScope = nil;
     self.blockTok = nil;
     self.callTok = nil;
-    self.funcDeclTok = nil;
     self.subTok = nil;
     self.openParenTok = nil;
     self.openCurlyTok = nil;
@@ -412,11 +408,10 @@
     
     // create func node tree
     NSArray *stats = REV(ABOVE(_subTok));
-    POP(); // 'sub'
     XPNode *block = [XPNode nodeWithToken:_blockTok];
     for (id stat in stats) [block addChild:stat];
 
-    XPNode *func = [XPNode nodeWithToken:_funcDeclTok];
+    XPNode *func = [XPNode nodeWithToken:POP()];
     [func addChild:[XPNode nodeWithToken:POP()]]; // qid / func name
     [func addChild:block];
 

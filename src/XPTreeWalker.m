@@ -96,7 +96,7 @@
         case XP_TOKEN_KIND_EQUALS:
             [self assign:node];
             break;
-        case XP_TOKEN_KIND_FUNC_DECL:
+        case XP_TOKEN_KIND_SUB:
             [self funcDecl:node];
             break;
         case XP_TOKEN_KIND_RETURN:
