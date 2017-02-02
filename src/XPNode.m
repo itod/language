@@ -147,7 +147,6 @@
 
 - (NSArray *)children {
     TDAssertMainThread();
-    TDAssert(_kids);
     return [[_kids copy] autorelease];
 }
 

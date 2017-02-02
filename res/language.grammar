@@ -81,20 +81,20 @@ program
 @before {
     self.currentScope = _globalScope;
 }
-            = statList;
+            = topList;
 
-statList    = stat+ {
+topList     = topItem+ {
     NSArray *stats = REV(ABOVE(nil));
     XPNode *blockTok = [XPNode nodeWithToken:self.blockTok];
     for (id stat in stats) [blockTok addChild:stat];
     PUSH(blockTok);
 };
 
+topItem     = stat | funcDecl | block;
+
 stat        = 
             ( varDecl
             | assign
-            | funcDecl
-            | block
             )?
             ';'!
             | { _allowNakedExpressions }? expr
@@ -127,7 +127,8 @@ funcDecl    = 'sub'! qid {
     self.currentScope = funcSym;
 }
               '(' paramList? ')'! {
-    //id params = ABOVE(_openParenTok);
+    id params = ABOVE(_openParenTok);
+    POP(); // '('
 }
             block {
     self.currentScope = _currentScope.enclosingScope;
@@ -143,7 +144,7 @@ block
 @after {
     self.currentScope = _currentScope.enclosingScope;
 }
-           = '{'! statList? '}'!;
+           = '{'! topList? '}'!;
 
 expr    = orExpr;
 

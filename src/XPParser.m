@@ -164,16 +164,16 @@
     self.currentScope = _globalScope;
 
     }];
-    [self statList_]; 
+    [self topList_]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchProgram:)];
 }
 
-- (void)statList_ {
+- (void)topList_ {
     
     do {
-        [self stat_]; 
-    } while ([self speculate:^{ [self stat_]; }]);
+        [self topItem_]; 
+    } while ([self speculate:^{ [self topItem_]; }]);
     [self execute:^{
     
     NSArray *stats = REV(ABOVE(nil));
@@ -183,21 +183,32 @@
 
     }];
 
-    [self fireDelegateSelector:@selector(parser:didMatchStatList:)];
+    [self fireDelegateSelector:@selector(parser:didMatchTopList:)];
+}
+
+- (void)topItem_ {
+    
+    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+        [self stat_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_SUB, 0]) {
+        [self funcDecl_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
+        [self block_]; 
+    } else {
+        [self raise:@"No viable alternative found in rule 'topItem'."];
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchTopItem:)];
 }
 
 - (void)stat_ {
     
-    if ([self speculate:^{ if ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {[self varDecl_]; } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {[self assign_]; } else if ([self predicts:XP_TOKEN_KIND_SUB, 0]) {[self funcDecl_]; } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {[self block_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {[self varDecl_]; } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {[self assign_]; } else if ([self predicts:XP_TOKEN_KIND_SUB, 0]) {[self funcDecl_]; } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {[self block_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}[self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; }]) {
-        if ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {[self varDecl_]; } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {[self assign_]; } else if ([self predicts:XP_TOKEN_KIND_SUB, 0]) {[self funcDecl_]; } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {[self block_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {
+    if ([self speculate:^{ if ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {[self varDecl_]; } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {[self assign_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {[self varDecl_]; } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {[self assign_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}[self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; }]) {
+        if ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {[self varDecl_]; } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {[self assign_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {
             if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {
                 [self varDecl_]; 
             } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {
                 [self assign_]; 
-            } else if ([self predicts:XP_TOKEN_KIND_SUB, 0]) {
-                [self funcDecl_]; 
-            } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
-                [self block_]; 
             } else {
                 [self raise:@"No viable alternative found in rule 'stat'."];
             }
@@ -279,7 +290,8 @@
     [self match:XP_TOKEN_KIND_CLOSE_PAREN discard:YES]; 
     [self execute:^{
     
-    //id params = ABOVE(_openParenTok);
+    id params = ABOVE(_openParenTok);
+    POP(); // '('
 
     }];
     [self block_]; 
@@ -322,8 +334,8 @@
 
     }];
     [self match:XP_TOKEN_KIND_OPEN_CURLY discard:YES]; 
-    if ([self speculate:^{ [self statList_]; }]) {
-        [self statList_]; 
+    if ([self speculate:^{ [self topList_]; }]) {
+        [self topList_]; 
     }
     [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
     [self execute:^{
