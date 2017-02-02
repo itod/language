@@ -32,7 +32,7 @@
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    [interp interpretString:input error:nil];
+    [interp interpretString:input error:&err];
     TDNil(err);
     
     TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);

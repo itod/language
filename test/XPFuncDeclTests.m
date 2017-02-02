@@ -200,4 +200,14 @@
     TDNotNil(err);
 }
 
+- (void)testCallSubMisorderedArg {
+    NSString *input = @"var bar = foo(1,2); sub foo(a=10,b) { }";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNotNil(err);
+}
+
 @end

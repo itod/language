@@ -1,6 +1,7 @@
 #import "XPParser.h"
 #import <PEGKit/PEGKit.h>
     
+#import <Language/XPException.h>
 #import <Language/XPNode.h>
 #import <Language/XPBooleanValue.h>
 #import <Language/XPNumericValue.h>
@@ -18,6 +19,10 @@
 #import <Language/XPLocalScope.h>
 #import <Language/XPVariableSymbol.h>
 #import <Language/XPFunctionSymbol.h>
+
+@interface PKParser ()
+- (void)raiseInRange:(NSRange)r lineNumber:(NSUInteger)lineNum name:(NSString *)name format:(NSString *)fmt, ...;
+@end
 
 
 @interface XPParser ()
@@ -485,13 +490,20 @@
     [self qid_]; 
     [self execute:^{
     
-    NSString *name = POP_STR();
+    PKToken *qidTok = POP();
+    NSString *name = qidTok.stringValue;
     XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];
     NSMutableDictionary *params = POP();
     [params setObject:sym forKey:name];
     PUSH(params);
 
     XPFunctionSymbol *funcSym = (id)_currentScope;
+    if ([funcSym.defaultParamValues count]) {
+        [self raiseInRange:NSMakeRange(qidTok.offset, [name length]) 
+                lineNumber:qidTok.lineNumber 
+                      name:XPExceptionParamMisordered 
+                    format:@"sub `%@` has non-default parameter placed after default parameter `%@`", funcSym.name, name];
+    }
     [funcSym.orderedParams addObject:sym];
 
     }];

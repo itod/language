@@ -10,6 +10,7 @@
 
 NSString * const XPExceptionUndeclaredSymbol = @"Undeclared Symbol";
 NSString * const XPExceptionTooManyArguments = @"Too Many Arguments";
+NSString * const XPExceptionParamMisordered = @"Param Misordered";
 
 @implementation XPException
 

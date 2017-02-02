@@ -50,7 +50,13 @@ NSString * const XPErrorLineNumberKey = @"line number";
     
     NSError *err = nil;
     PKAssembly *a = [_parser parseString:input error:&err];
-    TDAssert(a);
+    
+    if (err) {
+        NSLog(@"%@", err);
+        *outErr = err;
+        return;
+    }
+    TDAssert(!(*outErr));
 
     self.root = [a pop];
     
