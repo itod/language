@@ -15,7 +15,7 @@
 
 @implementation XPTreeWalkerEval
 
-- (void)varDeclStat:(XPNode *)node {
+- (void)varDecl:(XPNode *)node {
     NSString *name = [[[node childAtIndex:0] token] stringValue];
     XPExpression *expr = [node childAtIndex:1];
     XPValue *val = [expr evaluateInContext:nil];
@@ -25,7 +25,7 @@
 }
 
 
-- (void)assignStat:(XPNode *)node {
+- (void)assign:(XPNode *)node {
     XPNode *idNode = [node childAtIndex:0];
     NSString *name = idNode.token.stringValue;
     

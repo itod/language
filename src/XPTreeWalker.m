@@ -43,10 +43,13 @@
             [self block:node];
             break;
         case XP_TOKEN_KIND_VAR:
-            [self varDeclStat:node];
+            [self varDecl:node];
             break;
         case XP_TOKEN_KIND_EQUALS:
-            [self assignStat:node];
+            [self assign:node];
+            break;
+        case XP_TOKEN_KIND_SUB:
+            [self funcDecl:node];
             break;
         default:
             TDAssert(0);
@@ -62,7 +65,11 @@
 }
 
 
-- (void)varDeclStat:(XPNode *)node {}
-- (void)assignStat:(XPNode *)node {}
+- (void)varDecl:(XPNode *)node {}
+- (void)assign:(XPNode *)node {}
+
+- (void)funcDecl:(XPNode *)node {
+
+}
 
 @end

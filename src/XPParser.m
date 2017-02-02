@@ -20,6 +20,7 @@
 @interface XPParser ()
     
 @property (nonatomic, retain) PKToken *blockTok;
+@property (nonatomic, retain) PKToken *subTok;
 @property (nonatomic, retain) PKToken *openParenTok;
 @property (nonatomic, retain) PKToken *openCurlyTok;
 @property (nonatomic, retain) PKToken *minusTok;
@@ -55,6 +56,7 @@
     self.tokenizer = [[self class] tokenizer];
     self.blockTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"BLOCK" doubleValue:0.0];
     self.blockTok.tokenKind = -2;
+    self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
     self.openCurlyTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:[NSString stringWithFormat:@"%C", 0x7B] doubleValue:0.0];
     self.minusTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
@@ -145,6 +147,7 @@
     self.currentScope = nil;
     self.globalScope = nil;
     self.blockTok = nil;
+    self.subTok = nil;
     self.openParenTok = nil;
     self.openCurlyTok = nil;
     self.minusTok = nil;
@@ -350,7 +353,10 @@
     [self expr_]; 
     [self execute:^{
     
-    
+    XPExpression *expr = POP();
+    XPNode *ret = [XPNode nodeWithToken:POP()];
+    [ret addChild:expr];
+    PUSH(ret);
 
     }];
 
@@ -359,19 +365,21 @@
 
 - (void)funcDecl_ {
     
-    [self match:XP_TOKEN_KIND_SUB discard:YES]; 
+    [self match:XP_TOKEN_KIND_SUB discard:NO]; 
     [self qid_]; 
     [self execute:^{
     
+    // def func
     NSString *name = POP_STR();
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:name enclosingScope:_currentScope];
+    [_currentScope defineSymbol:funcSym];
+    
+    // push func scope
     self.currentScope = funcSym;
 
     }];
     [self match:XP_TOKEN_KIND_OPEN_PAREN discard:YES]; 
-    if ([self speculate:^{ [self paramList_]; }]) {
-        [self paramList_]; 
-    }
+    [self paramList_]; 
     [self match:XP_TOKEN_KIND_CLOSE_PAREN discard:YES]; 
     [self execute:^{
     
@@ -383,6 +391,13 @@
     [self funcBlock_]; 
     [self execute:^{
     
+    // create func node tree
+    NSArray *stats = ABOVE(_subTok);
+    XPNode *func = [XPNode nodeWithToken:POP()];
+    for (id stat in stats) [func addChild:stat];
+    PUSH(func);
+
+    // pop scope
     self.currentScope = _currentScope.enclosingScope;
 
     }];
@@ -398,10 +413,12 @@
     PUSH(params);
 
     }];
-    [self param_]; 
-    while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self param_]; }]) {
-        [self match:XP_TOKEN_KIND_COMMA discard:YES]; 
+    if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {
         [self param_]; 
+        while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self param_]; }]) {
+            [self match:XP_TOKEN_KIND_COMMA discard:YES]; 
+            [self param_]; 
+        }
     }
 
     [self fireDelegateSelector:@selector(parser:didMatchParamList:)];
