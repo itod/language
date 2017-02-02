@@ -397,9 +397,7 @@
     
     XPFunctionSymbol *funcSym = (id)_currentScope;
     NSMutableDictionary *params = POP();
-    NSMutableArray *orderedParams = REV(POP());
     [funcSym.members addEntriesFromDictionary:params];
-    funcSym.orderedParams = (id)orderedParams;
 
     }];
     [self funcBlock_]; 
@@ -429,8 +427,6 @@
     
     [self execute:^{
     
-    NSMutableArray *orderedParams = [NSMutableArray array];
-    PUSH(orderedParams);
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     PUSH(params);
 
@@ -475,10 +471,9 @@
 
     XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];
     NSMutableDictionary *params = POP();
-    NSMutableArray *orderedParams = PEEK();
     [params setObject:sym forKey:name];
-    [orderedParams addObject:sym];
     PUSH(params);
+    [funcSym.orderedParams addObject:sym];
 
     }];
 
@@ -493,10 +488,11 @@
     NSString *name = POP_STR();
     XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];
     NSMutableDictionary *params = POP();
-    NSMutableArray *orderedParams = PEEK();
     [params setObject:sym forKey:name];
-    [orderedParams addObject:sym];
     PUSH(params);
+
+    XPFunctionSymbol *funcSym = (id)_currentScope;
+    [funcSym.orderedParams addObject:sym];
 
     }];
 
@@ -524,7 +520,7 @@
     [self match:XP_TOKEN_KIND_CLOSE_PAREN discard:YES]; 
     [self execute:^{
     
-    NSArray *args = ABOVE(_openParenTok);
+    NSArray *args = REV(ABOVE(_openParenTok));
     POP(); // '('
     XPCallExpression *call = [XPCallExpression nodeWithToken:_callTok];
     call.scope = _currentScope;

@@ -179,9 +179,7 @@ funcDecl    = 'sub' qid {
               '('! paramList ')'! {
     XPFunctionSymbol *funcSym = (id)_currentScope;
     NSMutableDictionary *params = POP();
-    NSMutableArray *orderedParams = REV(POP());
     [funcSym.members addEntriesFromDictionary:params];
-    funcSym.orderedParams = (id)orderedParams;
 }
             funcBlock {
     // create func node tree
@@ -202,8 +200,6 @@ funcDecl    = 'sub' qid {
 
 paramList
 @before {
-    NSMutableArray *orderedParams = [NSMutableArray array];
-    PUSH(orderedParams);
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     PUSH(params);
 }
@@ -220,27 +216,27 @@ dfaultParam = qid '='! expr {
 
     XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];
     NSMutableDictionary *params = POP();
-    NSMutableArray *orderedParams = PEEK();
     [params setObject:sym forKey:name];
-    [orderedParams addObject:sym];
     PUSH(params);
+    [funcSym.orderedParams addObject:sym];
 };
 
 nakedParam  = qid {
     NSString *name = POP_STR();
     XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];
     NSMutableDictionary *params = POP();
-    NSMutableArray *orderedParams = PEEK();
     [params setObject:sym forKey:name];
-    [orderedParams addObject:sym];
     PUSH(params);
+
+    XPFunctionSymbol *funcSym = (id)_currentScope;
+    [funcSym.orderedParams addObject:sym];
 };
 
 funcBlock   = '{'! funcList? '}'!;
 
 // FUNC CALL
 funcCall    = qid '(' argList? ')'! {
-    NSArray *args = ABOVE(_openParenTok);
+    NSArray *args = REV(ABOVE(_openParenTok));
     POP(); // '('
     XPCallExpression *call = [XPCallExpression nodeWithToken:_callTok];
     call.scope = _currentScope;

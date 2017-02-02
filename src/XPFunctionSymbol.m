@@ -23,6 +23,7 @@
     self = [super initWithName:name enclosingScope:scope];
     if (self) {
         self.params = [NSMutableDictionary dictionary];
+        self.orderedParams = [NSMutableArray array];
     }
     return self;
 }
