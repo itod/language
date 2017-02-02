@@ -6,11 +6,11 @@
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "XPScope.h"
+#import <Foundation/Foundation.h>
 
 @class XPNode;
 
-@protocol XPContext <XPScope>
+@protocol XPContext <NSObject>
 
 - (id)loadVariableReference:(XPNode *)node;
 

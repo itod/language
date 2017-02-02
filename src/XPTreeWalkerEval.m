@@ -79,22 +79,6 @@
 }
 
 
-- (void)funcDecl:(XPNode *)node {
-    //    for (XPNode *stat in node.children) {
-    //        [self walk:stat];
-    //    }
-}
-
-
-//- (id)varRef:(XPNode *)node {
-//    NSString *name = [[[node childAtIndex:0] token] stringValue];
-//    
-//    XPExpression *expr = [self.currentSpace objectForName:name];
-//    XPValue *val = [expr evaluateInContext:nil];
-//    return val;
-//}
-//
-//
 - (id)funcCall:(XPNode *)node {
     NSString *name = [[[node childAtIndex:0] token] stringValue];
     XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];

@@ -33,14 +33,6 @@
     [super dealloc];
 }
 
-#pragma mark -
-#pragma mark XPScope
-
-- (NSString *)scopeName {  TDAssert(0); return nil; }
-- (id <XPScope>)enclosingScope { TDAssert(0); return nil; }
-- (void)defineSymbol:(XPSymbol *)sym {TDAssert(0); }
-- (XPSymbol *)resolveSymbolNamed:(NSString *)name { TDAssert(0); return nil; }
-
 
 #pragma mark -
 #pragma mark XPContext
@@ -134,7 +126,6 @@
 - (void)assign:(XPNode *)node {}
 - (void)funcDecl:(XPNode *)node {}
 - (id)funcCall:(XPNode *)node { return nil; }
-//- (id)varRef:(XPNode *)node { return nil; }
 - (void)returnStat:(XPNode *)node {}
 
 @end
