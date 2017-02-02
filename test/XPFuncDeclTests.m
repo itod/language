@@ -32,7 +32,7 @@
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    [interp interpretString:input error:nil];
+    [interp interpretString:input error:&err];
     TDNil(err);
     
     //TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
@@ -44,10 +44,8 @@
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    [interp interpretString:input error:nil];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    
-    //TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
 }
 
 - (void)testCallSubFooRet1Plus1 {
@@ -56,7 +54,7 @@
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    [interp interpretString:input error:nil];
+    [interp interpretString:input error:&err];
     TDNil(err);
     
     TDEquals(2.0, [[interp.globals objectForName:@"bar"] doubleValue]);
@@ -68,10 +66,32 @@
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    [interp interpretString:input error:nil];
+    [interp interpretString:input error:&err];
     TDNil(err);
     
     TDEquals(4.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+}
+
+- (void)testCallSubFooRetAPlusBGlobal {
+    NSString *input = @"var b=5;var bar=foo();sub foo(){var a=10;return a+b;}";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNil(err);
+    
+    TDEquals(15.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+}
+
+- (void)testCallSubFooRetAPlusBGlobalFail {
+    NSString *input = @"var bar=foo();var b=5;sub foo(){var a=10;return a+b;}";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNotNil(err);
 }
 
 @end
