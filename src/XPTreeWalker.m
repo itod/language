@@ -84,6 +84,8 @@
 
 - (id)walk:(XPNode *)node {
     
+    id res = nil;
+    
     switch (node.token.tokenKind) {
         case XP_TOKEN_KIND_BLOCK:
             [self block:node];
@@ -102,16 +104,16 @@
             break;
         
         case XP_TOKEN_KIND_CALL:
-            return [self funcCall:node];
+            res = [self funcCall:node];
             break;
 
         default:
             TDAssert([node isKindOfClass:[XPExpression class]]);
-            return [(XPExpression *)node evaluateInContext:self];
+            res = [(id)node evaluateInContext:self];
             break;
     }
     
-    return nil;
+    return res;
 }
 
 
