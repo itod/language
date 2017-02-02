@@ -24,6 +24,7 @@
 @property (nonatomic, retain) PKToken *openCurlyTok;
 @property (nonatomic, retain) PKToken *minusTok;
 @property (nonatomic, retain) PKToken *colonTok;
+@property (nonatomic, retain) PKToken *equalsTok;
 @property (nonatomic, assign) BOOL negation;
 @property (nonatomic, assign) BOOL negative;
 
@@ -58,6 +59,7 @@
     self.openCurlyTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:[NSString stringWithFormat:@"%C", 0x7B] doubleValue:0.0];
     self.minusTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
     self.colonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@":" doubleValue:0.0];
+    self.equalsTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"=" doubleValue:0.0];
 
         self.startRuleName = @"program";
         self.tokenKindTab[@"gt"] = @(XP_TOKEN_KIND_GT);
@@ -145,6 +147,7 @@
     self.openCurlyTok = nil;
     self.minusTok = nil;
     self.colonTok = nil;
+    self.equalsTok = nil;
 
 
     [super dealloc];
@@ -283,15 +286,16 @@
     self.currentScope = funcSym;
 
     }];
-    [self match:XP_TOKEN_KIND_OPEN_PAREN discard:NO]; 
+    [self match:XP_TOKEN_KIND_OPEN_PAREN discard:YES]; 
     if ([self speculate:^{ [self paramList_]; }]) {
         [self paramList_]; 
     }
     [self match:XP_TOKEN_KIND_CLOSE_PAREN discard:YES]; 
     [self execute:^{
     
-    id params = ABOVE(_openParenTok);
-    POP(); // '('
+    XPFunctionSymbol *funcSym = (id)_currentScope;
+    NSDictionary *params = POP();
+    [funcSym.members addEntriesFromDictionary:params];
 
     }];
     [self block_]; 
@@ -306,6 +310,12 @@
 
 - (void)paramList_ {
     
+    [self execute:^{
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    PUSH(params);
+
+    }];
     [self param_]; 
     while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self param_]; }]) {
         [self match:XP_TOKEN_KIND_COMMA discard:YES]; 
@@ -317,13 +327,46 @@
 
 - (void)param_ {
     
-    [self qid_]; 
-    if ([self speculate:^{ [self match:XP_TOKEN_KIND_EQUALS discard:YES]; [self expr_]; }]) {
-        [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
-        [self expr_]; 
+    if ([self speculate:^{ [self defaultParam_]; }]) {
+        [self defaultParam_]; 
+    } else if ([self speculate:^{ [self nakedParam_]; }]) {
+        [self nakedParam_]; 
+    } else {
+        [self raise:@"No viable alternative found in rule 'param'."];
     }
 
     [self fireDelegateSelector:@selector(parser:didMatchParam:)];
+}
+
+- (void)defaultParam_ {
+    
+    [self qid_]; 
+    [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
+    [self expr_]; 
+    [self execute:^{
+    
+    XPExpression *expr = POP();
+    NSString *name = POP_STR();
+    NSMutableDictionary *params = PEEK();
+    [params setObject:expr forKey:name];
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchDefaultParam:)];
+}
+
+- (void)nakedParam_ {
+    
+    [self qid_]; 
+    [self execute:^{
+    
+    NSString *name = POP_STR();
+    NSMutableDictionary *params = PEEK();
+    [params setObject:[NSNull null] forKey:name];
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchNakedParam:)];
 }
 
 - (void)block_ {
