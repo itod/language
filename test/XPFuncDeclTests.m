@@ -143,7 +143,7 @@
 }
 
 - (void)testCallSubArg2MinusNeg2 {
-    NSString *input = @"var bar=foo(1,10);sub foo(x,y){return x- sty;}";
+    NSString *input = @"var bar=foo(1,10);sub foo(x,y){return x- y;}";
     
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
