@@ -8,6 +8,10 @@
 
 #import "XPFunctionSymbol.h"
 
+@interface XPFunctionSymbol ()
+@property (nonatomic, retain) NSMutableDictionary<NSString *, XPExpression *> *defaultParamValues;
+@end
+
 @implementation XPFunctionSymbol
 
 + (instancetype)symbolWithName:(NSString *)name enclosingScope:(id<XPScope>)scope {
@@ -28,6 +32,7 @@
     self.blockNode = nil;
     self.params = nil;
     self.orderedParams = nil;
+    self.defaultParamValues = nil;
     [super dealloc];
 }
 
@@ -47,6 +52,22 @@
 - (NSMutableDictionary *)members {
     TDAssert(_params);
     return _params;
+}
+
+
+#pragma mark -
+#pragma mark XPFunctionSymbol
+
+- (void)setDefaultValue:(XPExpression *)expr forParamNamed:(NSString *)name {
+    TDAssert(expr);
+    TDAssert([name length]);
+    
+    if (!_defaultParamValues) {
+        self.defaultParamValues = [NSMutableDictionary dictionary];
+    }
+    
+    TDAssert(_defaultParamValues);
+    [_defaultParamValues setObject:expr forKey:name];
 }
 
 @end

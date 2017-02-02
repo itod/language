@@ -169,10 +169,10 @@ funcDecl    = 'sub' qid {
     PKToken *nameTok = POP();
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:nameTok.stringValue enclosingScope:_currentScope];
     [_currentScope defineSymbol:funcSym];
-    id sub = POP();
+    id subTok = POP();
     PUSH(funcSym);
     PUSH(nameTok);
-    PUSH(sub);
+    PUSH(subTok);
 
     // push func scope
     self.currentScope = funcSym;
@@ -210,17 +210,22 @@ paramList
     PUSH(params);
 }
             = Empty | param (','! param)*;
-param       = /*dfaultParam |*/nakedParam;
-/*dfaultParam = qid '='! expr {
+param       = dfaultParam | nakedParam;
+
+dfaultParam = qid '='! expr {
     XPExpression *expr = POP();
     NSString *name = POP_STR();
+
+    // set default val
+
+    XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];
     NSMutableDictionary *params = POP();
     NSMutableArray *orderedParams = PEEK();
-    [params setObject:expr forKey:name];
-    [orderedParams addObject:nil];
+    [params setObject:sym forKey:name];
+    [orderedParams addObject:sym];
     PUSH(params);
 };
-*/
+
 nakedParam  = qid {
     NSString *name = POP_STR();
     XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];

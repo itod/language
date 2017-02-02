@@ -382,10 +382,10 @@
     PKToken *nameTok = POP();
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:nameTok.stringValue enclosingScope:_currentScope];
     [_currentScope defineSymbol:funcSym];
-    id sub = POP();
+    id subTok = POP();
     PUSH(funcSym);
     PUSH(nameTok);
-    PUSH(sub);
+    PUSH(subTok);
 
     // push func scope
     self.currentScope = funcSym;
@@ -450,9 +450,39 @@
 
 - (void)param_ {
     
-    [self nakedParam_]; 
+    if ([self speculate:^{ [self dfaultParam_]; }]) {
+        [self dfaultParam_]; 
+    } else if ([self speculate:^{ [self nakedParam_]; }]) {
+        [self nakedParam_]; 
+    } else {
+        [self raise:@"No viable alternative found in rule 'param'."];
+    }
 
     [self fireDelegateSelector:@selector(parser:didMatchParam:)];
+}
+
+- (void)dfaultParam_ {
+    
+    [self qid_]; 
+    [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
+    [self expr_]; 
+    [self execute:^{
+    
+    XPExpression *expr = POP();
+    NSString *name = POP_STR();
+
+    // set default val
+
+    XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];
+    NSMutableDictionary *params = POP();
+    NSMutableArray *orderedParams = PEEK();
+    [params setObject:sym forKey:name];
+    [orderedParams addObject:sym];
+    PUSH(params);
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchDfaultParam:)];
 }
 
 - (void)nakedParam_ {
