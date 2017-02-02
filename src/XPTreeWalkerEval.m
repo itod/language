@@ -60,6 +60,7 @@
 - (void)defineSymbol:(XPSymbol *)sym {TDAssert(0); }
 - (XPSymbol *)resolveSymbolNamed:(NSString *)name { TDAssert(0); return nil; }
 
+
 #pragma mark -
 #pragma mark XPContext
 

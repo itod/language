@@ -407,7 +407,7 @@
     [self execute:^{
     
     // create func node tree
-    NSArray *stats = ABOVE(_subTok);
+    NSArray *stats = REV(ABOVE(_subTok));
     POP(); // 'sub'
     XPNode *block = [XPNode nodeWithToken:_blockTok];
     for (id stat in stats) [block addChild:stat];
