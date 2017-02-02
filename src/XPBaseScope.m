@@ -15,16 +15,21 @@
 
 @implementation XPBaseScope
 
++ (instancetype)scopeWithEnclosingScope:(id <XPScope>)scope {
+    return [[[self alloc] initWithEnclosingScope:scope] autorelease];
+}
+
+
 - (instancetype)init {
     self = [self initWithEnclosingScope:nil];
     return self;
 }
 
 
-- (instancetype)initWithEnclosingScope:(id <XPScope>)outer {
+- (instancetype)initWithEnclosingScope:(id <XPScope>)scope {
     self = [super init];
     if (self) {
-        self.enclosingScope = outer;
+        self.enclosingScope = scope;
         self.symbols = [NSMutableDictionary dictionary];
     }
     return self;

@@ -12,11 +12,16 @@
 #import <Language/XPArithmeticExpression.h>
 #import <Language/XPPathExpression.h>
 
+#import <Language/XPGlobalScope.h>
+#import <Language/XPLocalScope.h>
+#import <Language/XPFunctionSymbol.h>
+
 
 @interface XPParser ()
     
 @property (nonatomic, retain) PKToken *blockTok;
 @property (nonatomic, retain) PKToken *openParenTok;
+@property (nonatomic, retain) PKToken *openCurlyTok;
 @property (nonatomic, retain) PKToken *minusTok;
 @property (nonatomic, retain) PKToken *colonTok;
 @property (nonatomic, assign) BOOL negation;
@@ -50,6 +55,7 @@
     self.blockTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"BLOCK" doubleValue:0.0];
     self.blockTok.tokenKind = -2;
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
+    self.openCurlyTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"\u007B" doubleValue:0.0];
     self.minusTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
     self.colonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@":" doubleValue:0.0];
 
@@ -132,8 +138,11 @@
 
 - (void)dealloc {
         
+    self.currentScope = nil;
+    self.globalScope = nil;
     self.blockTok = nil;
     self.openParenTok = nil;
+    self.openCurlyTok = nil;
     self.minusTok = nil;
     self.colonTok = nil;
 
@@ -150,6 +159,11 @@
 
 - (void)program_ {
     
+    [self execute:^{
+    
+    self.currentScope = _globalScope;
+
+    }];
     [self statList_]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchProgram:)];
@@ -251,12 +265,29 @@
     
     [self match:XP_TOKEN_KIND_SUB discard:YES]; 
     [self qid_]; 
+    [self execute:^{
+    
+    NSString *name = POP_STR();
+    XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:name enclosingScope:_currentScope];
+    self.currentScope = funcSym;
+
+    }];
     [self match:XP_TOKEN_KIND_OPEN_PAREN discard:NO]; 
     if ([self speculate:^{ [self paramList_]; }]) {
         [self paramList_]; 
     }
     [self match:XP_TOKEN_KIND_CLOSE_PAREN discard:YES]; 
+    [self execute:^{
+    
+    //id params = ABOVE(_openParenTok);
+
+    }];
     [self block_]; 
+    [self execute:^{
+    
+    self.currentScope = _currentScope.enclosingScope;
+
+    }];
 
     [self fireDelegateSelector:@selector(parser:didMatchFuncDecl:)];
 }
@@ -264,8 +295,8 @@
 - (void)paramList_ {
     
     [self param_]; 
-    while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:NO]; [self param_]; }]) {
-        [self match:XP_TOKEN_KIND_COMMA discard:NO]; 
+    while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self param_]; }]) {
+        [self match:XP_TOKEN_KIND_COMMA discard:YES]; 
         [self param_]; 
     }
 
@@ -275,8 +306,8 @@
 - (void)param_ {
     
     [self qid_]; 
-    if ([self speculate:^{ [self match:XP_TOKEN_KIND_EQUALS discard:NO]; [self expr_]; }]) {
-        [self match:XP_TOKEN_KIND_EQUALS discard:NO]; 
+    if ([self speculate:^{ [self match:XP_TOKEN_KIND_EQUALS discard:YES]; [self expr_]; }]) {
+        [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
         [self expr_]; 
     }
 
@@ -285,11 +316,21 @@
 
 - (void)block_ {
     
-    [self match:XP_TOKEN_KIND_OPEN_CURLY discard:NO]; 
+    [self execute:^{
+    
+    self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope];
+
+    }];
+    [self match:XP_TOKEN_KIND_OPEN_CURLY discard:YES]; 
     if ([self speculate:^{ [self statList_]; }]) {
         [self statList_]; 
     }
-    [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:NO]; 
+    [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
+    [self execute:^{
+    
+    self.currentScope = _currentScope.enclosingScope;
+
+    }];
 
     [self fireDelegateSelector:@selector(parser:didMatchBlock:)];
 }

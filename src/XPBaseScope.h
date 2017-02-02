@@ -12,7 +12,8 @@
 
 @interface XPBaseScope : NSObject <XPScope>
 
-- (instancetype)initWithEnclosingScope:(id <XPScope>)outer;
++ (instancetype)scopeWithEnclosingScope:(id <XPScope>)scope;
+- (instancetype)initWithEnclosingScope:(id <XPScope>)scope;
 
 @property (nonatomic, retain, readonly) id <XPScope>parentScope;
 @property (nonatomic, retain, readonly) id <XPScope>enclosingScope;

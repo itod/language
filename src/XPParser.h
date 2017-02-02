@@ -1,6 +1,8 @@
 #import <PEGKit/PKParser.h>
         
 @class PKTokenizer;
+@class XPGlobalScope;
+@protocol XPScope;
 
 enum {
     XP_TOKEN_KIND_GT = 14,
@@ -44,6 +46,8 @@ enum {
         
 + (PKTokenizer *)tokenizer;
 
+@property (nonatomic, retain) id <XPScope>currentScope;
+@property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, assign) BOOL allowNakedExpressions;
 
 @end

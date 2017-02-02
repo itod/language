@@ -1,11 +1,13 @@
 @h {
 @class PKTokenizer;
+@class XPGlobalScope;
+@protocol XPScope;
 }
 
 @interface {
 + (PKTokenizer *)tokenizer;
 
-@property (nonatomic, retain) XPGlobalScope *currentScope;
+@property (nonatomic, retain) id <XPScope>currentScope;
 @property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, assign) BOOL allowNakedExpressions;
 }
@@ -23,6 +25,7 @@
 #import <Language/XPPathExpression.h>
 
 #import <Language/XPGlobalScope.h>
+#import <Language/XPLocalScope.h>
 #import <Language/XPFunctionSymbol.h>
 }
 
@@ -59,7 +62,7 @@
     self.blockTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"BLOCK" doubleValue:0.0];
     self.blockTok.tokenKind = -2;
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
-    self.openCurlyTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"{" doubleValue:0.0];
+    self.openCurlyTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"\u007B" doubleValue:0.0];
     self.minusTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
     self.colonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@":" doubleValue:0.0];
 }
@@ -118,26 +121,24 @@ assign      = qid '=' expr {
     PUSH(stat);
 };
 
-funcDecl
-@after {
-    self.currentScope = _currentScope.enclosingScope;
+funcDecl    = 'sub'! qid {
+    NSString *name = POP_STR();
+    XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:name enclosingScope:_currentScope];
+    self.currentScope = funcSym;
 }
-            = 'sub'! qid {
-                NSString *name = POP_STR();
-                XPFunctionSymbol *funcSym = [XPFunctionSymbol functionSymbolWithName:name enclosingScope:_currentScope];
-                self.currentScope = funcSym;
-            }
               '(' paramList? ')'! {
-                id params = ABOVE(_openParenTok);
-            }
-            block;
+    //id params = ABOVE(_openParenTok);
+}
+            block {
+    self.currentScope = _currentScope.enclosingScope;
+};
 
 paramList   = param (','! param)*;
 param       = qid ('='! expr)?;
 
 block
 @before {
-    self.currentScope = XPLocalScope scopeWithEnclosingScope:_currentScope];
+    self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope];
 }
 @after {
     self.currentScope = _currentScope.enclosingScope;
