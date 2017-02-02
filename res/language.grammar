@@ -33,6 +33,7 @@
 
 #import <Language/XPGlobalScope.h>
 #import <Language/XPLocalScope.h>
+#import <Language/XPVariableSymbol.h>
 #import <Language/XPFunctionSymbol.h>
 }
 
@@ -182,8 +183,10 @@ funcDecl    = 'sub' qid {
 }
               '('! paramList ')'! {
     XPFunctionSymbol *funcSym = (id)_currentScope;
-    NSDictionary *params = POP();
+    NSMutableDictionary *params = POP();
+    NSMutableArray *orderedParams = POP();
     [funcSym.members addEntriesFromDictionary:params];
+    funcSym.orderedParams = (id)orderedParams;
 }
             funcBlock {
     // create func node tree
@@ -206,21 +209,31 @@ funcDecl    = 'sub' qid {
 
 paramList
 @before {
+    NSMutableArray *orderedParams = [NSMutableArray array];
+    PUSH(orderedParams);
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     PUSH(params);
 }
             = Empty | param (','! param)*;
-param       = dfaultParam | nakedParam;
-dfaultParam = qid '='! expr {
+param       = /*dfaultParam |*/nakedParam;
+/*dfaultParam = qid '='! expr {
     XPExpression *expr = POP();
     NSString *name = POP_STR();
-    NSMutableDictionary *params = PEEK();
+    NSMutableDictionary *params = POP();
+    NSMutableArray *orderedParams = PEEK();
     [params setObject:expr forKey:name];
+    [orderedParams addObject:nil];
+    PUSH(params);
 };
+*/
 nakedParam  = qid {
     NSString *name = POP_STR();
-    NSMutableDictionary *params = PEEK();
-    [params setObject:[NSNull null] forKey:name];
+    XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];
+    NSMutableDictionary *params = POP();
+    NSMutableArray *orderedParams = PEEK();
+    [params setObject:sym forKey:name];
+    [orderedParams addObject:sym];
+    PUSH(params);
 };
 
 funcBlock   = '{'! funcList? '}'!;

@@ -42,7 +42,7 @@
     XPMemorySpace *space = [self spaceWithSymbolNamed:name];
     id res = [space objectForName:name];
     if (!res) {
-        [self raise:XPExceptionUndeclaredSymbol node:node format:@"Unknown var reference: `%@`", name];
+        [self raise:XPExceptionUndeclaredSymbol node:node format:@"unknown var reference: `%@`", name];
     }
     return res;
 }

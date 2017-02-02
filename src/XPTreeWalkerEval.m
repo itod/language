@@ -7,13 +7,17 @@
 //
 
 #import "XPTreeWalkerEval.h"
+#import "XPException.h"
+
 #import "XPMemorySpace.h"
+#import "XPFunctionSpace.h"
+
+#import "XPValue.h"
 #import "XPNode.h"
 #import "XPExpression.h"
-#import "XPValue.h"
-#import "XPException.h"
+
+#import "XPVariableSymbol.h"
 #import "XPFunctionSymbol.h"
-#import "XPFunctionSpace.h"
 
 @interface XPFlowException : NSException
 @property (nonatomic, retain) XPValue *value;
@@ -90,6 +94,30 @@
     XPFunctionSpace *funcSpace = [XPFunctionSpace spaceWithSymbol:funcSym];
     XPMemorySpace *saveSpace = self.currentSpace;
     TDAssert(saveSpace);
+    
+#define OFFSET 1
+    
+    NSUInteger argCount = [node childCount]-OFFSET;
+    TDAssert(NSNotFound != argCount);
+    
+    NSUInteger paramCount = [funcSym.params count];
+    TDAssert(NSNotFound != paramCount);
+
+    // check for argument compatibility.
+    if (argCount > paramCount) {
+        [self raise:XPExceptionTooManyArguments node:node format:@"sub `%@` called with too many arguments. %@ given, %@ expected", name, argCount, paramCount];
+        return nil;
+    }
+    
+    NSArray *argExprs = [node.children subarrayWithRange:NSMakeRange(OFFSET, argCount)];
+    
+    NSUInteger i = 0;
+    for (XPVariableSymbol *param in funcSym.orderedParams) {
+        XPExpression *argExpr = argExprs[i];
+        XPValue *argValue = [argExpr evaluateInContext:self];
+        [funcSpace setObject:argValue forName:param.name];
+        ++i;
+    }
     
     id result = nil;
     TDAssert(self.stack);

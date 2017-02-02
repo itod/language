@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 extern NSString * const XPExceptionUndeclaredSymbol;
+extern NSString * const XPExceptionTooManyArguments;
 
 @interface XPException : NSException
 @property (nonatomic, assign) NSUInteger lineNumber;

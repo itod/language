@@ -146,6 +146,13 @@
 }
 
 
+- (NSUInteger)childCount {
+    TDAssertMainThread();
+    TDAssert(_kids);
+    return [_kids count];
+}
+
+
 - (NSArray *)children {
     TDAssertMainThread();
     return [[_kids copy] autorelease];

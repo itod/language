@@ -19,6 +19,7 @@
 - (void)addChild:(XPNode *)a;
 - (id)childAtIndex:(NSUInteger)i;
 - (void)replaceChild:(XPNode *)node atIndex:(NSUInteger)i;
+- (NSUInteger)childCount;
 
 - (BOOL)isNil;
 

@@ -94,4 +94,16 @@
     TDNotNil(err);
 }
 
+- (void)testCallSubArg {
+    NSString *input = @"var x=2;var bar=foo(x);sub foo(a){var b=10;return a+b;}";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNil(err);
+    
+    TDEquals(12.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+}
+
 @end

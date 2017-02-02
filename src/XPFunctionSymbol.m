@@ -27,6 +27,7 @@
 - (void)dealloc {
     self.blockNode = nil;
     self.params = nil;
+    self.orderedParams = nil;
     [super dealloc];
 }
 

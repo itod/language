@@ -9,6 +9,7 @@
 #import "XPException.h"
 
 NSString * const XPExceptionUndeclaredSymbol = @"Undeclared Symbol";
+NSString * const XPExceptionTooManyArguments = @"Too Many Arguments";
 
 @implementation XPException
 

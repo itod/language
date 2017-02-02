@@ -16,6 +16,7 @@
 
 #import <Language/XPGlobalScope.h>
 #import <Language/XPLocalScope.h>
+#import <Language/XPVariableSymbol.h>
 #import <Language/XPFunctionSymbol.h>
 
 
@@ -399,8 +400,10 @@
     [self execute:^{
     
     XPFunctionSymbol *funcSym = (id)_currentScope;
-    NSDictionary *params = POP();
+    NSMutableDictionary *params = POP();
+    NSMutableArray *orderedParams = POP();
     [funcSym.members addEntriesFromDictionary:params];
+    funcSym.orderedParams = (id)orderedParams;
 
     }];
     [self funcBlock_]; 
@@ -432,6 +435,8 @@
     
     [self execute:^{
     
+    NSMutableArray *orderedParams = [NSMutableArray array];
+    PUSH(orderedParams);
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     PUSH(params);
 
@@ -449,32 +454,9 @@
 
 - (void)param_ {
     
-    if ([self speculate:^{ [self dfaultParam_]; }]) {
-        [self dfaultParam_]; 
-    } else if ([self speculate:^{ [self nakedParam_]; }]) {
-        [self nakedParam_]; 
-    } else {
-        [self raise:@"No viable alternative found in rule 'param'."];
-    }
+    [self nakedParam_]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchParam:)];
-}
-
-- (void)dfaultParam_ {
-    
-    [self qid_]; 
-    [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
-    [self expr_]; 
-    [self execute:^{
-    
-    XPExpression *expr = POP();
-    NSString *name = POP_STR();
-    NSMutableDictionary *params = PEEK();
-    [params setObject:expr forKey:name];
-
-    }];
-
-    [self fireDelegateSelector:@selector(parser:didMatchDfaultParam:)];
 }
 
 - (void)nakedParam_ {
@@ -483,8 +465,12 @@
     [self execute:^{
     
     NSString *name = POP_STR();
-    NSMutableDictionary *params = PEEK();
-    [params setObject:[NSNull null] forKey:name];
+    XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];
+    NSMutableDictionary *params = POP();
+    NSMutableArray *orderedParams = PEEK();
+    [params setObject:sym forKey:name];
+    [orderedParams addObject:sym];
+    PUSH(params);
 
     }];
 
