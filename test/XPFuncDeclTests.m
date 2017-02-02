@@ -119,7 +119,7 @@
 }
 
 - (void)testCallSubArg2Minus {
-    NSString *input = @"var bar=foo(10,1);sub foo(x,y){return x - y;}";
+    NSString *input = @"var bar=foo(10,1);sub foo(x,y){return x -y;}";
     
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
@@ -128,6 +128,18 @@
     TDNil(err);
     
     TDEquals(9.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+}
+
+- (void)testCallSubArg2MinusNeg {
+    NSString *input = @"var bar=foo(1,10);sub foo(x,y){return x-y;}";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNil(err);
+    
+    TDEquals(-9.0, [[interp.globals objectForName:@"bar"] doubleValue]);
 }
 
 @end
