@@ -15,6 +15,13 @@
 
 @implementation XPMemorySpace
 
+- (instancetype)init {
+    TDAssert(0);
+    self = [self initWithName:nil];
+    return self;
+}
+
+
 - (instancetype)initWithName:(NSString *)name {
     self = [super init];
     if (self) {

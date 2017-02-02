@@ -8,6 +8,10 @@
 
 #import "XPScope.h"
 
+@class XPNode;
+
 @protocol XPContext <XPScope>
+
+- (id)loadVariableReference:(XPNode *)node;
 
 @end

@@ -53,7 +53,45 @@
 
 
 #pragma mark -
-#pragma mark Tree Walker
+#pragma mark XPScope
+
+- (NSString *)scopeName {  TDAssert(0); return nil; }
+- (id <XPScope>)enclosingScope { TDAssert(0); return nil; }
+- (void)defineSymbol:(XPSymbol *)sym {TDAssert(0); }
+- (XPSymbol *)resolveSymbolNamed:(NSString *)name { TDAssert(0); return nil; }
+
+#pragma mark -
+#pragma mark XPContext
+
+- (id)loadVariableReference:(XPNode *)node {
+    NSString *name = node.token.stringValue;
+    XPMemorySpace *space = [self spaceWithSymbolNamed:name];
+    id res = [space objectForName:name];
+    if (!res) {
+        [self raise:XPExceptionUndeclaredSymbol node:node format:@"Unknown var reference: `%@`", name];
+    }
+    return res;
+}
+
+
+- (XPMemorySpace *)spaceWithSymbolNamed:(NSString *)name {
+    XPMemorySpace *space = nil;
+    
+    TDAssert(_stack);
+    if ([_stack count] && [[_stack lastObject] objectForName:name]) {
+        space = [_stack lastObject];
+    }
+    
+    if (!space && [self.globals objectForName:name]) {
+        space = self.globals;
+    }
+    
+    return space;
+}
+
+
+#pragma mark -
+#pragma mark Walker
 
 - (void)varDecl:(XPNode *)node {
     NSString *name = [[[node childAtIndex:0] token] stringValue];
@@ -89,15 +127,15 @@
 }
 
 
-- (id)varRef:(XPNode *)node {
-    NSString *name = [[[node childAtIndex:0] token] stringValue];
-    
-    XPExpression *expr = [self.currentSpace objectForName:name];
-    XPValue *val = [expr evaluateInContext:nil];
-    return val;
-}
-
-
+//- (id)varRef:(XPNode *)node {
+//    NSString *name = [[[node childAtIndex:0] token] stringValue];
+//    
+//    XPExpression *expr = [self.currentSpace objectForName:name];
+//    XPValue *val = [expr evaluateInContext:nil];
+//    return val;
+//}
+//
+//
 - (id)funcCall:(XPNode *)node {
     NSString *name = [[[node childAtIndex:0] token] stringValue];
     XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
@@ -107,8 +145,8 @@
     }
     
     XPFunctionSpace *funcSpace = [XPFunctionSpace spaceWithSymbol:funcSym];
-    TDAssert(self.currentSpace)
     XPMemorySpace *saveSpace = self.currentSpace;
+    TDAssert(saveSpace);
     
     id result = nil;
     TDAssert(_stack);

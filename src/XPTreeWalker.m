@@ -23,6 +23,9 @@
 }
 
 
+#pragma mark -
+#pragma mark Walker
+
 - (void)raise:(NSString *)name node:(XPNode *)node format:(NSString *)fmt, ... {
     va_list vargs;
     va_start(vargs, fmt);
@@ -60,16 +63,12 @@
         case XP_TOKEN_KIND_CALL:
             return [self funcCall:node];
             break;
-        case XP_TOKEN_KIND_VAR_REF:
-            return [self varRef:node];
-            break;
 
-        case TOKEN_KIND_BUILTIN_QUOTEDSTRING:
-        case TOKEN_KIND_BUILTIN_NUMBER:
-            return [(XPExpression *)node evaluateInContext:nil];
-            break;
         default:
-            TDAssert(0);
+            TDAssert([node isKindOfClass:[XPExpression class]]);
+//        case TOKEN_KIND_BUILTIN_QUOTEDSTRING:
+//        case TOKEN_KIND_BUILTIN_NUMBER:
+            return [(XPExpression *)node evaluateInContext:self];
             break;
     }
     
@@ -88,7 +87,7 @@
 - (void)assign:(XPNode *)node {}
 - (void)funcDecl:(XPNode *)node {}
 - (id)funcCall:(XPNode *)node { return nil; }
-- (id)varRef:(XPNode *)node { return nil; }
+//- (id)varRef:(XPNode *)node { return nil; }
 - (void)returnStat:(XPNode *)node {}
 
 @end

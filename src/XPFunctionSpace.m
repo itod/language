@@ -7,6 +7,7 @@
 //
 
 #import "XPFunctionSpace.h"
+#import "XPSymbol.h"
 
 @implementation XPFunctionSpace
 
@@ -16,7 +17,7 @@
 
 
 - (instancetype)initWithSymbol:(XPSymbol *)sym {
-    self = [super init];
+    self = [super initWithName:sym.name];
     if (self) {
         
     }

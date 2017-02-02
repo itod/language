@@ -22,6 +22,7 @@
 
 #import "XPBinaryExpression.h"
 #import "XPValue.h"
+#import "XPParser.h"
 
 @interface XPBinaryExpression ()
 @property (nonatomic, retain) XPExpression *p1;
@@ -64,7 +65,54 @@
 
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@ %p `%@ %ld %@`>", [self class], self, self.p1, self.operator, self.p2];
+    
+    NSString *op = @"?";
+    switch (self.operator) {
+        case XP_TOKEN_KIND_PLUS:
+            op = @"+";
+            break;
+        case XP_TOKEN_KIND_MINUS:
+            op = @"-";
+            break;
+        case XP_TOKEN_KIND_TIMES:
+            op = @"*";
+            break;
+        case XP_TOKEN_KIND_DIV:
+            op = @"/";
+            break;
+        case XP_TOKEN_KIND_MOD:
+            op = @"%";
+            break;
+        case XP_TOKEN_KIND_AND:
+            op = @"and";
+            break;
+        case XP_TOKEN_KIND_OR:
+            op = @"or";
+            break;
+        case XP_TOKEN_KIND_EQ:
+            op = @"==";
+            break;
+        case XP_TOKEN_KIND_NE:
+            op = @"!=";
+            break;
+        case XP_TOKEN_KIND_LT:
+            op = @"<";
+            break;
+        case XP_TOKEN_KIND_LE:
+            op = @"<=";
+            break;
+        case XP_TOKEN_KIND_GT:
+            op = @">";
+            break;
+        case XP_TOKEN_KIND_GE:
+            op = @">=";
+            break;
+        default:
+            TDAssert(0);
+            break;
+    }
+
+    return [NSString stringWithFormat:@"<%@ %p `%@ %@ %@`>", [self class], self, self.p1, op, self.p2];
 }
 
 
