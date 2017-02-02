@@ -9,7 +9,7 @@
 #import "XPFunctionSymbol.h"
 
 @interface XPFunctionSymbol ()
-@property (nonatomic, retain) NSMutableDictionary<NSString *, XPExpression *> *defaultParamValues;
+
 @end
 
 @implementation XPFunctionSymbol

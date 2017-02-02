@@ -21,4 +21,5 @@
 @property (nonatomic, retain) XPNode *blockNode;
 @property (nonatomic, retain) NSMutableDictionary<NSString *, XPSymbol *> *params;
 @property (nonatomic, retain) NSArray<XPSymbol *> *orderedParams;
+@property (nonatomic, retain) NSMutableDictionary<NSString *, XPExpression *> *defaultParamValues;
 @end

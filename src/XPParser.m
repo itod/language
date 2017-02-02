@@ -383,7 +383,6 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:nameTok.stringValue enclosingScope:_currentScope];
     [_currentScope defineSymbol:funcSym];
     id subTok = POP();
-    PUSH(funcSym);
     PUSH(nameTok);
     PUSH(subTok);
 
@@ -415,9 +414,8 @@
     [func addChild:[XPNode nodeWithToken:POP()]]; // qid / func name
     [func addChild:block];
 
-    XPFunctionSymbol *funcSym = POP();
+    XPFunctionSymbol *funcSym = (id)_currentScope;
     funcSym.blockNode = block;
-    PUSH(func);
 
     // pop scope
     self.currentScope = _currentScope.enclosingScope;
@@ -472,6 +470,8 @@
     NSString *name = POP_STR();
 
     // set default val
+    XPFunctionSymbol *funcSym = (id)_currentScope;
+    [funcSym setDefaultValue:expr forParamNamed:name];
 
     XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];
     NSMutableDictionary *params = POP();

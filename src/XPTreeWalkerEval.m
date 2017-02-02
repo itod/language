@@ -94,6 +94,13 @@
     XPFunctionSpace *funcSpace = [XPFunctionSpace spaceWithSymbol:funcSym];
     XPMemorySpace *saveSpace = self.currentSpace;
     TDAssert(saveSpace);
+
+    // apply default param values
+    for (NSString *name in funcSym.defaultParamValues) {
+        XPExpression *expr = funcSym.defaultParamValues[name];
+        XPValue *val = [expr evaluateInContext:self];
+        [funcSpace setObject:val forName:name];
+    }
     
 #define OFFSET 1
     
@@ -112,8 +119,8 @@
     NSArray *argExprs = [node.children subarrayWithRange:NSMakeRange(OFFSET, argCount)];
     
     NSUInteger i = 0;
-    for (XPVariableSymbol *param in funcSym.orderedParams) {
-        XPExpression *argExpr = argExprs[i];
+    for (XPExpression *argExpr in argExprs) {
+        XPSymbol *param = funcSym.orderedParams[i];
         XPValue *argValue = [argExpr evaluateInContext:self];
         [funcSpace setObject:argValue forName:param.name];
         ++i;

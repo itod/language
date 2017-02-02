@@ -154,4 +154,28 @@
     TDEquals(-9.0, [[interp.globals objectForName:@"bar"] doubleValue]);
 }
 
+- (void)testCallSubDefaultVal {
+    NSString *input = @"var bar = foo(); sub foo(a=77) { return a+1; }";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNil(err);
+    
+    TDEquals(78.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+}
+
+- (void)testCallSubDefaultValOverride {
+    NSString *input = @"var bar = foo(22); sub foo(a=77) { return a+1; }";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNil(err);
+    
+    TDEquals(23.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+}
+
 @end
