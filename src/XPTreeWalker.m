@@ -11,15 +11,64 @@
 #import "XPNode.h"
 #import "XPException.h"
 #import "XPValue.h"
+#import "XPFunctionSpace.h"
 
 @implementation XPTreeWalker
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.stack = [NSMutableArray array];
+   }
+    return self;
+}
+
 
 - (void)dealloc {
     self.globalScope = nil;
     self.globals = nil;
     self.currentSpace = nil;
+    self.stack = nil;
     
     [super dealloc];
+}
+
+#pragma mark -
+#pragma mark XPScope
+
+- (NSString *)scopeName {  TDAssert(0); return nil; }
+- (id <XPScope>)enclosingScope { TDAssert(0); return nil; }
+- (void)defineSymbol:(XPSymbol *)sym {TDAssert(0); }
+- (XPSymbol *)resolveSymbolNamed:(NSString *)name { TDAssert(0); return nil; }
+
+
+#pragma mark -
+#pragma mark XPContext
+
+- (id)loadVariableReference:(XPNode *)node {
+    NSString *name = node.token.stringValue;
+    XPMemorySpace *space = [self spaceWithSymbolNamed:name];
+    id res = [space objectForName:name];
+    if (!res) {
+        [self raise:XPExceptionUndeclaredSymbol node:node format:@"Unknown var reference: `%@`", name];
+    }
+    return res;
+}
+
+
+- (XPMemorySpace *)spaceWithSymbolNamed:(NSString *)name {
+    XPMemorySpace *space = nil;
+    
+    TDAssert(_stack);
+    if ([_stack count] && [[_stack lastObject] objectForName:name]) {
+        space = [_stack lastObject];
+    }
+    
+    if (!space && [self.globals objectForName:name]) {
+        space = self.globals;
+    }
+    
+    return space;
 }
 
 
@@ -66,8 +115,6 @@
 
         default:
             TDAssert([node isKindOfClass:[XPExpression class]]);
-//        case TOKEN_KIND_BUILTIN_QUOTEDSTRING:
-//        case TOKEN_KIND_BUILTIN_NUMBER:
             return [(XPExpression *)node evaluateInContext:self];
             break;
     }

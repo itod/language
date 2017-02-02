@@ -7,8 +7,7 @@
 //
 
 #import "XPTreeWalker.h"
-#import "XPContext.h"
 
-@interface XPTreeWalkerEval : XPTreeWalker <XPContext>
+@interface XPTreeWalkerEval : XPTreeWalker
 
 @end
