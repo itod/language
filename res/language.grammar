@@ -80,21 +80,36 @@
     self.equalsTok = nil;
 }
 
+// GLOBAL
 program
 @before {
     self.currentScope = _globalScope;
 }
-            = topList;
+            = globalList;
 
-topList     = topItem+ {
-    NSArray *stats = REV(ABOVE(nil));
-    XPNode *blockTok = [XPNode nodeWithToken:self.blockTok];
-    for (id stat in stats) [blockTok addChild:stat];
-    PUSH(blockTok);
+globalList  = globalItem+ {
+    NSArray *items = REV(ABOVE(nil));
+    XPNode *block = [XPNode nodeWithToken:self.blockTok];
+    for (id item in items) [block addChild:item];
+    PUSH(block);
 };
 
-topItem     = stat | funcDecl | block;
+globalItem  = stat | funcDecl | block;
 
+// LOCAL
+localList   = localItem+;
+localItem   = stat | block;
+
+block
+@before {
+    self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope];
+}
+@after {
+    self.currentScope = _currentScope.enclosingScope;
+}
+            = '{'! localList? '}'!;
+
+// STATEMENTS
 stat        = 
             ( varDecl
             | assign
@@ -124,6 +139,13 @@ assign      = qid '=' expr {
     PUSH(stat);
 };
 
+// FUNCTIONS
+funcList    = funcItem+;
+funcItem    = stat | block | returnStat;
+returnStat  = 'return' expr {
+    
+};
+
 funcDecl    = 'sub'! qid {
     NSString *name = POP_STR();
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:name enclosingScope:_currentScope];
@@ -134,7 +156,7 @@ funcDecl    = 'sub'! qid {
     NSDictionary *params = POP();
     [funcSym.members addEntriesFromDictionary:params];
 }
-            block {
+            funcBlock {
     self.currentScope = _currentScope.enclosingScope;
 };
 
@@ -144,8 +166,8 @@ paramList
     PUSH(params);
 }
             = param (','! param)*;
-param       = defaultParam | nakedParam;
-defaultParam= qid '='! expr {
+param       = dfaultParam | nakedParam;
+dfaultParam = qid '='! expr {
     XPExpression *expr = POP();
     NSString *name = POP_STR();
     NSMutableDictionary *params = PEEK();
@@ -157,15 +179,9 @@ nakedParam  = qid {
     [params setObject:[NSNull null] forKey:name];
 };
 
-block
-@before {
-    self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope];
-}
-@after {
-    self.currentScope = _currentScope.enclosingScope;
-}
-           = '{'! topList? '}'!;
+funcBlock   = '{'! funcList? '}'!;
 
+// EXPRESSIONS
 expr    = orExpr;
 
 orOp    =  'or'! | '||'!;

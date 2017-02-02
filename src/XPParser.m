@@ -68,6 +68,7 @@
         self.tokenKindTab[@"&&"] = @(XP_TOKEN_KIND_DOUBLE_AMPERSAND);
         self.tokenKindTab[@"}"] = @(XP_TOKEN_KIND_CLOSE_CURLY);
         self.tokenKindTab[@"true"] = @(XP_TOKEN_KIND_TRUE);
+        self.tokenKindTab[@"return"] = @(XP_TOKEN_KIND_RETURN);
         self.tokenKindTab[@"!="] = @(XP_TOKEN_KIND_NOT_EQUAL);
         self.tokenKindTab[@"!"] = @(XP_TOKEN_KIND_BANG);
         self.tokenKindTab[@";"] = @(XP_TOKEN_KIND_SEMI_COLON);
@@ -104,6 +105,7 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_DOUBLE_AMPERSAND] = @"&&";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_CURLY] = @"}";
         self.tokenKindNameTab[XP_TOKEN_KIND_TRUE] = @"true";
+        self.tokenKindNameTab[XP_TOKEN_KIND_RETURN] = @"return";
         self.tokenKindNameTab[XP_TOKEN_KIND_NOT_EQUAL] = @"!=";
         self.tokenKindNameTab[XP_TOKEN_KIND_BANG] = @"!";
         self.tokenKindNameTab[XP_TOKEN_KIND_SEMI_COLON] = @";";
@@ -167,29 +169,29 @@
     self.currentScope = _globalScope;
 
     }];
-    [self topList_]; 
+    [self globalList_]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchProgram:)];
 }
 
-- (void)topList_ {
+- (void)globalList_ {
     
     do {
-        [self topItem_]; 
-    } while ([self speculate:^{ [self topItem_]; }]);
+        [self globalItem_]; 
+    } while ([self speculate:^{ [self globalItem_]; }]);
     [self execute:^{
     
-    NSArray *stats = REV(ABOVE(nil));
-    XPNode *blockTok = [XPNode nodeWithToken:self.blockTok];
-    for (id stat in stats) [blockTok addChild:stat];
-    PUSH(blockTok);
+    NSArray *items = REV(ABOVE(nil));
+    XPNode *block = [XPNode nodeWithToken:self.blockTok];
+    for (id item in items) [block addChild:item];
+    PUSH(block);
 
     }];
 
-    [self fireDelegateSelector:@selector(parser:didMatchTopList:)];
+    [self fireDelegateSelector:@selector(parser:didMatchGlobalList:)];
 }
 
-- (void)topItem_ {
+- (void)globalItem_ {
     
     if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
         [self stat_]; 
@@ -198,10 +200,53 @@
     } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
         [self block_]; 
     } else {
-        [self raise:@"No viable alternative found in rule 'topItem'."];
+        [self raise:@"No viable alternative found in rule 'globalItem'."];
     }
 
-    [self fireDelegateSelector:@selector(parser:didMatchTopItem:)];
+    [self fireDelegateSelector:@selector(parser:didMatchGlobalItem:)];
+}
+
+- (void)localList_ {
+    
+    do {
+        [self localItem_]; 
+    } while ([self speculate:^{ [self localItem_]; }]);
+
+    [self fireDelegateSelector:@selector(parser:didMatchLocalList:)];
+}
+
+- (void)localItem_ {
+    
+    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+        [self stat_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
+        [self block_]; 
+    } else {
+        [self raise:@"No viable alternative found in rule 'localItem'."];
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchLocalItem:)];
+}
+
+- (void)block_ {
+    
+    [self execute:^{
+    
+    self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope];
+
+    }];
+    [self match:XP_TOKEN_KIND_OPEN_CURLY discard:YES]; 
+    if ([self speculate:^{ [self localList_]; }]) {
+        [self localList_]; 
+    }
+    [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
+    [self execute:^{
+    
+    self.currentScope = _currentScope.enclosingScope;
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchBlock:)];
 }
 
 - (void)stat_ {
@@ -275,6 +320,43 @@
     [self fireDelegateSelector:@selector(parser:didMatchAssign:)];
 }
 
+- (void)funcList_ {
+    
+    do {
+        [self funcItem_]; 
+    } while ([self speculate:^{ [self funcItem_]; }]);
+
+    [self fireDelegateSelector:@selector(parser:didMatchFuncList:)];
+}
+
+- (void)funcItem_ {
+    
+    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+        [self stat_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
+        [self block_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_RETURN, 0]) {
+        [self returnStat_]; 
+    } else {
+        [self raise:@"No viable alternative found in rule 'funcItem'."];
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchFuncItem:)];
+}
+
+- (void)returnStat_ {
+    
+    [self match:XP_TOKEN_KIND_RETURN discard:NO]; 
+    [self expr_]; 
+    [self execute:^{
+    
+    
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchReturnStat:)];
+}
+
 - (void)funcDecl_ {
     
     [self match:XP_TOKEN_KIND_SUB discard:YES]; 
@@ -298,7 +380,7 @@
     [funcSym.members addEntriesFromDictionary:params];
 
     }];
-    [self block_]; 
+    [self funcBlock_]; 
     [self execute:^{
     
     self.currentScope = _currentScope.enclosingScope;
@@ -327,8 +409,8 @@
 
 - (void)param_ {
     
-    if ([self speculate:^{ [self defaultParam_]; }]) {
-        [self defaultParam_]; 
+    if ([self speculate:^{ [self dfaultParam_]; }]) {
+        [self dfaultParam_]; 
     } else if ([self speculate:^{ [self nakedParam_]; }]) {
         [self nakedParam_]; 
     } else {
@@ -338,7 +420,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchParam:)];
 }
 
-- (void)defaultParam_ {
+- (void)dfaultParam_ {
     
     [self qid_]; 
     [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
@@ -352,7 +434,7 @@
 
     }];
 
-    [self fireDelegateSelector:@selector(parser:didMatchDefaultParam:)];
+    [self fireDelegateSelector:@selector(parser:didMatchDfaultParam:)];
 }
 
 - (void)nakedParam_ {
@@ -369,25 +451,15 @@
     [self fireDelegateSelector:@selector(parser:didMatchNakedParam:)];
 }
 
-- (void)block_ {
+- (void)funcBlock_ {
     
-    [self execute:^{
-    
-    self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope];
-
-    }];
     [self match:XP_TOKEN_KIND_OPEN_CURLY discard:YES]; 
-    if ([self speculate:^{ [self topList_]; }]) {
-        [self topList_]; 
+    if ([self speculate:^{ [self funcList_]; }]) {
+        [self funcList_]; 
     }
     [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
-    [self execute:^{
-    
-    self.currentScope = _currentScope.enclosingScope;
 
-    }];
-
-    [self fireDelegateSelector:@selector(parser:didMatchBlock:)];
+    [self fireDelegateSelector:@selector(parser:didMatchFuncBlock:)];
 }
 
 - (void)expr_ {
