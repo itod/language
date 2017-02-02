@@ -12,41 +12,12 @@
 #import "XPException.h"
 #import "XPValue.h"
 
-@interface XPFlowException : NSException
-@property (nonatomic, retain) XPValue *value;
-@end
-
-@implementation XPFlowException
-
-- (void)dealloc {
-    self.value = nil;
-    [super dealloc];
-}
-
-@end
-
-
-@interface XPTreeWalker ()
-@property (nonatomic, retain) XPFlowException *sharedReturnValue;
-@end
-
 @implementation XPTreeWalker
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.sharedReturnValue = [[[XPFlowException alloc] init] autorelease];
-    }
-    return self;
-}
-
 
 - (void)dealloc {
     self.globalScope = nil;
     self.globals = nil;
     self.currentSpace = nil;
-    
-    self.sharedReturnValue = nil;
     
     [super dealloc];
 }
@@ -67,7 +38,7 @@
 }
 
 
-- (void)walk:(XPNode *)node {
+- (id)walk:(XPNode *)node {
     
     switch (node.token.tokenKind) {
         case XP_TOKEN_KIND_BLOCK:
@@ -79,16 +50,26 @@
         case XP_TOKEN_KIND_EQUALS:
             [self assign:node];
             break;
-        case XP_TOKEN_KIND_SUB:
+        case XP_TOKEN_KIND_FUNC_DECL:
             [self funcDecl:node];
             break;
         case XP_TOKEN_KIND_RETURN:
             [self returnStat:node];
             break;
+        case XP_TOKEN_KIND_CALL:
+            [self funcCall:node];
+            break;
+
+        case TOKEN_KIND_BUILTIN_QUOTEDSTRING:
+        case TOKEN_KIND_BUILTIN_NUMBER:
+            return [(XPExpression *)node evaluateInContext:nil];
+            break;
         default:
             TDAssert(0);
             break;
     }
+    
+    return nil;
 }
 
 
@@ -101,19 +82,8 @@
 
 - (void)varDecl:(XPNode *)node {}
 - (void)assign:(XPNode *)node {}
-
-- (void)funcDecl:(XPNode *)node {
-//    for (XPNode *stat in node.children) {
-//        [self walk:stat];
-//    }
-}
-
-
-- (void)returnStat:(XPNode *)node {
-    XPExpression *expr = [node childAtIndex:0];
-    XPValue *val = [expr evaluateInContext:nil];
-    _sharedReturnValue.value = val;
-    @throw _sharedReturnValue;
-}
+- (void)funcDecl:(XPNode *)node {}
+- (id)funcCall:(XPNode *)node { return nil; }
+- (void)returnStat:(XPNode *)node {}
 
 @end

@@ -38,7 +38,7 @@
     //TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
 }
 
-- (void)testSubFooRet1 {
+- (void)testSubFooRet1Plus1 {
     NSString *input = @"sub foo() { return 1+1; }";
     
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
@@ -48,6 +48,18 @@
     TDNil(err);
     
     //TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+}
+
+- (void)testCallSubFooRet1Plus1 {
+    NSString *input = @"var bar = foo(); sub foo() { return 1+1; }";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:nil];
+    TDNil(err);
+    
+    TDEquals(2.0, [[interp.globals objectForName:@"bar"] doubleValue]);
 }
 
 @end

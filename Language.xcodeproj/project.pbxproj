@@ -80,6 +80,10 @@
 		D3DF58BB1E429C6F006CAA07 /* XPScopedSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58B91E429C6F006CAA07 /* XPScopedSymbol.m */; };
 		D3DF58BE1E429E45006CAA07 /* XPFunctionSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DF58BC1E429E45006CAA07 /* XPFunctionSymbol.h */; };
 		D3DF58BF1E429E45006CAA07 /* XPFunctionSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58BD1E429E45006CAA07 /* XPFunctionSymbol.m */; };
+		D3DF58C21E42EBB9006CAA07 /* XPCallExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DF58C01E42EBB9006CAA07 /* XPCallExpression.h */; };
+		D3DF58C31E42EBB9006CAA07 /* XPCallExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58C11E42EBB9006CAA07 /* XPCallExpression.m */; };
+		D3DF58C61E42F346006CAA07 /* XPFunctionSpace.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DF58C41E42F346006CAA07 /* XPFunctionSpace.h */; };
+		D3DF58C71E42F346006CAA07 /* XPFunctionSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58C51E42F346006CAA07 /* XPFunctionSpace.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -173,6 +177,10 @@
 		D3DF58B91E429C6F006CAA07 /* XPScopedSymbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPScopedSymbol.m; path = src/XPScopedSymbol.m; sourceTree = SOURCE_ROOT; };
 		D3DF58BC1E429E45006CAA07 /* XPFunctionSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPFunctionSymbol.h; path = src/XPFunctionSymbol.h; sourceTree = SOURCE_ROOT; };
 		D3DF58BD1E429E45006CAA07 /* XPFunctionSymbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFunctionSymbol.m; path = src/XPFunctionSymbol.m; sourceTree = SOURCE_ROOT; };
+		D3DF58C01E42EBB9006CAA07 /* XPCallExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPCallExpression.h; path = src/XPCallExpression.h; sourceTree = SOURCE_ROOT; };
+		D3DF58C11E42EBB9006CAA07 /* XPCallExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPCallExpression.m; path = src/XPCallExpression.m; sourceTree = SOURCE_ROOT; };
+		D3DF58C41E42F346006CAA07 /* XPFunctionSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPFunctionSpace.h; path = src/XPFunctionSpace.h; sourceTree = SOURCE_ROOT; };
+		D3DF58C51E42F346006CAA07 /* XPFunctionSpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFunctionSpace.m; path = src/XPFunctionSpace.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +293,8 @@
 				D3689FD01E3BDE7B005783BB /* XPUnaryExpression.m */,
 				D3689FBB1E3BDE7B005783BB /* XPNegationExpression.h */,
 				D3689FBC1E3BDE7B005783BB /* XPNegationExpression.m */,
+				D3DF58C01E42EBB9006CAA07 /* XPCallExpression.h */,
+				D3DF58C11E42EBB9006CAA07 /* XPCallExpression.m */,
 			);
 			name = Unary;
 			sourceTree = "<group>";
@@ -386,6 +396,8 @@
 			children = (
 				D37316D11E3EC5430034798E /* XPMemorySpace.h */,
 				D37316D21E3EC5430034798E /* XPMemorySpace.m */,
+				D3DF58C41E42F346006CAA07 /* XPFunctionSpace.h */,
+				D3DF58C51E42F346006CAA07 /* XPFunctionSpace.m */,
 			);
 			name = MemSpace;
 			sourceTree = "<group>";
@@ -413,6 +425,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3689FF81E3BDE7B005783BB /* XPUnaryExpression.h in Headers */,
+				D3DF58C61E42F346006CAA07 /* XPFunctionSpace.h in Headers */,
 				D37316AE1E3EBDE20034798E /* XPInterpreter.h in Headers */,
 				D3689FD31E3BDE7B005783BB /* XPArithmeticExpression.h in Headers */,
 				D37316A41E3EBD5C0034798E /* XPNode.h in Headers */,
@@ -433,6 +446,7 @@
 				D37316BF1E3EBFEB0034798E /* XPScope.h in Headers */,
 				D3689FEA1E3BDE7B005783BB /* XPObjectValue.h in Headers */,
 				D37316C71E3EC1B10034798E /* XPPathExpression.h in Headers */,
+				D3DF58C21E42EBB9006CAA07 /* XPCallExpression.h in Headers */,
 				D3689FD51E3BDE7B005783BB /* XPBinaryExpression.h in Headers */,
 				D3689FFA1E3BDE7B005783BB /* XPValue.h in Headers */,
 				D37316CB1E3EC49C0034798E /* XPGlobalScope.h in Headers */,
@@ -557,9 +571,11 @@
 				D3689FF91E3BDE7B005783BB /* XPUnaryExpression.m in Sources */,
 				D37316B71E3EBF800034798E /* XPSymbol.m in Sources */,
 				D37316D01E3EC4E50034798E /* XPLocalScope.m in Sources */,
+				D3DF58C71E42F346006CAA07 /* XPFunctionSpace.m in Sources */,
 				D3689FD41E3BDE7B005783BB /* XPArithmeticExpression.m in Sources */,
 				D37316ED1E4121110034798E /* XPException.m in Sources */,
 				D3689FD81E3BDE7B005783BB /* XPBooleanExpression.m in Sources */,
+				D3DF58C31E42EBB9006CAA07 /* XPCallExpression.m in Sources */,
 				D3689FEB1E3BDE7B005783BB /* XPObjectValue.m in Sources */,
 				D37316DD1E3FA9980034798E /* XPTreeWalker.m in Sources */,
 				D37316E61E3FAB140034798E /* XPTreeWalkerEval.m in Sources */,

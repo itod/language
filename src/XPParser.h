@@ -1,5 +1,10 @@
 #import <PEGKit/PKParser.h>
         
+    
+#define XP_TOKEN_KIND_BLOCK -2
+#define XP_TOKEN_KIND_CALL  -3
+#define XP_TOKEN_KIND_FUNC_DECL  -4
+    
 @class PKTokenizer;
 @class XPGlobalScope;
 @protocol XPScope;

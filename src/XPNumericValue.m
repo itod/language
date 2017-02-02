@@ -31,10 +31,17 @@
 }
 
 
-- (instancetype)initWithNumber:(double)n {
-    if (self = [super init]) {
-        _value = n;
+- (instancetype)initWithToken:(PKToken *)tok {
+    self = [super initWithToken:tok];
+    if (self) {
+        _value = tok.doubleValue;
     }
+    return self;
+}
+
+
+- (instancetype)initWithNumber:(double)n {
+    self = [self initWithToken:[PKToken tokenWithTokenType:PKTokenTypeNumber stringValue:[NSString stringWithFormat:@"%@", @(n)] doubleValue:n]];
     return self;
 }
 

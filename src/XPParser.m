@@ -10,6 +10,7 @@
 #import <Language/XPBooleanExpression.h>
 #import <Language/XPRelationalExpression.h>
 #import <Language/XPArithmeticExpression.h>
+#import <Language/XPCallExpression.h>
 #import <Language/XPPathExpression.h>
 
 #import <Language/XPGlobalScope.h>
@@ -20,6 +21,8 @@
 @interface XPParser ()
     
 @property (nonatomic, retain) PKToken *blockTok;
+@property (nonatomic, retain) PKToken *callTok;
+@property (nonatomic, retain) PKToken *funcDeclTok;
 @property (nonatomic, retain) PKToken *subTok;
 @property (nonatomic, retain) PKToken *openParenTok;
 @property (nonatomic, retain) PKToken *openCurlyTok;
@@ -55,7 +58,11 @@
     self.enableVerboseErrorReporting = NO;
     self.tokenizer = [[self class] tokenizer];
     self.blockTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"BLOCK" doubleValue:0.0];
-    self.blockTok.tokenKind = -2;
+    self.blockTok.tokenKind = XP_TOKEN_KIND_BLOCK;
+    self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
+    self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
+    self.funcDeclTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"FUNC_DECL" doubleValue:0.0];
+    self.funcDeclTok.tokenKind = XP_TOKEN_KIND_FUNC_DECL;
     self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
     self.openCurlyTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:[NSString stringWithFormat:@"%C", 0x7B] doubleValue:0.0];
@@ -147,6 +154,8 @@
     self.currentScope = nil;
     self.globalScope = nil;
     self.blockTok = nil;
+    self.callTok = nil;
+    self.funcDeclTok = nil;
     self.subTok = nil;
     self.openParenTok = nil;
     self.openCurlyTok = nil;
@@ -185,7 +194,7 @@
     [self execute:^{
     
     NSArray *items = REV(ABOVE(nil));
-    XPNode *block = [XPNode nodeWithToken:self.blockTok];
+    XPNode *block = [XPNode nodeWithToken:_blockTok];
     for (id item in items) [block addChild:item];
     PUSH(block);
 
@@ -369,12 +378,16 @@
     [self match:XP_TOKEN_KIND_SUB discard:NO]; 
     [self qid_]; 
     [self execute:^{
-    
+        
     // def func
-    NSString *name = POP_STR();
-    XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:name enclosingScope:_currentScope];
+    PKToken *nameTok = POP();
+    XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:nameTok.stringValue enclosingScope:_currentScope];
     [_currentScope defineSymbol:funcSym];
-    
+    id sub = POP();
+    PUSH(funcSym);
+    PUSH(nameTok);
+    PUSH(sub);
+
     // push func scope
     self.currentScope = funcSym;
 
@@ -394,8 +407,16 @@
     
     // create func node tree
     NSArray *stats = ABOVE(_subTok);
-    XPNode *func = [XPNode nodeWithToken:POP()];
-    for (id stat in stats) [func addChild:stat];
+    POP(); // 'sub'
+    XPNode *block = [XPNode nodeWithToken:_blockTok];
+    for (id stat in stats) [block addChild:stat];
+
+    XPNode *func = [XPNode nodeWithToken:_funcDeclTok];
+    [func addChild:[XPNode nodeWithToken:POP()]]; // qid / func name
+    [func addChild:block];
+
+    XPFunctionSymbol *funcSym = POP();
+    funcSym.blockNode = func;
     PUSH(func);
 
     // pop scope
@@ -478,6 +499,47 @@
     [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchFuncBlock:)];
+}
+
+- (void)funcCall_ {
+    
+    [self qid_]; 
+    [self match:XP_TOKEN_KIND_OPEN_PAREN discard:NO]; 
+    if ([self speculate:^{ [self argList_]; }]) {
+        [self argList_]; 
+    }
+    [self match:XP_TOKEN_KIND_CLOSE_PAREN discard:YES]; 
+    [self execute:^{
+    
+    NSArray *args = ABOVE(_openParenTok);
+    POP(); // '('
+    XPCallExpression *call = [XPCallExpression nodeWithToken:_callTok];
+    call.scope = _currentScope;
+    [call addChild:[XPNode nodeWithToken:POP()]]; // qid
+    for (id arg in args) [call addChild:arg];
+    PUSH(call);
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchFuncCall:)];
+}
+
+- (void)argList_ {
+    
+    [self arg_]; 
+    while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self arg_]; }]) {
+        [self match:XP_TOKEN_KIND_COMMA discard:YES]; 
+        [self arg_]; 
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchArgList:)];
+}
+
+- (void)arg_ {
+    
+    [self expr_]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchArg:)];
 }
 
 - (void)expr_ {
@@ -914,9 +976,13 @@
 
 - (void)atom_ {
     
-    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_TRUE, 0]) {
+    if ([self speculate:^{ [self literal_]; }]) {
         [self literal_]; 
-    } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {
+    } else if ([self speculate:^{ [self funcCall_]; }]) {
+        [self funcCall_]; 
+    } else if ([self speculate:^{ [self qid_]; }]) {
+        [self qid_]; 
+    } else if ([self speculate:^{ [self pathExpr_]; }]) {
         [self pathExpr_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'atom'."];
@@ -1024,7 +1090,7 @@
     [self matchNumber:NO]; 
     [self execute:^{
     
-    PUSH([XPNumericValue numericValueWithNumber:POP_DOUBLE()]);
+    PUSH([XPNumericValue nodeWithToken:POP()]);
 
     }];
 

@@ -8,15 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-#define XP_TOKEN_KIND_BLOCK -2
-
 @class XPNode;
 @class XPGlobalScope;
 @class XPMemorySpace;
 
 @interface XPTreeWalker : NSObject
 
-- (void)walk:(XPNode *)root;
+- (id)walk:(XPNode *)root;
 
 - (void)raise:(NSString *)name node:(XPNode *)node format:(NSString *)fmt, ...;
 

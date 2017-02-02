@@ -8,10 +8,6 @@
 
 #import "XPFunctionSymbol.h"
 
-@interface XPFunctionSymbol ()
-@property (nonatomic, retain) NSMutableDictionary<NSString *, XPSymbol *> *params;
-@end
-
 @implementation XPFunctionSymbol
 
 + (instancetype)symbolWithName:(NSString *)name enclosingScope:(id<XPScope>)scope {
@@ -29,6 +25,7 @@
 
 
 - (void)dealloc {
+    self.blockNode = nil;
     self.params = nil;
     [super dealloc];
 }
@@ -37,9 +34,10 @@
 #pragma mark -
 #pragma mark XPSymbol
 
-- (NSString *)name {
-    return [NSString stringWithFormat:@"%@ (%@)", [super name], [[_params allKeys] componentsJoinedByString:@","]];
-}
+// CAREFUL
+//- (NSString *)name {
+//    return [NSString stringWithFormat:@"%@ (%@)", [super name], [[_params allKeys] componentsJoinedByString:@","]];
+//}
 
 
 #pragma mark -
