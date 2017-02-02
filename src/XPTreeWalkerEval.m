@@ -19,6 +19,8 @@
 #import "XPVariableSymbol.h"
 #import "XPFunctionSymbol.h"
 
+#define OFFSET 1
+
 @interface XPFlowException : NSException
 @property (nonatomic, retain) XPValue *value;
 @end
@@ -102,17 +104,22 @@
         [funcSpace setObject:val forName:name];
     }
     
-#define OFFSET 1
-    
     NSUInteger argCount = [node childCount]-OFFSET;
     TDAssert(NSNotFound != argCount);
-    
     NSUInteger paramCount = [funcSym.params count];
     TDAssert(NSNotFound != paramCount);
-
-    // check for argument compatibility.
+    NSUInteger defaultParamCount = [funcSym.defaultParamValues count];
+    TDAssert(NSNotFound != defaultParamCount);
+    
+    // check for too many args
     if (argCount > paramCount) {
-        [self raise:XPExceptionTooManyArguments node:node format:@"sub `%@` called with too many arguments. %@ given, %@ expected", name, argCount, paramCount];
+        [self raise:XPExceptionTooManyArguments node:node format:@"sub `%@` called with too many arguments. %ld given, no more than %ld expected", name, argCount, paramCount];
+        return nil;
+    }
+    
+    // check for too few args
+    if (argCount + defaultParamCount < paramCount) {
+        [self raise:XPExceptionTooManyArguments node:node format:@"sub `%@` called with too few arguments. %@ld given, at least %ld expected", name, argCount, paramCount-defaultParamCount];
         return nil;
     }
     

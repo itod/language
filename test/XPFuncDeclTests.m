@@ -178,4 +178,14 @@
     TDEquals(23.0, [[interp.globals objectForName:@"bar"] doubleValue]);
 }
 
+- (void)testCallSubMissingArg {
+    NSString *input = @"var bar = foo(22); sub foo(a,b) { }";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNotNil(err);
+}
+
 @end
