@@ -56,8 +56,8 @@
         space = [_stack lastObject];
     }
     
-    if (!space && [self.globals objectForName:name]) {
-        space = self.globals;
+    if (!space && [_globals objectForName:name]) {
+        space = _globals;
     }
     
     return space;
