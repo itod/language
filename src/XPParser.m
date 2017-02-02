@@ -401,7 +401,7 @@
     
     XPFunctionSymbol *funcSym = (id)_currentScope;
     NSMutableDictionary *params = POP();
-    NSMutableArray *orderedParams = POP();
+    NSMutableArray *orderedParams = REV(POP());
     [funcSym.members addEntriesFromDictionary:params];
     funcSym.orderedParams = (id)orderedParams;
 
