@@ -10,32 +10,4 @@
 
 @implementation XPFunctionValue
 
-- (instancetype)initWithToken:(PKToken *)tok {
-    self = [super initWithToken:tok];
-    if (self) {
-        
-    }
-    return self;
-}
-
-
-- (void)dealloc {
-    
-    [super dealloc];
-}
-
-
-- (XPValue *)evaluateInContext:(id <XPContext>)ctx {
-//    TDAssert(ctx);
-//    
-//    XPNode *block = [self childAtIndex:1];
-//    XPExpression *expr = [ctx walk:block];
-//    XPValue *val = [expr evaluateInContext:ctx];
-//    if (!val) {
-//        val = [XPValue nullValue];
-//    }
-//    return val;
-    return self;
-}
-
 @end
