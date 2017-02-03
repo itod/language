@@ -347,6 +347,15 @@
     [self match:XP_TOKEN_KIND_IF discard:NO]; 
     [self expr_]; 
     [self block_]; 
+    [self execute:^{
+    
+    XPNode *block = POP();
+    XPExpression *expr = POP();
+    XPNode *ifNode = [XPNode nodeWithToken:POP()];
+    [ifNode addChild:expr];
+    [ifNode addChild:block];
+
+    }];
     if ([self speculate:^{ if ([self speculate:^{ [self elifBlock_]; }]) {[self elifBlock_]; } else if ([self speculate:^{ [self elseBlock_]; }]) {[self elseBlock_]; } else {[self raise:@"No viable alternative found in rule 'ifBlock'."];}}]) {
         if ([self speculate:^{ [self elifBlock_]; }]) {
             [self elifBlock_]; 
@@ -366,6 +375,18 @@
     [self match:XP_TOKEN_KIND_IF discard:NO]; 
     [self expr_]; 
     [self block_]; 
+    [self execute:^{
+    
+    XPNode *block = POP();
+    XPExpression *expr = POP();
+    XPNode *elifNode = [XPNode nodeWithToken:POP()];
+    [elifNode addChild:expr];
+    [elifNode addChild:block];
+
+    XPNode *ifNode = PEEK();
+    [ifNode addChild:elifNode];
+
+    }];
 
     [self fireDelegateSelector:@selector(parser:didMatchElifBlock:)];
 }
@@ -374,6 +395,18 @@
     
     [self match:XP_TOKEN_KIND_ELSE discard:NO]; 
     [self block_]; 
+    [self execute:^{
+    
+    XPNode *block = POP();
+    XPExpression *expr = POP();
+    XPNode *elseNode = [XPNode nodeWithToken:POP()];
+    [elseNode addChild:expr];
+    [elseNode addChild:block];
+
+    XPNode *ifNode = PEEK();
+    [ifNode addChild:elseNode];
+
+    }];
 
     [self fireDelegateSelector:@selector(parser:didMatchElseBlock:)];
 }

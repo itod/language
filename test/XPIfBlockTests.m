@@ -26,27 +26,25 @@
     [super tearDown];
 }
 
-- (void)testIfTrue {
+- (void)testIfTrueParse {
     NSString *input = @"if true {}";
     
     NSError *err = nil;
     XPNode *node = [self statementFromString:input error:&err];
     TDNotNil(node);
     TDNil(err);
+}
+
+- (void)testIfTrue {
+    NSString *input = @"if true {}";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNil(err);
     
     //TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
 }
-
-//- (void)testIfTrue {
-//    NSString *input = @"if true {}";
-//    
-//    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-//    
-//    NSError *err = nil;
-//    [interp interpretString:input error:&err];
-//    TDNil(err);
-//    
-//    //TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
-//}
 
 @end

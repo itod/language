@@ -160,9 +160,34 @@ assign      = qid '=' expr {
 };
 
 // IF BLOCK
-ifBlock     = 'if' expr block (elifBlock | elseBlock)?;
-elifBlock   = 'else'! 'if' expr block;
-elseBlock   = 'else' block;
+ifBlock     = 'if' expr block {
+    XPNode *block = POP();
+    XPExpression *expr = POP();
+    XPNode *ifNode = [XPNode nodeWithToken:POP()];
+    [ifNode addChild:expr];
+    [ifNode addChild:block];
+}
+              (elifBlock | elseBlock)?;
+elifBlock   = 'else'! 'if' expr block {
+    XPNode *block = POP();
+    XPExpression *expr = POP();
+    XPNode *elifNode = [XPNode nodeWithToken:POP()];
+    [elifNode addChild:expr];
+    [elifNode addChild:block];
+
+    XPNode *ifNode = PEEK();
+    [ifNode addChild:elifNode];
+};
+elseBlock   = 'else' block {
+    XPNode *block = POP();
+    XPExpression *expr = POP();
+    XPNode *elseNode = [XPNode nodeWithToken:POP()];
+    [elseNode addChild:expr];
+    [elseNode addChild:block];
+
+    XPNode *ifNode = PEEK();
+    [ifNode addChild:elseNode];
+};
 
 // FUNCTION DECL
 funcList    = funcItem+;
