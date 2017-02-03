@@ -1,15 +1,14 @@
 //
-//  XPFunctionExpression.m
+//  XPFunctionValue.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 03.02.17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "XPFunctionExpression.h"
-#import "XPValue.h"
+#import "XPFunctionValue.h"
 
-@implementation XPFunctionExpression
+@implementation XPFunctionValue
 
 - (instancetype)initWithToken:(PKToken *)tok {
     self = [super initWithToken:tok];
@@ -27,15 +26,16 @@
 
 
 - (XPValue *)evaluateInContext:(id <XPContext>)ctx {
-    TDAssert(ctx);
-    
-    XPNode *block = [self childAtIndex:1];
-    XPExpression *expr = [ctx walk:block];
-    XPValue *val = [expr evaluateInContext:ctx];
-    if (!val) {
-        val = [XPValue nullValue];
-    }
-    return val;
+//    TDAssert(ctx);
+//    
+//    XPNode *block = [self childAtIndex:1];
+//    XPExpression *expr = [ctx walk:block];
+//    XPValue *val = [expr evaluateInContext:ctx];
+//    if (!val) {
+//        val = [XPValue nullValue];
+//    }
+//    return val;
+    return self;
 }
 
 @end

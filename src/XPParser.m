@@ -6,6 +6,7 @@
 #import <Language/XPBooleanValue.h>
 #import <Language/XPNumericValue.h>
 #import <Language/XPStringValue.h>
+#import <Language/XPFunctionValue.h>
 #import <Language/XPUnaryExpression.h>
 #import <Language/XPNegationExpression.h>
 #import <Language/XPBooleanExpression.h>
@@ -13,7 +14,6 @@
 #import <Language/XPArithmeticExpression.h>
 #import <Language/XPCallExpression.h>
 #import <Language/XPRefExpression.h>
-#import <Language/XPFunctionExpression.h>
 #import <Language/XPPathExpression.h>
 
 #import <Language/XPGlobalScope.h>
@@ -653,7 +653,7 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:_anonTok.stringValue enclosingScope:_currentScope];
     [_currentScope defineSymbol:funcSym];
     id subTok = POP();
-    XPNode *func = [XPFunctionExpression nodeWithToken:_anonTok];
+    XPNode *func = [XPFunctionValue nodeWithToken:_anonTok];
     [func addChild:[XPNode nodeWithToken:_anonTok]]; // qid / func name
     PUSH(func);
     PUSH(subTok); // barrier for later

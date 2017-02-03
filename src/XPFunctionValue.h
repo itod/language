@@ -1,13 +1,13 @@
 //
-//  XPFunctionExpression.h
+//  XPFunctionValue.h
 //  Language
 //
 //  Created by Todd Ditchendorf on 03.02.17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import <Language/Language.h>
+#import "XPValue.h"
 
-@interface XPFunctionExpression : XPExpression
+@interface XPFunctionValue : XPValue
 
 @end
