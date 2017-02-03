@@ -55,6 +55,11 @@ double XPNumberFromString(NSString *s) {
 }
 
 
+- (NSString *)treeDescription {
+    return [NSString stringWithFormat:@"`%@`", [self stringValue]];
+}
+
+
 - (XPValue *)evaluateInContext:(id <XPContext>)ctx {
     return self;
 }

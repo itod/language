@@ -103,7 +103,7 @@
             [self returnStat:node];
             break;
         case XP_TOKEN_KIND_IF:
-            [self ifBlock:node];
+            res = [self ifBlock:node];
             break;
         case XP_TOKEN_KIND_ELSE:
             [self elseBlock:node];
@@ -136,6 +136,6 @@
 - (id)funcCall:(XPNode *)node { return nil; }
 - (void)returnStat:(XPNode *)node {}
 - (id)ifBlock:(XPNode *)node {return nil;}
-- (id)elseBlock:(XPNode *)node {return nil;}
+- (void)elseBlock:(XPNode *)node {}
 
 @end

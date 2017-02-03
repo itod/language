@@ -181,14 +181,13 @@
         if (b) break;
     }
     
-    return @YES;
+    return @NO;
 }
 
 
-- (id)elseBlock:(XPNode *)node {
+- (void)elseBlock:(XPNode *)node {
     XPNode *block = [node childAtIndex:0];
     [self block:block];
-    return @YES;
 }
 
 
