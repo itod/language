@@ -179,12 +179,9 @@
     
     // EVAL ARGS
     {
-        NSUInteger argCount = [node childCount]-OFFSET;
-        TDAssert(NSNotFound != argCount);
-        NSUInteger paramCount = [funcSym.params count];
-        TDAssert(NSNotFound != paramCount);
-        NSUInteger defaultParamCount = [funcSym.defaultParamValues count];
-        TDAssert(NSNotFound != defaultParamCount);
+        NSUInteger argCount = [node childCount]-OFFSET;                     TDAssert(NSNotFound != argCount);
+        NSUInteger paramCount = [funcSym.params count];                     TDAssert(NSNotFound != paramCount);
+        NSUInteger defaultParamCount = [funcSym.defaultParamValues count];  TDAssert(NSNotFound != defaultParamCount);
         
         // check for too many args
         if (argCount > paramCount) {
