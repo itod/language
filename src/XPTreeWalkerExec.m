@@ -1,12 +1,12 @@
 //
-//  XPTreeWalkerEval.m
+//  XPTreeWalkerExec.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 30.01.17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "XPTreeWalkerEval.h"
+#import "XPTreeWalkerExec.h"
 #import "XPException.h"
 
 #import "XPMemorySpace.h"
@@ -34,11 +34,11 @@
 
 @end
 
-@interface XPTreeWalkerEval ()
+@interface XPTreeWalkerExec ()
 @property (nonatomic, retain) XPFlowException *sharedReturnValue;
 @end
 
-@implementation XPTreeWalkerEval
+@implementation XPTreeWalkerExec
 
 - (instancetype)init {
     self = [super init];
@@ -56,7 +56,7 @@
 
 
 #pragma mark -
-#pragma mark Walker
+#pragma mark Variables
 
 - (void)varDecl:(XPNode *)node {
     NSString *name = [[[node childAtIndex:0] token] stringValue];
@@ -84,6 +84,9 @@
     [self.currentSpace setObject:val forName:name];
 }
 
+
+#pragma mark -
+#pragma mark Functions
 
 - (id)funcCall:(XPNode *)node {
     NSString *name = [[[node childAtIndex:0] token] stringValue];
@@ -157,5 +160,19 @@
     _sharedReturnValue.value = val;
     @throw _sharedReturnValue;
 }
+
+
+#pragma mark -
+#pragma mark If
+
+- (void)ifBlock:(XPNode *)node {
+    
+}
+
+
+- (void)elseBlock:(XPNode *)node {
+
+}
+
 
 @end

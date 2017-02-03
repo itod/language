@@ -1,5 +1,5 @@
 //
-//  XPTreeWalkerEval.h
+//  XPTreeWalkerExec.h
 //  Language
 //
 //  Created by Todd Ditchendorf on 30.01.17.
@@ -8,6 +8,6 @@
 
 #import "XPTreeWalker.h"
 
-@interface XPTreeWalkerEval : XPTreeWalker
+@interface XPTreeWalkerExec : XPTreeWalker
 
 @end

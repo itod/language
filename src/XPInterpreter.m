@@ -11,7 +11,7 @@
 #import "XPMemorySpace.h"
 #import "XPParser.h"
 #import "XPNode.h"
-#import "XPTreeWalkerEval.h"
+#import "XPTreeWalkerExec.h"
 #import "XPException.h"
 
 #import <PEGKit/PKAssembly.h>
@@ -70,7 +70,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
     // EVAL WALK
     @autoreleasepool {
         @try {
-            XPTreeWalker *walker = [[[XPTreeWalkerEval alloc] init] autorelease];
+            XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] init] autorelease];
             walker.globals = _globals;
             walker.currentSpace = _globals;
             [walker walk:_root];

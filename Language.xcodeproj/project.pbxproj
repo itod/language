@@ -70,8 +70,8 @@
 		D37316D41E3EC5430034798E /* XPMemorySpace.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316D21E3EC5430034798E /* XPMemorySpace.m */; };
 		D37316DC1E3FA9980034798E /* XPTreeWalker.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316DA1E3FA9980034798E /* XPTreeWalker.h */; };
 		D37316DD1E3FA9980034798E /* XPTreeWalker.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316DB1E3FA9980034798E /* XPTreeWalker.m */; };
-		D37316E51E3FAB140034798E /* XPTreeWalkerEval.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316E31E3FAB140034798E /* XPTreeWalkerEval.h */; };
-		D37316E61E3FAB140034798E /* XPTreeWalkerEval.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316E41E3FAB140034798E /* XPTreeWalkerEval.m */; };
+		D37316E51E3FAB140034798E /* XPTreeWalkerExec.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316E31E3FAB140034798E /* XPTreeWalkerExec.h */; };
+		D37316E61E3FAB140034798E /* XPTreeWalkerExec.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316E41E3FAB140034798E /* XPTreeWalkerExec.m */; };
 		D37316E91E3FB6B10034798E /* XPAssignTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316E71E3FB6AD0034798E /* XPAssignTests.m */; };
 		D37316EC1E4121110034798E /* XPException.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316EA1E4121110034798E /* XPException.h */; };
 		D37316ED1E4121110034798E /* XPException.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316EB1E4121110034798E /* XPException.m */; };
@@ -170,8 +170,8 @@
 		D37316D21E3EC5430034798E /* XPMemorySpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPMemorySpace.m; path = src/XPMemorySpace.m; sourceTree = SOURCE_ROOT; };
 		D37316DA1E3FA9980034798E /* XPTreeWalker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPTreeWalker.h; path = src/XPTreeWalker.h; sourceTree = SOURCE_ROOT; };
 		D37316DB1E3FA9980034798E /* XPTreeWalker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPTreeWalker.m; path = src/XPTreeWalker.m; sourceTree = SOURCE_ROOT; };
-		D37316E31E3FAB140034798E /* XPTreeWalkerEval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPTreeWalkerEval.h; path = src/XPTreeWalkerEval.h; sourceTree = SOURCE_ROOT; };
-		D37316E41E3FAB140034798E /* XPTreeWalkerEval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPTreeWalkerEval.m; path = src/XPTreeWalkerEval.m; sourceTree = SOURCE_ROOT; };
+		D37316E31E3FAB140034798E /* XPTreeWalkerExec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPTreeWalkerExec.h; path = src/XPTreeWalkerExec.h; sourceTree = SOURCE_ROOT; };
+		D37316E41E3FAB140034798E /* XPTreeWalkerExec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPTreeWalkerExec.m; path = src/XPTreeWalkerExec.m; sourceTree = SOURCE_ROOT; };
 		D37316E71E3FB6AD0034798E /* XPAssignTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPAssignTests.m; path = test/XPAssignTests.m; sourceTree = SOURCE_ROOT; };
 		D37316EA1E4121110034798E /* XPException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPException.h; path = src/XPException.h; sourceTree = SOURCE_ROOT; };
 		D37316EB1E4121110034798E /* XPException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPException.m; path = src/XPException.m; sourceTree = SOURCE_ROOT; };
@@ -420,8 +420,8 @@
 				D37316EB1E4121110034798E /* XPException.m */,
 				D37316DA1E3FA9980034798E /* XPTreeWalker.h */,
 				D37316DB1E3FA9980034798E /* XPTreeWalker.m */,
-				D37316E31E3FAB140034798E /* XPTreeWalkerEval.h */,
-				D37316E41E3FAB140034798E /* XPTreeWalkerEval.m */,
+				D37316E31E3FAB140034798E /* XPTreeWalkerExec.h */,
+				D37316E41E3FAB140034798E /* XPTreeWalkerExec.m */,
 			);
 			name = Tree;
 			sourceTree = "<group>";
@@ -451,7 +451,7 @@
 				D37316DC1E3FA9980034798E /* XPTreeWalker.h in Headers */,
 				D37316D31E3EC5430034798E /* XPMemorySpace.h in Headers */,
 				D305629D1E3BD929008BEC9A /* Language.h in Headers */,
-				D37316E51E3FAB140034798E /* XPTreeWalkerEval.h in Headers */,
+				D37316E51E3FAB140034798E /* XPTreeWalkerExec.h in Headers */,
 				D37316BF1E3EBFEB0034798E /* XPScope.h in Headers */,
 				D3DF58CA1E438608006CAA07 /* XPRefExpression.h in Headers */,
 				D3689FEA1E3BDE7B005783BB /* XPObjectValue.h in Headers */,
@@ -589,7 +589,7 @@
 				D3DF58C31E42EBB9006CAA07 /* XPCallExpression.m in Sources */,
 				D3689FEB1E3BDE7B005783BB /* XPObjectValue.m in Sources */,
 				D37316DD1E3FA9980034798E /* XPTreeWalker.m in Sources */,
-				D37316E61E3FAB140034798E /* XPTreeWalkerEval.m in Sources */,
+				D37316E61E3FAB140034798E /* XPTreeWalkerExec.m in Sources */,
 				D3689FF31E3BDE7B005783BB /* XPRelationalExpression.m in Sources */,
 				D3689FE51E3BDE7B005783BB /* XPNegationExpression.m in Sources */,
 				D3DF58BF1E429E45006CAA07 /* XPFunctionSymbol.m in Sources */,
