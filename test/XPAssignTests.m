@@ -46,6 +46,7 @@
     NSError *err = nil;
     [interp interpretString:input error:&err];
     TDNotNil(err);
+    TDEqualObjects(XPExceptionUndeclaredSymbol, err.localizedDescription);
 }
 
 @end

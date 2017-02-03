@@ -8,9 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+// static
+extern NSString * const XPExceptionSyntaxError;
+extern NSString * const XPExceptionParamMisordered;
+
+// runtime
 extern NSString * const XPExceptionUndeclaredSymbol;
 extern NSString * const XPExceptionTooManyArguments;
-extern NSString * const XPExceptionParamMisordered;
+extern NSString * const XPExceptionTooFewArguments;
 extern NSString * const XPExceptionTypeMismatch;
 
 @interface XPException : NSException

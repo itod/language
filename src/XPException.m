@@ -8,9 +8,14 @@
 
 #import "XPException.h"
 
+// static
+NSString * const XPExceptionSyntaxError = @"Syntax Error";
+NSString * const XPExceptionParamMisordered = @"Param Misordered";
+
+// runtime
 NSString * const XPExceptionUndeclaredSymbol = @"Undeclared Symbol";
 NSString * const XPExceptionTooManyArguments = @"Too Many Arguments";
-NSString * const XPExceptionParamMisordered = @"Param Misordered";
+NSString * const XPExceptionTooFewArguments = @"Too Few Arguments";
 NSString * const XPExceptionTypeMismatch = @"Type Mismatch";
 
 @implementation XPException

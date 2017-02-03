@@ -92,6 +92,7 @@
     NSError *err = nil;
     [interp interpretString:input error:&err];
     TDNotNil(err);
+    TDEqualObjects(XPExceptionUndeclaredSymbol, err.localizedDescription);
 }
 
 - (void)testCallSubArg {
@@ -198,6 +199,7 @@
     NSError *err = nil;
     [interp interpretString:input error:&err];
     TDNotNil(err);
+    TDEqualObjects(XPExceptionTooFewArguments, err.localizedDescription);
 }
 
 - (void)testCallSubMisorderedArg {
@@ -208,6 +210,7 @@
     NSError *err = nil;
     [interp interpretString:input error:&err];
     TDNotNil(err);
+    TDEqualObjects(XPExceptionParamMisordered, err.localizedDescription);
 }
 
 @end

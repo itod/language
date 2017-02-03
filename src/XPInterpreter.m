@@ -53,7 +53,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
     
     if (err) {
         NSLog(@"%@", err);
-        *outErr = err;
+        *outErr = [self errorFromPEGKitError:err];
         return;
     }
     TDAssert(!(*outErr));
@@ -68,23 +68,21 @@ NSString * const XPErrorLineNumberKey = @"line number";
     TDAssert(_globals);
     
     // EVAL WALK
-    @autoreleasepool {
-        @try {
-            XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] init] autorelease];
-            walker.globals = _globals;
-            walker.currentSpace = _globals;
-            [walker walk:_root];
-        } @catch (XPException *ex) {
-            if (outErr) {
-                NSString *domain = XPErrorDomain;
-                NSString *name = [ex name];
-                NSString *reason = [ex reason];
-                NSLog(@"%@", reason);
+    @try {
+        XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] init] autorelease];
+        walker.globals = _globals;
+        walker.currentSpace = _globals;
+        [walker walk:_root];
+    } @catch (XPException *ex) {
+        if (outErr) {
+            NSString *domain = XPErrorDomain;
+            NSString *name = [ex name];
+            NSString *reason = [ex reason];
+            NSLog(@"%@", reason);
 
-                *outErr = [self errorWithDomain:domain name:name reason:reason range:ex.range lineNumber:ex.lineNumber];
-            } else {
-                [ex raise];
-            }
+            *outErr = [self errorWithDomain:domain name:name reason:reason range:ex.range lineNumber:ex.lineNumber];
+        } else {
+            [ex raise];
         }
     }
 }
@@ -95,7 +93,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
     
     // get description
     name = name ? name : NSLocalizedString(@"A runtime exception occured.", @"");
-    [userInfo setObject:name forKey:NSLocalizedDescriptionKey];
+    userInfo[NSLocalizedDescriptionKey] = name;
     
     // get reason
     reason = reason ? reason : @"";
@@ -115,5 +113,15 @@ NSString * const XPErrorLineNumberKey = @"line number";
     return err;
 }
 
+
+- (NSError *)errorFromPEGKitError:(NSError *)inErr {
+    NSString *name = inErr.localizedDescription;
+    NSString *reason = inErr.userInfo[NSLocalizedFailureReasonErrorKey];
+    NSRange range = [inErr.userInfo[XPErrorRangeKey] rangeValue];
+    NSUInteger lineNum = [inErr.userInfo[XPErrorLineNumberKey] unsignedIntegerValue];
+
+    NSError *outErr = [self errorWithDomain:XPErrorDomain name:name reason:reason range:range lineNumber:lineNum];
+    return outErr;
+}
 
 @end

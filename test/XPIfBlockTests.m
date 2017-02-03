@@ -151,6 +151,7 @@
     NSError *err = nil;
     [interp interpretString:input error:&err];
     TDNotNil(err);
+    TDEqualObjects(XPExceptionSyntaxError, err.localizedDescription);
 }
 
 @end
