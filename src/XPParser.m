@@ -404,9 +404,7 @@
     [self execute:^{
     
     XPNode *block = POP();
-    XPExpression *expr = POP();
     XPNode *elseNode = [XPNode nodeWithToken:POP()];
-    [elseNode addChild:expr];
     [elseNode addChild:block];
 
     XPNode *ifNode = PEEK();

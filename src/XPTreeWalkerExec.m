@@ -171,14 +171,16 @@
     if (b) {
         XPNode *block = [node childAtIndex:1];
         [self block:block];
-    } else {
-        
+    } else if ([node childCount] > 2) {
+        XPNode *test = [node childAtIndex:2];
+        [self walk:test];
     }
 }
 
 
 - (void)elseBlock:(XPNode *)node {
-
+    XPNode *block = [node childAtIndex:0];
+    [self block:block];
 }
 
 
