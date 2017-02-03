@@ -16,7 +16,8 @@
 
 - (instancetype)initWithToken:(PKToken *)tok;
 
-- (void)addChild:(XPNode *)a;
+- (void)addChild:(XPNode *)node;
+- (void)addChildren:(NSArray *)nodes;
 - (id)childAtIndex:(NSUInteger)i;
 - (void)replaceChild:(XPNode *)node atIndex:(NSUInteger)i;
 - (NSUInteger)childCount;

@@ -166,7 +166,14 @@
 #pragma mark If
 
 - (void)ifBlock:(XPNode *)node {
-    
+    XPExpression *expr = [node childAtIndex:0];
+    BOOL b = [expr evaluateAsBooleanInContext:self];
+    if (b) {
+        XPNode *block = [node childAtIndex:1];
+        [self block:block];
+    } else {
+        
+    }
 }
 
 

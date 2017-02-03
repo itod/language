@@ -126,8 +126,13 @@ block
 }
 @after {
     self.currentScope = _currentScope.enclosingScope;
+    
+    NSArray *stats = REV(ABOVE(_openCurlyTok));
+    XPNode *block = [XPNode nodeWithToken:POP()];
+    [block addChildren:stats];
+    PUSH(block);
 }
-            = '{'! localList? '}'!;
+            = '{' localList? '}'!;
 
 // STATEMENTS
 stat        = 
@@ -166,6 +171,7 @@ ifBlock     = 'if' expr block {
     XPNode *ifNode = [XPNode nodeWithToken:POP()];
     [ifNode addChild:expr];
     [ifNode addChild:block];
+    PUSH(ifNode);
 }
               (elifBlock | elseBlock)?;
 elifBlock   = 'else'! 'if' expr block {
@@ -220,7 +226,7 @@ funcDecl    = 'sub' qid {
     // create func node tree
     NSArray *stats = REV(ABOVE(_subTok));
     XPNode *block = [XPNode nodeWithToken:_blockTok];
-    for (id stat in stats) [block addChild:stat];
+    [block addChildren:stats];
 
     XPNode *func = [XPNode nodeWithToken:POP()];
     [func addChild:[XPNode nodeWithToken:POP()]]; // qid / func name

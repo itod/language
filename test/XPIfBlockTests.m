@@ -36,7 +36,7 @@
 }
 
 - (void)testIfTrue {
-    NSString *input = @"if true {}";
+    NSString *input = @"var foo = 0; if true {foo=1;}";
     
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
@@ -44,7 +44,31 @@
     [interp interpretString:input error:&err];
     TDNil(err);
     
-    //TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+    TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+}
+
+- (void)testIfTrueElse {
+    NSString *input = @"var foo = 0; if true {} else {foo=1;}";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNil(err);
+    
+    TDEquals(0.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+}
+
+- (void)testIfFalseElse {
+    NSString *input = @"var foo = 0; if false {} else {foo=1;}";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNil(err);
+    
+    TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
 }
 
 @end

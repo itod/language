@@ -257,7 +257,7 @@
     self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope];
 
     }];
-    [self match:XP_TOKEN_KIND_OPEN_CURLY discard:YES]; 
+    [self match:XP_TOKEN_KIND_OPEN_CURLY discard:NO]; 
     if ([self speculate:^{ [self localList_]; }]) {
         [self localList_]; 
     }
@@ -265,6 +265,11 @@
     [self execute:^{
     
     self.currentScope = _currentScope.enclosingScope;
+    
+    NSArray *stats = REV(ABOVE(_openCurlyTok));
+    XPNode *block = [XPNode nodeWithToken:POP()];
+    [block addChildren:stats];
+    PUSH(block);
 
     }];
 
@@ -354,6 +359,7 @@
     XPNode *ifNode = [XPNode nodeWithToken:POP()];
     [ifNode addChild:expr];
     [ifNode addChild:block];
+    PUSH(ifNode);
 
     }];
     if ([self speculate:^{ if ([self speculate:^{ [self elifBlock_]; }]) {[self elifBlock_]; } else if ([self speculate:^{ [self elseBlock_]; }]) {[self elseBlock_]; } else {[self raise:@"No viable alternative found in rule 'ifBlock'."];}}]) {
@@ -486,7 +492,7 @@
     // create func node tree
     NSArray *stats = REV(ABOVE(_subTok));
     XPNode *block = [XPNode nodeWithToken:_blockTok];
-    for (id stat in stats) [block addChild:stat];
+    [block addChildren:stats];
 
     XPNode *func = [XPNode nodeWithToken:POP()];
     [func addChild:[XPNode nodeWithToken:POP()]]; // qid / func name

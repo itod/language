@@ -117,13 +117,23 @@
 #pragma mark -
 #pragma mark Child Access
 
-- (void)addChild:(XPNode *)a {
+- (void)addChild:(XPNode *)node {
     TDAssertMainThread();
-    TDAssert(a);
+    TDAssert(node);
     if (!_kids) {
         self.kids = [NSMutableArray array];
     }
-    [_kids addObject:a];
+    [_kids addObject:node];
+}
+
+
+- (void)addChildren:(NSArray *)nodes {
+    TDAssertMainThread();
+    TDAssert(nodes);
+    if (!_kids) {
+        self.kids = [NSMutableArray array];
+    }
+    [_kids addObjectsFromArray:nodes];
 }
 
 
