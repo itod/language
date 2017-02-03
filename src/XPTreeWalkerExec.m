@@ -134,14 +134,15 @@
 #pragma mark Functions
 
 - (id)funcCall:(XPNode *)node {
-    NSString *name = [[[node childAtIndex:0] token] stringValue];
+    XPNode *nameNode = [node childAtIndex:0];
+    NSString *name = nameNode.token.stringValue;
     XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
     
     // maybe this was a call on a func literal
     if (!funcSym) {
-        XPValue *val = [self.currentSpace objectForName:name];
+        XPValue *val = [self loadVariableReference:nameNode];
         if ([val isFunctionValue]) {
-            funcSym = [val childAtIndex:0];
+            funcSym = (id)[val childAtIndex:0];
             TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
         }
     }
