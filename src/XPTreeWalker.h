@@ -25,6 +25,7 @@
 - (void)funcDecl:(XPNode *)node;
 - (id)funcCall:(XPNode *)node;
 - (void)returnStat:(XPNode *)node;
+- (void)whileBlock:(XPNode *)node;
 - (id)ifBlock:(XPNode *)node;
 - (void)elseBlock:(XPNode *)node;
 

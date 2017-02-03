@@ -78,7 +78,7 @@
     }
     
     XPExpression *expr = [node childAtIndex:1];
-    XPValue *val = [expr evaluateInContext:nil];
+    XPValue *val = [expr evaluateInContext:self];
     
     TDAssert(self.currentSpace);
     [self.currentSpace setObject:val forName:name];
@@ -159,6 +159,21 @@
     TDAssert(_sharedReturnValue);
     _sharedReturnValue.value = val;
     @throw _sharedReturnValue;
+}
+
+
+#pragma mark -
+#pragma mark While
+
+- (void)whileBlock:(XPNode *)node {
+    XPExpression *expr = [node childAtIndex:0];
+    XPNode *block = [node childAtIndex:1];
+    
+    BOOL b = [expr evaluateAsBooleanInContext:self];
+    if (b) {
+        [self block:block];
+        b = [expr evaluateAsBooleanInContext:self];
+    }
 }
 
 

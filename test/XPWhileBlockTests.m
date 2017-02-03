@@ -35,8 +35,8 @@
     TDNil(err);
 }
 
-- (void)testWhile10 {
-    NSString *input = @"var i=10;var c=0;while i>0{i=i-1;c=c+1;}";
+- (void)testWhile1 {
+    NSString *input = @"var i=10;var c=0;while i>0{i=0;c=10;}";
     
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
@@ -45,6 +45,18 @@
     TDNil(err);
     
     TDEquals(10.0, [[interp.globals objectForName:@"c"] doubleValue]);
+}
+
+- (void)testWhile10 {
+    NSString *input = @"var i=10;var c=0;while i>0{i=0;c=c+1;}";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNil(err);
+    
+    TDEquals(1.0, [[interp.globals objectForName:@"c"] doubleValue]);
 }
 
 @end

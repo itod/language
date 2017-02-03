@@ -102,6 +102,9 @@
         case XP_TOKEN_KIND_RETURN:
             [self returnStat:node];
             break;
+        case XP_TOKEN_KIND_WHILE:
+            [self whileBlock:node];
+            break;
         case XP_TOKEN_KIND_IF:
             res = [self ifBlock:node];
             break;
@@ -135,6 +138,7 @@
 - (void)funcDecl:(XPNode *)node {}
 - (id)funcCall:(XPNode *)node { return nil; }
 - (void)returnStat:(XPNode *)node {}
+- (void)whileBlock:(XPNode *)node {}
 - (id)ifBlock:(XPNode *)node {return nil;}
 - (void)elseBlock:(XPNode *)node {}
 
