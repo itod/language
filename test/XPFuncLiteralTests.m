@@ -50,4 +50,15 @@
     TDEquals(1.0, [[interp.globals objectForName:@"bar"] doubleValue]);
 }
 
+- (void)testOverrideFail {
+    NSString *input = @"var foo=sub(){return 1;};var foo=1;foo();";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNotNil(err);
+    TDEqualObjects(XPExceptionTypeMismatch, err.localizedDescription);
+}
+
 @end

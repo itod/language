@@ -11,6 +11,7 @@
 extern NSString * const XPExceptionUndeclaredSymbol;
 extern NSString * const XPExceptionTooManyArguments;
 extern NSString * const XPExceptionParamMisordered;
+extern NSString * const XPExceptionTypeMismatch;
 
 @interface XPException : NSException
 @property (nonatomic, assign) NSUInteger lineNumber;

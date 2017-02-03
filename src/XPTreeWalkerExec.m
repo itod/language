@@ -147,9 +147,15 @@
         name = nameNode.token.stringValue;
         
         // maybe this was a call on a func literal
-        XPValue *val = [self _loadVariableReference:nameNode];
-        if ([val isFunctionValue]) {
-            funcSym = (id)[val childAtIndex:0];
+        XPValue *var = [self _loadVariableReference:nameNode];
+        
+        if (var) {
+            if ([var isFunctionValue]) {
+                funcSym = (id)[var childAtIndex:0];
+            } else {
+                [self raise:XPExceptionTypeMismatch node:node format:@"illegal call to `%@()`, `%@` is not a function", name, name];
+                return nil;
+            }
         }
         
         // or a statically-declared func
@@ -158,7 +164,7 @@
         }
         
         if (!funcSym) {
-            [self raise:XPExceptionUndeclaredSymbol node:node format:@"Call to known function named: %@", name];
+            [self raise:XPExceptionUndeclaredSymbol node:node format:@"call to known function named: `%@`", name];
             return nil;
         }
         
