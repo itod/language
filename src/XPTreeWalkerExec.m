@@ -170,7 +170,7 @@
     XPNode *block = [node childAtIndex:1];
     
     BOOL b = [expr evaluateAsBooleanInContext:self];
-    if (b) {
+    while (b) {
         [self block:block];
         b = [expr evaluateAsBooleanInContext:self];
     }
