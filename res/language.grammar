@@ -17,6 +17,7 @@
 }
 
 @m {
+#import <Language/XPException.h>
 #import <Language/XPNode.h>
 #import <Language/XPBooleanValue.h>
 #import <Language/XPNumericValue.h>
@@ -113,7 +114,7 @@ globalList  = globalItem+ {
     PUSH(block);
 };
 
-globalItem  = stat | funcDecl | block;
+globalItem  = stat | ifBlock | funcDecl | block;
 
 // LOCAL
 localList   = localItem+;
@@ -157,6 +158,11 @@ assign      = qid '=' expr {
     [stat addChild:lhs]; [stat addChild:rhs];
     PUSH(stat);
 };
+
+// IF BLOCK
+ifBlock     = 'if' expr block (elifBlock | elseBlock)?;
+elifBlock   = 'else'! 'if' expr block;
+elseBlock   = 'else' block;
 
 // FUNCTION DECL
 funcList    = funcItem+;

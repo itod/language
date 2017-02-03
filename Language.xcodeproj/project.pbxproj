@@ -86,6 +86,7 @@
 		D3DF58C71E42F346006CAA07 /* XPFunctionSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58C51E42F346006CAA07 /* XPFunctionSpace.m */; };
 		D3DF58CA1E438608006CAA07 /* XPRefExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DF58C81E438608006CAA07 /* XPRefExpression.h */; };
 		D3DF58CB1E438608006CAA07 /* XPRefExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58C91E438608006CAA07 /* XPRefExpression.m */; };
+		D3DF58CD1E44E276006CAA07 /* XPIfBlockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58CC1E44E276006CAA07 /* XPIfBlockTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -185,6 +186,7 @@
 		D3DF58C51E42F346006CAA07 /* XPFunctionSpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFunctionSpace.m; path = src/XPFunctionSpace.m; sourceTree = SOURCE_ROOT; };
 		D3DF58C81E438608006CAA07 /* XPRefExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPRefExpression.h; path = src/XPRefExpression.h; sourceTree = SOURCE_ROOT; };
 		D3DF58C91E438608006CAA07 /* XPRefExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPRefExpression.m; path = src/XPRefExpression.m; sourceTree = SOURCE_ROOT; };
+		D3DF58CC1E44E276006CAA07 /* XPIfBlockTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPIfBlockTests.m; path = test/XPIfBlockTests.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -364,6 +366,7 @@
 				D37316921E3EB75F0034798E /* XPVarDeclTests.m */,
 				D37316E71E3FB6AD0034798E /* XPAssignTests.m */,
 				D3DF58B61E429ACA006CAA07 /* XPFuncDeclTests.m */,
+				D3DF58CC1E44E276006CAA07 /* XPIfBlockTests.m */,
 			);
 			name = Stat;
 			sourceTree = "<group>";
@@ -603,6 +606,7 @@
 			files = (
 				D368A01F1E3BE4F8005783BB /* XPRelationalExpressionTests.m in Sources */,
 				D368A0201E3BE4F8005783BB /* XPUnaryExpressionTests.m in Sources */,
+				D3DF58CD1E44E276006CAA07 /* XPIfBlockTests.m in Sources */,
 				D368A0181E3BE4F8005783BB /* XPBooleanExpressionTests.m in Sources */,
 				D373169E1E3EBA490034798E /* XPBaseStatementTests.m in Sources */,
 				D368A01A1E3BE4F8005783BB /* XPEqualityExpressionTests.m in Sources */,

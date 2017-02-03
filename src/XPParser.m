@@ -83,7 +83,9 @@
         self.tokenKindTab[@"}"] = @(XP_TOKEN_KIND_CLOSE_CURLY);
         self.tokenKindTab[@"true"] = @(XP_TOKEN_KIND_TRUE);
         self.tokenKindTab[@"return"] = @(XP_TOKEN_KIND_RETURN);
+        self.tokenKindTab[@"if"] = @(XP_TOKEN_KIND_IF);
         self.tokenKindTab[@"!="] = @(XP_TOKEN_KIND_NOT_EQUAL);
+        self.tokenKindTab[@"else"] = @(XP_TOKEN_KIND_ELSE);
         self.tokenKindTab[@"!"] = @(XP_TOKEN_KIND_BANG);
         self.tokenKindTab[@";"] = @(XP_TOKEN_KIND_SEMI_COLON);
         self.tokenKindTab[@"<"] = @(XP_TOKEN_KIND_LT_SYM);
@@ -96,12 +98,12 @@
         self.tokenKindTab[@"var"] = @(XP_TOKEN_KIND_VAR);
         self.tokenKindTab[@"eq"] = @(XP_TOKEN_KIND_EQ);
         self.tokenKindTab[@")"] = @(XP_TOKEN_KIND_CLOSE_PAREN);
-        self.tokenKindTab[@"ne"] = @(XP_TOKEN_KIND_NE);
-        self.tokenKindTab[@"or"] = @(XP_TOKEN_KIND_OR);
-        self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
-        self.tokenKindTab[@"+"] = @(XP_TOKEN_KIND_PLUS);
         self.tokenKindTab[@"*"] = @(XP_TOKEN_KIND_TIMES);
+        self.tokenKindTab[@"or"] = @(XP_TOKEN_KIND_OR);
+        self.tokenKindTab[@"ne"] = @(XP_TOKEN_KIND_NE);
+        self.tokenKindTab[@"+"] = @(XP_TOKEN_KIND_PLUS);
         self.tokenKindTab[@"||"] = @(XP_TOKEN_KIND_DOUBLE_PIPE);
+        self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
         self.tokenKindTab[@","] = @(XP_TOKEN_KIND_COMMA);
         self.tokenKindTab[@"and"] = @(XP_TOKEN_KIND_AND);
         self.tokenKindTab[@"-"] = @(XP_TOKEN_KIND_MINUS);
@@ -120,7 +122,9 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_CURLY] = @"}";
         self.tokenKindNameTab[XP_TOKEN_KIND_TRUE] = @"true";
         self.tokenKindNameTab[XP_TOKEN_KIND_RETURN] = @"return";
+        self.tokenKindNameTab[XP_TOKEN_KIND_IF] = @"if";
         self.tokenKindNameTab[XP_TOKEN_KIND_NOT_EQUAL] = @"!=";
+        self.tokenKindNameTab[XP_TOKEN_KIND_ELSE] = @"else";
         self.tokenKindNameTab[XP_TOKEN_KIND_BANG] = @"!";
         self.tokenKindNameTab[XP_TOKEN_KIND_SEMI_COLON] = @";";
         self.tokenKindNameTab[XP_TOKEN_KIND_LT_SYM] = @"<";
@@ -133,12 +137,12 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_VAR] = @"var";
         self.tokenKindNameTab[XP_TOKEN_KIND_EQ] = @"eq";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_PAREN] = @")";
-        self.tokenKindNameTab[XP_TOKEN_KIND_NE] = @"ne";
-        self.tokenKindNameTab[XP_TOKEN_KIND_OR] = @"or";
-        self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
-        self.tokenKindNameTab[XP_TOKEN_KIND_PLUS] = @"+";
         self.tokenKindNameTab[XP_TOKEN_KIND_TIMES] = @"*";
+        self.tokenKindNameTab[XP_TOKEN_KIND_OR] = @"or";
+        self.tokenKindNameTab[XP_TOKEN_KIND_NE] = @"ne";
+        self.tokenKindNameTab[XP_TOKEN_KIND_PLUS] = @"+";
         self.tokenKindNameTab[XP_TOKEN_KIND_DOUBLE_PIPE] = @"||";
+        self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
         self.tokenKindNameTab[XP_TOKEN_KIND_COMMA] = @",";
         self.tokenKindNameTab[XP_TOKEN_KIND_AND] = @"and";
         self.tokenKindNameTab[XP_TOKEN_KIND_MINUS] = @"-";
@@ -211,6 +215,8 @@
     
     if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
         [self stat_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_IF, 0]) {
+        [self ifBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_SUB, 0]) {
         [self funcDecl_]; 
     } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
@@ -334,6 +340,42 @@
     }];
 
     [self fireDelegateSelector:@selector(parser:didMatchAssign:)];
+}
+
+- (void)ifBlock_ {
+    
+    [self match:XP_TOKEN_KIND_IF discard:NO]; 
+    [self expr_]; 
+    [self block_]; 
+    if ([self speculate:^{ if ([self speculate:^{ [self elifBlock_]; }]) {[self elifBlock_]; } else if ([self speculate:^{ [self elseBlock_]; }]) {[self elseBlock_]; } else {[self raise:@"No viable alternative found in rule 'ifBlock'."];}}]) {
+        if ([self speculate:^{ [self elifBlock_]; }]) {
+            [self elifBlock_]; 
+        } else if ([self speculate:^{ [self elseBlock_]; }]) {
+            [self elseBlock_]; 
+        } else {
+            [self raise:@"No viable alternative found in rule 'ifBlock'."];
+        }
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchIfBlock:)];
+}
+
+- (void)elifBlock_ {
+    
+    [self match:XP_TOKEN_KIND_ELSE discard:YES]; 
+    [self match:XP_TOKEN_KIND_IF discard:NO]; 
+    [self expr_]; 
+    [self block_]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchElifBlock:)];
+}
+
+- (void)elseBlock_ {
+    
+    [self match:XP_TOKEN_KIND_ELSE discard:NO]; 
+    [self block_]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchElseBlock:)];
 }
 
 - (void)funcList_ {
