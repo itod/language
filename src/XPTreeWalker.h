@@ -25,8 +25,8 @@
 - (void)funcDecl:(XPNode *)node;
 - (id)funcCall:(XPNode *)node;
 - (void)returnStat:(XPNode *)node;
-- (void)ifBlock:(XPNode *)node;
-- (void)elseBlock:(XPNode *)node;
+- (id)ifBlock:(XPNode *)node;
+- (id)elseBlock:(XPNode *)node;
 
 @property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, retain) XPMemorySpace *globals;

@@ -135,7 +135,7 @@
 - (void)funcDecl:(XPNode *)node {}
 - (id)funcCall:(XPNode *)node { return nil; }
 - (void)returnStat:(XPNode *)node {}
-- (void)ifBlock:(XPNode *)node {}
-- (void)elseBlock:(XPNode *)node {}
+- (id)ifBlock:(XPNode *)node {return nil;}
+- (id)elseBlock:(XPNode *)node {return nil;}
 
 @end

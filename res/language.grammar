@@ -173,7 +173,7 @@ ifBlock     = 'if' expr block {
     [ifNode addChild:block];
     PUSH(ifNode);
 }
-              (elifBlock | elseBlock)?;
+              elifBlock* elseBlock?;
 elifBlock   = 'else'! 'if' expr block {
     XPNode *block = POP();
     XPExpression *expr = POP();

@@ -362,14 +362,11 @@
     PUSH(ifNode);
 
     }];
-    if ([self speculate:^{ if ([self speculate:^{ [self elifBlock_]; }]) {[self elifBlock_]; } else if ([self speculate:^{ [self elseBlock_]; }]) {[self elseBlock_]; } else {[self raise:@"No viable alternative found in rule 'ifBlock'."];}}]) {
-        if ([self speculate:^{ [self elifBlock_]; }]) {
-            [self elifBlock_]; 
-        } else if ([self speculate:^{ [self elseBlock_]; }]) {
-            [self elseBlock_]; 
-        } else {
-            [self raise:@"No viable alternative found in rule 'ifBlock'."];
-        }
+    while ([self speculate:^{ [self elifBlock_]; }]) {
+        [self elifBlock_]; 
+    }
+    if ([self speculate:^{ [self elseBlock_]; }]) {
+        [self elseBlock_]; 
     }
 
     [self fireDelegateSelector:@selector(parser:didMatchIfBlock:)];

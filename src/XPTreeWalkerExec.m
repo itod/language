@@ -165,22 +165,30 @@
 #pragma mark -
 #pragma mark If
 
-- (void)ifBlock:(XPNode *)node {
+- (id)ifBlock:(XPNode *)node {
     XPExpression *expr = [node childAtIndex:0];
     BOOL b = [expr evaluateAsBooleanInContext:self];
     if (b) {
         XPNode *block = [node childAtIndex:1];
         [self block:block];
-    } else if ([node childCount] > 2) {
-        XPNode *test = [node childAtIndex:2];
-        [self walk:test];
+        return @YES;
     }
+    
+    NSUInteger childCount = [node childCount];
+    for (NSUInteger i = 2; i < childCount; ++i) {
+        XPNode *test = [node childAtIndex:i];
+        b = [[self walk:test] boolValue];
+        if (b) break;
+    }
+    
+    return @YES;
 }
 
 
-- (void)elseBlock:(XPNode *)node {
+- (id)elseBlock:(XPNode *)node {
     XPNode *block = [node childAtIndex:0];
     [self block:block];
+    return @YES;
 }
 
 
