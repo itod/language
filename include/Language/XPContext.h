@@ -13,5 +13,6 @@
 @protocol XPContext <NSObject>
 
 - (id)loadVariableReference:(XPNode *)node;
+- (id)walk:(XPNode *)node;
 
 @end

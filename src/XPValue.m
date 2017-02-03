@@ -50,6 +50,16 @@ double XPNumberFromString(NSString *s) {
 
 @implementation XPValue
 
++ (XPValue *)nullValue {
+    TDAssertMainThread();
+    static XPValue *sNull = nil;
+    if (!sNull) {
+        sNull = [[XPObjectValue alloc] initWithObject:@""];
+    }
+    return sNull;
+}
+
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@ %p `%@`>", [self class], self, [self objectValue]];
 }

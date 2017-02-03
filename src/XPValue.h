@@ -29,6 +29,8 @@ double XPNumberFromString(NSString *s);
 
 @interface XPValue : XPExpression
 
++ (XPValue *)nullValue;
+
 - (id)objectValue;
 - (NSString *)stringValue;
 - (double)doubleValue;

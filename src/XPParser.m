@@ -13,6 +13,7 @@
 #import <Language/XPArithmeticExpression.h>
 #import <Language/XPCallExpression.h>
 #import <Language/XPRefExpression.h>
+#import <Language/XPFunctionExpression.h>
 #import <Language/XPPathExpression.h>
 
 #import <Language/XPGlobalScope.h>
@@ -30,6 +31,7 @@
 @property (nonatomic, retain) PKToken *blockTok;
 @property (nonatomic, retain) PKToken *callTok;
 @property (nonatomic, retain) PKToken *subTok;
+@property (nonatomic, retain) PKToken *anonTok;
 @property (nonatomic, retain) PKToken *openParenTok;
 @property (nonatomic, retain) PKToken *openCurlyTok;
 @property (nonatomic, retain) PKToken *minusTok;
@@ -69,6 +71,7 @@
     self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
     self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];
+    self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"<ANON>" doubleValue:0.0];
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
     self.openCurlyTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:[NSString stringWithFormat:@"%C", 0x7B] doubleValue:0.0];
     self.minusTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
@@ -167,6 +170,7 @@
     self.blockTok = nil;
     self.callTok = nil;
     self.subTok = nil;
+    self.anonTok = nil;
     self.openParenTok = nil;
     self.openCurlyTok = nil;
     self.minusTok = nil;
@@ -215,15 +219,15 @@
 
 - (void)globalItem_ {
     
-    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+    if ([self speculate:^{ [self stat_]; }]) {
         [self stat_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_IF, 0]) {
+    } else if ([self speculate:^{ [self ifBlock_]; }]) {
         [self ifBlock_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_WHILE, 0]) {
+    } else if ([self speculate:^{ [self whileBlock_]; }]) {
         [self whileBlock_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_SUB, 0]) {
+    } else if ([self speculate:^{ [self funcDecl_]; }]) {
         [self funcDecl_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
+    } else if ([self speculate:^{ [self block_]; }]) {
         [self block_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'globalItem'."];
@@ -243,7 +247,7 @@
 
 - (void)localItem_ {
     
-    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
         [self stat_]; 
     } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
         [self block_]; 
@@ -446,7 +450,7 @@
 
 - (void)funcItem_ {
     
-    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
         [self stat_]; 
     } else if ([self predicts:XP_TOKEN_KIND_IF, 0]) {
         [self ifBlock_]; 
@@ -491,13 +495,27 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:nameTok.stringValue enclosingScope:_currentScope];
     [_currentScope defineSymbol:funcSym];
     id subTok = POP();
-    PUSH(nameTok);
-    PUSH(subTok);
+    XPNode *func = [XPNode nodeWithToken:subTok];
+    [func addChild:[XPNode nodeWithToken:nameTok]]; // qid / func name
+    PUSH(func);
+    PUSH(subTok); // barrier for later
 
     // push func scope
     self.currentScope = funcSym;
 
     }];
+    [self funcBody_]; 
+    [self execute:^{
+    
+    POP(); // pop func node for non literls
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchFuncDecl:)];
+}
+
+- (void)funcBody_ {
+    
     [self match:XP_TOKEN_KIND_OPEN_PAREN discard:YES]; 
     [self paramList_]; 
     [self match:XP_TOKEN_KIND_CLOSE_PAREN discard:YES]; 
@@ -516,9 +534,10 @@
     XPNode *block = [XPNode nodeWithToken:_blockTok];
     [block addChildren:stats];
 
-    XPNode *func = [XPNode nodeWithToken:POP()];
-    [func addChild:[XPNode nodeWithToken:POP()]]; // qid / func name
+    POP(); // 'sub'
+    XPNode *func = POP();
     [func addChild:block];
+    PUSH(func); // for literals
 
     XPFunctionSymbol *funcSym = (id)_currentScope;
     funcSym.blockNode = block;
@@ -528,7 +547,7 @@
 
     }];
 
-    [self fireDelegateSelector:@selector(parser:didMatchFuncDecl:)];
+    [self fireDelegateSelector:@selector(parser:didMatchFuncBody:)];
 }
 
 - (void)paramList_ {
@@ -623,6 +642,29 @@
     [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchFuncBlock:)];
+}
+
+- (void)funcLiteral_ {
+    
+    [self match:XP_TOKEN_KIND_SUB discard:NO]; 
+    [self execute:^{
+    
+    // def func
+    XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:_anonTok.stringValue enclosingScope:_currentScope];
+    [_currentScope defineSymbol:funcSym];
+    id subTok = POP();
+    XPNode *func = [XPFunctionExpression nodeWithToken:_anonTok];
+    [func addChild:[XPNode nodeWithToken:_anonTok]]; // qid / func name
+    PUSH(func);
+    PUSH(subTok); // barrier for later
+
+    // push func scope
+    self.currentScope = funcSym;
+
+    }];
+    [self funcBody_]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchFuncLiteral:)];
 }
 
 - (void)funcCall_ {
@@ -991,7 +1033,7 @@
     
     if ([self predicts:XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_NOT, 0]) {
         [self negatedUnary_]; 
-    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_TRUE, 0]) {
+    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
         [self unary_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'unaryExpr'."];
@@ -1036,7 +1078,7 @@
     
     if ([self predicts:XP_TOKEN_KIND_MINUS, 0]) {
         [self signedPrimaryExpr_]; 
-    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_TRUE, 0]) {
+    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
         [self primaryExpr_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'unary'."];
@@ -1071,7 +1113,7 @@
 
 - (void)primaryExpr_ {
     
-    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_TRUE, 0]) {
+    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
         [self atom_]; 
     } else if ([self predicts:XP_TOKEN_KIND_OPEN_PAREN, 0]) {
         [self subExpr_]; 
@@ -1100,8 +1142,10 @@
 
 - (void)atom_ {
     
-    if ([self speculate:^{ [self literal_]; }]) {
-        [self literal_]; 
+    if ([self speculate:^{ [self scalar_]; }]) {
+        [self scalar_]; 
+    } else if ([self speculate:^{ [self funcLiteral_]; }]) {
+        [self funcLiteral_]; 
     } else if ([self speculate:^{ [self funcCall_]; }]) {
         [self funcCall_]; 
     } else if ([self speculate:^{ [self varRef_]; }]) {
@@ -1174,7 +1218,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchIdentifier:)];
 }
 
-- (void)literal_ {
+- (void)scalar_ {
     
     if ([self predicts:TOKEN_KIND_BUILTIN_QUOTEDSTRING, 0]) {
         [self str_]; 
@@ -1183,10 +1227,10 @@
     } else if ([self predicts:XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_TRUE, 0]) {
         [self bool_]; 
     } else {
-        [self raise:@"No viable alternative found in rule 'literal'."];
+        [self raise:@"No viable alternative found in rule 'scalar'."];
     }
 
-    [self fireDelegateSelector:@selector(parser:didMatchLiteral:)];
+    [self fireDelegateSelector:@selector(parser:didMatchScalar:)];
 }
 
 - (void)bool_ {

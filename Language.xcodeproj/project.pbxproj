@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		D30562961E3BD929008BEC9A /* Language.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D305628C1E3BD929008BEC9A /* Language.framework */; };
 		D305629D1E3BD929008BEC9A /* Language.h in Headers */ = {isa = PBXBuildFile; fileRef = D305628F1E3BD929008BEC9A /* Language.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D30C5C5F1E4508F1001A6F5D /* XPFuncLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D30C5C5D1E4508DC001A6F5D /* XPFuncLiteralTests.m */; };
+		D30C5C621E45094D001A6F5D /* XPFunctionExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D30C5C601E45094D001A6F5D /* XPFunctionExpression.h */; };
+		D30C5C631E45094D001A6F5D /* XPFunctionExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = D30C5C611E45094D001A6F5D /* XPFunctionExpression.m */; };
 		D3689FA41E3BDB57005783BB /* PEGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA21E3BDB57005783BB /* PEGKit.framework */; };
 		D3689FA51E3BDB57005783BB /* TDTemplateEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */; };
 		D3689FA91E3BDD7C005783BB /* XPExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FA81E3BDD7C005783BB /* XPExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -106,6 +109,9 @@
 		D30562901E3BD929008BEC9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = src/Info.plist; sourceTree = SOURCE_ROOT; };
 		D30562951E3BD929008BEC9A /* LanguageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LanguageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D305629C1E3BD929008BEC9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = test/Info.plist; sourceTree = SOURCE_ROOT; };
+		D30C5C5D1E4508DC001A6F5D /* XPFuncLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFuncLiteralTests.m; path = test/XPFuncLiteralTests.m; sourceTree = SOURCE_ROOT; };
+		D30C5C601E45094D001A6F5D /* XPFunctionExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPFunctionExpression.h; path = src/XPFunctionExpression.h; sourceTree = SOURCE_ROOT; };
+		D30C5C611E45094D001A6F5D /* XPFunctionExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFunctionExpression.m; path = src/XPFunctionExpression.m; sourceTree = SOURCE_ROOT; };
 		D3689FA21E3BDB57005783BB /* PEGKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PEGKit.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/PEGKit.framework"; sourceTree = "<group>"; };
 		D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TDTemplateEngine.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/TDTemplateEngine.framework"; sourceTree = "<group>"; };
 		D3689FA81E3BDD7C005783BB /* XPExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPExpression.h; path = include/Language/XPExpression.h; sourceTree = SOURCE_ROOT; };
@@ -305,6 +311,8 @@
 				D3DF58C11E42EBB9006CAA07 /* XPCallExpression.m */,
 				D3DF58C81E438608006CAA07 /* XPRefExpression.h */,
 				D3DF58C91E438608006CAA07 /* XPRefExpression.m */,
+				D30C5C601E45094D001A6F5D /* XPFunctionExpression.h */,
+				D30C5C611E45094D001A6F5D /* XPFunctionExpression.m */,
 			);
 			name = Unary;
 			sourceTree = "<group>";
@@ -367,9 +375,10 @@
 				D373169D1E3EBA490034798E /* XPBaseStatementTests.m */,
 				D37316921E3EB75F0034798E /* XPVarDeclTests.m */,
 				D37316E71E3FB6AD0034798E /* XPAssignTests.m */,
-				D3DF58B61E429ACA006CAA07 /* XPFuncDeclTests.m */,
 				D3DF58CC1E44E276006CAA07 /* XPIfBlockTests.m */,
 				D3DF58CE1E44F69F006CAA07 /* XPWhileBlockTests.m */,
+				D3DF58B61E429ACA006CAA07 /* XPFuncDeclTests.m */,
+				D30C5C5D1E4508DC001A6F5D /* XPFuncLiteralTests.m */,
 			);
 			name = Stat;
 			sourceTree = "<group>";
@@ -460,6 +469,7 @@
 				D3689FEA1E3BDE7B005783BB /* XPObjectValue.h in Headers */,
 				D37316C71E3EC1B10034798E /* XPPathExpression.h in Headers */,
 				D3DF58C21E42EBB9006CAA07 /* XPCallExpression.h in Headers */,
+				D30C5C621E45094D001A6F5D /* XPFunctionExpression.h in Headers */,
 				D3689FD51E3BDE7B005783BB /* XPBinaryExpression.h in Headers */,
 				D3689FFA1E3BDE7B005783BB /* XPValue.h in Headers */,
 				D37316CB1E3EC49C0034798E /* XPGlobalScope.h in Headers */,
@@ -581,6 +591,7 @@
 				D3689FE91E3BDE7B005783BB /* XPNumericValue.m in Sources */,
 				D37316BB1E3EBF980034798E /* XPVariableSymbol.m in Sources */,
 				D3689FD61E3BDE7B005783BB /* XPBinaryExpression.m in Sources */,
+				D30C5C631E45094D001A6F5D /* XPFunctionExpression.m in Sources */,
 				D37316CC1E3EC49C0034798E /* XPGlobalScope.m in Sources */,
 				D3689FF91E3BDE7B005783BB /* XPUnaryExpression.m in Sources */,
 				D37316B71E3EBF800034798E /* XPSymbol.m in Sources */,
@@ -608,6 +619,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D368A01F1E3BE4F8005783BB /* XPRelationalExpressionTests.m in Sources */,
+				D30C5C5F1E4508F1001A6F5D /* XPFuncLiteralTests.m in Sources */,
 				D368A0201E3BE4F8005783BB /* XPUnaryExpressionTests.m in Sources */,
 				D3DF58CD1E44E276006CAA07 /* XPIfBlockTests.m in Sources */,
 				D368A0181E3BE4F8005783BB /* XPBooleanExpressionTests.m in Sources */,

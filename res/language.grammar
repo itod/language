@@ -29,6 +29,7 @@
 #import <Language/XPArithmeticExpression.h>
 #import <Language/XPCallExpression.h>
 #import <Language/XPRefExpression.h>
+#import <Language/XPFunctionExpression.h>
 #import <Language/XPPathExpression.h>
 
 #import <Language/XPGlobalScope.h>
@@ -45,6 +46,7 @@
 @property (nonatomic, retain) PKToken *blockTok;
 @property (nonatomic, retain) PKToken *callTok;
 @property (nonatomic, retain) PKToken *subTok;
+@property (nonatomic, retain) PKToken *anonTok;
 @property (nonatomic, retain) PKToken *openParenTok;
 @property (nonatomic, retain) PKToken *openCurlyTok;
 @property (nonatomic, retain) PKToken *minusTok;
@@ -80,6 +82,7 @@
     self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
     self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];
+    self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"<ANON>" doubleValue:0.0];
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
     self.openCurlyTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:[NSString stringWithFormat:@"%C", 0x7B] doubleValue:0.0];
     self.minusTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
@@ -93,6 +96,7 @@
     self.blockTok = nil;
     self.callTok = nil;
     self.subTok = nil;
+    self.anonTok = nil;
     self.openParenTok = nil;
     self.openCurlyTok = nil;
     self.minusTok = nil;
@@ -219,12 +223,18 @@ funcDecl    = 'sub' qid {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:nameTok.stringValue enclosingScope:_currentScope];
     [_currentScope defineSymbol:funcSym];
     id subTok = POP();
-    PUSH(nameTok);
-    PUSH(subTok);
+    XPNode *func = [XPNode nodeWithToken:subTok];
+    [func addChild:[XPNode nodeWithToken:nameTok]]; // qid / func name
+    PUSH(func);
+    PUSH(subTok); // barrier for later
 
     // push func scope
     self.currentScope = funcSym;
-}
+}           funcBody {
+    POP(); // pop func node for non literls
+};
+
+funcBody    =
               '('! paramList ')'! {
     XPFunctionSymbol *funcSym = (id)_currentScope;
     NSMutableDictionary *params = POP();
@@ -236,9 +246,10 @@ funcDecl    = 'sub' qid {
     XPNode *block = [XPNode nodeWithToken:_blockTok];
     [block addChildren:stats];
 
-    XPNode *func = [XPNode nodeWithToken:POP()];
-    [func addChild:[XPNode nodeWithToken:POP()]]; // qid / func name
+    POP(); // 'sub'
+    XPNode *func = POP();
     [func addChild:block];
+    PUSH(func); // for literals
 
     XPFunctionSymbol *funcSym = (id)_currentScope;
     funcSym.blockNode = block;
@@ -289,6 +300,22 @@ nakedParam  = qid {
 };
 
 funcBlock   = '{'! funcList? '}'!;
+
+// FUNC LITERAL
+funcLiteral = 'sub' {
+    // def func
+    XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:_anonTok.stringValue enclosingScope:_currentScope];
+    [_currentScope defineSymbol:funcSym];
+    id subTok = POP();
+    XPNode *func = [XPFunctionExpression nodeWithToken:_anonTok];
+    [func addChild:[XPNode nodeWithToken:_anonTok]]; // qid / func name
+    PUSH(func);
+    PUSH(subTok); // barrier for later
+
+    // push func scope
+    self.currentScope = funcSym;
+}
+    funcBody;
 
 // FUNC CALL
 funcCall    = qid '(' argList? ')'! {
@@ -405,7 +432,7 @@ subExpr
     PUSH_ALL(REV(objs));
 };
 
-atom = literal | funcCall | varRef | pathExpr;
+atom = scalar | funcLiteral | funcCall | varRef | pathExpr;
 
 varRef = qid {
     XPRefExpression *varRef = [XPRefExpression nodeWithToken:POP()];
@@ -426,7 +453,7 @@ pathExpr
 step = identifier | num;
 identifier = Word { PUSH(POP_STR()); };
 
-literal = str | num | bool;
+scalar = str | num | bool;
 bool
     = true { PUSH([XPBooleanValue booleanValueWithBoolean:YES]); }
     | false { PUSH([XPBooleanValue booleanValueWithBoolean:NO]); }
