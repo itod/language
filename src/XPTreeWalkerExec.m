@@ -86,6 +86,50 @@
 
 
 #pragma mark -
+#pragma mark While
+
+- (void)whileBlock:(XPNode *)node {
+    XPExpression *expr = [node childAtIndex:0];
+    XPNode *block = [node childAtIndex:1];
+    
+    BOOL b = [expr evaluateAsBooleanInContext:self];
+    while (b) {
+        [self block:block];
+        b = [expr evaluateAsBooleanInContext:self];
+    }
+}
+
+
+#pragma mark -
+#pragma mark If
+
+- (id)ifBlock:(XPNode *)node {
+    XPExpression *expr = [node childAtIndex:0];
+    BOOL b = [expr evaluateAsBooleanInContext:self];
+    if (b) {
+        XPNode *block = [node childAtIndex:1];
+        [self block:block];
+        return @YES;
+    }
+    
+    NSUInteger childCount = [node childCount];
+    for (NSUInteger i = 2; i < childCount; ++i) {
+        XPNode *test = [node childAtIndex:i];
+        b = [[self walk:test] boolValue];
+        if (b) break;
+    }
+    
+    return @NO;
+}
+
+
+- (void)elseBlock:(XPNode *)node {
+    XPNode *block = [node childAtIndex:0];
+    [self block:block];
+}
+
+
+#pragma mark -
 #pragma mark Functions
 
 - (id)funcCall:(XPNode *)node {
@@ -159,50 +203,6 @@
     TDAssert(_sharedReturnValue);
     _sharedReturnValue.value = val;
     @throw _sharedReturnValue;
-}
-
-
-#pragma mark -
-#pragma mark While
-
-- (void)whileBlock:(XPNode *)node {
-    XPExpression *expr = [node childAtIndex:0];
-    XPNode *block = [node childAtIndex:1];
-    
-    BOOL b = [expr evaluateAsBooleanInContext:self];
-    while (b) {
-        [self block:block];
-        b = [expr evaluateAsBooleanInContext:self];
-    }
-}
-
-
-#pragma mark -
-#pragma mark If
-
-- (id)ifBlock:(XPNode *)node {
-    XPExpression *expr = [node childAtIndex:0];
-    BOOL b = [expr evaluateAsBooleanInContext:self];
-    if (b) {
-        XPNode *block = [node childAtIndex:1];
-        [self block:block];
-        return @YES;
-    }
-    
-    NSUInteger childCount = [node childCount];
-    for (NSUInteger i = 2; i < childCount; ++i) {
-        XPNode *test = [node childAtIndex:i];
-        b = [[self walk:test] boolValue];
-        if (b) break;
-    }
-    
-    return @NO;
-}
-
-
-- (void)elseBlock:(XPNode *)node {
-    XPNode *block = [node childAtIndex:0];
-    [self block:block];
 }
 
 @end
