@@ -13,6 +13,7 @@
 #import "XPFunctionSpace.h"
 
 #import "XPValue.h"
+#import "XPFunctionValue.h"
 #import "XPNode.h"
 #import "XPExpression.h"
 
@@ -135,6 +136,16 @@
 - (id)funcCall:(XPNode *)node {
     NSString *name = [[[node childAtIndex:0] token] stringValue];
     XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
+    
+    // maybe this was a call on a func literal
+    if (!funcSym) {
+        XPValue *val = [self.currentSpace objectForName:name];
+        if ([val isFunctionValue]) {
+            funcSym = [val childAtIndex:0];
+            TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
+        }
+    }
+    
     if (!funcSym) {
         [self raise:XPExceptionUndeclaredSymbol node:node format:@"Call to known function named: %@", name];
         return nil;

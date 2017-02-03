@@ -45,4 +45,5 @@ double XPNumberFromString(NSString *s);
 - (BOOL)isBooleanValue;
 - (BOOL)isNumericValue;
 - (BOOL)isStringValue;
+- (BOOL)isFunctionValue;
 @end

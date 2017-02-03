@@ -61,7 +61,7 @@ double XPNumberFromString(NSString *s) {
 
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@ %p `%@`>", [self class], self, [self objectValue]];
+    return [NSString stringWithFormat:@"<%@ %p `%@`>", [self class], self, [self stringValue]];
 }
 
 
@@ -161,6 +161,11 @@ double XPNumberFromString(NSString *s) {
 
 - (BOOL)isStringValue {
     return XPDataTypeString == [self dataType];
+}
+
+
+- (BOOL)isFunctionValue {
+    return NO;
 }
 
 @end

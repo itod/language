@@ -651,10 +651,10 @@
     
     // def func
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:_anonTok.stringValue enclosingScope:_currentScope];
-    [_currentScope defineSymbol:funcSym];
+    // don't define fyncSym here
     id subTok = POP();
-    XPNode *func = [XPFunctionValue nodeWithToken:_anonTok];
-    [func addChild:[XPNode nodeWithToken:_anonTok]]; // qid / func name
+    XPFunctionValue *func = [XPFunctionValue nodeWithToken:_anonTok];
+    [func addChild:(id)funcSym];
     PUSH(func);
     PUSH(subTok); // barrier for later
 
