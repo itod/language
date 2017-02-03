@@ -59,4 +59,16 @@
     TDEquals(1.0, [[interp.globals objectForName:@"c"] doubleValue]);
 }
 
+- (void)testWhile5 {
+    NSString *input = @"var i=5;var c=0;while i>0{i=i-1;c=c+1;}";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNil(err);
+    
+    TDEquals(5.0, [[interp.globals objectForName:@"c"] doubleValue]);
+}
+
 @end
