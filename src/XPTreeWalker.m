@@ -38,12 +38,18 @@
 #pragma mark XPContext
 
 - (id)loadVariableReference:(XPNode *)node {
+    id res = [self _loadVariableReference:node];
+    if (!res) {
+        [self raise:XPExceptionUndeclaredSymbol node:node format:@"unknown var reference: `%@`", node.token.stringValue];
+    }
+    return res;
+}
+
+
+- (id)_loadVariableReference:(XPNode *)node {
     NSString *name = node.token.stringValue;
     XPMemorySpace *space = [self spaceWithSymbolNamed:name];
     id res = [space objectForName:name];
-    if (!res) {
-        [self raise:XPExceptionUndeclaredSymbol node:node format:@"unknown var reference: `%@`", name];
-    }
     return res;
 }
 

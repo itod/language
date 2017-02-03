@@ -35,6 +35,10 @@
 
 @end
 
+@interface XPTreeWalker ()
+- (id)_loadVariableReference:(XPNode *)node;
+@end
+
 @interface XPTreeWalkerExec ()
 @property (nonatomic, retain) XPFlowException *sharedReturnValue;
 @end
@@ -134,76 +138,93 @@
 #pragma mark Functions
 
 - (id)funcCall:(XPNode *)node {
-    XPNode *nameNode = [node childAtIndex:0];
-    NSString *name = nameNode.token.stringValue;
-    XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
-    
-    // maybe this was a call on a func literal
-    if (!funcSym) {
-        XPValue *val = [self loadVariableReference:nameNode];
+    XPFunctionSymbol *funcSym = nil;
+    NSString *name = nil;
+
+    // FIND FUNC SYM
+    {
+        XPNode *nameNode = [node childAtIndex:0];
+        name = nameNode.token.stringValue;
+        
+        // maybe this was a call on a func literal
+        XPValue *val = [self _loadVariableReference:nameNode];
         if ([val isFunctionValue]) {
             funcSym = (id)[val childAtIndex:0];
-            TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
         }
+        
+        // or a statically-declared func
+        if (!funcSym) {
+            funcSym = (id)[node.scope resolveSymbolNamed:name];
+        }
+        
+        if (!funcSym) {
+            [self raise:XPExceptionUndeclaredSymbol node:node format:@"Call to known function named: %@", name];
+            return nil;
+        }
+        
+        TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
     }
-    
-    if (!funcSym) {
-        [self raise:XPExceptionUndeclaredSymbol node:node format:@"Call to known function named: %@", name];
-        return nil;
-    }
-    
+
+    // PUSH MEMORY SPACE
     XPFunctionSpace *funcSpace = [XPFunctionSpace spaceWithSymbol:funcSym];
     XPMemorySpace *saveSpace = self.currentSpace;
     TDAssert(saveSpace);
 
-    // apply default param values
+    // APPLY DEFAULT PARAMS
     for (NSString *name in funcSym.defaultParamValues) {
         XPExpression *expr = funcSym.defaultParamValues[name];
         XPValue *val = [expr evaluateInContext:self];
         [funcSpace setObject:val forName:name];
     }
     
-    NSUInteger argCount = [node childCount]-OFFSET;
-    TDAssert(NSNotFound != argCount);
-    NSUInteger paramCount = [funcSym.params count];
-    TDAssert(NSNotFound != paramCount);
-    NSUInteger defaultParamCount = [funcSym.defaultParamValues count];
-    TDAssert(NSNotFound != defaultParamCount);
-    
-    // check for too many args
-    if (argCount > paramCount) {
-        [self raise:XPExceptionTooManyArguments node:node format:@"sub `%@` called with too many arguments. %ld given, no more than %ld expected", name, argCount, paramCount];
-        return nil;
+    // EVAL ARGS
+    {
+        NSUInteger argCount = [node childCount]-OFFSET;
+        TDAssert(NSNotFound != argCount);
+        NSUInteger paramCount = [funcSym.params count];
+        TDAssert(NSNotFound != paramCount);
+        NSUInteger defaultParamCount = [funcSym.defaultParamValues count];
+        TDAssert(NSNotFound != defaultParamCount);
+        
+        // check for too many args
+        if (argCount > paramCount) {
+            [self raise:XPExceptionTooManyArguments node:node format:@"sub `%@` called with too many arguments. %ld given, no more than %ld expected", name, argCount, paramCount];
+            return nil;
+        }
+        
+        // check for too few args
+        if (argCount + defaultParamCount < paramCount) {
+            [self raise:XPExceptionTooManyArguments node:node format:@"sub `%@` called with too few arguments. %@ld given, at least %ld expected", name, argCount, paramCount-defaultParamCount];
+            return nil;
+        }
+        
+        NSArray *argExprs = [node.children subarrayWithRange:NSMakeRange(OFFSET, argCount)];
+        
+        NSUInteger i = 0;
+        for (XPExpression *argExpr in argExprs) {
+            XPSymbol *param = funcSym.orderedParams[i];
+            XPValue *argValue = [argExpr evaluateInContext:self];
+            [funcSpace setObject:argValue forName:param.name];
+            ++i;
+        }
     }
     
-    // check for too few args
-    if (argCount + defaultParamCount < paramCount) {
-        [self raise:XPExceptionTooManyArguments node:node format:@"sub `%@` called with too few arguments. %@ld given, at least %ld expected", name, argCount, paramCount-defaultParamCount];
-        return nil;
-    }
-    
-    NSArray *argExprs = [node.children subarrayWithRange:NSMakeRange(OFFSET, argCount)];
-    
-    NSUInteger i = 0;
-    for (XPExpression *argExpr in argExprs) {
-        XPSymbol *param = funcSym.orderedParams[i];
-        XPValue *argValue = [argExpr evaluateInContext:self];
-        [funcSpace setObject:argValue forName:param.name];
-        ++i;
-    }
-    
+    // CALL
     id result = nil;
-    TDAssert(self.stack);
-    [self.stack addObject:funcSpace];
-
-    TDAssert(funcSym.blockNode);
-    @try {
-        [self walk:funcSym.blockNode];
-    } @catch (XPFlowException *ex) {
-        result = ex.value;
+    {
+        TDAssert(self.stack);
+        [self.stack addObject:funcSpace];
+        
+        TDAssert(funcSym.blockNode);
+        @try {
+            [self walk:funcSym.blockNode];
+        } @catch (XPFlowException *ex) {
+            result = ex.value;
+        }
+        [self.stack removeLastObject];
     }
-    [self.stack removeLastObject];
     
+    // POP MEMORY SPACE
     self.currentSpace = saveSpace;
     return result;
 }

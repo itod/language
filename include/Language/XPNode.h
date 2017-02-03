@@ -18,7 +18,7 @@
 
 - (void)addChild:(XPNode *)node;
 - (void)addChildren:(NSArray *)nodes;
-- (XPNode *)childAtIndex:(NSUInteger)i;
+- (id)childAtIndex:(NSUInteger)i;
 - (void)replaceChild:(XPNode *)node atIndex:(NSUInteger)i;
 - (NSUInteger)childCount;
 
