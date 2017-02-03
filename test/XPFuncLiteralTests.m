@@ -39,7 +39,7 @@
 }
 
 - (void)testSubRet1 {
-    NSString *input = @"var foo = sub () {return 1;};";
+    NSString *input = @"var foo=sub(){return 1;}; var bar=foo();";
     
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
@@ -47,7 +47,7 @@
     [interp interpretString:input error:&err];
     TDNil(err);
     
-    //TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+    TDEquals(1.0, [[interp.globals objectForName:@"bar"] doubleValue]);
 }
 
 @end
