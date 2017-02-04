@@ -115,7 +115,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
 
 
 - (NSError *)errorFromPEGKitError:(NSError *)inErr {
-    NSString *name = inErr.localizedDescription;
+    NSString *name = XPExceptionSyntaxError; //inErr.localizedDescription;
     NSString *reason = inErr.userInfo[NSLocalizedFailureReasonErrorKey];
     NSRange range = [inErr.userInfo[XPErrorRangeKey] rangeValue];
     NSUInteger lineNum = [inErr.userInfo[XPErrorLineNumberKey] unsignedIntegerValue];
