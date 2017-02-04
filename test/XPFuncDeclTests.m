@@ -34,8 +34,16 @@
     NSError *err = nil;
     [interp interpretString:input error:&err];
     TDNil(err);
+}
+
+- (void)testSubFooCall {
+    NSString *input = @"sub foo() {} foo();";
     
-    //TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNil(err);
 }
 
 - (void)testSubFooRet1Plus1 {

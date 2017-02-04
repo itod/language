@@ -286,12 +286,14 @@
 
 - (void)stat_ {
     
-    if ([self speculate:^{ if ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {[self varDecl_]; } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {[self assign_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {[self varDecl_]; } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {[self assign_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}[self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; }]) {
-        if ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {[self varDecl_]; } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {[self assign_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {
-            if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {
+    if ([self speculate:^{ if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}[self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; }]) {
+        if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {
+            if ([self speculate:^{ [self varDecl_]; }]) {
                 [self varDecl_]; 
-            } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {
+            } else if ([self speculate:^{ [self assign_]; }]) {
                 [self assign_]; 
+            } else if ([self speculate:^{ [self expr_]; }]) {
+                [self expr_]; 
             } else {
                 [self raise:@"No viable alternative found in rule 'stat'."];
             }
@@ -653,7 +655,7 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:_anonTok.stringValue enclosingScope:_currentScope];
     // don't define fyncSym here
     id subTok = POP();
-    XPFunctionValue *func = [XPFunctionValue nodeWithToken:_anonTok];
+    XPNode *func = [XPFunctionValue nodeWithToken:_anonTok];
     [func addChild:(id)funcSym];
     PUSH(func);
     PUSH(subTok); // barrier for later

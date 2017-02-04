@@ -51,7 +51,7 @@
 }
 
 - (void)testOverrideFail {
-    NSString *input = @"var foo=sub(){return 1;};var foo=1;foo();";
+    NSString *input = @"var foo=sub(){return 1;};var foo=1;var bar=foo();";
     
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     

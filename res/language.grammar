@@ -142,6 +142,7 @@ block
 stat        = 
             ( varDecl
             | assign
+            | expr
             )?
             ';'!
             | { _allowNakedExpressions }? expr
@@ -308,7 +309,7 @@ funcLiteral = 'sub' {
     // don't define fyncSym here
     id subTok = POP();
     XPNode *func = [XPFunctionValue nodeWithToken:_anonTok];
-    [func addChild:funcSym];
+    [func addChild:(id)funcSym];
     PUSH(func);
     PUSH(subTok); // barrier for later
 
