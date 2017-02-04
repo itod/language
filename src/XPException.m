@@ -10,7 +10,6 @@
 
 // static
 NSString * const XPExceptionSyntaxError = @"Syntax Error";
-NSString * const XPExceptionParamMisordered = @"Param Misordered";
 
 // runtime
 NSString * const XPExceptionUndeclaredSymbol = @"Undeclared Symbol";

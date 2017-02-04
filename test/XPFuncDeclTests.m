@@ -218,7 +218,7 @@
     NSError *err = nil;
     [interp interpretString:input error:&err];
     TDNotNil(err);
-    TDEqualObjects(XPExceptionParamMisordered, err.localizedDescription);
+    TDEqualObjects(XPExceptionSyntaxError, err.localizedDescription);
 }
 
 @end

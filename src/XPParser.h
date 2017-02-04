@@ -57,6 +57,7 @@ enum {
 @property (nonatomic, retain) id <XPScope>currentScope;
 @property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, assign) BOOL allowNakedExpressions;
+@property (nonatomic, assign) BOOL foundDefaultParam;
 
 @end
 

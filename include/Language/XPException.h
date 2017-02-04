@@ -10,7 +10,6 @@
 
 // static
 extern NSString * const XPExceptionSyntaxError;
-extern NSString * const XPExceptionParamMisordered;
 
 // runtime
 extern NSString * const XPExceptionUndeclaredSymbol;

@@ -558,6 +558,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     PUSH(params);
+    _foundDefaultParam = NO;
 
     }];
     if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {
@@ -591,6 +592,8 @@
     [self expr_]; 
     [self execute:^{
     
+    _foundDefaultParam = YES;
+
     XPExpression *expr = POP();
     NSString *name = POP_STR();
 
@@ -611,6 +614,7 @@
 
 - (void)nakedParam_ {
     
+    [self testAndThrow:(id)^{ return !_foundDefaultParam; }]; 
     [self qid_]; 
     [self execute:^{
     
@@ -622,12 +626,6 @@
     PUSH(params);
 
     XPFunctionSymbol *funcSym = (id)_currentScope;
-    if ([funcSym.defaultParamValues count]) {
-        [self raiseInRange:NSMakeRange(qidTok.offset, [name length]) 
-                lineNumber:qidTok.lineNumber 
-                      name:XPExceptionParamMisordered 
-                    format:@"sub `%@` has non-default parameter placed after default parameter `%@`", funcSym.name, name];
-    }
     [funcSym.orderedParams addObject:sym];
 
     }];
@@ -684,7 +682,7 @@
     XPCallExpression *call = [XPCallExpression nodeWithToken:_callTok];
     call.scope = _currentScope;
     [call addChild:[XPNode nodeWithToken:POP()]]; // qid
-    for (id arg in args) [call addChild:arg];
+    [call addChildren:args];
     PUSH(call);
 
     }];
