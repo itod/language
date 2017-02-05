@@ -24,6 +24,7 @@
 #import <Language/XPNumericValue.h>
 #import <Language/XPStringValue.h>
 #import <Language/XPFunctionValue.h>
+#import <Language/XPArrayValue.h>
 #import <Language/XPUnaryExpression.h>
 #import <Language/XPNegationExpression.h>
 #import <Language/XPBooleanExpression.h>
@@ -50,6 +51,7 @@
 @property (nonatomic, retain) PKToken *anonTok;
 @property (nonatomic, retain) PKToken *openParenTok;
 @property (nonatomic, retain) PKToken *openCurlyTok;
+@property (nonatomic, retain) PKToken *openSquareTok;
 @property (nonatomic, retain) PKToken *minusTok;
 @property (nonatomic, retain) PKToken *colonTok;
 @property (nonatomic, retain) PKToken *equalsTok;
@@ -86,6 +88,7 @@
     self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"<ANON>" doubleValue:0.0];
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
     self.openCurlyTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:[NSString stringWithFormat:@"%C", 0x7B] doubleValue:0.0];
+    self.openSquareTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"[" doubleValue:0.0];
     self.minusTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
     self.colonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@":" doubleValue:0.0];
     self.equalsTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"=" doubleValue:0.0];
@@ -100,6 +103,7 @@
     self.anonTok = nil;
     self.openParenTok = nil;
     self.openCurlyTok = nil;
+    self.openSquareTok = nil;
     self.minusTok = nil;
     self.colonTok = nil;
     self.equalsTok = nil;
@@ -431,7 +435,7 @@ subExpr
     PUSH_ALL(REV(objs));
 };
 
-atom = scalar | funcLiteral | funcCall | varRef | pathExpr;
+atom = scalar | arrayLiteral | funcLiteral | funcCall | varRef | pathExpr;
 
 varRef = qid {
     XPRefExpression *varRef = [XPRefExpression nodeWithToken:POP()];
@@ -451,6 +455,14 @@ pathExpr
 
 step = identifier | num;
 identifier = Word { PUSH(POP_STR()); };
+
+arrayLiteral = '[' elemList? ']'! {
+    NSArray *els = REV(ABOVE(_openSquareTok));
+    XPArrayValue *val = [XPArrayValue nodeWithToken:POP()];
+    [val addChildren:els];
+    PUSH(val);
+};
+elemList = expr (','! expr)*;
 
 scalar = str | num | bool;
 bool

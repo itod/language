@@ -9,22 +9,22 @@
 #import "XPArrayValue.h"
 
 @interface XPArrayValue ()
-@property (nonatomic, retain) NSMutableArray *value;
+//@property (nonatomic, retain) NSMutableArray *value;
 @end
 
 @implementation XPArrayValue
 
 - (instancetype)initWithToken:(PKToken *)tok {
-    self = [super init];
+    self = [super initWithToken:tok];
     if (self) {
-        self.value = [NSMutableArray array];
+//        self.value = [NSMutableArray array];
     }
     return self;
 }
 
 
 - (void)dealloc {
-    self.value = nil;
+//    self.value = nil;
     [super dealloc];
 }
 
@@ -32,8 +32,8 @@
 - (NSString *)stringValue {
     NSMutableString *buf = [NSMutableString stringWithString:@"["];
     
-    TDAssert(_value);
-    for (id obj in _value) {
+    TDAssert(self.children);
+    for (id obj in self.children) {
         [buf appendFormat:@"%@,", obj];
     }
     
@@ -44,8 +44,8 @@
 
 
 - (id)objectValue {
-    TDAssert(_value);
-    return _value;
+    TDAssert(self.children);
+    return self.children;
 }
 
 
@@ -55,7 +55,7 @@
 
 
 - (BOOL)boolValue {
-    return [_value count] > 0;
+    return [self childCount] > 0;
 }
 
 

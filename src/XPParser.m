@@ -7,6 +7,7 @@
 #import <Language/XPNumericValue.h>
 #import <Language/XPStringValue.h>
 #import <Language/XPFunctionValue.h>
+#import <Language/XPArrayValue.h>
 #import <Language/XPUnaryExpression.h>
 #import <Language/XPNegationExpression.h>
 #import <Language/XPBooleanExpression.h>
@@ -34,6 +35,7 @@
 @property (nonatomic, retain) PKToken *anonTok;
 @property (nonatomic, retain) PKToken *openParenTok;
 @property (nonatomic, retain) PKToken *openCurlyTok;
+@property (nonatomic, retain) PKToken *openSquareTok;
 @property (nonatomic, retain) PKToken *minusTok;
 @property (nonatomic, retain) PKToken *colonTok;
 @property (nonatomic, retain) PKToken *equalsTok;
@@ -74,6 +76,7 @@
     self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"<ANON>" doubleValue:0.0];
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
     self.openCurlyTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:[NSString stringWithFormat:@"%C", 0x7B] doubleValue:0.0];
+    self.openSquareTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"[" doubleValue:0.0];
     self.minusTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
     self.colonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@":" doubleValue:0.0];
     self.equalsTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"=" doubleValue:0.0];
@@ -110,7 +113,9 @@
         self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
         self.tokenKindTab[@","] = @(XP_TOKEN_KIND_COMMA);
         self.tokenKindTab[@"and"] = @(XP_TOKEN_KIND_AND);
+        self.tokenKindTab[@"["] = @(XP_TOKEN_KIND_OPEN_BRACKET);
         self.tokenKindTab[@"-"] = @(XP_TOKEN_KIND_MINUS);
+        self.tokenKindTab[@"]"] = @(XP_TOKEN_KIND_CLOSE_BRACKET);
         self.tokenKindTab[@"."] = @(XP_TOKEN_KIND_DOT);
         self.tokenKindTab[@"/"] = @(XP_TOKEN_KIND_DIV);
         self.tokenKindTab[@"false"] = @(XP_TOKEN_KIND_FALSE);
@@ -150,7 +155,9 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
         self.tokenKindNameTab[XP_TOKEN_KIND_COMMA] = @",";
         self.tokenKindNameTab[XP_TOKEN_KIND_AND] = @"and";
+        self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_BRACKET] = @"[";
         self.tokenKindNameTab[XP_TOKEN_KIND_MINUS] = @"-";
+        self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_BRACKET] = @"]";
         self.tokenKindNameTab[XP_TOKEN_KIND_DOT] = @".";
         self.tokenKindNameTab[XP_TOKEN_KIND_DIV] = @"/";
         self.tokenKindNameTab[XP_TOKEN_KIND_FALSE] = @"false";
@@ -173,6 +180,7 @@
     self.anonTok = nil;
     self.openParenTok = nil;
     self.openCurlyTok = nil;
+    self.openSquareTok = nil;
     self.minusTok = nil;
     self.colonTok = nil;
     self.equalsTok = nil;
@@ -247,7 +255,7 @@
 
 - (void)localItem_ {
     
-    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
         [self stat_]; 
     } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
         [self block_]; 
@@ -452,7 +460,7 @@
 
 - (void)funcItem_ {
     
-    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
         [self stat_]; 
     } else if ([self predicts:XP_TOKEN_KIND_IF, 0]) {
         [self ifBlock_]; 
@@ -1033,7 +1041,7 @@
     
     if ([self predicts:XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_NOT, 0]) {
         [self negatedUnary_]; 
-    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
+    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
         [self unary_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'unaryExpr'."];
@@ -1078,7 +1086,7 @@
     
     if ([self predicts:XP_TOKEN_KIND_MINUS, 0]) {
         [self signedPrimaryExpr_]; 
-    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
+    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
         [self primaryExpr_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'unary'."];
@@ -1113,7 +1121,7 @@
 
 - (void)primaryExpr_ {
     
-    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
+    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
         [self atom_]; 
     } else if ([self predicts:XP_TOKEN_KIND_OPEN_PAREN, 0]) {
         [self subExpr_]; 
@@ -1144,6 +1152,8 @@
     
     if ([self speculate:^{ [self scalar_]; }]) {
         [self scalar_]; 
+    } else if ([self speculate:^{ [self arrayLiteral_]; }]) {
+        [self arrayLiteral_]; 
     } else if ([self speculate:^{ [self funcLiteral_]; }]) {
         [self funcLiteral_]; 
     } else if ([self speculate:^{ [self funcCall_]; }]) {
@@ -1216,6 +1226,36 @@
     }];
 
     [self fireDelegateSelector:@selector(parser:didMatchIdentifier:)];
+}
+
+- (void)arrayLiteral_ {
+    
+    [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:NO]; 
+    if ([self speculate:^{ [self elemList_]; }]) {
+        [self elemList_]; 
+    }
+    [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
+    [self execute:^{
+    
+    NSArray *els = REV(ABOVE(_openSquareTok));
+    XPArrayValue *val = [XPArrayValue nodeWithToken:POP()];
+    [val addChildren:els];
+    PUSH(val);
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchArrayLiteral:)];
+}
+
+- (void)elemList_ {
+    
+    [self expr_]; 
+    while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self expr_]; }]) {
+        [self match:XP_TOKEN_KIND_COMMA discard:YES]; 
+        [self expr_]; 
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchElemList:)];
 }
 
 - (void)scalar_ {
