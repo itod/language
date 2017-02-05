@@ -168,4 +168,9 @@ double XPNumberFromString(NSString *s) {
     return NO;
 }
 
+
+- (BOOL)isArrayValue {
+    return NO;
+}
+
 @end

@@ -77,6 +77,8 @@
 		D37316E61E3FAB140034798E /* XPTreeWalkerExec.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316E41E3FAB140034798E /* XPTreeWalkerExec.m */; };
 		D37316E91E3FB6B10034798E /* XPAssignTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316E71E3FB6AD0034798E /* XPAssignTests.m */; };
 		D37316ED1E4121110034798E /* XPException.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316EB1E4121110034798E /* XPException.m */; };
+		D3B5F72D1E47EED300740161 /* XPArrayValue.h in Headers */ = {isa = PBXBuildFile; fileRef = D3B5F72B1E47EED300740161 /* XPArrayValue.h */; };
+		D3B5F72E1E47EED300740161 /* XPArrayValue.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B5F72C1E47EED300740161 /* XPArrayValue.m */; };
 		D3BB83651E454B8F007AC9DD /* XPException.h in Headers */ = {isa = PBXBuildFile; fileRef = D3BB83641E454B8F007AC9DD /* XPException.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3DF58B71E429ACA006CAA07 /* XPFuncDeclTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58B61E429ACA006CAA07 /* XPFuncDeclTests.m */; };
 		D3DF58BA1E429C6F006CAA07 /* XPScopedSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DF58B81E429C6F006CAA07 /* XPScopedSymbol.h */; };
@@ -181,6 +183,8 @@
 		D37316E41E3FAB140034798E /* XPTreeWalkerExec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPTreeWalkerExec.m; path = src/XPTreeWalkerExec.m; sourceTree = SOURCE_ROOT; };
 		D37316E71E3FB6AD0034798E /* XPAssignTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPAssignTests.m; path = test/XPAssignTests.m; sourceTree = SOURCE_ROOT; };
 		D37316EB1E4121110034798E /* XPException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPException.m; path = src/XPException.m; sourceTree = SOURCE_ROOT; };
+		D3B5F72B1E47EED300740161 /* XPArrayValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPArrayValue.h; path = src/XPArrayValue.h; sourceTree = SOURCE_ROOT; };
+		D3B5F72C1E47EED300740161 /* XPArrayValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPArrayValue.m; path = src/XPArrayValue.m; sourceTree = SOURCE_ROOT; };
 		D3BB83641E454B8F007AC9DD /* XPException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPException.h; path = include/Language/XPException.h; sourceTree = SOURCE_ROOT; };
 		D3DF58B61E429ACA006CAA07 /* XPFuncDeclTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFuncDeclTests.m; path = test/XPFuncDeclTests.m; sourceTree = SOURCE_ROOT; };
 		D3DF58B81E429C6F006CAA07 /* XPScopedSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPScopedSymbol.h; path = src/XPScopedSymbol.h; sourceTree = SOURCE_ROOT; };
@@ -298,6 +302,8 @@
 				D30C5C611E45094D001A6F5D /* XPFunctionValue.m */,
 				D3689FC11E3BDE7B005783BB /* XPObjectValue.h */,
 				D3689FC21E3BDE7B005783BB /* XPObjectValue.m */,
+				D3B5F72B1E47EED300740161 /* XPArrayValue.h */,
+				D3B5F72C1E47EED300740161 /* XPArrayValue.m */,
 			);
 			name = Value;
 			sourceTree = "<group>";
@@ -469,6 +475,7 @@
 				D3689FEA1E3BDE7B005783BB /* XPObjectValue.h in Headers */,
 				D37316C71E3EC1B10034798E /* XPPathExpression.h in Headers */,
 				D3DF58C21E42EBB9006CAA07 /* XPCallExpression.h in Headers */,
+				D3B5F72D1E47EED300740161 /* XPArrayValue.h in Headers */,
 				D30C5C621E45094D001A6F5D /* XPFunctionValue.h in Headers */,
 				D3689FD51E3BDE7B005783BB /* XPBinaryExpression.h in Headers */,
 				D3689FFA1E3BDE7B005783BB /* XPValue.h in Headers */,
@@ -593,6 +600,7 @@
 				D3689FD61E3BDE7B005783BB /* XPBinaryExpression.m in Sources */,
 				D30C5C631E45094D001A6F5D /* XPFunctionValue.m in Sources */,
 				D37316CC1E3EC49C0034798E /* XPGlobalScope.m in Sources */,
+				D3B5F72E1E47EED300740161 /* XPArrayValue.m in Sources */,
 				D3689FF91E3BDE7B005783BB /* XPUnaryExpression.m in Sources */,
 				D37316B71E3EBF800034798E /* XPSymbol.m in Sources */,
 				D37316D01E3EC4E50034798E /* XPLocalScope.m in Sources */,
