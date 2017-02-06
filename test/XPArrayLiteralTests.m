@@ -78,4 +78,17 @@
     TDEqualObjects(@"d", [[interp.globals objectForName:@"baz"] stringValue]);
 }
 
+- (void)testWOW {
+    NSString *input = @"var foo=make();foo[]=1;var bar=make();bar[]=2;sub make() {return [];}";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNil(err);
+    
+    TDEqualObjects(@"[1,]", [[interp.globals objectForName:@"foo"] stringValue]);
+    TDEqualObjects(@"[2,]", [[interp.globals objectForName:@"bar"] stringValue]);
+}
+
 @end
