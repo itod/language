@@ -130,6 +130,34 @@
 }
 
 
+- (void)assignAppend:(XPNode *)node {
+    XPNode *qidNode = [node childAtIndex:0];
+    NSString *name = qidNode.token.stringValue;
+    
+    
+    
+    
+    
+    // TODO: WHY NOT USING _loadVarRef:
+    XPValue *arrayVal = [self.currentSpace objectForName:name];
+    
+    if (!arrayVal) {
+        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", name];
+        return;
+    }
+    
+    if (![arrayVal isArrayValue]) {
+        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", name];
+        return;
+    }
+    
+    XPValue *val = [[node childAtIndex:1] evaluateInContext:self];
+    
+    [arrayVal addChild:val];
+
+}
+
+
 #pragma mark -
 #pragma mark While
 

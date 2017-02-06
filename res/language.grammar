@@ -3,6 +3,7 @@
 #define XP_TOKEN_KIND_BLOCK -2
 #define XP_TOKEN_KIND_CALL  -3
 #define XP_TOKEN_KIND_ASSIGN_INDEX -4
+#define XP_TOKEN_KIND_ASSIGN_APPEND -5
 
 @class PKTokenizer;
 @class XPGlobalScope;
@@ -50,6 +51,7 @@
 @property (nonatomic, retain) PKToken *blockTok;
 @property (nonatomic, retain) PKToken *callTok;
 @property (nonatomic, retain) PKToken *assignIndexTok;
+@property (nonatomic, retain) PKToken *assignAppendTok;
 @property (nonatomic, retain) PKToken *subTok;
 @property (nonatomic, retain) PKToken *anonTok;
 @property (nonatomic, retain) PKToken *openParenTok;
@@ -89,6 +91,8 @@
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
     self.assignIndexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"INDEX ASSIGN" doubleValue:0.0];
     self.assignIndexTok.tokenKind = XP_TOKEN_KIND_ASSIGN_INDEX;
+    self.assignAppendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"APPEND ASSIGN" doubleValue:0.0];
+    self.assignAppendTok.tokenKind = XP_TOKEN_KIND_ASSIGN_APPEND;
     self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];
     self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"<ANON>" doubleValue:0.0];
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
@@ -105,6 +109,7 @@
     self.blockTok = nil;
     self.callTok = nil;
     self.assignIndexTok = nil;
+    self.assignAppendTok = nil;
     self.subTok = nil;
     self.anonTok = nil;
     self.openParenTok = nil;
@@ -154,6 +159,7 @@ stat        =
             ( varDecl
             | assign
             | assignIndex
+            | assignAppend
             | expr
             )?
             ';'!
@@ -189,6 +195,16 @@ assignIndex = qid '['! expr ']'! '='! expr {
     XPNode *stat = [XPNode nodeWithToken:_assignIndexTok];
     [stat addChild:lhs];
     [stat addChild:idx];
+    [stat addChild:rhs];
+    PUSH(stat);
+};
+
+assignAppend = qid '['! ']'! '='! expr {
+    XPExpression *rhs = POP();
+    XPNode *lhs = [XPNode nodeWithToken:POP()];
+    
+    XPNode *stat = [XPNode nodeWithToken:_assignAppendTok];
+    [stat addChild:lhs];
     [stat addChild:rhs];
     PUSH(stat);
 };

@@ -33,6 +33,7 @@
 @property (nonatomic, retain) PKToken *blockTok;
 @property (nonatomic, retain) PKToken *callTok;
 @property (nonatomic, retain) PKToken *assignIndexTok;
+@property (nonatomic, retain) PKToken *assignAppendTok;
 @property (nonatomic, retain) PKToken *subTok;
 @property (nonatomic, retain) PKToken *anonTok;
 @property (nonatomic, retain) PKToken *openParenTok;
@@ -76,6 +77,8 @@
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
     self.assignIndexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"INDEX ASSIGN" doubleValue:0.0];
     self.assignIndexTok.tokenKind = XP_TOKEN_KIND_ASSIGN_INDEX;
+    self.assignAppendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"APPEND ASSIGN" doubleValue:0.0];
+    self.assignAppendTok.tokenKind = XP_TOKEN_KIND_ASSIGN_APPEND;
     self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];
     self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"<ANON>" doubleValue:0.0];
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
@@ -183,6 +186,7 @@
     self.blockTok = nil;
     self.callTok = nil;
     self.assignIndexTok = nil;
+    self.assignAppendTok = nil;
     self.subTok = nil;
     self.anonTok = nil;
     self.openParenTok = nil;
@@ -301,14 +305,16 @@
 
 - (void)stat_ {
     
-    if ([self speculate:^{ if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}[self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; }]) {
-        if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {
+    if ([self speculate:^{ if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self assignAppend_]; }]) {[self assignAppend_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self assignAppend_]; }]) {[self assignAppend_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}[self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; }]) {
+        if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self assignAppend_]; }]) {[self assignAppend_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {
             if ([self speculate:^{ [self varDecl_]; }]) {
                 [self varDecl_]; 
             } else if ([self speculate:^{ [self assign_]; }]) {
                 [self assign_]; 
             } else if ([self speculate:^{ [self assignIndex_]; }]) {
                 [self assignIndex_]; 
+            } else if ([self speculate:^{ [self assignAppend_]; }]) {
+                [self assignAppend_]; 
             } else if ([self speculate:^{ [self expr_]; }]) {
                 [self expr_]; 
             } else {
@@ -397,6 +403,28 @@
     }];
 
     [self fireDelegateSelector:@selector(parser:didMatchAssignIndex:)];
+}
+
+- (void)assignAppend_ {
+    
+    [self qid_]; 
+    [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:YES]; 
+    [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
+    [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
+    [self expr_]; 
+    [self execute:^{
+    
+    XPExpression *rhs = POP();
+    XPNode *lhs = [XPNode nodeWithToken:POP()];
+    
+    XPNode *stat = [XPNode nodeWithToken:_assignAppendTok];
+    [stat addChild:lhs];
+    [stat addChild:rhs];
+    PUSH(stat);
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchAssignAppend:)];
 }
 
 - (void)whileBlock_ {

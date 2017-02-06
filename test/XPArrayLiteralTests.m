@@ -52,4 +52,30 @@
     TDEqualObjects(@"d", [[interp.globals objectForName:@"baz"] stringValue]);
 }
 
+- (void)testInsertAtIndexOutOfOrder {
+    NSString *input = @"var foo=['a','b'];foo[1]='d';foo[0]='c';var bar=foo[0];var baz=foo[1];";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNil(err);
+    
+    TDEqualObjects(@"c", [[interp.globals objectForName:@"bar"] stringValue]);
+    TDEqualObjects(@"d", [[interp.globals objectForName:@"baz"] stringValue]);
+}
+
+- (void)testAppend {
+    NSString *input = @"var foo=[];foo[]='c';foo[]='d';var bar=foo[0];var baz=foo[1];";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSError *err = nil;
+    [interp interpretString:input error:&err];
+    TDNil(err);
+    
+    TDEqualObjects(@"c", [[interp.globals objectForName:@"bar"] stringValue]);
+    TDEqualObjects(@"d", [[interp.globals objectForName:@"baz"] stringValue]);
+}
+
 @end
