@@ -32,6 +32,7 @@
 #import <Language/XPArithmeticExpression.h>
 #import <Language/XPCallExpression.h>
 #import <Language/XPRefExpression.h>
+#import <Language/XPIndexGetExpression.h>
 #import <Language/XPPathExpression.h>
 
 #import <Language/XPGlobalScope.h>
@@ -435,7 +436,14 @@ subExpr
     PUSH_ALL(REV(objs));
 };
 
-atom = scalar | arrayLiteral | funcLiteral | funcCall | varRef | pathExpr;
+atom = scalar | arrayLiteral | funcLiteral | funcCall | varRef | indexCall | pathExpr;
+
+indexCall = qid '['! expr ']'! {
+    XPExpression *idxExpr = POP();
+    XPIndexGetExpression *call = [XPIndexGetExpression nodeWithToken:POP()];
+    [call addChild:idxExpr];
+    PUSH(call);
+};
 
 varRef = qid {
     XPRefExpression *varRef = [XPRefExpression nodeWithToken:POP()];
@@ -464,7 +472,12 @@ arrayLiteral = '[' elemList? ']'! {
 };
 elemList = expr (','! expr)*;
 
-scalar = str | num | bool;
+scalar = null | str | num | bool;
+
+null = 'null'! {
+    PUSH([XPValue nullValue]);
+};
+
 bool
     = true { PUSH([XPBooleanValue booleanValueWithBoolean:YES]); }
     | false { PUSH([XPBooleanValue booleanValueWithBoolean:NO]); }

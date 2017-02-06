@@ -80,6 +80,8 @@
 		D3B5F72D1E47EED300740161 /* XPArrayValue.h in Headers */ = {isa = PBXBuildFile; fileRef = D3B5F72B1E47EED300740161 /* XPArrayValue.h */; };
 		D3B5F72E1E47EED300740161 /* XPArrayValue.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B5F72C1E47EED300740161 /* XPArrayValue.m */; };
 		D3B5F7301E47F09800740161 /* XPArrayValueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B5F72F1E47F09800740161 /* XPArrayValueTests.m */; };
+		D3B5F7331E47F36200740161 /* XPIndexGetExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3B5F7311E47F36200740161 /* XPIndexGetExpression.h */; };
+		D3B5F7341E47F36200740161 /* XPIndexGetExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B5F7321E47F36200740161 /* XPIndexGetExpression.m */; };
 		D3BB83651E454B8F007AC9DD /* XPException.h in Headers */ = {isa = PBXBuildFile; fileRef = D3BB83641E454B8F007AC9DD /* XPException.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3DF58B71E429ACA006CAA07 /* XPFuncDeclTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58B61E429ACA006CAA07 /* XPFuncDeclTests.m */; };
 		D3DF58BA1E429C6F006CAA07 /* XPScopedSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DF58B81E429C6F006CAA07 /* XPScopedSymbol.h */; };
@@ -187,6 +189,8 @@
 		D3B5F72B1E47EED300740161 /* XPArrayValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPArrayValue.h; path = src/XPArrayValue.h; sourceTree = SOURCE_ROOT; };
 		D3B5F72C1E47EED300740161 /* XPArrayValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPArrayValue.m; path = src/XPArrayValue.m; sourceTree = SOURCE_ROOT; };
 		D3B5F72F1E47F09800740161 /* XPArrayValueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPArrayValueTests.m; path = test/XPArrayValueTests.m; sourceTree = SOURCE_ROOT; };
+		D3B5F7311E47F36200740161 /* XPIndexGetExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPIndexGetExpression.h; path = src/XPIndexGetExpression.h; sourceTree = SOURCE_ROOT; };
+		D3B5F7321E47F36200740161 /* XPIndexGetExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPIndexGetExpression.m; path = src/XPIndexGetExpression.m; sourceTree = SOURCE_ROOT; };
 		D3BB83641E454B8F007AC9DD /* XPException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPException.h; path = include/Language/XPException.h; sourceTree = SOURCE_ROOT; };
 		D3DF58B61E429ACA006CAA07 /* XPFuncDeclTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFuncDeclTests.m; path = test/XPFuncDeclTests.m; sourceTree = SOURCE_ROOT; };
 		D3DF58B81E429C6F006CAA07 /* XPScopedSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPScopedSymbol.h; path = src/XPScopedSymbol.h; sourceTree = SOURCE_ROOT; };
@@ -321,6 +325,8 @@
 				D3DF58C11E42EBB9006CAA07 /* XPCallExpression.m */,
 				D3DF58C81E438608006CAA07 /* XPRefExpression.h */,
 				D3DF58C91E438608006CAA07 /* XPRefExpression.m */,
+				D3B5F7311E47F36200740161 /* XPIndexGetExpression.h */,
+				D3B5F7321E47F36200740161 /* XPIndexGetExpression.m */,
 			);
 			name = Unary;
 			sourceTree = "<group>";
@@ -455,6 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3689FF81E3BDE7B005783BB /* XPUnaryExpression.h in Headers */,
+				D3B5F7331E47F36200740161 /* XPIndexGetExpression.h in Headers */,
 				D3DF58C61E42F346006CAA07 /* XPFunctionSpace.h in Headers */,
 				D37316AE1E3EBDE20034798E /* XPInterpreter.h in Headers */,
 				D3689FD31E3BDE7B005783BB /* XPArithmeticExpression.h in Headers */,
@@ -591,6 +598,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3689FF71E3BDE7B005783BB /* XPStringValue.m in Sources */,
+				D3B5F7341E47F36200740161 /* XPIndexGetExpression.m in Sources */,
 				D3689FFB1E3BDE7B005783BB /* XPValue.m in Sources */,
 				D37316D41E3EC5430034798E /* XPMemorySpace.m in Sources */,
 				D368A0091E3BE383005783BB /* XPParser.m in Sources */,

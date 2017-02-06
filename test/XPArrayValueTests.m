@@ -45,4 +45,15 @@
     TDTrue([expr evaluateAsBooleanInContext:nil]);
 }
 
+- (void)testMany {
+    NSString *input = @"[1,1,1]";
+    NSArray *toks = [self tokenize:input];
+    
+    NSError *err = nil;
+    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    TDNil(err);
+    TDNotNil(expr);
+    TDTrue([expr evaluateAsBooleanInContext:nil]);
+}
+
 @end
