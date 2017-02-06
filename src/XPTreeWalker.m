@@ -102,6 +102,9 @@
         case XP_TOKEN_KIND_EQUALS:
             [self assign:node];
             break;
+        case XP_TOKEN_KIND_ASSIGN_INDEX:
+            [self assignIndex:node];
+            break;
         case XP_TOKEN_KIND_SUB:
             [self funcDecl:node];
             break;
@@ -141,6 +144,7 @@
 
 - (void)varDecl:(XPNode *)node {}
 - (void)assign:(XPNode *)node {}
+- (void)assignIndex:(XPNode *)node {}
 - (void)funcDecl:(XPNode *)node {}
 - (id)funcCall:(XPNode *)node { return nil; }
 - (void)returnStat:(XPNode *)node {}

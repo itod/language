@@ -16,6 +16,7 @@ NSString * const XPExceptionUndeclaredSymbol = @"Undeclared Symbol";
 NSString * const XPExceptionTooManyArguments = @"Too Many Arguments";
 NSString * const XPExceptionTooFewArguments = @"Too Few Arguments";
 NSString * const XPExceptionTypeMismatch = @"Type Mismatch";
+NSString * const XPExceptionArrayIndexOutOfBounds = @"Array Index Out of Bounds";
 
 @implementation XPException
 

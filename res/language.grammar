@@ -2,7 +2,8 @@
     
 #define XP_TOKEN_KIND_BLOCK -2
 #define XP_TOKEN_KIND_CALL  -3
-    
+#define XP_TOKEN_KIND_ASSIGN_INDEX -4
+
 @class PKTokenizer;
 @class XPGlobalScope;
 @protocol XPScope;
@@ -48,6 +49,7 @@
 @extension {
 @property (nonatomic, retain) PKToken *blockTok;
 @property (nonatomic, retain) PKToken *callTok;
+@property (nonatomic, retain) PKToken *assignIndexTok;
 @property (nonatomic, retain) PKToken *subTok;
 @property (nonatomic, retain) PKToken *anonTok;
 @property (nonatomic, retain) PKToken *openParenTok;
@@ -85,6 +87,8 @@
     self.blockTok.tokenKind = XP_TOKEN_KIND_BLOCK;
     self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
+    self.assignIndexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"INDEX ASSIGN" doubleValue:0.0];
+    self.assignIndexTok.tokenKind = XP_TOKEN_KIND_ASSIGN_INDEX;
     self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];
     self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"<ANON>" doubleValue:0.0];
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
@@ -100,6 +104,7 @@
     self.globalScope = nil;
     self.blockTok = nil;
     self.callTok = nil;
+    self.assignIndexTok = nil;
     self.subTok = nil;
     self.anonTok = nil;
     self.openParenTok = nil;
@@ -148,6 +153,7 @@ block
 stat        = 
             ( varDecl
             | assign
+            | assignIndex
             | expr
             )?
             ';'!
@@ -172,6 +178,18 @@ assign      = qid '=' expr {
     
     XPNode *stat = [XPNode nodeWithToken:tok];
     [stat addChild:lhs]; [stat addChild:rhs];
+    PUSH(stat);
+};
+
+assignIndex = qid '['! expr ']'! '='! expr {
+    XPExpression *rhs = POP();
+    XPExpression *idx = POP();
+    XPNode *lhs = [XPNode nodeWithToken:POP()];
+    
+    XPNode *stat = [XPNode nodeWithToken:_assignIndexTok];
+    [stat addChild:lhs];
+    [stat addChild:idx];
+    [stat addChild:rhs];
     PUSH(stat);
 };
 
@@ -436,7 +454,7 @@ subExpr
     PUSH_ALL(REV(objs));
 };
 
-atom = scalar | arrayLiteral | funcLiteral | funcCall | varRef | indexCall | pathExpr;
+atom = scalar | arrayLiteral | funcLiteral | funcCall | indexCall | varRef | pathExpr;
 
 indexCall = qid '['! expr ']'! {
     XPExpression *idxExpr = POP();

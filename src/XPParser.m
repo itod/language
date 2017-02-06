@@ -32,6 +32,7 @@
     
 @property (nonatomic, retain) PKToken *blockTok;
 @property (nonatomic, retain) PKToken *callTok;
+@property (nonatomic, retain) PKToken *assignIndexTok;
 @property (nonatomic, retain) PKToken *subTok;
 @property (nonatomic, retain) PKToken *anonTok;
 @property (nonatomic, retain) PKToken *openParenTok;
@@ -73,6 +74,8 @@
     self.blockTok.tokenKind = XP_TOKEN_KIND_BLOCK;
     self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
+    self.assignIndexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"INDEX ASSIGN" doubleValue:0.0];
+    self.assignIndexTok.tokenKind = XP_TOKEN_KIND_ASSIGN_INDEX;
     self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];
     self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"<ANON>" doubleValue:0.0];
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
@@ -104,17 +107,17 @@
         self.tokenKindTab[@"("] = @(XP_TOKEN_KIND_OPEN_PAREN);
         self.tokenKindTab[@"while"] = @(XP_TOKEN_KIND_WHILE);
         self.tokenKindTab[@"var"] = @(XP_TOKEN_KIND_VAR);
-        self.tokenKindTab[@"eq"] = @(XP_TOKEN_KIND_EQ);
         self.tokenKindTab[@")"] = @(XP_TOKEN_KIND_CLOSE_PAREN);
+        self.tokenKindTab[@"eq"] = @(XP_TOKEN_KIND_EQ);
         self.tokenKindTab[@"ne"] = @(XP_TOKEN_KIND_NE);
         self.tokenKindTab[@"or"] = @(XP_TOKEN_KIND_OR);
-        self.tokenKindTab[@"*"] = @(XP_TOKEN_KIND_TIMES);
-        self.tokenKindTab[@"+"] = @(XP_TOKEN_KIND_PLUS);
         self.tokenKindTab[@"||"] = @(XP_TOKEN_KIND_DOUBLE_PIPE);
-        self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
+        self.tokenKindTab[@"+"] = @(XP_TOKEN_KIND_PLUS);
+        self.tokenKindTab[@"*"] = @(XP_TOKEN_KIND_TIMES);
+        self.tokenKindTab[@"["] = @(XP_TOKEN_KIND_OPEN_BRACKET);
         self.tokenKindTab[@","] = @(XP_TOKEN_KIND_COMMA);
         self.tokenKindTab[@"and"] = @(XP_TOKEN_KIND_AND);
-        self.tokenKindTab[@"["] = @(XP_TOKEN_KIND_OPEN_BRACKET);
+        self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
         self.tokenKindTab[@"-"] = @(XP_TOKEN_KIND_MINUS);
         self.tokenKindTab[@"null"] = @(XP_TOKEN_KIND_NULL);
         self.tokenKindTab[@"]"] = @(XP_TOKEN_KIND_CLOSE_BRACKET);
@@ -147,17 +150,17 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_PAREN] = @"(";
         self.tokenKindNameTab[XP_TOKEN_KIND_WHILE] = @"while";
         self.tokenKindNameTab[XP_TOKEN_KIND_VAR] = @"var";
-        self.tokenKindNameTab[XP_TOKEN_KIND_EQ] = @"eq";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_PAREN] = @")";
+        self.tokenKindNameTab[XP_TOKEN_KIND_EQ] = @"eq";
         self.tokenKindNameTab[XP_TOKEN_KIND_NE] = @"ne";
         self.tokenKindNameTab[XP_TOKEN_KIND_OR] = @"or";
-        self.tokenKindNameTab[XP_TOKEN_KIND_TIMES] = @"*";
-        self.tokenKindNameTab[XP_TOKEN_KIND_PLUS] = @"+";
         self.tokenKindNameTab[XP_TOKEN_KIND_DOUBLE_PIPE] = @"||";
-        self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
+        self.tokenKindNameTab[XP_TOKEN_KIND_PLUS] = @"+";
+        self.tokenKindNameTab[XP_TOKEN_KIND_TIMES] = @"*";
+        self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_BRACKET] = @"[";
         self.tokenKindNameTab[XP_TOKEN_KIND_COMMA] = @",";
         self.tokenKindNameTab[XP_TOKEN_KIND_AND] = @"and";
-        self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_BRACKET] = @"[";
+        self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
         self.tokenKindNameTab[XP_TOKEN_KIND_MINUS] = @"-";
         self.tokenKindNameTab[XP_TOKEN_KIND_NULL] = @"null";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_BRACKET] = @"]";
@@ -179,6 +182,7 @@
     self.globalScope = nil;
     self.blockTok = nil;
     self.callTok = nil;
+    self.assignIndexTok = nil;
     self.subTok = nil;
     self.anonTok = nil;
     self.openParenTok = nil;
@@ -297,12 +301,14 @@
 
 - (void)stat_ {
     
-    if ([self speculate:^{ if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}[self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; }]) {
-        if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {
+    if ([self speculate:^{ if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}[self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; }]) {
+        if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {
             if ([self speculate:^{ [self varDecl_]; }]) {
                 [self varDecl_]; 
             } else if ([self speculate:^{ [self assign_]; }]) {
                 [self assign_]; 
+            } else if ([self speculate:^{ [self assignIndex_]; }]) {
+                [self assignIndex_]; 
             } else if ([self speculate:^{ [self expr_]; }]) {
                 [self expr_]; 
             } else {
@@ -366,6 +372,31 @@
     }];
 
     [self fireDelegateSelector:@selector(parser:didMatchAssign:)];
+}
+
+- (void)assignIndex_ {
+    
+    [self qid_]; 
+    [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:YES]; 
+    [self expr_]; 
+    [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
+    [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
+    [self expr_]; 
+    [self execute:^{
+    
+    XPExpression *rhs = POP();
+    XPExpression *idx = POP();
+    XPNode *lhs = [XPNode nodeWithToken:POP()];
+    
+    XPNode *stat = [XPNode nodeWithToken:_assignIndexTok];
+    [stat addChild:lhs];
+    [stat addChild:idx];
+    [stat addChild:rhs];
+    PUSH(stat);
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchAssignIndex:)];
 }
 
 - (void)whileBlock_ {
@@ -1161,10 +1192,10 @@
         [self funcLiteral_]; 
     } else if ([self speculate:^{ [self funcCall_]; }]) {
         [self funcCall_]; 
-    } else if ([self speculate:^{ [self varRef_]; }]) {
-        [self varRef_]; 
     } else if ([self speculate:^{ [self indexCall_]; }]) {
         [self indexCall_]; 
+    } else if ([self speculate:^{ [self varRef_]; }]) {
+        [self varRef_]; 
     } else if ([self speculate:^{ [self pathExpr_]; }]) {
         [self pathExpr_]; 
     } else {

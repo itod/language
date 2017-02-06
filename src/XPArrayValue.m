@@ -34,7 +34,7 @@
     
     TDAssert(self.children);
     for (id obj in self.children) {
-        [buf appendFormat:@"%@,", obj];
+        [buf appendFormat:@"%@,", [obj stringValue]];
     }
     
     [buf appendString:@"]"];

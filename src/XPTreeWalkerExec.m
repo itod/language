@@ -77,6 +77,11 @@
     XPNode *idNode = [node childAtIndex:0];
     NSString *name = idNode.token.stringValue;
     
+    
+    
+    
+    
+    // TODO: WHY NOT USING _loadVarRef:
     if (![self.currentSpace objectForName:name]) {
         [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", name];
         return;
@@ -87,6 +92,41 @@
     
     TDAssert(self.currentSpace);
     [self.currentSpace setObject:val forName:name];
+}
+
+
+- (void)assignIndex:(XPNode *)node {
+    XPNode *qidNode = [node childAtIndex:0];
+    NSString *name = qidNode.token.stringValue;
+    
+
+    
+    
+    
+    // TODO: WHY NOT USING _loadVarRef:
+    XPValue *arrayVal = [self.currentSpace objectForName:name];
+    
+    if (!arrayVal) {
+        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", name];
+        return;
+    }
+    
+    if (![arrayVal isArrayValue]) {
+        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", name];
+        return;
+    }
+
+    XPExpression *idxExpr = [node childAtIndex:1];
+    NSInteger idx = [idxExpr evaluateAsNumberInContext:self];
+    
+    if (idx < 0 || idx >= [arrayVal childCount]) {
+        [self raise:XPExceptionArrayIndexOutOfBounds node:node format:@"array index out of bounds: `%ld`", idx];
+        return;
+    }
+
+    XPValue *val = [[node childAtIndex:2] evaluateInContext:self];
+
+    [arrayVal replaceChild:val atIndex:idx];
 }
 
 
