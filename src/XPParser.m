@@ -9,7 +9,6 @@
 #import <Language/XPFunctionValue.h>
 #import <Language/XPArrayValue.h>
 #import <Language/XPCallExpression.h>
-#import <Language/XPRefExpression.h>
 #import <Language/XPIndexGetExpression.h>
 #import <Language/XPPathExpression.h>
 
@@ -26,6 +25,7 @@
 @interface XPParser ()
     
 @property (nonatomic, retain) PKToken *blockTok;
+@property (nonatomic, retain) PKToken *refTok;
 @property (nonatomic, retain) PKToken *callTok;
 @property (nonatomic, retain) PKToken *assignIndexTok;
 @property (nonatomic, retain) PKToken *assignAppendTok;
@@ -70,6 +70,8 @@
     self.tokenizer = [[self class] tokenizer];
     self.blockTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"BLOCK" doubleValue:0.0];
     self.blockTok.tokenKind = XP_TOKEN_KIND_BLOCK;
+    self.refTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"REF" doubleValue:0.0];
+    self.refTok.tokenKind = XP_TOKEN_KIND_REF;
     self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
     self.assignIndexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"INDEX ASSIGN" doubleValue:0.0];
@@ -169,6 +171,7 @@
     self.currentScope = nil;
     self.globalScope = nil;
     self.blockTok = nil;
+    self.refTok = nil;
     self.callTok = nil;
     self.assignIndexTok = nil;
     self.assignAppendTok = nil;
@@ -1182,8 +1185,10 @@
     [self qid_]; 
     [self execute:^{
     
-    XPRefExpression *varRef = [XPRefExpression nodeWithToken:POP()];
-    PUSH(varRef);
+    XPNode *refNode = [XPNode nodeWithToken:_refTok];
+    XPNode *idNode = [XPNode nodeWithToken:POP()];
+    [refNode addChild:idNode];
+    PUSH(refNode);
 
     }];
 

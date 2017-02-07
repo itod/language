@@ -338,6 +338,13 @@
 }
 
 
+- (id)ref:(XPNode *)node {
+    XPNode *idNode = [node childAtIndex:0];
+    XPValue *val = [self loadVariableReference:idNode];
+    return val;
+}
+
+
 #pragma mark -
 #pragma mark Binary Expr
 

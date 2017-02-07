@@ -93,12 +93,20 @@
     id res = nil;
     
     switch (node.token.tokenKind) {
+
         case XP_TOKEN_KIND_BLOCK:
             [self block:node];
+            break;
+
+// DECLARATIONS
+        case XP_TOKEN_KIND_SUB:
+            [self funcDecl:node];
             break;
         case XP_TOKEN_KIND_VAR:
             [self varDecl:node];
             break;
+        
+// ASSIGNMENTS
         case XP_TOKEN_KIND_EQUALS:
             [self assign:node];
             break;
@@ -108,12 +116,16 @@
         case XP_TOKEN_KIND_ASSIGN_APPEND:
             [self assignAppend:node];
             break;
-        case XP_TOKEN_KIND_SUB:
-            [self funcDecl:node];
+            
+// FUNCTIONS
+        case XP_TOKEN_KIND_CALL:
+            res = [self funcCall:node];
             break;
         case XP_TOKEN_KIND_RETURN:
             [self returnStat:node];
             break;
+
+// LOOPS
         case XP_TOKEN_KIND_WHILE:
             [self whileBlock:node];
             break;
@@ -123,10 +135,6 @@
         case XP_TOKEN_KIND_ELSE:
             [self elseBlock:node];
             break;
-        
-        case XP_TOKEN_KIND_CALL:
-            res = [self funcCall:node];
-            break;
 
 // UNARY EXPR
         case XP_TOKEN_KIND_NOT:
@@ -134,6 +142,9 @@
             break;
         case XP_TOKEN_KIND_NEG:
             res = [self neg:node];
+            break;
+        case XP_TOKEN_KIND_REF:
+            res= [self ref:node];
             break;
             
 // BINARY EXPR
@@ -229,4 +240,5 @@
 
 - (id)not:(XPNode *)node {return nil;}
 - (id)neg:(XPNode *)node {return nil;}
+- (id)ref:(XPNode *)node {return nil;}
 @end
