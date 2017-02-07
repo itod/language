@@ -29,7 +29,6 @@
 #import <Language/XPArrayValue.h>
 #import <Language/XPUnaryExpression.h>
 #import <Language/XPNegationExpression.h>
-#import <Language/XPBooleanExpression.h>
 #import <Language/XPRelationalExpression.h>
 #import <Language/XPArithmeticExpression.h>
 #import <Language/XPCallExpression.h>
@@ -372,18 +371,24 @@ arg         = expr;
 // EXPRESSIONS
 expr    = orExpr;
 
-orOp    =  'or'! | '||'!;
+orOp    =  'or';
 orExpr  = andExpr (orOp andExpr {
-    XPValue *rhs = POP();
-    XPValue *lhs = POP();
-    PUSH([XPBooleanExpression booleanExpressionWithOperand:lhs operator:XP_TOKEN_KIND_OR operand:rhs]);
+    id rhs = POP();
+    XPNode *orNode = [XPNode nodeWithToken:POP()];
+    id lhs = POP();
+    [orNode addChild:lhs];
+    [orNode addChild:rhs];
+    PUSH(orNode);
 })*;
 
-andOp   = 'and'! | '&&'!;
+andOp   = 'and';
 andExpr = equalityExpr (andOp equalityExpr {
-    XPValue *rhs = POP();
-    XPValue *lhs = POP();
-    PUSH([XPBooleanExpression booleanExpressionWithOperand:lhs operator:XP_TOKEN_KIND_AND operand:rhs]);
+    id rhs = POP();
+    XPNode *andNode = [XPNode nodeWithToken:POP()];
+    id lhs = POP();
+    [andNode addChild:lhs];
+    [andNode addChild:rhs];
+    PUSH(andNode);
 })*;
 
 eqOp    @after { PUSH(@(XP_TOKEN_KIND_EQ)); }

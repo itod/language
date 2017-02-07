@@ -128,6 +128,14 @@
             res = [self funcCall:node];
             break;
 
+// BINARY EXPR
+        case XP_TOKEN_KIND_OROP:
+            res = [self or:node];
+            break;
+        case XP_TOKEN_KIND_ANDOP:
+            res = [self and:node];
+            break;
+
         default:
             TDAssert([node isKindOfClass:[XPExpression class]]);
             res = [(id)node evaluateInContext:self];
@@ -150,10 +158,12 @@
 - (void)assignIndex:(XPNode *)node {}
 - (void)assignAppend:(XPNode *)node {}
 - (void)funcDecl:(XPNode *)node {}
-- (id)funcCall:(XPNode *)node { return nil; }
+- (id)funcCall:(XPNode *)node {return nil;}
 - (void)returnStat:(XPNode *)node {}
 - (void)whileBlock:(XPNode *)node {}
 - (id)ifBlock:(XPNode *)node {return nil;}
 - (void)elseBlock:(XPNode *)node {}
 
+- (id)or:(XPNode *)node {return nil;}
+- (id)and:(XPNode *)node {return nil;}
 @end

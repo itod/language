@@ -7,7 +7,6 @@
 //
 
 #import "XPBaseStatementTests.h"
-#import "XPNode.h"
 
 @implementation XPBaseStatementTests
 

@@ -309,4 +309,25 @@
     @throw _sharedReturnValue;
 }
 
+
+#pragma mark -
+#pragma mark Binary Expr
+
+- (id)or:(XPNode *)node {
+    BOOL lhs = [[self walk:[node childAtIndex:0]] evaluateAsBooleanInContext:self];
+    BOOL rhs = [[self walk:[node childAtIndex:1]] evaluateAsBooleanInContext:self];
+    
+    BOOL res = lhs || rhs;
+    return @(res);
+}
+
+
+- (id)and:(XPNode *)node {
+    BOOL lhs = [[self walk:[node childAtIndex:0]] evaluateAsBooleanInContext:self];
+    BOOL rhs = [[self walk:[node childAtIndex:1]] evaluateAsBooleanInContext:self];
+    
+    BOOL res = lhs && rhs;
+    return @(res);
+}
+
 @end

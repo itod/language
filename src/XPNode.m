@@ -114,6 +114,10 @@
 }
 
 
+// TODO REMOVE ME
+- (id)simplify {return self;}
+
+
 #pragma mark -
 #pragma mark Child Access
 

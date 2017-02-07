@@ -7,6 +7,8 @@
 //
 
 #import "XPBaseTests.h"
+#import "XPNode.h"
+#import "XPMemorySpace.h"
 
 @interface XPBaseStatementTests : XPBaseTests
 - (XPNode *)statementFromString:(NSString *)str error:(NSError **)outErr;

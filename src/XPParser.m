@@ -10,7 +10,6 @@
 #import <Language/XPArrayValue.h>
 #import <Language/XPUnaryExpression.h>
 #import <Language/XPNegationExpression.h>
-#import <Language/XPBooleanExpression.h>
 #import <Language/XPRelationalExpression.h>
 #import <Language/XPArithmeticExpression.h>
 #import <Language/XPCallExpression.h>
@@ -92,7 +91,6 @@
         self.tokenKindTab[@"gt"] = @(XP_TOKEN_KIND_GT);
         self.tokenKindTab[@"{"] = @(XP_TOKEN_KIND_OPEN_CURLY);
         self.tokenKindTab[@">="] = @(XP_TOKEN_KIND_GE_SYM);
-        self.tokenKindTab[@"&&"] = @(XP_TOKEN_KIND_DOUBLE_AMPERSAND);
         self.tokenKindTab[@"}"] = @(XP_TOKEN_KIND_CLOSE_CURLY);
         self.tokenKindTab[@"true"] = @(XP_TOKEN_KIND_TRUE);
         self.tokenKindTab[@"return"] = @(XP_TOKEN_KIND_RETURN);
@@ -112,17 +110,16 @@
         self.tokenKindTab[@"var"] = @(XP_TOKEN_KIND_VAR);
         self.tokenKindTab[@")"] = @(XP_TOKEN_KIND_CLOSE_PAREN);
         self.tokenKindTab[@"eq"] = @(XP_TOKEN_KIND_EQ);
-        self.tokenKindTab[@"ne"] = @(XP_TOKEN_KIND_NE);
-        self.tokenKindTab[@"or"] = @(XP_TOKEN_KIND_OR);
-        self.tokenKindTab[@"||"] = @(XP_TOKEN_KIND_DOUBLE_PIPE);
-        self.tokenKindTab[@"+"] = @(XP_TOKEN_KIND_PLUS);
         self.tokenKindTab[@"*"] = @(XP_TOKEN_KIND_TIMES);
+        self.tokenKindTab[@"or"] = @(XP_TOKEN_KIND_OROP);
+        self.tokenKindTab[@"ne"] = @(XP_TOKEN_KIND_NE);
+        self.tokenKindTab[@"+"] = @(XP_TOKEN_KIND_PLUS);
+        self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
         self.tokenKindTab[@"["] = @(XP_TOKEN_KIND_OPEN_BRACKET);
         self.tokenKindTab[@","] = @(XP_TOKEN_KIND_COMMA);
-        self.tokenKindTab[@"and"] = @(XP_TOKEN_KIND_AND);
-        self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
-        self.tokenKindTab[@"-"] = @(XP_TOKEN_KIND_MINUS);
+        self.tokenKindTab[@"and"] = @(XP_TOKEN_KIND_ANDOP);
         self.tokenKindTab[@"null"] = @(XP_TOKEN_KIND_NULL);
+        self.tokenKindTab[@"-"] = @(XP_TOKEN_KIND_MINUS);
         self.tokenKindTab[@"]"] = @(XP_TOKEN_KIND_CLOSE_BRACKET);
         self.tokenKindTab[@"."] = @(XP_TOKEN_KIND_DOT);
         self.tokenKindTab[@"/"] = @(XP_TOKEN_KIND_DIV);
@@ -135,7 +132,6 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_GT] = @"gt";
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_CURLY] = @"{";
         self.tokenKindNameTab[XP_TOKEN_KIND_GE_SYM] = @">=";
-        self.tokenKindNameTab[XP_TOKEN_KIND_DOUBLE_AMPERSAND] = @"&&";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_CURLY] = @"}";
         self.tokenKindNameTab[XP_TOKEN_KIND_TRUE] = @"true";
         self.tokenKindNameTab[XP_TOKEN_KIND_RETURN] = @"return";
@@ -155,17 +151,16 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_VAR] = @"var";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_PAREN] = @")";
         self.tokenKindNameTab[XP_TOKEN_KIND_EQ] = @"eq";
-        self.tokenKindNameTab[XP_TOKEN_KIND_NE] = @"ne";
-        self.tokenKindNameTab[XP_TOKEN_KIND_OR] = @"or";
-        self.tokenKindNameTab[XP_TOKEN_KIND_DOUBLE_PIPE] = @"||";
-        self.tokenKindNameTab[XP_TOKEN_KIND_PLUS] = @"+";
         self.tokenKindNameTab[XP_TOKEN_KIND_TIMES] = @"*";
+        self.tokenKindNameTab[XP_TOKEN_KIND_OROP] = @"or";
+        self.tokenKindNameTab[XP_TOKEN_KIND_NE] = @"ne";
+        self.tokenKindNameTab[XP_TOKEN_KIND_PLUS] = @"+";
+        self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_BRACKET] = @"[";
         self.tokenKindNameTab[XP_TOKEN_KIND_COMMA] = @",";
-        self.tokenKindNameTab[XP_TOKEN_KIND_AND] = @"and";
-        self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
-        self.tokenKindNameTab[XP_TOKEN_KIND_MINUS] = @"-";
+        self.tokenKindNameTab[XP_TOKEN_KIND_ANDOP] = @"and";
         self.tokenKindNameTab[XP_TOKEN_KIND_NULL] = @"null";
+        self.tokenKindNameTab[XP_TOKEN_KIND_MINUS] = @"-";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_BRACKET] = @"]";
         self.tokenKindNameTab[XP_TOKEN_KIND_DOT] = @".";
         self.tokenKindNameTab[XP_TOKEN_KIND_DIV] = @"/";
@@ -787,13 +782,7 @@
 
 - (void)orOp_ {
     
-    if ([self predicts:XP_TOKEN_KIND_OR, 0]) {
-        [self match:XP_TOKEN_KIND_OR discard:YES]; 
-    } else if ([self predicts:XP_TOKEN_KIND_DOUBLE_PIPE, 0]) {
-        [self match:XP_TOKEN_KIND_DOUBLE_PIPE discard:YES]; 
-    } else {
-        [self raise:@"No viable alternative found in rule 'orOp'."];
-    }
+    [self match:XP_TOKEN_KIND_OROP discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchOrOp:)];
 }
@@ -806,9 +795,12 @@
         [self andExpr_]; 
         [self execute:^{
         
-    XPValue *rhs = POP();
-    XPValue *lhs = POP();
-    PUSH([XPBooleanExpression booleanExpressionWithOperand:lhs operator:XP_TOKEN_KIND_OR operand:rhs]);
+    id rhs = POP();
+    XPNode *orNode = [XPNode nodeWithToken:POP()];
+    id lhs = POP();
+    [orNode addChild:lhs];
+    [orNode addChild:rhs];
+    PUSH(orNode);
 
         }];
     }
@@ -818,13 +810,7 @@
 
 - (void)andOp_ {
     
-    if ([self predicts:XP_TOKEN_KIND_AND, 0]) {
-        [self match:XP_TOKEN_KIND_AND discard:YES]; 
-    } else if ([self predicts:XP_TOKEN_KIND_DOUBLE_AMPERSAND, 0]) {
-        [self match:XP_TOKEN_KIND_DOUBLE_AMPERSAND discard:YES]; 
-    } else {
-        [self raise:@"No viable alternative found in rule 'andOp'."];
-    }
+    [self match:XP_TOKEN_KIND_ANDOP discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchAndOp:)];
 }
@@ -837,9 +823,12 @@
         [self equalityExpr_]; 
         [self execute:^{
         
-    XPValue *rhs = POP();
-    XPValue *lhs = POP();
-    PUSH([XPBooleanExpression booleanExpressionWithOperand:lhs operator:XP_TOKEN_KIND_AND operand:rhs]);
+    id rhs = POP();
+    XPNode *andNode = [XPNode nodeWithToken:POP()];
+    id lhs = POP();
+    [andNode addChild:lhs];
+    [andNode addChild:rhs];
+    PUSH(andNode);
 
         }];
     }
