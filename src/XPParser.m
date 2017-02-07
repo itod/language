@@ -10,7 +10,6 @@
 #import <Language/XPArrayValue.h>
 #import <Language/XPUnaryExpression.h>
 #import <Language/XPNegationExpression.h>
-#import <Language/XPArithmeticExpression.h>
 #import <Language/XPCallExpression.h>
 #import <Language/XPRefExpression.h>
 #import <Language/XPIndexGetExpression.h>
@@ -925,20 +924,14 @@
 
 - (void)plus_ {
     
-    [self match:XP_TOKEN_KIND_PLUS discard:YES]; 
-    [self execute:^{
-     PUSH(@(XP_TOKEN_KIND_PLUS)); 
-    }];
+    [self match:XP_TOKEN_KIND_PLUS discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchPlus:)];
 }
 
 - (void)minus_ {
     
-    [self match:XP_TOKEN_KIND_MINUS discard:YES]; 
-    [self execute:^{
-     PUSH(@(XP_TOKEN_KIND_MINUS)); 
-    }];
+    [self match:XP_TOKEN_KIND_MINUS discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchMinus:)];
 }
@@ -958,9 +951,11 @@
         [self execute:^{
         
     XPValue *rhs = POP();
-    NSInteger op = POP_INT();
+    XPNode *addNode = [XPNode nodeWithToken:POP()];
     XPValue *lhs = POP();
-    PUSH([XPArithmeticExpression arithmeticExpressionWithOperand:lhs operator:op operand:rhs]);
+    [addNode addChild:lhs];
+    [addNode addChild:rhs];
+    PUSH(addNode);
 
         }];
     }
@@ -970,30 +965,21 @@
 
 - (void)times_ {
     
-    [self match:XP_TOKEN_KIND_TIMES discard:YES]; 
-    [self execute:^{
-     PUSH(@(XP_TOKEN_KIND_TIMES)); 
-    }];
+    [self match:XP_TOKEN_KIND_TIMES discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchTimes:)];
 }
 
 - (void)div_ {
     
-    [self match:XP_TOKEN_KIND_DIV discard:YES]; 
-    [self execute:^{
-     PUSH(@(XP_TOKEN_KIND_DIV)); 
-    }];
+    [self match:XP_TOKEN_KIND_DIV discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchDiv:)];
 }
 
 - (void)mod_ {
     
-    [self match:XP_TOKEN_KIND_MOD discard:YES]; 
-    [self execute:^{
-     PUSH(@(XP_TOKEN_KIND_MOD)); 
-    }];
+    [self match:XP_TOKEN_KIND_MOD discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchMod:)];
 }
@@ -1015,9 +1001,11 @@
         [self execute:^{
         
     XPValue *rhs = POP();
-    NSInteger op = POP_INT();
+    XPNode *multNode = [XPNode nodeWithToken:POP()];
     XPValue *lhs = POP();
-    PUSH([XPArithmeticExpression arithmeticExpressionWithOperand:lhs operator:op operand:rhs]);
+    [multNode addChild:lhs];
+    [multNode addChild:rhs];
+    PUSH(multNode);
 
         }];
     }

@@ -29,7 +29,6 @@
 #import <Language/XPArrayValue.h>
 #import <Language/XPUnaryExpression.h>
 #import <Language/XPNegationExpression.h>
-#import <Language/XPArithmeticExpression.h>
 #import <Language/XPCallExpression.h>
 #import <Language/XPRefExpression.h>
 #import <Language/XPIndexGetExpression.h>
@@ -414,28 +413,27 @@ relationalExpr = additiveExpr ((lt | gt | le | ge) additiveExpr {
     PUSH(relNode);
 })*;
 
-plus    @after { PUSH(@(XP_TOKEN_KIND_PLUS)); }
-        = '+'!;
-minus   @after { PUSH(@(XP_TOKEN_KIND_MINUS)); }
-        = '-'!;
+plus    = '+';
+minus   = '-';
 additiveExpr = multiplicativeExpr ((plus | minus) multiplicativeExpr {
     XPValue *rhs = POP();
-    NSInteger op = POP_INT();
+    XPNode addNode = [XPNode nodeWithToken:POP()];
     XPValue *lhs = POP();
-    PUSH([XPArithmeticExpression arithmeticExpressionWithOperand:lhs operator:op operand:rhs]);
+    [addNode addChild:lhs];
+    [addNode addChild:lhs];
+    PUSH(addNode);
 })*;
 
-times   @after { PUSH(@(XP_TOKEN_KIND_TIMES)); }
-        = '*'!;
-div     @after { PUSH(@(XP_TOKEN_KIND_DIV)); }
-        = '/'!;
-mod     @after { PUSH(@(XP_TOKEN_KIND_MOD)); }
-        = '%'!;
+times   = '*';
+div     = '/';
+mod     = '%';
 multiplicativeExpr = unaryExpr ((times | div | mod) unaryExpr {
     XPValue *rhs = POP();
-    NSInteger op = POP_INT();
+    XPNode multNode = [XPNode nodeWithToken:POP()];
     XPValue *lhs = POP();
-    PUSH([XPArithmeticExpression arithmeticExpressionWithOperand:lhs operator:op operand:rhs]);
+    [multNode addChild:lhs];
+    [multNode addChild:lhs];
+    PUSH(multNode);
 })*;
 
 unaryExpr 

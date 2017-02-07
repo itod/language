@@ -154,8 +154,23 @@
         case XP_TOKEN_KIND_GE:
             res = [self ge:node];
             break;
+
+        case XP_TOKEN_KIND_PLUS:
+            res = [self plus:node];
             break;
-            
+        case XP_TOKEN_KIND_MINUS:
+            res = [self minus:node];
+            break;
+        case XP_TOKEN_KIND_TIMES:
+            res = [self times:node];
+            break;
+        case XP_TOKEN_KIND_DIV:
+            res = [self div:node];
+            break;
+        case XP_TOKEN_KIND_MOD:
+            res = [self mod:node];
+            break;
+
         default:
             TDAssert([node isKindOfClass:[XPExpression class]]);
             res = [(id)node evaluateInContext:self];
@@ -194,4 +209,10 @@
 - (id)le:(XPNode *)node {return nil;}
 - (id)gt:(XPNode *)node {return nil;}
 - (id)ge:(XPNode *)node {return nil;}
+
+- (id)plus:(XPNode *)node {return nil;}
+- (id)minus:(XPNode *)node {return nil;}
+- (id)times:(XPNode *)node {return nil;}
+- (id)div:(XPNode *)node {return nil;}
+- (id)mod:(XPNode *)node {return nil;}
 @end

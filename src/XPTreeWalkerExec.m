@@ -14,6 +14,7 @@
 
 #import "XPValue.h"
 #import "XPBooleanValue.h"
+#import "XPNumericValue.h"
 #import "XPFunctionValue.h"
 #import "XPNode.h"
 #import "XPExpression.h"
@@ -350,4 +351,39 @@
 - (id)gt:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_GT]; }
 - (id)ge:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_GE]; }
 
+
+- (id)math:(XPNode *)node op:(NSInteger)op {
+    double lhs = [[self walk:[node childAtIndex:0]] evaluateAsNumberInContext:self];
+    double rhs = [[self walk:[node childAtIndex:1]] evaluateAsNumberInContext:self];
+    
+    double res = 0.0;
+    switch (op) {
+        case XP_TOKEN_KIND_PLUS:
+            res = lhs + rhs;
+            break;
+        case XP_TOKEN_KIND_MINUS:
+            res = lhs - rhs;
+            break;
+        case XP_TOKEN_KIND_TIMES:
+            res = lhs * rhs;
+            break;
+        case XP_TOKEN_KIND_DIV:
+            res = lhs / rhs;
+            break;
+        case XP_TOKEN_KIND_MOD:
+            res = lrint(lhs) % lrint(rhs);
+            break;
+        default:
+            TDAssert(0);
+            break;
+    }
+
+    return [XPNumericValue numericValueWithNumber:res];
+}
+
+- (id)plus:(XPNode *)node   { return [self math:node op:XP_TOKEN_KIND_PLUS]; }
+- (id)minus:(XPNode *)node  { return [self math:node op:XP_TOKEN_KIND_MINUS]; }
+- (id)times:(XPNode *)node  { return [self math:node op:XP_TOKEN_KIND_TIMES]; }
+- (id)div:(XPNode *)node    { return [self math:node op:XP_TOKEN_KIND_DIV]; }
+- (id)mod:(XPNode *)node    { return [self math:node op:XP_TOKEN_KIND_MOD]; }
 @end

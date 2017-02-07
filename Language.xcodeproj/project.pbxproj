@@ -16,9 +16,7 @@
 		D3689FA51E3BDB57005783BB /* TDTemplateEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */; };
 		D3689FA91E3BDD7C005783BB /* XPExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FA81E3BDD7C005783BB /* XPExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3689FD31E3BDE7B005783BB /* XPArithmeticExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FAA1E3BDE7B005783BB /* XPArithmeticExpression.h */; };
-		D3689FD41E3BDE7B005783BB /* XPArithmeticExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FAB1E3BDE7B005783BB /* XPArithmeticExpression.m */; };
 		D3689FD51E3BDE7B005783BB /* XPBinaryExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FAC1E3BDE7B005783BB /* XPBinaryExpression.h */; };
-		D3689FD61E3BDE7B005783BB /* XPBinaryExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FAD1E3BDE7B005783BB /* XPBinaryExpression.m */; };
 		D3689FD71E3BDE7B005783BB /* XPBooleanExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FAE1E3BDE7B005783BB /* XPBooleanExpression.h */; };
 		D3689FD91E3BDE7B005783BB /* XPBooleanValue.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FB01E3BDE7B005783BB /* XPBooleanValue.h */; };
 		D3689FDA1E3BDE7B005783BB /* XPBooleanValue.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FB11E3BDE7B005783BB /* XPBooleanValue.m */; };
@@ -609,7 +607,6 @@
 				D3689FDA1E3BDE7B005783BB /* XPBooleanValue.m in Sources */,
 				D3689FE91E3BDE7B005783BB /* XPNumericValue.m in Sources */,
 				D37316BB1E3EBF980034798E /* XPVariableSymbol.m in Sources */,
-				D3689FD61E3BDE7B005783BB /* XPBinaryExpression.m in Sources */,
 				D30C5C631E45094D001A6F5D /* XPFunctionValue.m in Sources */,
 				D37316CC1E3EC49C0034798E /* XPGlobalScope.m in Sources */,
 				D3B5F72E1E47EED300740161 /* XPArrayValue.m in Sources */,
@@ -617,7 +614,6 @@
 				D37316B71E3EBF800034798E /* XPSymbol.m in Sources */,
 				D37316D01E3EC4E50034798E /* XPLocalScope.m in Sources */,
 				D3DF58C71E42F346006CAA07 /* XPFunctionSpace.m in Sources */,
-				D3689FD41E3BDE7B005783BB /* XPArithmeticExpression.m in Sources */,
 				D37316ED1E4121110034798E /* XPException.m in Sources */,
 				D3DF58C31E42EBB9006CAA07 /* XPCallExpression.m in Sources */,
 				D3689FEB1E3BDE7B005783BB /* XPObjectValue.m in Sources */,
