@@ -64,7 +64,7 @@
 
 
 #pragma mark -
-#pragma mark Declarations
+#pragma mark DECL
 
 - (void)varDecl:(XPNode *)node {
     NSString *name = [[[node childAtIndex:0] token] stringValue];
@@ -76,8 +76,12 @@
 }
 
 
+- (void)funcDecl:(XPNode *)node {
+}
+
+
 #pragma mark -
-#pragma mark Assignments
+#pragma mark ASSIGN
 
 - (void)assign:(XPNode *)node {
     XPNode *idNode = [node childAtIndex:0];
@@ -161,6 +165,33 @@
     
     [arrayVal addChild:val];
 
+}
+
+
+#pragma mark -
+#pragma mark LOAD
+
+
+- (id)load:(XPNode *)node {
+    XPNode *idNode = [node childAtIndex:0];
+    XPValue *val = [self loadVariableReference:idNode];
+    return val;
+}
+
+
+- (id)loadIndex:(XPNode *)node {
+    XPValue *ref = [self load:[node childAtIndex:0]];
+    
+    if (![ref isArrayValue]) {
+        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed access on non-array object `%@`", ref.token.stringValue];
+        return nil;
+    }
+    
+    XPValue *idx = [self walk:[node childAtIndex:1]];
+    NSUInteger i = [idx doubleValue];
+    
+    XPValue *res = [ref childAtIndex:i];
+    return res;
 }
 
 
@@ -333,29 +364,6 @@
     XPValue *val = [self walk:expr];
     double n = [val doubleValue];
     XPValue *res = [XPNumericValue numericValueWithNumber:-n];
-    return res;
-}
-
-
-- (id)load:(XPNode *)node {
-    XPNode *idNode = [node childAtIndex:0];
-    XPValue *val = [self loadVariableReference:idNode];
-    return val;
-}
-
-
-- (id)loadIndex:(XPNode *)node {
-    XPValue *ref = [self load:[node childAtIndex:0]];
-    
-    if (![ref isArrayValue]) {
-        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed access on non-array object `%@`", ref.token.stringValue];
-        return nil;
-    }
-    
-    XPValue *idx = [self walk:[node childAtIndex:1]];
-    NSUInteger i = [idx doubleValue];
-    
-    XPValue *res = [ref childAtIndex:i];
     return res;
 }
 
