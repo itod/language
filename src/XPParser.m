@@ -8,7 +8,6 @@
 #import <Language/XPStringValue.h>
 #import <Language/XPFunctionValue.h>
 #import <Language/XPArrayValue.h>
-#import <Language/XPPathExpression.h>
 
 #import <Language/XPGlobalScope.h>
 #import <Language/XPLocalScope.h>
@@ -121,7 +120,6 @@
         self.tokenKindTab[@"and"] = @(XP_TOKEN_KIND_AND);
         self.tokenKindTab[@"-"] = @(XP_TOKEN_KIND_MINUS);
         self.tokenKindTab[@"]"] = @(XP_TOKEN_KIND_CLOSE_BRACKET);
-        self.tokenKindTab[@"."] = @(XP_TOKEN_KIND_DOT);
         self.tokenKindTab[@"/"] = @(XP_TOKEN_KIND_DIV);
         self.tokenKindTab[@"false"] = @(XP_TOKEN_KIND_FALSE);
         self.tokenKindTab[@"sub"] = @(XP_TOKEN_KIND_SUB);
@@ -156,7 +154,6 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_AND] = @"and";
         self.tokenKindNameTab[XP_TOKEN_KIND_MINUS] = @"-";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_BRACKET] = @"]";
-        self.tokenKindNameTab[XP_TOKEN_KIND_DOT] = @".";
         self.tokenKindNameTab[XP_TOKEN_KIND_DIV] = @"/";
         self.tokenKindNameTab[XP_TOKEN_KIND_FALSE] = @"false";
         self.tokenKindNameTab[XP_TOKEN_KIND_SUB] = @"sub";
@@ -1155,8 +1152,6 @@
         [self indexCall_]; 
     } else if ([self speculate:^{ [self varRef_]; }]) {
         [self varRef_]; 
-    } else if ([self speculate:^{ [self pathExpr_]; }]) {
-        [self pathExpr_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'atom'."];
     }
@@ -1201,52 +1196,6 @@
     }];
 
     [self fireDelegateSelector:@selector(parser:didMatchVarRef:)];
-}
-
-- (void)pathExpr_ {
-    
-    [self execute:^{
-    
-    PUSH(_openParenTok);
-
-    }];
-    [self identifier_]; 
-    while ([self speculate:^{ [self match:XP_TOKEN_KIND_DOT discard:YES]; [self step_]; }]) {
-        [self match:XP_TOKEN_KIND_DOT discard:YES]; 
-        [self step_]; 
-    }
-    [self execute:^{
-    
-    id toks = REV(ABOVE(_openParenTok));
-    POP(); // discard `_openParenTok`
-    PUSH([XPPathExpression pathExpressionWithSteps:toks]);
-
-    }];
-
-    [self fireDelegateSelector:@selector(parser:didMatchPathExpr:)];
-}
-
-- (void)step_ {
-    
-    if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {
-        [self identifier_]; 
-    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, 0]) {
-        [self num_]; 
-    } else {
-        [self raise:@"No viable alternative found in rule 'step'."];
-    }
-
-    [self fireDelegateSelector:@selector(parser:didMatchStep:)];
-}
-
-- (void)identifier_ {
-    
-    [self matchWord:NO]; 
-    [self execute:^{
-     PUSH(POP_STR()); 
-    }];
-
-    [self fireDelegateSelector:@selector(parser:didMatchIdentifier:)];
 }
 
 - (void)arrayLiteral_ {

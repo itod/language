@@ -30,7 +30,6 @@
 #import <Language/XPStringValue.h>
 #import <Language/XPFunctionValue.h>
 #import <Language/XPArrayValue.h>
-#import <Language/XPPathExpression.h>
 
 #import <Language/XPGlobalScope.h>
 #import <Language/XPLocalScope.h>
@@ -490,7 +489,7 @@ subExpr
     PUSH_ALL(REV(objs));
 };
 
-atom = scalar | arrayLiteral | funcLiteral | funcCall | indexCall | varRef | pathExpr;
+atom = scalar | arrayLiteral | funcLiteral | funcCall | indexCall | varRef;
 
 indexCall = qid '['! expr ']'! {
     XPExpression *exprNode = POP();
@@ -511,20 +510,6 @@ varRef = qid {
     [refNode addChild:idNode];
     PUSH(refNode);
 };
-
-pathExpr
-@before {
-    PUSH(_openParenTok);
-}
-@after {
-    id toks = REV(ABOVE(_openParenTok));
-    POP(); // discard `_openParenTok`
-    PUSH([XPPathExpression pathExpressionWithSteps:toks]);
-}
-    = identifier ('.'! step)*;
-
-step = identifier | num;
-identifier = Word { PUSH(POP_STR()); };
 
 arrayLiteral = '[' elemList? ']'! {
     NSArray *els = REV(ABOVE(_openSquareTok));
