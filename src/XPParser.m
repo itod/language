@@ -8,7 +8,6 @@
 #import <Language/XPStringValue.h>
 #import <Language/XPFunctionValue.h>
 #import <Language/XPArrayValue.h>
-#import <Language/XPIndexGetExpression.h>
 #import <Language/XPPathExpression.h>
 
 #import <Language/XPGlobalScope.h>
@@ -26,6 +25,7 @@
 @property (nonatomic, retain) PKToken *blockTok;
 @property (nonatomic, retain) PKToken *refTok;
 @property (nonatomic, retain) PKToken *callTok;
+@property (nonatomic, retain) PKToken *indexTok;
 @property (nonatomic, retain) PKToken *assignIndexTok;
 @property (nonatomic, retain) PKToken *assignAppendTok;
 @property (nonatomic, retain) PKToken *subTok;
@@ -73,6 +73,8 @@
     self.refTok.tokenKind = XP_TOKEN_KIND_REF;
     self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
+    self.indexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"INDEX" doubleValue:0.0];
+    self.indexTok.tokenKind = XP_TOKEN_KIND_INDEX;
     self.assignIndexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"INDEX ASSIGN" doubleValue:0.0];
     self.assignIndexTok.tokenKind = XP_TOKEN_KIND_ASSIGN_INDEX;
     self.assignAppendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"APPEND ASSIGN" doubleValue:0.0];
@@ -172,6 +174,7 @@
     self.blockTok = nil;
     self.refTok = nil;
     self.callTok = nil;
+    self.indexTok = nil;
     self.assignIndexTok = nil;
     self.assignAppendTok = nil;
     self.subTok = nil;
@@ -1169,10 +1172,16 @@
     [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
     [self execute:^{
     
-    XPExpression *idxExpr = POP();
-    XPIndexGetExpression *call = [XPIndexGetExpression nodeWithToken:POP()];
-    [call addChild:idxExpr];
-    PUSH(call);
+    XPExpression *exprNode = POP();
+
+    XPNode *refNode = [XPNode nodeWithToken:_refTok];
+    XPNode *idNode = [XPNode nodeWithToken:POP()];
+    [refNode addChild:idNode];
+
+    XPNode *callNode = [XPNode nodeWithToken:_indexTok];
+    [callNode addChild:refNode];
+    [callNode addChild:exprNode];
+    PUSH(callNode);
 
     }];
 

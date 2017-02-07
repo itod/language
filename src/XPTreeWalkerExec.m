@@ -345,6 +345,22 @@
 }
 
 
+- (id)index:(XPNode *)node {
+    XPValue *ref = [self ref:[node childAtIndex:0]];
+    
+    if (![ref isArrayValue]) {
+        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed access on non-array object `%@`", ref.token.stringValue];
+        return nil;
+    }
+    
+    XPValue *idx = [self walk:[node childAtIndex:1]];
+    NSUInteger i = [idx evaluateAsNumberInContext:self];
+    
+    XPValue *res = [ref childAtIndex:i];
+    return res;
+}
+
+
 #pragma mark -
 #pragma mark Binary Expr
 

@@ -7,6 +7,7 @@
 #define XP_TOKEN_KIND_ASSIGN_APPEND -5
 #define XP_TOKEN_KIND_NEG -6
 #define XP_TOKEN_KIND_REF -7
+#define XP_TOKEN_KIND_INDEX -8
 
 @class PKTokenizer;
 @class XPGlobalScope;

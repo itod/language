@@ -144,7 +144,10 @@
             res = [self neg:node];
             break;
         case XP_TOKEN_KIND_REF:
-            res= [self ref:node];
+            res = [self ref:node];
+            break;
+        case XP_TOKEN_KIND_INDEX:
+            res = [self index:node];
             break;
             
 // BINARY EXPR
@@ -241,4 +244,5 @@
 - (id)not:(XPNode *)node {return nil;}
 - (id)neg:(XPNode *)node {return nil;}
 - (id)ref:(XPNode *)node {return nil;}
+- (id)index:(XPNode *)node {return nil;}
 @end

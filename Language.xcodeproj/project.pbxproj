@@ -75,7 +75,6 @@
 		D3B5F72E1E47EED300740161 /* XPArrayValue.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B5F72C1E47EED300740161 /* XPArrayValue.m */; };
 		D3B5F7301E47F09800740161 /* XPArrayValueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B5F72F1E47F09800740161 /* XPArrayValueTests.m */; };
 		D3B5F7331E47F36200740161 /* XPIndexGetExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3B5F7311E47F36200740161 /* XPIndexGetExpression.h */; };
-		D3B5F7341E47F36200740161 /* XPIndexGetExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B5F7321E47F36200740161 /* XPIndexGetExpression.m */; };
 		D3B5F7361E47F50C00740161 /* XPArrayLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B5F7351E47F50C00740161 /* XPArrayLiteralTests.m */; };
 		D3BB83651E454B8F007AC9DD /* XPException.h in Headers */ = {isa = PBXBuildFile; fileRef = D3BB83641E454B8F007AC9DD /* XPException.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3DF58B71E429ACA006CAA07 /* XPFuncDeclTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58B61E429ACA006CAA07 /* XPFuncDeclTests.m */; };
@@ -593,7 +592,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3689FF71E3BDE7B005783BB /* XPStringValue.m in Sources */,
-				D3B5F7341E47F36200740161 /* XPIndexGetExpression.m in Sources */,
 				D3689FFB1E3BDE7B005783BB /* XPValue.m in Sources */,
 				D37316D41E3EC5430034798E /* XPMemorySpace.m in Sources */,
 				D368A0091E3BE383005783BB /* XPParser.m in Sources */,
