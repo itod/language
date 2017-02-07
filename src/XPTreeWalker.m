@@ -128,6 +128,14 @@
             res = [self funcCall:node];
             break;
 
+// UNARY EXPR
+        case XP_TOKEN_KIND_NOT:
+            res = [self not:node];
+            break;
+        case XP_TOKEN_KIND_NEG:
+            res = [self neg:node];
+            break;
+            
 // BINARY EXPR
         case XP_TOKEN_KIND_OR:
             res = [self or:node];
@@ -189,12 +197,15 @@
 
 
 - (void)varDecl:(XPNode *)node {}
+- (void)funcDecl:(XPNode *)node {}
+
 - (void)assign:(XPNode *)node {}
 - (void)assignIndex:(XPNode *)node {}
 - (void)assignAppend:(XPNode *)node {}
-- (void)funcDecl:(XPNode *)node {}
+
 - (id)funcCall:(XPNode *)node {return nil;}
 - (void)returnStat:(XPNode *)node {}
+
 - (void)whileBlock:(XPNode *)node {}
 - (id)ifBlock:(XPNode *)node {return nil;}
 - (void)elseBlock:(XPNode *)node {}
@@ -215,4 +226,7 @@
 - (id)times:(XPNode *)node {return nil;}
 - (id)div:(XPNode *)node {return nil;}
 - (id)mod:(XPNode *)node {return nil;}
+
+- (id)not:(XPNode *)node {return nil;}
+- (id)neg:(XPNode *)node {return nil;}
 @end

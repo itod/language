@@ -315,6 +315,27 @@
 
 
 #pragma mark -
+#pragma mark Unary Expr
+
+- (id)not:(XPNode *)node {
+    XPExpression *expr = [node childAtIndex:0];
+    XPValue *val = [self walk:expr];
+    BOOL b = [val boolValue];
+    XPValue *res = [XPBooleanValue booleanValueWithBoolean:!b];
+    return res;
+}
+
+
+- (id)neg:(XPNode *)node {
+    XPExpression *expr = [node childAtIndex:0];
+    XPValue *val = [self walk:expr];
+    double n = [val doubleValue];
+    XPValue *res = [XPNumericValue numericValueWithNumber:-n];
+    return res;
+}
+
+
+#pragma mark -
 #pragma mark Binary Expr
 
 - (id)or:(XPNode *)node {

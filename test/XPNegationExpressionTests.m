@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Todd Ditchendorf. All rights reserved.
 //
 
-#import "XPBaseExpressionTests.h"
+#import "XPBaseStatementTests.h"
 
-@interface XPNegationExpressionTests : XPBaseExpressionTests
+@interface XPNegationExpressionTests : XPBaseStatementTests
 @end
 
 @implementation XPNegationExpressionTests
@@ -24,289 +24,289 @@
 }
 
 - (void)testNot1 {
-    NSString *input = @"not 1";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=not 1;";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testBangSpace1 {
-    NSString *input = @"! 1";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=! 1;";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testBang1 {
-    NSString *input = @"!1";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=!1;";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testNot0 {
-    NSString *input = @"not 0";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=not 0;";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDTrue([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testBangSpace0 {
-    NSString *input = @"! 0";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=! 0;";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDTrue([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testBang0 {
-    NSString *input = @"!0";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=!0;";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDTrue([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testNotTrue {
-    NSString *input = @"not true";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=not true;";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testBangSpaceTrue {
-    NSString *input = @"! true";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=! true;";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testBangTrue {
-    NSString *input = @"!true";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=!true;";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testNotFalse {
-    NSString *input = @"not false";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=not false;";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDTrue([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testBangSpaceFalse {
-    NSString *input = @"! false";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=! false;";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDTrue([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testBangFalse {
-    NSString *input = @"!false";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=!false;";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDTrue([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testNotOpenTrueClose {
-    NSString *input = @"not(true)";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=not(true);";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testNotSpaceOpenTrueClose {
-    NSString *input = @"not(true)";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=not(true);";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testBangSpaceOpenTrueClose {
-    NSString *input = @"! (true)";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=! (true);";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testBangOpenTrueClose {
-    NSString *input = @"!(true)";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=!(true);";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testNotOpenFalseClose {
-    NSString *input = @"not(false)";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=not(false);";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDTrue([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testNotSpaceOpenFalseClose {
-    NSString *input = @"not (false)";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=not (false);";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDTrue([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testBangOpenFalseClose {
-    NSString *input = @"!(false)";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=!(false);";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDTrue([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testBangSpaceOpenFalseClose {
-    NSString *input = @"! (false)";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=! (false);";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDTrue([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testNotSpaceSQString {
-    NSString *input = @"not 'hello'";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=not 'hello';";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testNotSQString {
-    NSString *input = @"not'hello'";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=not'hello';";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testBangSpaceSQString {
-    NSString *input = @"! 'hello'";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=! 'hello';";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testBangSQString {
-    NSString *input = @"!'hello'";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=!'hello';";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDFalse([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testNotSpaceEmptySQString {
-    NSString *input = @"not ''";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=not '';";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDTrue([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 - (void)testNotEmptySQString {
-    NSString *input = @"not''";
-    NSArray *toks = [self tokenize:input];
+    NSString *input = @"var foo=not'';";
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    [interp interpretString:input error:&err];
     TDNil(err);
-    TDNotNil(expr);
-    TDTrue([[expr simplify] evaluateAsBooleanInContext:nil]);
+    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
 }
 
 @end

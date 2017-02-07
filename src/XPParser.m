@@ -8,8 +8,6 @@
 #import <Language/XPStringValue.h>
 #import <Language/XPFunctionValue.h>
 #import <Language/XPArrayValue.h>
-#import <Language/XPUnaryExpression.h>
-#import <Language/XPNegationExpression.h>
 #import <Language/XPCallExpression.h>
 #import <Language/XPRefExpression.h>
 #import <Language/XPIndexGetExpression.h>
@@ -39,6 +37,8 @@
 @property (nonatomic, retain) PKToken *minusTok;
 @property (nonatomic, retain) PKToken *colonTok;
 @property (nonatomic, retain) PKToken *equalsTok;
+@property (nonatomic, retain) PKToken *notTok;
+@property (nonatomic, retain) PKToken *negTok;
 @property (nonatomic, assign) BOOL negation;
 @property (nonatomic, assign) BOOL negative;
 
@@ -77,13 +77,17 @@
     self.assignAppendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"APPEND ASSIGN" doubleValue:0.0];
     self.assignAppendTok.tokenKind = XP_TOKEN_KIND_ASSIGN_APPEND;
     self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];
-    self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"<ANON>" doubleValue:0.0];
+    self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"<ANON>" doubleValue:0.0];
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
     self.openCurlyTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:[NSString stringWithFormat:@"%C", 0x7B] doubleValue:0.0];
     self.openSquareTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"[" doubleValue:0.0];
     self.minusTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
     self.colonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@":" doubleValue:0.0];
     self.equalsTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"=" doubleValue:0.0];
+    self.notTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"not" doubleValue:0.0];
+    self.notTok.tokenKind = XP_TOKEN_KIND_NOT;
+    self.negTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"NEG" doubleValue:0.0];
+    self.negTok.tokenKind = XP_TOKEN_KIND_NEG;
 
         self.startRuleName = @"program";
         self.tokenKindTab[@"{"] = @(XP_TOKEN_KIND_OPEN_CURLY);
@@ -176,6 +180,8 @@
     self.minusTok = nil;
     self.colonTok = nil;
     self.equalsTok = nil;
+    self.notTok = nil;
+    self.negTok = nil;
 
 
     [super dealloc];
@@ -1050,8 +1056,11 @@
     }];
     [self execute:^{
     
-    if (_negation)
-		PUSH([XPNegationExpression negationExpressionWithExpression:POP()]);
+    if (_negation) {
+        XPNode *notNode = [XPNode nodeWithToken:_notTok];
+        [notNode addChild:POP()];
+		PUSH(notNode);
+    }
 
     }];
 
@@ -1087,8 +1096,11 @@
     [self primaryExpr_]; 
     [self execute:^{
     
-    if (_negative)
-		PUSH([XPUnaryExpression unaryExpressionWithExpression:POP()]);
+    if (_negative) {
+        XPNode *negNode = [XPNode nodeWithToken:_negTok];
+        [negNode addChild:POP()];
+		PUSH(negNode);
+    }
 
     }];
 
