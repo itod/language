@@ -48,6 +48,13 @@
 }
 
 
+- (id)copyWithZone:(NSZone *)zone {
+    XPObjectValue *that = [super copyWithZone:zone];
+    that->_value = [_value copyWithZone:zone];
+    return that;
+}
+
+
 - (XPDataType)dataType {
     return XPDataTypeObject;
 }

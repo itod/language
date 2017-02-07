@@ -46,6 +46,13 @@
 }
 
 
+- (id)copyWithZone:(NSZone *)zone {
+    XPNumericValue *that = [super copyWithZone:zone];
+    that->_value = _value;
+    return that;
+}
+
+
 - (id)objectValue {
     return @(_value);
 }

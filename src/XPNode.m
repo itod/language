@@ -45,6 +45,7 @@
     TDAssertMainThread();
     XPNode *that = [[[self class] alloc] initWithToken:_token];
     that->_kids = [_kids mutableCopyWithZone:zone];
+    that->_scope = _scope; // weakref
     return that;
 }
 

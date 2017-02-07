@@ -29,6 +29,13 @@
 }
 
 
+- (id)copyWithZone:(NSZone *)zone {
+    XPArrayValue *that = [super copyWithZone:zone];
+
+    return that;
+}
+
+
 - (NSString *)stringValue {
     NSMutableString *buf = [NSMutableString stringWithString:@"["];
     

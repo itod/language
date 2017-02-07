@@ -35,11 +35,6 @@
 }
 
 
-- (void)display:(NSInteger)level {
-    //NSLog(@"%@boolean (%@)", [self indent:level], [self stringValue]);
-}
-
-
 - (NSString *)description {
     return [NSString stringWithFormat:@"<XPFunctionValue %@>", [self stringValue]];
 }

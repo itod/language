@@ -59,6 +59,13 @@ double XPNumberFromString(NSString *s) {
 }
 
 
+- (id)copyWithZone:(NSZone *)zone {
+    XPValue *that = [super copyWithZone:zone];
+    
+    return that;
+}
+
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@ %p `%@`>", [self class], self, [self stringValue]];
 }

@@ -10,7 +10,7 @@
 
 @protocol XPScope;
 
-@interface XPNode : NSObject
+@interface XPNode : NSObject <NSCopying>
 
 + (instancetype)nodeWithToken:(PKToken *)tok;
 

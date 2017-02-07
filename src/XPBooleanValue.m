@@ -39,6 +39,13 @@
 }
 
 
+- (id)copyWithZone:(NSZone *)zone {
+    XPBooleanValue *that = [super copyWithZone:zone];
+    that->_value = _value;
+    return that;
+}
+
+
 - (NSString *)stringValue {
     return _value ? @"true" : @"false";
 }
