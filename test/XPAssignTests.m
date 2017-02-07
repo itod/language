@@ -38,7 +38,7 @@
 
 - (void)testAssignGlobal {
     [self eval:@"var x=1;sub(){x=2;}"];
-    TDEqualObjects(XPExceptionUndeclaredSymbol, self.error.localizedDescription);
+    TDEquals(2.0, [self doubleForName:@"x"]);
 }
 
 @end
