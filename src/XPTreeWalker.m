@@ -231,6 +231,7 @@
 }
 
 
+// no new mem space is necessary for func blocks. it's already been created and filled with args
 - (void)funcBlock:(XPNode *)node {
     TDAssert([_currentSpace isKindOfClass:[XPFunctionSpace class]]);
     for (XPNode *stat in node.children) {
