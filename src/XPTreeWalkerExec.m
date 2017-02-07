@@ -95,7 +95,7 @@
     }
     
     XPExpression *expr = [node childAtIndex:1];
-    XPValue *val = [expr evaluateInContext:self];
+    XPValue *val = [self walk:expr];
     
     TDAssert(self.currentSpace);
     [self.currentSpace setObject:val forName:name];
@@ -131,7 +131,7 @@
         return;
     }
 
-    XPValue *val = [[node childAtIndex:2] evaluateInContext:self];
+    XPValue *val = [self walk:[node childAtIndex:2]];
 
     [arrayVal replaceChild:val atIndex:idx];
 }
@@ -158,7 +158,7 @@
         return;
     }
     
-    XPValue *val = [[node childAtIndex:1] evaluateInContext:self];
+    XPValue *val = [self walk:[node childAtIndex:1]];
     
     [arrayVal addChild:val];
 
@@ -189,7 +189,7 @@
     if (b) {
         XPNode *block = [node childAtIndex:1];
         [self block:block];
-        return @YES;
+        return [XPBooleanValue booleanValueWithBoolean:YES];
     }
     
     NSUInteger childCount = [node childCount];
@@ -199,7 +199,7 @@
         if (b) break;
     }
     
-    return @NO;
+    return [XPBooleanValue booleanValueWithBoolean:NO];
 }
 
 
@@ -254,7 +254,7 @@
     // APPLY DEFAULT PARAMS
     for (NSString *name in funcSym.defaultParamValues) {
         XPExpression *expr = funcSym.defaultParamValues[name];
-        XPValue *val = [expr evaluateInContext:self];
+        XPValue *val = [self walk:expr];
         [funcSpace setObject:val forName:name];
     }
     
@@ -281,7 +281,7 @@
         NSUInteger i = 0;
         for (XPExpression *argExpr in argExprs) {
             XPSymbol *param = funcSym.orderedParams[i];
-            XPValue *argValue = [argExpr evaluateInContext:self];
+            XPValue *argValue = [self walk:argExpr];
             [funcSpace setObject:argValue forName:param.name];
             ++i;
         }
@@ -360,8 +360,8 @@
 
 
 - (id)rel:(XPNode *)node op:(NSInteger)op {
-    XPValue *lhs = [[self walk:[node childAtIndex:0]] evaluateInContext:self];
-    XPValue *rhs = [[self walk:[node childAtIndex:1]] evaluateInContext:self];
+    XPValue *lhs = [self walk:[node childAtIndex:0]];
+    XPValue *rhs = [self walk:[node childAtIndex:1]];
     
     BOOL res = [lhs compareToValue:rhs usingOperator:op];
     return [XPBooleanValue booleanValueWithBoolean:res];
