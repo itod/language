@@ -147,7 +147,7 @@
             res = [self load:node];
             break;
         case XP_TOKEN_KIND_LOAD_INDEX:
-            res = [self index:node];
+            res = [self loadIndex:node];
             break;
             
 // BINARY EXPR
@@ -243,5 +243,5 @@
 - (id)not:(XPNode *)node {return nil;}
 - (id)neg:(XPNode *)node {return nil;}
 - (id)load:(XPNode *)node {return nil;}
-- (id)index:(XPNode *)node {return nil;}
+- (id)loadIndex:(XPNode *)node {return nil;}
 @end

@@ -344,7 +344,7 @@
 }
 
 
-- (id)index:(XPNode *)node {
+- (id)loadIndex:(XPNode *)node {
     XPValue *ref = [self load:[node childAtIndex:0]];
     
     if (![ref isArrayValue]) {
