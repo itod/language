@@ -27,26 +27,18 @@
 }
 
 - (void)testFooEq2 {
-    NSString *input = @"var foo = 1; foo = 2;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(2.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo = 1; foo = 2;"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testFooEq2Fail {
-    NSString *input = @"foo = 2;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNotNil(err);
-    TDEqualObjects(XPExceptionUndeclaredSymbol, err.localizedDescription);
+    [self fail:@"foo = 2;"];
+    TDEqualObjects(XPExceptionUndeclaredSymbol, self.error.localizedDescription);
+}
+
+- (void)testAssignGlobal {
+    [self eval:@"var x=1;sub(){x=2;}"];
+    TDEqualObjects(XPExceptionUndeclaredSymbol, self.error.localizedDescription);
 }
 
 @end

@@ -14,11 +14,14 @@
     [super setUp];
     
     self.stat = nil;
+    self.interp = [[[XPInterpreter alloc] init] autorelease];
+    self.error = nil;
 }
 
 - (void)tearDown {
     self.stat = nil;
-    
+    self.interp = nil;
+    self.error = nil;
     [super tearDown];
 }
 
@@ -45,6 +48,41 @@
     
     XPNode *stat = [a pop];
     return stat;
+}
+
+
+- (void)eval:(NSString *)input {
+    NSError *err = nil;
+    [self.interp interpretString:input error:&err];
+    TDNil(err);
+}
+
+
+- (void)fail:(NSString *)input {
+    NSError *err = nil;
+    [self.interp interpretString:input error:&err];
+    TDNotNil(err);
+    self.error = err;
+}
+
+
+- (BOOL)boolForName:(NSString *)name {
+    return [[self valueForName:name] boolValue];
+}
+
+
+- (double)doubleForName:(NSString *)name {
+    return [[self valueForName:name] doubleValue];
+}
+
+
+- (NSString *)stringForName:(NSString *)name {
+    return [[self valueForName:name] stringValue];
+}
+
+
+- (XPValue *)valueForName:(NSString *)name {
+    return [self.interp.globals objectForName:name];
 }
 
 @end
