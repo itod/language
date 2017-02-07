@@ -67,6 +67,7 @@
 #pragma mark DECL
 
 - (void)varDecl:(XPNode *)node {
+    NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     NSString *name = [[[node childAtIndex:0] token] stringValue];
     XPNode *expr = [node childAtIndex:1];
     XPValue *val = [self walk:expr];
@@ -84,15 +85,12 @@
 #pragma mark ASSIGN
 
 - (void)assign:(XPNode *)node {
+    NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     XPNode *idNode = [node childAtIndex:0];
     NSString *name = idNode.token.stringValue;
     
-    
-    
-    
-    
-    // TODO: WHY NOT USING _loadVarRef:
-    if (![self.currentSpace objectForName:name]) {
+    XPMemorySpace *space = [self spaceWithSymbolNamed:name];
+    if (!space) {
         [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", name];
         return;
     }
@@ -100,8 +98,7 @@
     XPNode *expr = [node childAtIndex:1];
     XPValue *val = [self walk:expr];
     
-    TDAssert(self.currentSpace);
-    [self.currentSpace setObject:val forName:name];
+    [space setObject:val forName:name];
 }
 
 
@@ -242,7 +239,7 @@
 #pragma mark -
 #pragma mark Functions
 
-- (id)funcCall:(XPNode *)node {
+- (id)call:(XPNode *)node {
     XPFunctionSymbol *funcSym = nil;
     NSString *name = nil;
 
@@ -280,6 +277,7 @@
     XPFunctionSpace *funcSpace = [XPFunctionSpace functionSpaceWithSymbol:funcSym];
     XPMemorySpace *saveSpace = self.currentSpace;
     TDAssert(saveSpace);
+    self.currentSpace = funcSpace;
 
     // APPLY DEFAULT PARAMS
     for (NSString *name in funcSym.defaultParamValues) {

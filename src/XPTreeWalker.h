@@ -17,6 +17,7 @@
 
 - (id)walk:(XPNode *)root;
 - (XPValue *)loadVariableReference:(XPNode *)node;
+- (XPMemorySpace *)spaceWithSymbolNamed:(NSString *)name;
 - (void)raise:(NSString *)name node:(XPNode *)node format:(NSString *)fmt, ...;
 
 - (void)block:(XPNode *)node;

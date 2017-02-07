@@ -36,8 +36,28 @@
     TDEqualObjects(XPExceptionUndeclaredSymbol, self.error.localizedDescription);
 }
 
-- (void)testAssignGlobal {
-    [self eval:@"var x=1;sub(){x=2;}"];
+- (void)testFuncAssignGlobal {
+    [self eval:@"var x=1;foo();sub foo(){x=2;}"];
+    TDEquals(2.0, [self doubleForName:@"x"]);
+}
+
+- (void)testFuncOverrideGlobal {
+    [self eval:@"var x=1;foo();sub foo(){var x=2;}"];
+    TDEquals(1.0, [self doubleForName:@"x"]);
+}
+
+- (void)testFuncNestedOverride {
+    [self eval:@"var x=1;var y=0;f();sub f(){var x=2;var y=1000;g();}sub g(){y=x;}"];
+    TDEquals(1.0, [self doubleForName:@"y"]);
+}
+
+- (void)testLocalNestedOverride {
+    [self eval:@"var x=1;{var x=2;}"];
+    TDEquals(1.0, [self doubleForName:@"x"]);
+}
+
+- (void)testLocalNestedAssign {
+    [self eval:@"var x=1;{x=2;}"];
     TDEquals(2.0, [self doubleForName:@"x"]);
 }
 

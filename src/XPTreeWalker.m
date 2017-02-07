@@ -57,12 +57,19 @@
 - (XPMemorySpace *)spaceWithSymbolNamed:(NSString *)name {
     XPMemorySpace *space = nil;
     
+    // check local or func
+    TDAssert(_currentSpace);
+    if ([_currentSpace objectForName:name]) {
+        space = _currentSpace;
+    }
+    
+    // if in local, check func too
     TDAssert(_stack);
-    if ([_stack count] && [[_stack lastObject] objectForName:name]) {
+    if (!space && [_stack count] && [_stack lastObject] != _currentSpace && [[_stack lastObject] objectForName:name]) {
         space = [_stack lastObject];
     }
     
-    if (!space && [_globals objectForName:name]) {
+    if (!space && _globals != _currentSpace && [_globals objectForName:name]) {
         space = _globals;
     }
     
@@ -119,7 +126,7 @@
             
 // FUNCTIONS
         case XP_TOKEN_KIND_CALL:
-            res = [self funcCall:node];
+            res = [self call:node];
             break;
         case XP_TOKEN_KIND_RETURN:
             [self returnStat:node];
@@ -216,7 +223,7 @@
 - (void)assignIndex:(XPNode *)node {}
 - (void)assignAppend:(XPNode *)node {}
 
-- (id)funcCall:(XPNode *)node {return nil;}
+- (id)call:(XPNode *)node {return nil;}
 - (void)returnStat:(XPNode *)node {}
 
 - (void)whileBlock:(XPNode *)node {}
