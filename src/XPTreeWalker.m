@@ -136,6 +136,26 @@
             res = [self and:node];
             break;
 
+        case XP_TOKEN_KIND_EQ:
+            res = [self eq:node];
+            break;
+        case XP_TOKEN_KIND_NE:
+            res = [self ne:node];
+
+        case XP_TOKEN_KIND_LT:
+            res = [self lt:node];
+            break;
+        case XP_TOKEN_KIND_LE:
+            res = [self le:node];
+            break;
+        case XP_TOKEN_KIND_GT:
+            res = [self gt:node];
+            break;
+        case XP_TOKEN_KIND_GE:
+            res = [self ge:node];
+            break;
+            break;
+            
         default:
             TDAssert([node isKindOfClass:[XPExpression class]]);
             res = [(id)node evaluateInContext:self];
@@ -166,4 +186,12 @@
 
 - (id)or:(XPNode *)node {return nil;}
 - (id)and:(XPNode *)node {return nil;}
+
+- (id)eq:(XPNode *)node {return nil;}
+- (id)ne:(XPNode *)node {return nil;}
+
+- (id)lt:(XPNode *)node {return nil;}
+- (id)le:(XPNode *)node {return nil;}
+- (id)gt:(XPNode *)node {return nil;}
+- (id)ge:(XPNode *)node {return nil;}
 @end

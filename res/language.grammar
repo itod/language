@@ -29,7 +29,6 @@
 #import <Language/XPArrayValue.h>
 #import <Language/XPUnaryExpression.h>
 #import <Language/XPNegationExpression.h>
-#import <Language/XPRelationalExpression.h>
 #import <Language/XPArithmeticExpression.h>
 #import <Language/XPCallExpression.h>
 #import <Language/XPRefExpression.h>
@@ -391,30 +390,28 @@ andExpr = equalityExpr (andOp equalityExpr {
     PUSH(andNode);
 })*;
 
-eqOp    @after { PUSH(@(XP_TOKEN_KIND_EQ)); }
-        = '=='! | 'eq'!;
-neOp    @after { PUSH(@(XP_TOKEN_KIND_NE)); }
-        = '!='! | 'ne'!;
-equalityExpr = relationalExpr ((eqOp | neOp) relationalExpr {
+eq      = '==';
+ne      = '!=';
+equalityExpr = relationalExpr ((eq | ne) relationalExpr {
     XPValue *rhs = POP();
-    NSInteger op = POP_INT();
+    XPNode *eqNode = [XPNode nodeWithToken:POP()];
     XPValue *lhs = POP();
-    PUSH([XPRelationalExpression relationalExpressionWithOperand:lhs operator:op operand:rhs]);
+    [eqNode addChild:lhs];
+    [eqNode addChild:rhs];
+    PUSH(eqNode);
 })*;
 
-ltOp    @after { PUSH(@(XP_TOKEN_KIND_LT)); }
-        =  '<'! | 'lt'!;
-gtOp    @after { PUSH(@(XP_TOKEN_KIND_GT)); }
-        =  '>'! | 'gt'!;
-leOp    @after { PUSH(@(XP_TOKEN_KIND_LE)); }
-        = '<='! | 'le'!;
-geOp    @after { PUSH(@(XP_TOKEN_KIND_GE)); }
-        = '>='! | 'ge'!;
-relationalExpr = additiveExpr ((ltOp | gtOp | leOp | geOp) additiveExpr {
+lt    =  '<';
+gt    =  '>';
+le    = '<=';
+ge    = '>=';
+relationalExpr = additiveExpr ((lt | gt | le | ge) additiveExpr {
     XPValue *rhs = POP();
-    NSInteger op = POP_INT();
+    XPNode *relNode = [XPNode nodeWithToken:POP()];
     XPValue *lhs = POP();
-    PUSH([XPRelationalExpression relationalExpressionWithOperand:lhs operator:op operand:rhs]);
+    [relNode addChild:lhs];
+    [relNode addChild:rhs];
+    PUSH(relNode);
 })*;
 
 plus    @after { PUSH(@(XP_TOKEN_KIND_PLUS)); }

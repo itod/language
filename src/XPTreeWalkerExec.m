@@ -13,12 +13,15 @@
 #import "XPFunctionSpace.h"
 
 #import "XPValue.h"
+#import "XPBooleanValue.h"
 #import "XPFunctionValue.h"
 #import "XPNode.h"
 #import "XPExpression.h"
 
 #import "XPVariableSymbol.h"
 #import "XPFunctionSymbol.h"
+
+#import "XPParser.h"
 
 #define OFFSET 1
 
@@ -165,10 +168,10 @@
     XPExpression *expr = [node childAtIndex:0];
     XPNode *block = [node childAtIndex:1];
     
-    BOOL b = [expr evaluateAsBooleanInContext:self];
+    BOOL b = [[self walk:expr] evaluateAsBooleanInContext:self];
     while (b) {
         [self block:block];
-        b = [expr evaluateAsBooleanInContext:self];
+        b = [[self walk:expr] evaluateAsBooleanInContext:self];
     }
 }
 
@@ -318,7 +321,7 @@
     BOOL rhs = [[self walk:[node childAtIndex:1]] evaluateAsBooleanInContext:self];
     
     BOOL res = lhs || rhs;
-    return @(res);
+    return [XPBooleanValue booleanValueWithBoolean:res];
 }
 
 
@@ -327,7 +330,24 @@
     BOOL rhs = [[self walk:[node childAtIndex:1]] evaluateAsBooleanInContext:self];
     
     BOOL res = lhs && rhs;
-    return @(res);
+    return [XPBooleanValue booleanValueWithBoolean:res];
 }
+
+
+- (id)rel:(XPNode *)node op:(NSInteger)op {
+    XPValue *lhs = [[self walk:[node childAtIndex:0]] evaluateInContext:self];
+    XPValue *rhs = [[self walk:[node childAtIndex:1]] evaluateInContext:self];
+    
+    BOOL res = [lhs compareToValue:rhs usingOperator:op];
+    return [XPBooleanValue booleanValueWithBoolean:res];
+}
+
+- (id)eq:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_EQ]; }
+- (id)ne:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_NE]; }
+
+- (id)lt:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_LT]; }
+- (id)le:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_LE]; }
+- (id)gt:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_GT]; }
+- (id)ge:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_GE]; }
 
 @end

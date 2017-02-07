@@ -30,7 +30,6 @@
 		D3689FEA1E3BDE7B005783BB /* XPObjectValue.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FC11E3BDE7B005783BB /* XPObjectValue.h */; };
 		D3689FEB1E3BDE7B005783BB /* XPObjectValue.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FC21E3BDE7B005783BB /* XPObjectValue.m */; };
 		D3689FF21E3BDE7B005783BB /* XPRelationalExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FC91E3BDE7B005783BB /* XPRelationalExpression.h */; };
-		D3689FF31E3BDE7B005783BB /* XPRelationalExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FCA1E3BDE7B005783BB /* XPRelationalExpression.m */; };
 		D3689FF61E3BDE7B005783BB /* XPStringValue.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FCD1E3BDE7B005783BB /* XPStringValue.h */; };
 		D3689FF71E3BDE7B005783BB /* XPStringValue.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FCE1E3BDE7B005783BB /* XPStringValue.m */; };
 		D3689FF81E3BDE7B005783BB /* XPUnaryExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FCF1E3BDE7B005783BB /* XPUnaryExpression.h */; };
@@ -624,7 +623,6 @@
 				D3689FEB1E3BDE7B005783BB /* XPObjectValue.m in Sources */,
 				D37316DD1E3FA9980034798E /* XPTreeWalker.m in Sources */,
 				D37316E61E3FAB140034798E /* XPTreeWalkerExec.m in Sources */,
-				D3689FF31E3BDE7B005783BB /* XPRelationalExpression.m in Sources */,
 				D3689FE51E3BDE7B005783BB /* XPNegationExpression.m in Sources */,
 				D3DF58BF1E429E45006CAA07 /* XPFunctionSymbol.m in Sources */,
 				D37316A21E3EBD4B0034798E /* XPNode.m in Sources */,
