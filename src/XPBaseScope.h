@@ -15,7 +15,7 @@
 + (instancetype)scopeWithEnclosingScope:(id <XPScope>)scope;
 - (instancetype)initWithEnclosingScope:(id <XPScope>)scope;
 
-@property (nonatomic, retain, readonly) id <XPScope>parentScope;
+@property (nonatomic, retain, readonly) id <XPScope>parentScope; // only needed for OOP
 @property (nonatomic, retain, readonly) id <XPScope>enclosingScope;
 @property (nonatomic, retain) NSMutableDictionary<NSString *, XPSymbol *> *symbols;
 @end
