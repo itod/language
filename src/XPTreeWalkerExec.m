@@ -246,7 +246,7 @@
     }
 
     // PUSH MEMORY SPACE
-    XPFunctionSpace *funcSpace = [XPFunctionSpace spaceWithSymbol:funcSym];
+    XPFunctionSpace *funcSpace = [XPFunctionSpace functionSpaceWithSymbol:funcSym];
     XPMemorySpace *saveSpace = self.currentSpace;
     TDAssert(saveSpace);
 

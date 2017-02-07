@@ -11,7 +11,7 @@
 
 @implementation XPFunctionSpace
 
-+ (instancetype)spaceWithSymbol:(XPSymbol *)sym {
++ (instancetype)functionSpaceWithSymbol:(XPSymbol *)sym {
     return [[[self alloc] initWithSymbol:sym] autorelease];
 }
 
