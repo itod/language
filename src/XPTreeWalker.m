@@ -35,10 +35,10 @@
 
 
 #pragma mark -
-#pragma mark XPContext
+#pragma mark XPTreeWalker
 
-- (id)loadVariableReference:(XPNode *)node {
-    id res = [self _loadVariableReference:node];
+- (XPValue *)loadVariableReference:(XPNode *)node {
+    XPValue *res = [self _loadVariableReference:node];
     if (!res) {
         [self raise:XPExceptionUndeclaredSymbol node:node format:@"unknown var reference: `%@`", node.token.stringValue];
     }
@@ -46,7 +46,7 @@
 }
 
 
-- (id)_loadVariableReference:(XPNode *)node {
+- (XPValue *)_loadVariableReference:(XPNode *)node {
     NSString *name = node.token.stringValue;
     XPMemorySpace *space = [self spaceWithSymbolNamed:name];
     id res = [space objectForName:name];

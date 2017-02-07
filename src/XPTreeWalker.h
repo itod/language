@@ -7,27 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XPContext.h"
 
 @class XPNode;
+@class XPValue;
 @class XPGlobalScope;
 @class XPMemorySpace;
 
-@interface XPTreeWalker : NSObject <XPContext>
+@interface XPTreeWalker : NSObject
 
 - (id)walk:(XPNode *)root;
-
+- (XPValue *)loadVariableReference:(XPNode *)node;
 - (void)raise:(NSString *)name node:(XPNode *)node format:(NSString *)fmt, ...;
 
 - (void)block:(XPNode *)node;
-- (void)varDecl:(XPNode *)node;
-- (void)assign:(XPNode *)node;
-- (void)funcDecl:(XPNode *)node;
-- (id)funcCall:(XPNode *)node;
-- (void)returnStat:(XPNode *)node;
-- (void)whileBlock:(XPNode *)node;
-- (id)ifBlock:(XPNode *)node;
-- (void)elseBlock:(XPNode *)node;
+//- (void)varDecl:(XPNode *)node;
+//- (void)assign:(XPNode *)node;
+//- (void)funcDecl:(XPNode *)node;
+//- (id)funcCall:(XPNode *)node;
+//- (void)returnStat:(XPNode *)node;
+//- (void)whileBlock:(XPNode *)node;
+//- (id)ifBlock:(XPNode *)node;
+//- (void)elseBlock:(XPNode *)node;
 
 @property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, retain) XPMemorySpace *globals;

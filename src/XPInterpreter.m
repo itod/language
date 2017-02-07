@@ -15,7 +15,6 @@
 #import "XPException.h"
 
 #import <PEGKit/PKAssembly.h>
-#import <Language/XPContext.h>
 
 NSString * const XPErrorDomain = @"XPErrorDomain";
 NSString * const XPErrorRangeKey = @"range";

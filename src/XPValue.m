@@ -25,7 +25,6 @@
 #import "XPNumericValue.h"
 #import "XPStringValue.h"
 #import "XPObjectValue.h"
-#import "XPContext.h"
 #import "XPParser.h"
 
 XPValue *XPValueFromObject(id obj) {
@@ -67,11 +66,6 @@ double XPNumberFromString(NSString *s) {
 
 - (NSString *)treeDescription {
     return [NSString stringWithFormat:@"`%@`", [self stringValue]];
-}
-
-
-- (XPValue *)evaluateInContext:(id <XPContext>)ctx {
-    return self;
 }
 
 
