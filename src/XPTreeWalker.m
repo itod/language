@@ -143,10 +143,10 @@
         case XP_TOKEN_KIND_NEG:
             res = [self neg:node];
             break;
-        case XP_TOKEN_KIND_REF:
-            res = [self ref:node];
+        case XP_TOKEN_KIND_LOAD:
+            res = [self load:node];
             break;
-        case XP_TOKEN_KIND_INDEX:
+        case XP_TOKEN_KIND_LOAD_INDEX:
             res = [self index:node];
             break;
             
@@ -242,6 +242,6 @@
 
 - (id)not:(XPNode *)node {return nil;}
 - (id)neg:(XPNode *)node {return nil;}
-- (id)ref:(XPNode *)node {return nil;}
+- (id)load:(XPNode *)node {return nil;}
 - (id)index:(XPNode *)node {return nil;}
 @end

@@ -337,7 +337,7 @@
 }
 
 
-- (id)ref:(XPNode *)node {
+- (id)load:(XPNode *)node {
     XPNode *idNode = [node childAtIndex:0];
     XPValue *val = [self loadVariableReference:idNode];
     return val;
@@ -345,7 +345,7 @@
 
 
 - (id)index:(XPNode *)node {
-    XPValue *ref = [self ref:[node childAtIndex:0]];
+    XPValue *ref = [self load:[node childAtIndex:0]];
     
     if (![ref isArrayValue]) {
         [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed access on non-array object `%@`", ref.token.stringValue];

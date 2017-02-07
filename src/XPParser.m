@@ -22,7 +22,7 @@
 @interface XPParser ()
     
 @property (nonatomic, retain) PKToken *blockTok;
-@property (nonatomic, retain) PKToken *refTok;
+@property (nonatomic, retain) PKToken *loadTok;
 @property (nonatomic, retain) PKToken *callTok;
 @property (nonatomic, retain) PKToken *indexTok;
 @property (nonatomic, retain) PKToken *assignIndexTok;
@@ -68,15 +68,15 @@
     self.tokenizer = [[self class] tokenizer];
     self.blockTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"BLOCK" doubleValue:0.0];
     self.blockTok.tokenKind = XP_TOKEN_KIND_BLOCK;
-    self.refTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"REF" doubleValue:0.0];
-    self.refTok.tokenKind = XP_TOKEN_KIND_REF;
+    self.loadTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"LOAD" doubleValue:0.0];
+    self.loadTok.tokenKind = XP_TOKEN_KIND_LOAD;
     self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
-    self.indexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"INDEX" doubleValue:0.0];
-    self.indexTok.tokenKind = XP_TOKEN_KIND_INDEX;
-    self.assignIndexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"INDEX ASSIGN" doubleValue:0.0];
+    self.indexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"LOAD INDEX" doubleValue:0.0];
+    self.indexTok.tokenKind = XP_TOKEN_KIND_LOAD_INDEX;
+    self.assignIndexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"ASSIGN INDEX" doubleValue:0.0];
     self.assignIndexTok.tokenKind = XP_TOKEN_KIND_ASSIGN_INDEX;
-    self.assignAppendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"APPEND ASSIGN" doubleValue:0.0];
+    self.assignAppendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"ASSIGN APPEND" doubleValue:0.0];
     self.assignAppendTok.tokenKind = XP_TOKEN_KIND_ASSIGN_APPEND;
     self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];
     self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"<ANON>" doubleValue:0.0];
@@ -169,7 +169,7 @@
     self.currentScope = nil;
     self.globalScope = nil;
     self.blockTok = nil;
-    self.refTok = nil;
+    self.loadTok = nil;
     self.callTok = nil;
     self.indexTok = nil;
     self.assignIndexTok = nil;
@@ -1169,7 +1169,7 @@
     
     XPNode *exprNode = POP();
 
-    XPNode *refNode = [XPNode nodeWithToken:_refTok];
+    XPNode *refNode = [XPNode nodeWithToken:_loadTok];
     XPNode *idNode = [XPNode nodeWithToken:POP()];
     [refNode addChild:idNode];
 
@@ -1188,7 +1188,7 @@
     [self qid_]; 
     [self execute:^{
     
-    XPNode *refNode = [XPNode nodeWithToken:_refTok];
+    XPNode *refNode = [XPNode nodeWithToken:_loadTok];
     XPNode *idNode = [XPNode nodeWithToken:POP()];
     [refNode addChild:idNode];
     PUSH(refNode);
