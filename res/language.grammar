@@ -370,8 +370,8 @@ arg         = expr;
 // EXPRESSIONS
 expr    = orExpr;
 
-orOp    =  'or';
-orExpr  = andExpr (orOp andExpr {
+or      = 'or';
+orExpr  = andExpr (or andExpr {
     id rhs = POP();
     XPNode *orNode = [XPNode nodeWithToken:POP()];
     id lhs = POP();
@@ -380,8 +380,8 @@ orExpr  = andExpr (orOp andExpr {
     PUSH(orNode);
 })*;
 
-andOp   = 'and';
-andExpr = equalityExpr (andOp equalityExpr {
+and     = 'and';
+andExpr = equalityExpr (and equalityExpr {
     id rhs = POP();
     XPNode *andNode = [XPNode nodeWithToken:POP()];
     id lhs = POP();

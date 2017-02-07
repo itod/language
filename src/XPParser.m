@@ -106,13 +106,13 @@
         self.tokenKindTab[@"var"] = @(XP_TOKEN_KIND_VAR);
         self.tokenKindTab[@")"] = @(XP_TOKEN_KIND_CLOSE_PAREN);
         self.tokenKindTab[@"*"] = @(XP_TOKEN_KIND_TIMES);
-        self.tokenKindTab[@"or"] = @(XP_TOKEN_KIND_OROP);
+        self.tokenKindTab[@"or"] = @(XP_TOKEN_KIND_OR);
         self.tokenKindTab[@"null"] = @(XP_TOKEN_KIND_NULL);
         self.tokenKindTab[@"+"] = @(XP_TOKEN_KIND_PLUS);
         self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
         self.tokenKindTab[@"["] = @(XP_TOKEN_KIND_OPEN_BRACKET);
         self.tokenKindTab[@","] = @(XP_TOKEN_KIND_COMMA);
-        self.tokenKindTab[@"and"] = @(XP_TOKEN_KIND_ANDOP);
+        self.tokenKindTab[@"and"] = @(XP_TOKEN_KIND_AND);
         self.tokenKindTab[@"-"] = @(XP_TOKEN_KIND_MINUS);
         self.tokenKindTab[@"]"] = @(XP_TOKEN_KIND_CLOSE_BRACKET);
         self.tokenKindTab[@"."] = @(XP_TOKEN_KIND_DOT);
@@ -141,13 +141,13 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_VAR] = @"var";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_PAREN] = @")";
         self.tokenKindNameTab[XP_TOKEN_KIND_TIMES] = @"*";
-        self.tokenKindNameTab[XP_TOKEN_KIND_OROP] = @"or";
+        self.tokenKindNameTab[XP_TOKEN_KIND_OR] = @"or";
         self.tokenKindNameTab[XP_TOKEN_KIND_NULL] = @"null";
         self.tokenKindNameTab[XP_TOKEN_KIND_PLUS] = @"+";
         self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_BRACKET] = @"[";
         self.tokenKindNameTab[XP_TOKEN_KIND_COMMA] = @",";
-        self.tokenKindNameTab[XP_TOKEN_KIND_ANDOP] = @"and";
+        self.tokenKindNameTab[XP_TOKEN_KIND_AND] = @"and";
         self.tokenKindNameTab[XP_TOKEN_KIND_MINUS] = @"-";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_BRACKET] = @"]";
         self.tokenKindNameTab[XP_TOKEN_KIND_DOT] = @".";
@@ -767,18 +767,18 @@
     [self fireDelegateSelector:@selector(parser:didMatchExpr:)];
 }
 
-- (void)orOp_ {
+- (void)or_ {
     
-    [self match:XP_TOKEN_KIND_OROP discard:NO]; 
+    [self match:XP_TOKEN_KIND_OR discard:NO]; 
 
-    [self fireDelegateSelector:@selector(parser:didMatchOrOp:)];
+    [self fireDelegateSelector:@selector(parser:didMatchOr:)];
 }
 
 - (void)orExpr_ {
     
     [self andExpr_]; 
-    while ([self speculate:^{ [self orOp_]; [self andExpr_]; }]) {
-        [self orOp_]; 
+    while ([self speculate:^{ [self or_]; [self andExpr_]; }]) {
+        [self or_]; 
         [self andExpr_]; 
         [self execute:^{
         
@@ -795,18 +795,18 @@
     [self fireDelegateSelector:@selector(parser:didMatchOrExpr:)];
 }
 
-- (void)andOp_ {
+- (void)and_ {
     
-    [self match:XP_TOKEN_KIND_ANDOP discard:NO]; 
+    [self match:XP_TOKEN_KIND_AND discard:NO]; 
 
-    [self fireDelegateSelector:@selector(parser:didMatchAndOp:)];
+    [self fireDelegateSelector:@selector(parser:didMatchAnd:)];
 }
 
 - (void)andExpr_ {
     
     [self equalityExpr_]; 
-    while ([self speculate:^{ [self andOp_]; [self equalityExpr_]; }]) {
-        [self andOp_]; 
+    while ([self speculate:^{ [self and_]; [self equalityExpr_]; }]) {
+        [self and_]; 
         [self equalityExpr_]; 
         [self execute:^{
         

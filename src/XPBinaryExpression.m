@@ -83,10 +83,10 @@
         case XP_TOKEN_KIND_MOD:
             op = @"%";
             break;
-        case XP_TOKEN_KIND_ANDOP:
+        case XP_TOKEN_KIND_AND:
             op = @"and";
             break;
-        case XP_TOKEN_KIND_OROP:
+        case XP_TOKEN_KIND_OR:
             op = @"or";
             break;
         case XP_TOKEN_KIND_EQ:

@@ -129,10 +129,10 @@
             break;
 
 // BINARY EXPR
-        case XP_TOKEN_KIND_OROP:
+        case XP_TOKEN_KIND_OR:
             res = [self or:node];
             break;
-        case XP_TOKEN_KIND_ANDOP:
+        case XP_TOKEN_KIND_AND:
             res = [self and:node];
             break;
 
