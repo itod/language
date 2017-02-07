@@ -17,7 +17,6 @@
 #import "XPNumericValue.h"
 #import "XPFunctionValue.h"
 #import "XPNode.h"
-#import "XPExpression.h"
 
 #import "XPVariableSymbol.h"
 #import "XPFunctionSymbol.h"
@@ -69,7 +68,7 @@
 
 - (void)varDecl:(XPNode *)node {
     NSString *name = [[[node childAtIndex:0] token] stringValue];
-    XPExpression *expr = [node childAtIndex:1];
+    XPNode *expr = [node childAtIndex:1];
     XPValue *val = [self walk:expr];
     
     TDAssert(self.currentSpace);
@@ -94,7 +93,7 @@
         return;
     }
     
-    XPExpression *expr = [node childAtIndex:1];
+    XPNode *expr = [node childAtIndex:1];
     XPValue *val = [self walk:expr];
     
     TDAssert(self.currentSpace);
@@ -123,8 +122,8 @@
         return;
     }
 
-    XPExpression *idxExpr = [node childAtIndex:1];
-    NSInteger idx = [idxExpr evaluateAsNumberInContext:self];
+    XPNode *idxExpr = [node childAtIndex:1];
+    NSInteger idx = [[self walk:idxExpr] doubleValue];
     
     if (idx < 0 || idx >= [arrayVal childCount]) {
         [self raise:XPExceptionArrayIndexOutOfBounds node:node format:@"array index out of bounds: `%ld`", idx];
@@ -169,13 +168,13 @@
 #pragma mark While
 
 - (void)whileBlock:(XPNode *)node {
-    XPExpression *expr = [node childAtIndex:0];
+    XPNode *expr = [node childAtIndex:0];
     XPNode *block = [node childAtIndex:1];
     
-    BOOL b = [[self walk:expr] evaluateAsBooleanInContext:self];
+    BOOL b = [[self walk:expr] boolValue];
     while (b) {
         [self block:block];
-        b = [[self walk:expr] evaluateAsBooleanInContext:self];
+        b = [[self walk:expr] boolValue];
     }
 }
 
@@ -184,8 +183,8 @@
 #pragma mark If
 
 - (id)ifBlock:(XPNode *)node {
-    XPExpression *expr = [node childAtIndex:0];
-    BOOL b = [expr evaluateAsBooleanInContext:self];
+    XPNode *expr = [node childAtIndex:0];
+    BOOL b = [[self walk:expr] boolValue];
     if (b) {
         XPNode *block = [node childAtIndex:1];
         [self block:block];
@@ -253,7 +252,7 @@
 
     // APPLY DEFAULT PARAMS
     for (NSString *name in funcSym.defaultParamValues) {
-        XPExpression *expr = funcSym.defaultParamValues[name];
+        XPNode *expr = funcSym.defaultParamValues[name];
         XPValue *val = [self walk:expr];
         [funcSpace setObject:val forName:name];
     }
@@ -279,7 +278,7 @@
         NSArray *argExprs = [node.children subarrayWithRange:NSMakeRange(OFFSET, argCount)];
         
         NSUInteger i = 0;
-        for (XPExpression *argExpr in argExprs) {
+        for (XPNode *argExpr in argExprs) {
             XPSymbol *param = funcSym.orderedParams[i];
             XPValue *argValue = [self walk:argExpr];
             [funcSpace setObject:argValue forName:param.name];
@@ -309,7 +308,7 @@
 
 
 - (void)returnStat:(XPNode *)node {
-    XPExpression *expr = [node childAtIndex:0];
+    XPNode *expr = [node childAtIndex:0];
     XPValue *val = [self walk:expr];
     TDAssert(_sharedReturnValue);
     _sharedReturnValue.value = val;
@@ -321,7 +320,7 @@
 #pragma mark Unary Expr
 
 - (id)not:(XPNode *)node {
-    XPExpression *expr = [node childAtIndex:0];
+    XPNode *expr = [node childAtIndex:0];
     XPValue *val = [self walk:expr];
     BOOL b = [val boolValue];
     XPValue *res = [XPBooleanValue booleanValueWithBoolean:!b];
@@ -330,7 +329,7 @@
 
 
 - (id)neg:(XPNode *)node {
-    XPExpression *expr = [node childAtIndex:0];
+    XPNode *expr = [node childAtIndex:0];
     XPValue *val = [self walk:expr];
     double n = [val doubleValue];
     XPValue *res = [XPNumericValue numericValueWithNumber:-n];
@@ -354,7 +353,7 @@
     }
     
     XPValue *idx = [self walk:[node childAtIndex:1]];
-    NSUInteger i = [idx evaluateAsNumberInContext:self];
+    NSUInteger i = [idx doubleValue];
     
     XPValue *res = [ref childAtIndex:i];
     return res;
@@ -365,8 +364,8 @@
 #pragma mark Binary Expr
 
 - (id)or:(XPNode *)node {
-    BOOL lhs = [[self walk:[node childAtIndex:0]] evaluateAsBooleanInContext:self];
-    BOOL rhs = [[self walk:[node childAtIndex:1]] evaluateAsBooleanInContext:self];
+    BOOL lhs = [[self walk:[node childAtIndex:0]] boolValue];
+    BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
     
     BOOL res = lhs || rhs;
     return [XPBooleanValue booleanValueWithBoolean:res];
@@ -374,8 +373,8 @@
 
 
 - (id)and:(XPNode *)node {
-    BOOL lhs = [[self walk:[node childAtIndex:0]] evaluateAsBooleanInContext:self];
-    BOOL rhs = [[self walk:[node childAtIndex:1]] evaluateAsBooleanInContext:self];
+    BOOL lhs = [[self walk:[node childAtIndex:0]] boolValue];
+    BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
     
     BOOL res = lhs && rhs;
     return [XPBooleanValue booleanValueWithBoolean:res];
@@ -400,8 +399,8 @@
 
 
 - (id)math:(XPNode *)node op:(NSInteger)op {
-    double lhs = [[self walk:[node childAtIndex:0]] evaluateAsNumberInContext:self];
-    double rhs = [[self walk:[node childAtIndex:1]] evaluateAsNumberInContext:self];
+    double lhs = [[self walk:[node childAtIndex:0]] doubleValue];
+    double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
     
     double res = 0.0;
     switch (op) {

@@ -9,8 +9,8 @@
 #import "XPBaseTests.h"
 
 @interface XPBaseExpressionTests : XPBaseTests
-- (XPExpression *)expressionFromString:(NSString *)str error:(NSError **)outErr;
-- (XPExpression *)expressionFromTokens:(NSArray *)toks error:(NSError **)outErr;
+- (id)expressionFromString:(NSString *)str error:(NSError **)outErr;
+- (id)expressionFromTokens:(NSArray *)toks error:(NSError **)outErr;
 
-@property (nonatomic, retain) XPExpression *expr;
+@property (nonatomic, retain) id expr;
 @end

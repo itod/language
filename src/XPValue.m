@@ -75,11 +75,6 @@ double XPNumberFromString(NSString *s) {
 }
 
 
-- (XPExpression *)simplify {
-    return self;
-}
-
-
 - (id)objectValue {
     NSAssert2(0, @"%s is an abstract method and must be implemented in %@", __PRETTY_FUNCTION__, [self class]);
     return nil;
@@ -146,6 +141,12 @@ double XPNumberFromString(NSString *s) {
         default:
             return NO;
     }
+}
+
+
+- (XPDataType)dataType {
+    NSAssert2(0, @"%s is an abstract method and must be implemented in %@", __PRETTY_FUNCTION__, [self class]);
+    return -1;
 }
 
 

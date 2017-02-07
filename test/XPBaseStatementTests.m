@@ -35,8 +35,6 @@
     PKAssembly *a = [self.parser parseString:str error:outErr];
     
     XPNode *stat = [a pop];
-    
-    //stat = [stat simplify];
     return stat;
 }
 
@@ -46,8 +44,6 @@
     PKAssembly *a = [self.parser parseTokens:toks error:outErr];
     
     XPNode *stat = [a pop];
-    
-    //stat = [stat simplify];
     return stat;
 }
 

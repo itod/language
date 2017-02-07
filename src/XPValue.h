@@ -20,14 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Language/XPExpression.h>
+#import <Language/XPNode.h>
+
+typedef NS_ENUM(NSUInteger, XPDataType) {
+    XPDataTypeBoolean,
+    XPDataTypeNumber,
+    XPDataTypeString,
+    XPDataTypeObject,
+    XPDataTypeAny
+};
 
 @class XPValue;
 
 XPValue *XPValueFromObject(id obj);
 double XPNumberFromString(NSString *s);
 
-@interface XPValue : XPExpression
+@interface XPValue : XPNode
 
 + (XPValue *)nullValue;
 
@@ -40,6 +48,8 @@ double XPNumberFromString(NSString *s);
 - (BOOL)isNotEqualToValue:(XPValue *)other;
 
 - (BOOL)compareToValue:(XPValue *)other usingOperator:(NSInteger)op;
+
+- (XPDataType)dataType;
 
 // convenience
 - (BOOL)isBooleanValue;

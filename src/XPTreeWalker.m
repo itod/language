@@ -194,8 +194,7 @@
             break;
 
         default:
-            TDAssert([node isKindOfClass:[XPExpression class]]);
-            res = [(id)node evaluateInContext:self];
+            res = node;
             break;
     }
     

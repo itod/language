@@ -329,7 +329,7 @@
     [self expr_]; 
     [self execute:^{
     
-    XPExpression *rhs = POP();
+    XPNode *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     PKToken *tok = POP();
     
@@ -356,7 +356,7 @@
     [self expr_]; 
     [self execute:^{
     
-    XPExpression *rhs = POP();
+    XPNode *rhs = POP();
     PKToken *tok = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     
@@ -379,8 +379,8 @@
     [self expr_]; 
     [self execute:^{
     
-    XPExpression *rhs = POP();
-    XPExpression *idx = POP();
+    XPNode *rhs = POP();
+    XPNode *idx = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     
     XPNode *stat = [XPNode nodeWithToken:_assignIndexTok];
@@ -403,7 +403,7 @@
     [self expr_]; 
     [self execute:^{
     
-    XPExpression *rhs = POP();
+    XPNode *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     
     XPNode *stat = [XPNode nodeWithToken:_assignAppendTok];
@@ -424,7 +424,7 @@
     [self execute:^{
     
     XPNode *block = POP();
-    XPExpression *expr = POP();
+    XPNode *expr = POP();
     XPNode *whileNode = [XPNode nodeWithToken:POP()];
     [whileNode addChild:expr];
     [whileNode addChild:block];
@@ -443,7 +443,7 @@
     [self execute:^{
     
     XPNode *block = POP();
-    XPExpression *expr = POP();
+    XPNode *expr = POP();
     XPNode *ifNode = [XPNode nodeWithToken:POP()];
     [ifNode addChild:expr];
     [ifNode addChild:block];
@@ -469,7 +469,7 @@
     [self execute:^{
     
     XPNode *block = POP();
-    XPExpression *expr = POP();
+    XPNode *expr = POP();
     XPNode *elifNode = [XPNode nodeWithToken:POP()];
     [elifNode addChild:expr];
     [elifNode addChild:block];
@@ -535,7 +535,7 @@
     [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
     [self execute:^{
     
-    XPExpression *expr = POP();
+    XPNode *expr = POP();
     XPNode *ret = [XPNode nodeWithToken:POP()];
     [ret addChild:expr];
     PUSH(ret);
@@ -653,7 +653,7 @@
     
     _foundDefaultParam = YES;
 
-    XPExpression *expr = POP();
+    XPNode *expr = POP();
     NSString *name = POP_STR();
 
     // set default val
@@ -1167,7 +1167,7 @@
     [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
     [self execute:^{
     
-    XPExpression *exprNode = POP();
+    XPNode *exprNode = POP();
 
     XPNode *refNode = [XPNode nodeWithToken:_refTok];
     XPNode *idNode = [XPNode nodeWithToken:POP()];

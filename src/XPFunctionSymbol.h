@@ -9,17 +9,17 @@
 #import "XPScopedSymbol.h"
 
 @class XPNode;
-@class XPExpression;
+@class XPValue;
 
 @interface XPFunctionSymbol : XPScopedSymbol
 
 + (instancetype)symbolWithName:(NSString *)name enclosingScope:(id<XPScope>)scope;
 - (instancetype)initWithName:(NSString *)name enclosingScope:(id<XPScope>)scope;
 
-- (void)setDefaultValue:(XPExpression *)expr forParamNamed:(NSString *)name;
+- (void)setDefaultValue:(XPNode *)val forParamNamed:(NSString *)name;
 
 @property (nonatomic, retain) XPNode *blockNode;
 @property (nonatomic, retain) NSMutableDictionary<NSString *, XPSymbol *> *params;
 @property (nonatomic, retain) NSMutableArray<XPSymbol *> *orderedParams;
-@property (nonatomic, retain) NSMutableDictionary<NSString *, XPExpression *> *defaultParamValues;
+@property (nonatomic, retain) NSMutableDictionary<NSString *, XPNode *> *defaultParamValues;
 @end

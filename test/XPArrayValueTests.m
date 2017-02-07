@@ -28,10 +28,10 @@
     NSArray *toks = [self tokenize:input];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    id expr = [self expressionFromTokens:toks error:&err];
     TDNil(err);
     TDNotNil(expr);
-    TDFalse([expr evaluateAsBooleanInContext:nil]);
+    TDFalse([expr boolValue]);
 }
 
 - (void)testZero {
@@ -39,10 +39,10 @@
     NSArray *toks = [self tokenize:input];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    id expr = [self expressionFromTokens:toks error:&err];
     TDNil(err);
     TDNotNil(expr);
-    TDTrue([expr evaluateAsBooleanInContext:nil]);
+    TDTrue([expr boolValue]);
 }
 
 - (void)testMany {
@@ -50,10 +50,10 @@
     NSArray *toks = [self tokenize:input];
     
     NSError *err = nil;
-    XPExpression *expr = [self expressionFromTokens:toks error:&err];
+    id expr = [self expressionFromTokens:toks error:&err];
     TDNil(err);
     TDNotNil(expr);
-    TDTrue([expr evaluateAsBooleanInContext:nil]);
+    TDTrue([expr boolValue]);
 }
 
 @end

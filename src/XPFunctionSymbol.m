@@ -59,8 +59,8 @@
 #pragma mark -
 #pragma mark XPFunctionSymbol
 
-- (void)setDefaultValue:(XPExpression *)expr forParamNamed:(NSString *)name {
-    TDAssert(expr);
+- (void)setDefaultValue:(XPNode *)val forParamNamed:(NSString *)name {
+    TDAssert(val);
     TDAssert([name length]);
     
     if (!_defaultParamValues) {
@@ -68,7 +68,7 @@
     }
     
     TDAssert(_defaultParamValues);
-    [_defaultParamValues setObject:expr forKey:name];
+    [_defaultParamValues setObject:val forKey:name];
 }
 
 @end

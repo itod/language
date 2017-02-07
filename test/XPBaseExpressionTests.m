@@ -8,7 +8,6 @@
 
 #import "XPBaseExpressionTests.h"
 #import "XPNode.h"
-#import "XPExpression.h"
 
 @implementation XPBaseExpressionTests
 
@@ -32,30 +31,26 @@
 }
 
 
-- (XPExpression *)expressionFromString:(NSString *)str error:(NSError **)outErr {
+- (id)expressionFromString:(NSString *)str error:(NSError **)outErr {
     TDTrue(self.parser);
     PKAssembly *a = [self.parser parseString:str error:outErr];
     
     XPNode *block = [a pop];
     TDTrue([block isKindOfClass:[XPNode class]]);
     
-    XPExpression *expr = [block.children firstObject];
-    
-    expr = [expr simplify];
+    id expr = [block.children firstObject];
     return expr;
 }
 
 
-- (XPExpression *)expressionFromTokens:(NSArray *)toks error:(NSError **)outErr {
+- (id)expressionFromTokens:(NSArray *)toks error:(NSError **)outErr {
     TDTrue(self.parser);
     PKAssembly *a = [self.parser parseTokens:toks error:outErr];
     
     XPNode *block = [a pop];
     TDTrue([block isKindOfClass:[XPNode class]]);
     
-    XPExpression *expr = [block.children firstObject];
-    
-    expr = [expr simplify];
+    id expr = [block.children firstObject];
     return expr;
 }
 

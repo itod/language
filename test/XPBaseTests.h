@@ -7,7 +7,7 @@
 //
 
 #import "XPTestScaffold.h"
-#import "XPExpression.h"
+#import "XPValue.h"
 #import "XPParser.h"
 
 @class PKTokenizer;
