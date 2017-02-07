@@ -70,7 +70,7 @@
     NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     NSString *name = [[[node childAtIndex:0] token] stringValue];
     XPNode *expr = [node childAtIndex:1];
-    XPValue *val = [[[self walk:expr] copy] autorelease];
+    XPValue *val = [self walk:expr];
     
     TDAssert(self.currentSpace);
     [self.currentSpace setObject:val forName:name];
@@ -96,7 +96,7 @@
     }
     
     XPNode *expr = [node childAtIndex:1];
-    XPValue *val = [[[self walk:expr] copy] autorelease];
+    XPValue *val = [self walk:expr];
     
     [space setObject:val forName:name];
 }
@@ -338,7 +338,7 @@
 
 - (void)returnStat:(XPNode *)node {
     XPNode *expr = [node childAtIndex:0];
-    XPValue *val = [self walk:expr];
+    XPValue *val = [[[self walk:expr] copy] autorelease];
     TDAssert(_sharedReturnValue);
     _sharedReturnValue.value = val;
     @throw _sharedReturnValue;
