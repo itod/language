@@ -22,7 +22,6 @@
 		D3689FDA1E3BDE7B005783BB /* XPBooleanValue.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FB11E3BDE7B005783BB /* XPBooleanValue.m */; };
 		D3689FDF1E3BDE7B005783BB /* XPExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FB61E3BDE7B005783BB /* XPExpression.m */; };
 		D3689FE41E3BDE7B005783BB /* XPNegationExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FBB1E3BDE7B005783BB /* XPNegationExpression.h */; };
-		D3689FE51E3BDE7B005783BB /* XPNegationExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FBC1E3BDE7B005783BB /* XPNegationExpression.m */; };
 		D3689FE81E3BDE7B005783BB /* XPNumericValue.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FBF1E3BDE7B005783BB /* XPNumericValue.h */; };
 		D3689FE91E3BDE7B005783BB /* XPNumericValue.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FC01E3BDE7B005783BB /* XPNumericValue.m */; };
 		D3689FEA1E3BDE7B005783BB /* XPObjectValue.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FC11E3BDE7B005783BB /* XPObjectValue.h */; };
@@ -31,7 +30,6 @@
 		D3689FF61E3BDE7B005783BB /* XPStringValue.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FCD1E3BDE7B005783BB /* XPStringValue.h */; };
 		D3689FF71E3BDE7B005783BB /* XPStringValue.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FCE1E3BDE7B005783BB /* XPStringValue.m */; };
 		D3689FF81E3BDE7B005783BB /* XPUnaryExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FCF1E3BDE7B005783BB /* XPUnaryExpression.h */; };
-		D3689FF91E3BDE7B005783BB /* XPUnaryExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FD01E3BDE7B005783BB /* XPUnaryExpression.m */; };
 		D3689FFA1E3BDE7B005783BB /* XPValue.h in Headers */ = {isa = PBXBuildFile; fileRef = D3689FD11E3BDE7B005783BB /* XPValue.h */; };
 		D3689FFB1E3BDE7B005783BB /* XPValue.m in Sources */ = {isa = PBXBuildFile; fileRef = D3689FD21E3BDE7B005783BB /* XPValue.m */; };
 		D368A0081E3BE383005783BB /* XPParser.h in Headers */ = {isa = PBXBuildFile; fileRef = D368A0061E3BE383005783BB /* XPParser.h */; };
@@ -610,7 +608,6 @@
 				D30C5C631E45094D001A6F5D /* XPFunctionValue.m in Sources */,
 				D37316CC1E3EC49C0034798E /* XPGlobalScope.m in Sources */,
 				D3B5F72E1E47EED300740161 /* XPArrayValue.m in Sources */,
-				D3689FF91E3BDE7B005783BB /* XPUnaryExpression.m in Sources */,
 				D37316B71E3EBF800034798E /* XPSymbol.m in Sources */,
 				D37316D01E3EC4E50034798E /* XPLocalScope.m in Sources */,
 				D3DF58C71E42F346006CAA07 /* XPFunctionSpace.m in Sources */,
@@ -619,7 +616,6 @@
 				D3689FEB1E3BDE7B005783BB /* XPObjectValue.m in Sources */,
 				D37316DD1E3FA9980034798E /* XPTreeWalker.m in Sources */,
 				D37316E61E3FAB140034798E /* XPTreeWalkerExec.m in Sources */,
-				D3689FE51E3BDE7B005783BB /* XPNegationExpression.m in Sources */,
 				D3DF58BF1E429E45006CAA07 /* XPFunctionSymbol.m in Sources */,
 				D37316A21E3EBD4B0034798E /* XPNode.m in Sources */,
 				D3DF58BB1E429C6F006CAA07 /* XPScopedSymbol.m in Sources */,
