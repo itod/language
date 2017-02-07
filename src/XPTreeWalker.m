@@ -102,104 +102,49 @@
     
     switch (node.token.tokenKind) {
 
-        case XP_TOKEN_KIND_BLOCK:
-            [self block:node];
-            break;
+        case XP_TOKEN_KIND_BLOCK:           [self block:node]; break;
 
 // DECLARATIONS
-        case XP_TOKEN_KIND_VAR:
-            [self varDecl:node];
-            break;
-        case XP_TOKEN_KIND_SUB:
-            [self funcDecl:node];
-            break;
-        
+        case XP_TOKEN_KIND_VAR:             [self varDecl:node]; break;
+        case XP_TOKEN_KIND_SUB:             [self funcDecl:node]; break;
+            
 // ASSIGNMENTS
-        case XP_TOKEN_KIND_EQUALS:
-            [self assign:node];
-            break;
-        case XP_TOKEN_KIND_ASSIGN_INDEX:
-            [self assignIndex:node];
-            break;
-        case XP_TOKEN_KIND_ASSIGN_APPEND:
-            [self assignAppend:node];
-            break;
+        case XP_TOKEN_KIND_EQUALS:          [self assign:node]; break;
+        case XP_TOKEN_KIND_ASSIGN_INDEX:    [self assignIndex:node]; break;
+        case XP_TOKEN_KIND_ASSIGN_APPEND:   [self assignAppend:node]; break;
             
 // FUNCTIONS
-        case XP_TOKEN_KIND_CALL:
-            res = [self call:node];
-            break;
-        case XP_TOKEN_KIND_RETURN:
-            [self returnStat:node];
-            break;
-
+        case XP_TOKEN_KIND_CALL:            res = [self call:node]; break;
+        case XP_TOKEN_KIND_RETURN:          [self returnStat:node]; break;
+            
 // LOOPS
-        case XP_TOKEN_KIND_WHILE:
-            [self whileBlock:node];
-            break;
-        case XP_TOKEN_KIND_IF:
-            res = [self ifBlock:node];
-            break;
-        case XP_TOKEN_KIND_ELSE:
-            [self elseBlock:node];
-            break;
-
+        case XP_TOKEN_KIND_WHILE:           [self whileBlock:node]; break;
+        case XP_TOKEN_KIND_IF:              res = [self ifBlock:node]; break;
+        case XP_TOKEN_KIND_ELSE:            [self elseBlock:node]; break;
+            
 // UNARY EXPR
-        case XP_TOKEN_KIND_NOT:
-            res = [self not:node];
-            break;
-        case XP_TOKEN_KIND_NEG:
-            res = [self neg:node];
-            break;
-        case XP_TOKEN_KIND_LOAD:
-            res = [self load:node];
-            break;
-        case XP_TOKEN_KIND_LOAD_INDEX:
-            res = [self loadIndex:node];
-            break;
+        case XP_TOKEN_KIND_NOT:             res = [self not:node]; break;
+        case XP_TOKEN_KIND_NEG:             res = [self neg:node]; break;
+        case XP_TOKEN_KIND_LOAD:            res = [self load:node]; break;
+        case XP_TOKEN_KIND_LOAD_INDEX:      res = [self loadIndex:node]; break;
             
 // BINARY EXPR
-        case XP_TOKEN_KIND_OR:
-            res = [self or:node];
-            break;
-        case XP_TOKEN_KIND_AND:
-            res = [self and:node];
-            break;
-
-        case XP_TOKEN_KIND_EQ:
-            res = [self eq:node];
-            break;
-        case XP_TOKEN_KIND_NE:
-            res = [self ne:node];
-
-        case XP_TOKEN_KIND_LT:
-            res = [self lt:node];
-            break;
-        case XP_TOKEN_KIND_LE:
-            res = [self le:node];
-            break;
-        case XP_TOKEN_KIND_GT:
-            res = [self gt:node];
-            break;
-        case XP_TOKEN_KIND_GE:
-            res = [self ge:node];
-            break;
-
-        case XP_TOKEN_KIND_PLUS:
-            res = [self plus:node];
-            break;
-        case XP_TOKEN_KIND_MINUS:
-            res = [self minus:node];
-            break;
-        case XP_TOKEN_KIND_TIMES:
-            res = [self times:node];
-            break;
-        case XP_TOKEN_KIND_DIV:
-            res = [self div:node];
-            break;
-        case XP_TOKEN_KIND_MOD:
-            res = [self mod:node];
-            break;
+        case XP_TOKEN_KIND_OR:              res = [self or:node]; break;
+        case XP_TOKEN_KIND_AND:             res = [self and:node]; break;
+            
+        case XP_TOKEN_KIND_EQ:              res = [self eq:node]; break;
+        case XP_TOKEN_KIND_NE:              res = [self ne:node]; break;
+            
+        case XP_TOKEN_KIND_LT:              res = [self lt:node]; break;
+        case XP_TOKEN_KIND_LE:              res = [self le:node]; break;
+        case XP_TOKEN_KIND_GT:              res = [self gt:node]; break;
+        case XP_TOKEN_KIND_GE:              res = [self ge:node]; break;
+            
+        case XP_TOKEN_KIND_PLUS:            res = [self plus:node]; break;
+        case XP_TOKEN_KIND_MINUS:           res = [self minus:node]; break;
+        case XP_TOKEN_KIND_TIMES:           res = [self times:node]; break;
+        case XP_TOKEN_KIND_DIV:             res = [self div:node]; break;
+        case XP_TOKEN_KIND_MOD:             res = [self mod:node]; break;
 
         default:
             TDAssert([node isKindOfClass:[XPValue class]]);
