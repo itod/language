@@ -323,7 +323,7 @@
         
         TDAssert(funcSym.blockNode);
         @try {
-            [self walk:funcSym.blockNode];
+            [self funcBlock:funcSym.blockNode];
         } @catch (XPFlowException *ex) {
             result = ex.value;
         }

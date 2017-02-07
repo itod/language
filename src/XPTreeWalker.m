@@ -231,6 +231,14 @@
 }
 
 
+- (void)funcBlock:(XPNode *)node {
+    TDAssert([_currentSpace isKindOfClass:[XPFunctionSpace class]]);
+    for (XPNode *stat in node.children) {
+        [self walk:stat];
+    }
+}
+
+
 - (void)varDecl:(XPNode *)node {}
 - (void)funcDecl:(XPNode *)node {}
 
