@@ -283,7 +283,8 @@
     self.currentScope = _currentScope.enclosingScope;
     
     NSArray *stats = REV(ABOVE(_openCurlyTok));
-    XPNode *block = [XPNode nodeWithToken:POP()];
+    POP();
+    XPNode *block = [XPNode nodeWithToken:_blockTok];
     [block addChildren:stats];
     PUSH(block);
 

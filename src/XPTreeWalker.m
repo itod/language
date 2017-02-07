@@ -201,6 +201,7 @@
             break;
 
         default:
+            TDAssert([node isKindOfClass:[XPValue class]]);
             res = node;
             break;
     }
@@ -210,9 +211,15 @@
 
 
 - (void)block:(XPNode *)node {
+    TDAssert(_currentSpace);
+//    XPMemorySpace *savedSpace = _currentSpace;
+//    self.currentSpace = [[[XPMemorySpace alloc] initWithName:@"LOCAL"] autorelease];
+    
     for (XPNode *stat in node.children) {
         [self walk:stat];
     }
+    
+//    self.currentSpace = savedSpace;
 }
 
 
