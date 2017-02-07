@@ -88,7 +88,6 @@
 		D3DF58C61E42F346006CAA07 /* XPFunctionSpace.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DF58C41E42F346006CAA07 /* XPFunctionSpace.h */; };
 		D3DF58C71E42F346006CAA07 /* XPFunctionSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58C51E42F346006CAA07 /* XPFunctionSpace.m */; };
 		D3DF58CA1E438608006CAA07 /* XPRefExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DF58C81E438608006CAA07 /* XPRefExpression.h */; };
-		D3DF58CB1E438608006CAA07 /* XPRefExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58C91E438608006CAA07 /* XPRefExpression.m */; };
 		D3DF58CD1E44E276006CAA07 /* XPIfBlockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58CC1E44E276006CAA07 /* XPIfBlockTests.m */; };
 		D3DF58CF1E44F69F006CAA07 /* XPWhileBlockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58CE1E44F69F006CAA07 /* XPWhileBlockTests.m */; };
 /* End PBXBuildFile section */
@@ -600,7 +599,6 @@
 				D37316D41E3EC5430034798E /* XPMemorySpace.m in Sources */,
 				D368A0091E3BE383005783BB /* XPParser.m in Sources */,
 				D3689FDF1E3BDE7B005783BB /* XPExpression.m in Sources */,
-				D3DF58CB1E438608006CAA07 /* XPRefExpression.m in Sources */,
 				D37316AC1E3EBDD20034798E /* XPInterpreter.m in Sources */,
 				D3689FDA1E3BDE7B005783BB /* XPBooleanValue.m in Sources */,
 				D3689FE91E3BDE7B005783BB /* XPNumericValue.m in Sources */,
