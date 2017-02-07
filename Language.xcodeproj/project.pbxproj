@@ -84,7 +84,6 @@
 		D3DF58BE1E429E45006CAA07 /* XPFunctionSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DF58BC1E429E45006CAA07 /* XPFunctionSymbol.h */; };
 		D3DF58BF1E429E45006CAA07 /* XPFunctionSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58BD1E429E45006CAA07 /* XPFunctionSymbol.m */; };
 		D3DF58C21E42EBB9006CAA07 /* XPCallExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DF58C01E42EBB9006CAA07 /* XPCallExpression.h */; };
-		D3DF58C31E42EBB9006CAA07 /* XPCallExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58C11E42EBB9006CAA07 /* XPCallExpression.m */; };
 		D3DF58C61E42F346006CAA07 /* XPFunctionSpace.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DF58C41E42F346006CAA07 /* XPFunctionSpace.h */; };
 		D3DF58C71E42F346006CAA07 /* XPFunctionSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58C51E42F346006CAA07 /* XPFunctionSpace.m */; };
 		D3DF58CA1E438608006CAA07 /* XPRefExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = D3DF58C81E438608006CAA07 /* XPRefExpression.h */; };
@@ -610,7 +609,6 @@
 				D37316D01E3EC4E50034798E /* XPLocalScope.m in Sources */,
 				D3DF58C71E42F346006CAA07 /* XPFunctionSpace.m in Sources */,
 				D37316ED1E4121110034798E /* XPException.m in Sources */,
-				D3DF58C31E42EBB9006CAA07 /* XPCallExpression.m in Sources */,
 				D3689FEB1E3BDE7B005783BB /* XPObjectValue.m in Sources */,
 				D37316DD1E3FA9980034798E /* XPTreeWalker.m in Sources */,
 				D37316E61E3FAB140034798E /* XPTreeWalkerExec.m in Sources */,

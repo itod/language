@@ -8,7 +8,6 @@
 #import <Language/XPStringValue.h>
 #import <Language/XPFunctionValue.h>
 #import <Language/XPArrayValue.h>
-#import <Language/XPCallExpression.h>
 #import <Language/XPIndexGetExpression.h>
 #import <Language/XPPathExpression.h>
 
@@ -739,11 +738,11 @@
     
     NSArray *args = REV(ABOVE(_openParenTok));
     POP(); // '('
-    XPCallExpression *call = [XPCallExpression nodeWithToken:_callTok];
-    call.scope = _currentScope;
-    [call addChild:[XPNode nodeWithToken:POP()]]; // qid
-    [call addChildren:args];
-    PUSH(call);
+    XPNode *callNode = [XPNode nodeWithToken:_callTok];
+    callNode.scope = _currentScope;
+    [callNode addChild:[XPNode nodeWithToken:POP()]]; // qid
+    [callNode addChildren:args];
+    PUSH(callNode);
 
     }];
 
