@@ -65,7 +65,7 @@
 
 
 #pragma mark -
-#pragma mark Variables
+#pragma mark Declarations
 
 - (void)varDecl:(XPNode *)node {
     NSString *name = [[[node childAtIndex:0] token] stringValue];
@@ -76,6 +76,9 @@
     [self.currentSpace setObject:val forName:name];
 }
 
+
+#pragma mark -
+#pragma mark Assignments
 
 - (void)assign:(XPNode *)node {
     XPNode *idNode = [node childAtIndex:0];
