@@ -19,7 +19,8 @@
     self = [super init];
     if (self) {
         self.stack = [NSMutableArray array];
-   }
+        self.globals = [[[XPMemorySpace alloc] initWithName:@"globals"] autorelease];       // global memory
+    }
     return self;
 }
 
@@ -106,11 +107,11 @@
             break;
 
 // DECLARATIONS
-        case XP_TOKEN_KIND_SUB:
-            [self funcDecl:node];
-            break;
         case XP_TOKEN_KIND_VAR:
             [self varDecl:node];
+            break;
+        case XP_TOKEN_KIND_SUB:
+            [self funcDecl:node];
             break;
         
 // ASSIGNMENTS
@@ -211,15 +212,22 @@
 
 
 - (void)block:(XPNode *)node {
+    XPMemorySpace *savedSpace = _currentSpace;
+
+    if (_currentSpace) {
+        // func or local
+        self.currentSpace = [[[XPMemorySpace alloc] initWithName:@"LOCAL"] autorelease];
+    } else {
+        // top-level
+        self.currentSpace = _globals;
+    }
     TDAssert(_currentSpace);
-//    XPMemorySpace *savedSpace = _currentSpace;
-//    self.currentSpace = [[[XPMemorySpace alloc] initWithName:@"LOCAL"] autorelease];
     
     for (XPNode *stat in node.children) {
         [self walk:stat];
     }
     
-//    self.currentSpace = savedSpace;
+    self.currentSpace = savedSpace;
 }
 
 

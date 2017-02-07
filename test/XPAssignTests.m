@@ -52,8 +52,9 @@
 }
 
 - (void)testLocalNestedOverride {
-    [self eval:@"var x=1;{var x=2;}"];
+    [self eval:@"var x=1;var y=0;{var x=2;y=10;}"];
     TDEquals(1.0, [self doubleForName:@"x"]);
+    TDEquals(10.0, [self doubleForName:@"y"]);
 }
 
 - (void)testLocalNestedAssign {

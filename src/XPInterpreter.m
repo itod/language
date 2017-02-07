@@ -25,7 +25,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.globals = [[[XPMemorySpace alloc] initWithName:@"globals"] autorelease];       // global memory
+
     }
     return self;
 }
@@ -33,7 +33,6 @@ NSString * const XPErrorLineNumberKey = @"line number";
 
 - (void)dealloc {
     self.globalScope = nil;
-    self.globals = nil;
     self.root = nil;
     self.parser = nil;
 
@@ -64,14 +63,11 @@ NSString * const XPErrorLineNumberKey = @"line number";
         return;
     }
     
-    TDAssert(_globals);
-    
     // EVAL WALK
     @try {
         XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] init] autorelease];
-        walker.globals = _globals;
-        walker.currentSpace = _globals;
         [walker walk:_root];
+        self.globals = walker.globals;
     } @catch (XPException *ex) {
         if (outErr) {
             NSString *domain = XPErrorDomain;
