@@ -28,7 +28,7 @@
 
 - (XPParser *)parser {
     XPParser *p = [super parser];
-    p.allowNakedExpressions = YES;
+    //p.allowNakedExpressions = YES;
     return p;
 }
 

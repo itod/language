@@ -34,7 +34,6 @@
 		D368A01F1E3BE4F8005783BB /* XPRelationalExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D368A0141E3BE4F8005783BB /* XPRelationalExpressionTests.m */; };
 		D368A0201E3BE4F8005783BB /* XPUnaryExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D368A0151E3BE4F8005783BB /* XPUnaryExpressionTests.m */; };
 		D368A0251E3BE7B5005783BB /* PEGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA21E3BDB57005783BB /* PEGKit.framework */; };
-		D37316901E3E735A0034798E /* XPBaseExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D373168F1E3E735A0034798E /* XPBaseExpressionTests.m */; };
 		D37316931E3EB75F0034798E /* XPVarDeclTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316921E3EB75F0034798E /* XPVarDeclTests.m */; };
 		D373169E1E3EBA490034798E /* XPBaseStatementTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D373169D1E3EBA490034798E /* XPBaseStatementTests.m */; };
 		D37316A21E3EBD4B0034798E /* XPNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316A01E3EBD4B0034798E /* XPNode.m */; };
@@ -531,7 +530,6 @@
 				D368A01A1E3BE4F8005783BB /* XPEqualityExpressionTests.m in Sources */,
 				D37316931E3EB75F0034798E /* XPVarDeclTests.m in Sources */,
 				D3DF58CF1E44F69F006CAA07 /* XPWhileBlockTests.m in Sources */,
-				D37316901E3E735A0034798E /* XPBaseExpressionTests.m in Sources */,
 				D37316E91E3FB6B10034798E /* XPAssignTests.m in Sources */,
 				D368A0161E3BE4F8005783BB /* XPArithmeticExpressionTests.m in Sources */,
 				D368A0171E3BE4F8005783BB /* XPBaseTests.m in Sources */,
