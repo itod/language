@@ -27,68 +27,33 @@
 }
 
 - (void)testFetchIndex {
-    NSString *input = @"var foo=['a','b'];var bar=foo[0];var baz=foo[1];";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEqualObjects(@"a", [[interp.globals objectForName:@"bar"] stringValue]);
-    TDEqualObjects(@"b", [[interp.globals objectForName:@"baz"] stringValue]);
+    [self eval:@"var foo=['a','b'];var bar=foo[0];var baz=foo[1];"];
+    TDEqualObjects(@"a", [self stringForName:@"bar"]);
+    TDEqualObjects(@"b", [self stringForName:@"baz"]);
 }
 
 - (void)testInsertAtIndex {
-    NSString *input = @"var foo=['a','b'];foo[0]='c';foo[1]='d';var bar=foo[0];var baz=foo[1];";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEqualObjects(@"c", [[interp.globals objectForName:@"bar"] stringValue]);
-    TDEqualObjects(@"d", [[interp.globals objectForName:@"baz"] stringValue]);
+    [self eval:@"var foo=['a','b'];foo[0]='c';foo[1]='d';var bar=foo[0];var baz=foo[1];"];
+    TDEqualObjects(@"c", [self stringForName:@"bar"]);
+    TDEqualObjects(@"d", [self stringForName:@"baz"]);
 }
 
 - (void)testInsertAtIndexOutOfOrder {
-    NSString *input = @"var foo=['a','b'];foo[1]='d';foo[0]='c';var bar=foo[0];var baz=foo[1];";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEqualObjects(@"c", [[interp.globals objectForName:@"bar"] stringValue]);
-    TDEqualObjects(@"d", [[interp.globals objectForName:@"baz"] stringValue]);
+    [self eval:@"var foo=['a','b'];foo[1]='d';foo[0]='c';var bar=foo[0];var baz=foo[1];"];
+    TDEqualObjects(@"c", [self stringForName:@"bar"]);
+    TDEqualObjects(@"d", [self stringForName:@"baz"]);
 }
 
 - (void)testAppend {
-    NSString *input = @"var foo=[];foo[]='c';foo[]='d';var bar=foo[0];var baz=foo[1];";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEqualObjects(@"c", [[interp.globals objectForName:@"bar"] stringValue]);
-    TDEqualObjects(@"d", [[interp.globals objectForName:@"baz"] stringValue]);
+    [self eval:@"var foo=[];foo[]='c';foo[]='d';var bar=foo[0];var baz=foo[1];"];
+    TDEqualObjects(@"c", [self stringForName:@"bar"]);
+    TDEqualObjects(@"d", [self stringForName:@"baz"]);
 }
 
 - (void)testWOW {
-    NSString *input = @"var foo=make();foo[]=1;var bar=make();bar[]=2;sub make() {return [];}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEqualObjects(@"[1,]", [[interp.globals objectForName:@"foo"] stringValue]);
-    TDEqualObjects(@"[2,]", [[interp.globals objectForName:@"bar"] stringValue]);
+    [self eval:@"var foo=make();foo[]=1;var bar=make();bar[]=2;sub make() {return [];}"];
+    TDEqualObjects(@"[1,]", [self stringForName:@"foo"]);
+    TDEqualObjects(@"[2,]", [self stringForName:@"bar"]);
 }
 
 @end
