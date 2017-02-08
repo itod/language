@@ -122,6 +122,7 @@
         case XP_TOKEN_KIND_IF:              res = [self ifBlock:node]; break;
         case XP_TOKEN_KIND_ELSE:            [self elseBlock:node]; break;
         case XP_TOKEN_KIND_BREAK:           [self breakNode:node]; break;
+        case XP_TOKEN_KIND_CONTINUE:        [self continueNode:node]; break;
             
 // UNARY EXPR
         case XP_TOKEN_KIND_NOT:             res = [self not:node]; break;
@@ -200,6 +201,7 @@
 - (id)ifBlock:(XPNode *)node {return nil;}
 - (void)elseBlock:(XPNode *)node {}
 - (void)breakNode:(XPNode *)node {}
+- (void)continueNode:(XPNode *)node {}
 
 - (id)or:(XPNode *)node {return nil;}
 - (id)and:(XPNode *)node {return nil;}

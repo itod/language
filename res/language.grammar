@@ -149,7 +149,7 @@ globalItem  = stat | ifBlock | whileBlock | funcDecl | block;
 
 // LOCAL
 localList   = localItem+;
-localItem   = stat | block;
+localItem   = stat | ifBlock | whileBlock | block;
 
 block
 @before {
@@ -173,7 +173,8 @@ stat        =
             | assignIndex
             | assignAppend
             | expr
-            | { _canBreak }? break
+            | break
+            | continue
             )?
             ';'!
             | { _allowNakedExpressions }? expr
@@ -234,7 +235,10 @@ whileBlock
     [whileNode addChild:block];
     PUSH(whileNode);
 };
-break   = 'break' {
+break       = 'break' {
+    PUSH([XPNode nodeWithToken:POP()]);
+};
+continue    = 'continue' {
     PUSH([XPNode nodeWithToken:POP()]);
 };
 

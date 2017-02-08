@@ -44,6 +44,12 @@
 @implementation XPBreakException
 @end
 
+@interface XPContinueException : NSException
+@end
+
+@implementation XPContinueException
+@end
+
 @interface XPTreeWalker ()
 - (id)_loadVariableReference:(XPNode *)node;
 @end
@@ -51,6 +57,7 @@
 @interface XPTreeWalkerExec ()
 @property (nonatomic, retain) XPReturnExpception *returnException;
 @property (nonatomic, retain) XPBreakException *breakException;
+@property (nonatomic, retain) XPContinueException *continueException;
 @end
 
 @implementation XPTreeWalkerExec
@@ -60,6 +67,7 @@
     if (self) {
         self.returnException = [[[XPReturnExpception alloc] initWithName:@"return" reason:nil userInfo:nil] autorelease];
         self.breakException = [[[XPBreakException alloc] initWithName:@"break" reason:nil userInfo:nil] autorelease];
+        self.continueException = [[[XPContinueException alloc] initWithName:@"continue" reason:nil userInfo:nil] autorelease];
     }
     return self;
 }
@@ -68,6 +76,7 @@
 - (void)dealloc {
     self.returnException = nil;
     self.breakException = nil;
+    self.continueException = nil;
     [super dealloc];
 }
 
@@ -214,6 +223,8 @@
             [self block:block];
         } @catch (XPBreakException *ex) {
             break;
+        } @catch (XPContinueException *ex) {
+            // continue on
         }
         b = [[self walk:expr] boolValue];
     }
@@ -223,6 +234,12 @@
 - (void)breakNode:(XPNode *)node {
     TDAssert(_breakException);
     @throw _breakException;
+}
+
+
+- (void)continueNode:(XPNode *)node {
+    TDAssert(_continueException);
+    @throw _continueException;
 }
 
 

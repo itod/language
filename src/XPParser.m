@@ -96,13 +96,14 @@
         self.tokenKindTab[@"{"] = @(XP_TOKEN_KIND_OPEN_CURLY);
         self.tokenKindTab[@">="] = @(XP_TOKEN_KIND_GE);
         self.tokenKindTab[@"break"] = @(XP_TOKEN_KIND_BREAK);
-        self.tokenKindTab[@"true"] = @(XP_TOKEN_KIND_TRUE);
-        self.tokenKindTab[@"return"] = @(XP_TOKEN_KIND_RETURN);
         self.tokenKindTab[@"}"] = @(XP_TOKEN_KIND_CLOSE_CURLY);
+        self.tokenKindTab[@"return"] = @(XP_TOKEN_KIND_RETURN);
+        self.tokenKindTab[@"true"] = @(XP_TOKEN_KIND_TRUE);
         self.tokenKindTab[@"if"] = @(XP_TOKEN_KIND_IF);
         self.tokenKindTab[@"!="] = @(XP_TOKEN_KIND_NE);
         self.tokenKindTab[@"!"] = @(XP_TOKEN_KIND_BANG);
         self.tokenKindTab[@"else"] = @(XP_TOKEN_KIND_ELSE);
+        self.tokenKindTab[@"continue"] = @(XP_TOKEN_KIND_CONTINUE);
         self.tokenKindTab[@";"] = @(XP_TOKEN_KIND_SEMI_COLON);
         self.tokenKindTab[@"<"] = @(XP_TOKEN_KIND_LT);
         self.tokenKindTab[@"%"] = @(XP_TOKEN_KIND_MOD);
@@ -131,13 +132,14 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_CURLY] = @"{";
         self.tokenKindNameTab[XP_TOKEN_KIND_GE] = @">=";
         self.tokenKindNameTab[XP_TOKEN_KIND_BREAK] = @"break";
-        self.tokenKindNameTab[XP_TOKEN_KIND_TRUE] = @"true";
-        self.tokenKindNameTab[XP_TOKEN_KIND_RETURN] = @"return";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_CURLY] = @"}";
+        self.tokenKindNameTab[XP_TOKEN_KIND_RETURN] = @"return";
+        self.tokenKindNameTab[XP_TOKEN_KIND_TRUE] = @"true";
         self.tokenKindNameTab[XP_TOKEN_KIND_IF] = @"if";
         self.tokenKindNameTab[XP_TOKEN_KIND_NE] = @"!=";
         self.tokenKindNameTab[XP_TOKEN_KIND_BANG] = @"!";
         self.tokenKindNameTab[XP_TOKEN_KIND_ELSE] = @"else";
+        self.tokenKindNameTab[XP_TOKEN_KIND_CONTINUE] = @"continue";
         self.tokenKindNameTab[XP_TOKEN_KIND_SEMI_COLON] = @";";
         self.tokenKindNameTab[XP_TOKEN_KIND_LT] = @"<";
         self.tokenKindNameTab[XP_TOKEN_KIND_MOD] = @"%";
@@ -258,8 +260,12 @@
 
 - (void)localItem_ {
     
-    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
         [self stat_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_IF, 0]) {
+        [self ifBlock_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_WHILE, 0]) {
+        [self whileBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
         [self block_]; 
     } else {
@@ -298,8 +304,8 @@
 
 - (void)stat_ {
     
-    if ([self speculate:^{ if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self assignAppend_]; }]) {[self assignAppend_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else if ([self speculate:^{ [self break_]; }]) {[self break_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self assignAppend_]; }]) {[self assignAppend_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else if ([self speculate:^{ [self break_]; }]) {[self break_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}[self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; }]) {
-        if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self assignAppend_]; }]) {[self assignAppend_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else if ([self speculate:^{ [self break_]; }]) {[self break_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {
+    if ([self speculate:^{ if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self assignAppend_]; }]) {[self assignAppend_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else if ([self speculate:^{ [self break_]; }]) {[self break_]; } else if ([self speculate:^{ [self continue_]; }]) {[self continue_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self assignAppend_]; }]) {[self assignAppend_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else if ([self speculate:^{ [self break_]; }]) {[self break_]; } else if ([self speculate:^{ [self continue_]; }]) {[self continue_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}[self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; }]) {
+        if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self assignAppend_]; }]) {[self assignAppend_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else if ([self speculate:^{ [self break_]; }]) {[self break_]; } else if ([self speculate:^{ [self continue_]; }]) {[self continue_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {
             if ([self speculate:^{ [self varDecl_]; }]) {
                 [self varDecl_]; 
             } else if ([self speculate:^{ [self assign_]; }]) {
@@ -312,6 +318,8 @@
                 [self expr_]; 
             } else if ([self speculate:^{ [self break_]; }]) {
                 [self break_]; 
+            } else if ([self speculate:^{ [self continue_]; }]) {
+                [self continue_]; 
             } else {
                 [self raise:@"No viable alternative found in rule 'stat'."];
             }
@@ -459,6 +467,18 @@
     [self fireDelegateSelector:@selector(parser:didMatchBreak:)];
 }
 
+- (void)continue_ {
+    
+    [self match:XP_TOKEN_KIND_CONTINUE discard:NO]; 
+    [self execute:^{
+    
+    PUSH([XPNode nodeWithToken:POP()]);
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchContinue:)];
+}
+
 - (void)ifBlock_ {
     
     [self match:XP_TOKEN_KIND_IF discard:NO]; 
@@ -535,7 +555,7 @@
 
 - (void)funcItem_ {
     
-    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
         [self stat_]; 
     } else if ([self predicts:XP_TOKEN_KIND_IF, 0]) {
         [self ifBlock_]; 
