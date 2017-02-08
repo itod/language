@@ -144,12 +144,16 @@ globalList  = globalItem+ {
     [block addChildren:items];
     PUSH(block);
 };
-
 globalItem  = stat | ifBlock | whileBlock | funcDecl | block;
 
 // LOCAL
-localList   = localItem+;
 localItem   = stat | ifBlock | whileBlock | block;
+
+// FUNC
+funcBlock   = '{'! funcItem*'}'!;
+funcItem    = stat | ifBlock | whileBlock | block | returnStat;
+
+// LOOP
 
 block
 @before {
@@ -164,7 +168,7 @@ block
     [block addChildren:stats];
     PUSH(block);
 }
-            = '{' localList? '}'!;
+            = '{' localItem* '}'!;
 
 // STATEMENTS
 stat        = 
@@ -272,8 +276,6 @@ elseBlock   = 'else' block {
 };
 
 // FUNCTION DECL
-funcList    = funcItem+;
-funcItem    = stat | ifBlock | whileBlock | block | returnStat;
 returnStat  = 'return' expr ';'! {
     XPNode *expr = POP();
     XPNode *ret = [XPNode nodeWithToken:POP()];
@@ -359,8 +361,6 @@ nakedParam  = { !_foundDefaultParam }? qid {
     XPFunctionSymbol *funcSym = (id)_currentScope;
     [funcSym.orderedParams addObject:sym];
 };
-
-funcBlock   = '{'! funcList? '}'!;
 
 // FUNC LITERAL
 funcLiteral = 'sub' {

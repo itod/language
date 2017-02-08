@@ -249,15 +249,6 @@
     [self fireDelegateSelector:@selector(parser:didMatchGlobalItem:)];
 }
 
-- (void)localList_ {
-    
-    do {
-        [self localItem_]; 
-    } while ([self speculate:^{ [self localItem_]; }]);
-
-    [self fireDelegateSelector:@selector(parser:didMatchLocalList:)];
-}
-
 - (void)localItem_ {
     
     if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
@@ -275,6 +266,36 @@
     [self fireDelegateSelector:@selector(parser:didMatchLocalItem:)];
 }
 
+- (void)funcBlock_ {
+    
+    [self match:XP_TOKEN_KIND_OPEN_CURLY discard:YES]; 
+    while ([self speculate:^{ [self funcItem_]; }]) {
+        [self funcItem_]; 
+    }
+    [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchFuncBlock:)];
+}
+
+- (void)funcItem_ {
+    
+    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+        [self stat_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_IF, 0]) {
+        [self ifBlock_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_WHILE, 0]) {
+        [self whileBlock_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
+        [self block_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_RETURN, 0]) {
+        [self returnStat_]; 
+    } else {
+        [self raise:@"No viable alternative found in rule 'funcItem'."];
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchFuncItem:)];
+}
+
 - (void)block_ {
     
     [self execute:^{
@@ -283,8 +304,8 @@
 
     }];
     [self match:XP_TOKEN_KIND_OPEN_CURLY discard:NO]; 
-    if ([self speculate:^{ [self localList_]; }]) {
-        [self localList_]; 
+    while ([self speculate:^{ [self localItem_]; }]) {
+        [self localItem_]; 
     }
     [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
     [self execute:^{
@@ -544,34 +565,6 @@
     [self fireDelegateSelector:@selector(parser:didMatchElseBlock:)];
 }
 
-- (void)funcList_ {
-    
-    do {
-        [self funcItem_]; 
-    } while ([self speculate:^{ [self funcItem_]; }]);
-
-    [self fireDelegateSelector:@selector(parser:didMatchFuncList:)];
-}
-
-- (void)funcItem_ {
-    
-    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
-        [self stat_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_IF, 0]) {
-        [self ifBlock_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_WHILE, 0]) {
-        [self whileBlock_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
-        [self block_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_RETURN, 0]) {
-        [self returnStat_]; 
-    } else {
-        [self raise:@"No viable alternative found in rule 'funcItem'."];
-    }
-
-    [self fireDelegateSelector:@selector(parser:didMatchFuncItem:)];
-}
-
 - (void)returnStat_ {
     
     [self match:XP_TOKEN_KIND_RETURN discard:NO]; 
@@ -734,17 +727,6 @@
     }];
 
     [self fireDelegateSelector:@selector(parser:didMatchNakedParam:)];
-}
-
-- (void)funcBlock_ {
-    
-    [self match:XP_TOKEN_KIND_OPEN_CURLY discard:YES]; 
-    if ([self speculate:^{ [self funcList_]; }]) {
-        [self funcList_]; 
-    }
-    [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
-
-    [self fireDelegateSelector:@selector(parser:didMatchFuncBlock:)];
 }
 
 - (void)funcLiteral_ {
