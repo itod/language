@@ -27,38 +27,17 @@
 }
 
 - (void)testSub {
-    NSString *input = @"var foo = sub () {};";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    //TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo = sub () {};"];
 }
 
 - (void)testSubRet1 {
-    NSString *input = @"var foo=sub(){return 1;}; var bar=foo();";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(1.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+    [self eval:@"var foo=sub(){return 1;}; var bar=foo();"];
+    TDEquals(1.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testOverrideFail {
-    NSString *input = @"var foo=sub(){return 1;};var foo=1;var bar=foo();";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNotNil(err);
-    TDEqualObjects(XPExceptionTypeMismatch, err.localizedDescription);
+    [self fail:@"var foo=sub(){return 1;};var foo=1;var bar=foo();"];
+    TDEqualObjects(XPExceptionTypeMismatch, self.error.localizedDescription);
 }
 
 @end

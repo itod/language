@@ -27,7 +27,7 @@
 }
 
 - (void)testWhileTrueParse {
-    [self eval:@"while true {}"];
+    [self eval:@"while true {break;}"];
 }
 
 - (void)testWhile1 {

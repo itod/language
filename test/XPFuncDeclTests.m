@@ -27,198 +27,85 @@
 }
 
 - (void)testSubFoo {
-    NSString *input = @"sub foo() {}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
+    [self eval:@"sub foo() {}"];
 }
 
 - (void)testSubFooCall {
-    NSString *input = @"sub foo() {} foo();";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
+    [self eval:@"sub foo() {} foo();"];
 }
 
 - (void)testSubFooRet1Plus1 {
-    NSString *input = @"sub foo() { return 1+1; }";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
+    [self eval:@"sub foo() { return 1+1; }"];
 }
 
 - (void)testCallSubFooRet1Plus1 {
-    NSString *input = @"var bar = foo(); sub foo() { return 1+1; }";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(2.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+    [self eval:@"var bar = foo(); sub foo() { return 1+1; }"];
+    TDEquals(2.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubFooRetAPlusB {
-    NSString *input = @"var bar = foo(); sub foo() { var a = 1; var b = 3; return a + b; }";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(4.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+    [self eval:@"var bar = foo(); sub foo() { var a = 1; var b = 3; return a + b; }"];
+    TDEquals(4.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubFooRetAPlusBGlobal {
-    NSString *input = @"var b=5;var bar=foo();sub foo(){var a=10;return a+b;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(15.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+    [self eval:@"var b=5;var bar=foo();sub foo(){var a=10;return a+b;}"];
+    TDEquals(15.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubFooRetAPlusBGlobalFail {
-    NSString *input = @"var bar=foo();var b=5;sub foo(){var a=10;return a+b;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNotNil(err);
-    TDEqualObjects(XPExceptionUndeclaredSymbol, err.localizedDescription);
+    [self fail:@"var bar=foo();var b=5;sub foo(){var a=10;return a+b;}"];
+    TDEqualObjects(XPExceptionUndeclaredSymbol, self.error.localizedDescription);
 }
 
 - (void)testCallSubArg {
-    NSString *input = @"var x=2;var bar=foo(x);sub foo(a){var b=10;return a+b;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(12.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+    [self eval:@"var x=2;var bar=foo(x);sub foo(a){var b=10;return a+b;}"];
+    TDEquals(12.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubArg2 {
-    NSString *input = @"var bar=foo(4,5);sub foo(x,y){return x+y;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(9.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+    [self eval:@"var bar=foo(4,5);sub foo(x,y){return x+y;}"];
+    TDEquals(9.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubArg2Minus {
-    NSString *input = @"var bar=foo(10,1);sub foo(x,y){return x -y;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(9.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+    [self eval:@"var bar=foo(10,1);sub foo(x,y){return x -y;}"];
+    TDEquals(9.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubArg2MinusNeg {
-    NSString *input = @"var bar=foo(1,10);sub foo(x,y){return x-y;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(-9.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+    [self eval:@"var bar=foo(1,10);sub foo(x,y){return x-y;}"];
+    TDEquals(-9.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubArg2MinusNeg2 {
-    NSString *input = @"var bar=foo(1,10);sub foo(x,y){return x- y;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(-9.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+    [self eval:@"var bar=foo(1,10);sub foo(x,y){return x- y;}"];
+    TDEquals(-9.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubDefaultVal {
-    NSString *input = @"var bar = foo(); sub foo(a=77) { return a+1; }";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(78.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+    [self eval:@"var bar = foo(); sub foo(a=77) { return a+1; }"];
+    TDEquals(78.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubDefaultValOverride {
-    NSString *input = @"var bar = foo(22); sub foo(a=77) { return a+1; }";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(23.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+    [self eval:@"var bar = foo(22); sub foo(a=77) { return a+1; }"];
+    TDEquals(23.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubJustEnoughArgs {
-    NSString *input = @"var bar = foo(22); sub foo(a,b=1) { return a+b; }";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(23.0, [[interp.globals objectForName:@"bar"] doubleValue]);
+    [self eval:@"var bar = foo(22); sub foo(a,b=1) { return a+b; }"];
+    TDEquals(23.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubMissingArg {
-    NSString *input = @"var bar = foo(22); sub foo(a,b) { }";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNotNil(err);
-    TDEqualObjects(XPExceptionTooFewArguments, err.localizedDescription);
+    [self fail:@"var bar = foo(22); sub foo(a,b) { }"];
+    TDEqualObjects(XPExceptionTooFewArguments, self.error.localizedDescription);
 }
 
 - (void)testCallSubMisorderedArg {
-    NSString *input = @"var bar = foo(1,2); sub foo(a=10,b) { }";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNotNil(err);
-    TDEqualObjects(XPExceptionSyntaxError, err.localizedDescription);
+    [self fail:@"var bar = foo(1,2); sub foo(a=10,b) { }"];
+    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
 }
 
 @end
