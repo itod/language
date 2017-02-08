@@ -32,47 +32,23 @@
 }
 
 - (void)testNeg1 {
-    NSString *input = @"var foo=-1;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDEquals(-1, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo=-1;"];
+    TDEquals(-1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testNegNeg1 {
-    NSString *input = @"var foo=--1;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDEquals(1, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo=--1;"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testNegNegNeg1 {
-    NSString *input = @"var foo=---1;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDEquals(-1, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo=---1;"];
+    TDEquals(-1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testNegNegNegNeg1 {
-    NSString *input = @"var foo=----1;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDEquals(1, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo=----1;"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 @end
