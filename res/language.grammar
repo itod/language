@@ -147,10 +147,12 @@ globalList  = globalItem+ {
 globalItem  = stat | ifBlock | whileBlock | funcDecl | block;
 
 // LOCAL
+localList   = localItem+;
 localItem   = stat | ifBlock | whileBlock | block;
 
 // FUNC
-funcBlock   = '{'! funcItem*'}'!;
+funcBlock   = '{'! funcList? '}'!;
+funcList    = funcItem+;
 funcItem    = stat | ifBlock | whileBlock | block | returnStat;
 
 // LOOP
@@ -168,7 +170,7 @@ block
     [block addChildren:stats];
     PUSH(block);
 }
-            = '{' localItem* '}'!;
+            = '{' localList? '}'!;
 
 // STATEMENTS
 stat        = 
