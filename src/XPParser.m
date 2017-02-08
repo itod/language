@@ -251,9 +251,18 @@
 
 - (void)localList_ {
     
-    do {
+    while ([self speculate:^{ [self localItem_]; }]) {
         [self localItem_]; 
-    } while ([self speculate:^{ [self localItem_]; }]);
+    }
+    [self execute:^{
+    
+    NSArray *stats = REV(ABOVE(_openCurlyTok));
+    POP(); // 'curly'
+    XPNode *block = [XPNode nodeWithToken:_blockTok];
+    [block addChildren:stats];
+    PUSH(block);
+
+    }];
 
     [self fireDelegateSelector:@selector(parser:didMatchLocalList:)];
 }
@@ -277,10 +286,8 @@
 
 - (void)funcBlock_ {
     
-    [self match:XP_TOKEN_KIND_OPEN_CURLY discard:YES]; 
-    if ([self speculate:^{ [self funcList_]; }]) {
-        [self funcList_]; 
-    }
+    [self match:XP_TOKEN_KIND_OPEN_CURLY discard:NO]; 
+    [self funcList_]; 
     [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchFuncBlock:)];
@@ -288,9 +295,18 @@
 
 - (void)funcList_ {
     
-    do {
+    while ([self speculate:^{ [self funcItem_]; }]) {
         [self funcItem_]; 
-    } while ([self speculate:^{ [self funcItem_]; }]);
+    }
+    [self execute:^{
+    
+    NSArray *stats = REV(ABOVE(_openCurlyTok));
+    POP(); // 'curly'
+    XPNode *block = [XPNode nodeWithToken:_blockTok];
+    [block addChildren:stats];
+    PUSH(block);
+
+    }];
 
     [self fireDelegateSelector:@selector(parser:didMatchFuncList:)];
 }
@@ -322,19 +338,11 @@
 
     }];
     [self match:XP_TOKEN_KIND_OPEN_CURLY discard:NO]; 
-    if ([self speculate:^{ [self localList_]; }]) {
-        [self localList_]; 
-    }
+    [self localList_]; 
     [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
     [self execute:^{
     
     self.currentScope = _currentScope.enclosingScope;
-    
-    NSArray *stats = REV(ABOVE(_openCurlyTok));
-    POP();
-    XPNode *block = [XPNode nodeWithToken:_blockTok];
-    [block addChildren:stats];
-    PUSH(block);
 
     }];
 
@@ -623,7 +631,7 @@
     [self funcBody_]; 
     [self execute:^{
     
-    POP(); // pop func node for non literls
+    POP(); // pop func node for non literals
 
     }];
 
@@ -645,11 +653,7 @@
     [self funcBlock_]; 
     [self execute:^{
     
-    // create func node tree
-    NSArray *stats = REV(ABOVE(_subTok));
-    XPNode *block = [XPNode nodeWithToken:_blockTok];
-    [block addChildren:stats];
-
+    XPNode *block = POP();
     POP(); // 'sub'
     XPNode *func = POP();
     [func addChild:block];

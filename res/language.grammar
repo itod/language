@@ -147,12 +147,24 @@ globalList  = globalItem+ {
 globalItem  = stat | ifBlock | whileBlock | funcDecl | block;
 
 // LOCAL
-localList   = localItem+;
+localList   = localItem* {
+    NSArray *stats = REV(ABOVE(_openCurlyTok));
+    POP(); // 'curly'
+    XPNode *block = [XPNode nodeWithToken:_blockTok];
+    [block addChildren:stats];
+    PUSH(block);
+};
 localItem   = stat | ifBlock | whileBlock | block;
 
 // FUNC
-funcBlock   = '{'! funcList? '}'!;
-funcList    = funcItem+;
+funcBlock   = '{' funcList '}'!;
+funcList    = funcItem* {
+    NSArray *stats = REV(ABOVE(_openCurlyTok));
+    POP(); // 'curly'
+    XPNode *block = [XPNode nodeWithToken:_blockTok];
+    [block addChildren:stats];
+    PUSH(block);
+};
 funcItem    = stat | ifBlock | whileBlock | block | returnStat;
 
 // LOOP
@@ -163,14 +175,8 @@ block
 }
 @after {
     self.currentScope = _currentScope.enclosingScope;
-    
-    NSArray *stats = REV(ABOVE(_openCurlyTok));
-    POP();
-    XPNode *block = [XPNode nodeWithToken:_blockTok];
-    [block addChildren:stats];
-    PUSH(block);
 }
-            = '{' localList? '}'!;
+            = '{' localList '}'!;
 
 // STATEMENTS
 stat        = 
@@ -299,21 +305,12 @@ funcDecl    = 'sub' qid {
     // push func scope
     self.currentScope = funcSym;
 }           funcBody {
-    POP(); // pop func node for non literls
+    POP(); // pop func node for non literals
 };
 
-funcBody    =
-              '('! paramList ')'! {
-    XPFunctionSymbol *funcSym = (id)_currentScope;
-    NSMutableDictionary *params = POP();
-    [funcSym.members addEntriesFromDictionary:params];
-}
-            funcBlock {
-    // create func node tree
-    NSArray *stats = REV(ABOVE(_subTok));
-    XPNode *block = [XPNode nodeWithToken:_blockTok];
-    [block addChildren:stats];
-
+funcBody
+@after {
+    XPNode *block = POP();
     POP(); // 'sub'
     XPNode *func = POP();
     [func addChild:block];
@@ -324,7 +321,13 @@ funcBody    =
 
     // pop scope
     self.currentScope = _currentScope.enclosingScope;
-};
+}
+            = '('! paramList ')'! {
+    XPFunctionSymbol *funcSym = (id)_currentScope;
+    NSMutableDictionary *params = POP();
+    [funcSym.members addEntriesFromDictionary:params];
+}
+            funcBlock;
 
 paramList
 @before {
