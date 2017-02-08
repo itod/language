@@ -24,168 +24,78 @@
 }
 
 - (void)test1 {
-    NSString *input = @"var foo=1;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo=1;"];
+    TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)test0 {
-    NSString *input = @"var foo=0;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo=0;"];
+    TDFalse([self boolForName:@"foo"]);
 }
 
 - (void)testTrue {
-    NSString *input = @"var foo=true;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo=true;"];
+    TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)testFalse {
-    NSString *input = @"var foo=false;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo=false;"];
+    TDFalse([self boolForName:@"foo"]);
 }
 
 - (void)testOpenTrueClose {
-    NSString *input = @"var foo=(true);";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo=(true);"];
+    TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)testOpenFalseClose {
-    NSString *input = @"var foo=(false);";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo=(false);"];
+    TDFalse([self boolForName:@"foo"]);
 }
 
 - (void)testSQString {
-    NSString *input = @"var foo='hello';";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo='hello';"];
+    TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)testEmptySQString {
-    NSString *input = @"var foo='';";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo='';"];
+    TDFalse([self boolForName:@"foo"]);
 }
 
 - (void)test1And0 {
-    NSString *input = @"var foo=1 and 0;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo=1 and 0;"];
+    TDFalse([self boolForName:@"foo"]);
 }
 
 - (void)test0And1 {
-    NSString *input = @"var foo=0 and 1;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDFalse([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo=0 and 1;"];
+    TDFalse([self boolForName:@"foo"]);
 }
 
 - (void)test1And1 {
-    NSString *input = @"var foo=1 and 1;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo=1 and 1;"];
+    TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)test1Or0 {
-    NSString *input = @"var foo=1 or 0;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo=1 or 0;"];
+    TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)test1PipePipe0 {
-    NSString *input = @"var foo=1 or 0;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo=1 or 0;"];
+    TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)test0Or1 {
-    NSString *input = @"var foo=0 or 1;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo=0 or 1;"];
+    TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)test1Or1 {
-    NSString *input = @"var foo=1 or 1;";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    TDTrue([[interp.globals objectForName:@"foo"] boolValue]);
+    [self eval:@"var foo=1 or 1;"];
+    TDTrue([self boolForName:@"foo"]);
 }
 
 @end
