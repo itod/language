@@ -199,6 +199,7 @@
 - (void)whileBlock:(XPNode *)node {}
 - (id)ifBlock:(XPNode *)node {return nil;}
 - (void)elseBlock:(XPNode *)node {}
+- (void)breakNode:(XPNode *)node {}
 
 - (id)or:(XPNode *)node {return nil;}
 - (id)and:(XPNode *)node {return nil;}

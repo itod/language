@@ -173,7 +173,7 @@ stat        =
             | assignIndex
             | assignAppend
             | expr
-            | break
+            | { _canBreak }? break
             )?
             ';'!
             | { _allowNakedExpressions }? expr
