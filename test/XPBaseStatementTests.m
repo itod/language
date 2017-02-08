@@ -54,7 +54,7 @@
 - (void)eval:(NSString *)input {
     NSError *err = nil;
     [self.interp interpretString:input error:&err];
-    TDNil(err);
+//    TDNil(err);
 }
 
 

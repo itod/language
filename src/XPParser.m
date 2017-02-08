@@ -333,17 +333,13 @@
 - (void)block_ {
     
     [self execute:^{
-    
-    self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope];
-
+     self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope]; 
     }];
     [self match:XP_TOKEN_KIND_OPEN_CURLY discard:NO]; 
     [self localList_]; 
     [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
     [self execute:^{
-    
-    self.currentScope = _currentScope.enclosingScope;
-
+     self.currentScope = _currentScope.enclosingScope; 
     }];
 
     [self fireDelegateSelector:@selector(parser:didMatchBlock:)];

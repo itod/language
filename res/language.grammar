@@ -167,15 +167,9 @@ funcList    = funcItem* {
 };
 funcItem    = stat | ifBlock | whileBlock | block | returnStat;
 
-// LOOP
-
 block
-@before {
-    self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope];
-}
-@after {
-    self.currentScope = _currentScope.enclosingScope;
-}
+@before { self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope]; }
+@after { self.currentScope = _currentScope.enclosingScope; }
             = '{' localList '}'!;
 
 // STATEMENTS
