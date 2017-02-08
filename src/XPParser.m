@@ -222,7 +222,7 @@
     
     NSArray *items = REV(ABOVE(nil));
     XPNode *block = [XPNode nodeWithToken:_blockTok];
-    for (id item in items) [block addChild:item];
+    [block addChildren:items];
     PUSH(block);
 
     }];
