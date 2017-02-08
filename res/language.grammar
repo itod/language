@@ -144,7 +144,7 @@ globalList  = globalItem+ {
     [block addChildren:items];
     PUSH(block);
 };
-globalItem  = stat | ifBlock | whileBlock | funcDecl | block;
+globalItem  = stat | ifBlock | whileBlock | block | funcDecl;
 
 // LOCAL
 localList   = localItem* {

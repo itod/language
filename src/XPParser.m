@@ -238,10 +238,10 @@
         [self ifBlock_]; 
     } else if ([self speculate:^{ [self whileBlock_]; }]) {
         [self whileBlock_]; 
-    } else if ([self speculate:^{ [self funcDecl_]; }]) {
-        [self funcDecl_]; 
     } else if ([self speculate:^{ [self block_]; }]) {
         [self block_]; 
+    } else if ([self speculate:^{ [self funcDecl_]; }]) {
+        [self funcDecl_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'globalItem'."];
     }
