@@ -27,131 +27,57 @@
 }
 
 - (void)testIfTrueParse {
-    NSString *input = @"if true {}";
-    
-    NSError *err = nil;
-    XPNode *node = [self statementFromString:input error:&err];
-    TDNotNil(node);
-    TDNil(err);
+    [self eval:@"if true {}"];
 }
 
 - (void)testIfTrue {
-    NSString *input = @"var foo = 0; if true {foo=1;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo = 0; if true {foo=1;}"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfTrueElse {
-    NSString *input = @"var foo = 0; if true {} else {foo=1;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(0.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo = 0; if true {} else {foo=1;}"];
+    TDEquals(0.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfFalseElse {
-    NSString *input = @"var foo = 0; if false {} else {foo=1;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo = 0; if false {} else {foo=1;}"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfFalseElseIfTrue {
-    NSString *input = @"var foo = 0; if false {} else if true {foo=1;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo = 0; if false {} else if true {foo=1;}"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfFalseElseIfFalseElseIfTrue {
-    NSString *input = @"var foo = 0; if false {} else if false {} else if true {foo=1;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo = 0; if false {} else if false {} else if true {foo=1;}"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfFalseElseIfFalseElse {
-    NSString *input = @"var foo = 0; if false {} else if false {} else {foo=1;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(1.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo = 0; if false {} else if false {} else {foo=1;}"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfFalseElseIfTrueElseIfTrue {
-    NSString *input = @"var foo = 0; if false {} else if true {foo=10;} else if true {foo=1;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(10.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo = 0; if false {} else if true {foo=10;} else if true {foo=1;}"];
+    TDEquals(10.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfTrueElseIfTrueElseIfTrue {
-    NSString *input = @"var foo = 0; if true {foo=3;} else if true {foo=10;} else if true {foo=1;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(3.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo = 0; if true {foo=3;} else if true {foo=10;} else if true {foo=1;}"];
+    TDEquals(3.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfFalseElseIfTrueElse {
-    NSString *input = @"var foo = 0; if false {} else if true {foo=11;} else {foo=1;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNil(err);
-    
-    TDEquals(11.0, [[interp.globals objectForName:@"foo"] doubleValue]);
+    [self eval:@"var foo = 0; if false {} else if true {foo=11;} else {foo=1;}"];
+    TDEquals(11.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfFalseElseIfTrueElseFail {
-    NSString *input = @"var foo = 0; if false {} else {foo=11;} else {foo=1;}";
-    
-    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-    
-    NSError *err = nil;
-    [interp interpretString:input error:&err];
-    TDNotNil(err);
-    TDEqualObjects(XPExceptionSyntaxError, err.localizedDescription);
+    [self fail:@"var foo = 0; if false {} else {foo=11;} else {foo=1;}"];
+    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
 }
 
 @end
