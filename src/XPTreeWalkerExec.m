@@ -25,11 +25,11 @@
 
 #define OFFSET 1
 
-@interface XPFlowException : NSException
+@interface XPReturnExpception : NSException
 @property (nonatomic, retain) XPValue *value;
 @end
 
-@implementation XPFlowException
+@implementation XPReturnExpception
 
 - (void)dealloc {
     self.value = nil;
@@ -38,12 +38,19 @@
 
 @end
 
+@interface XPBreakException : NSException
+@end
+
+@implementation XPBreakException
+@end
+
 @interface XPTreeWalker ()
 - (id)_loadVariableReference:(XPNode *)node;
 @end
 
 @interface XPTreeWalkerExec ()
-@property (nonatomic, retain) XPFlowException *sharedReturnValue;
+@property (nonatomic, retain) XPReturnExpception *returnException;
+@property (nonatomic, retain) XPBreakException *breakException;
 @end
 
 @implementation XPTreeWalkerExec
@@ -51,14 +58,16 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.sharedReturnValue = [[[XPFlowException alloc] initWithName:@"Flow" reason:nil userInfo:nil] autorelease];
+        self.returnException = [[[XPReturnExpception alloc] initWithName:@"return" reason:nil userInfo:nil] autorelease];
+        self.breakException = [[[XPBreakException alloc] initWithName:@"break" reason:nil userInfo:nil] autorelease];
     }
     return self;
 }
 
 
 - (void)dealloc {
-    self.sharedReturnValue = nil;
+    self.returnException = nil;
+    self.breakException = nil;
     [super dealloc];
 }
 
@@ -201,9 +210,19 @@
     
     BOOL b = [[self walk:expr] boolValue];
     while (b) {
-        [self block:block];
+        @try {
+            [self block:block];
+        } @catch (XPBreakException *ex) {
+            break;
+        }
         b = [[self walk:expr] boolValue];
     }
+}
+
+
+- (void)breakNode:(XPNode *)node {
+    TDAssert(_breakException);
+    @throw _breakException;
 }
 
 
@@ -324,7 +343,7 @@
         TDAssert(funcSym.blockNode);
         @try {
             [self funcBlock:funcSym.blockNode];
-        } @catch (XPFlowException *ex) {
+        } @catch (XPReturnExpception *ex) {
             result = ex.value;
         }
         [self.stack removeLastObject];
@@ -339,9 +358,9 @@
 - (void)returnStat:(XPNode *)node {
     XPNode *expr = [node childAtIndex:0];
     XPValue *val = [[[self walk:expr] copy] autorelease];
-    TDAssert(_sharedReturnValue);
-    _sharedReturnValue.value = val;
-    @throw _sharedReturnValue;
+    TDAssert(_returnException);
+    _returnException.value = val;
+    @throw _returnException;
 }
 
 

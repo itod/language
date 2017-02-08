@@ -121,6 +121,7 @@
         case XP_TOKEN_KIND_WHILE:           [self whileBlock:node]; break;
         case XP_TOKEN_KIND_IF:              res = [self ifBlock:node]; break;
         case XP_TOKEN_KIND_ELSE:            [self elseBlock:node]; break;
+        case XP_TOKEN_KIND_BREAK:           [self breakNode:node]; break;
             
 // UNARY EXPR
         case XP_TOKEN_KIND_NOT:             res = [self not:node]; break;

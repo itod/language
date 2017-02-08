@@ -60,6 +60,7 @@
 @property (nonatomic, retain) PKToken *negTok;
 @property (nonatomic, assign) BOOL negation;
 @property (nonatomic, assign) BOOL negative;
+@property (nonatomic, assign) BOOL canBreak;
 }
 
 @implementation {
@@ -172,6 +173,7 @@ stat        =
             | assignIndex
             | assignAppend
             | expr
+            | break
             )?
             ';'!
             | { _allowNakedExpressions }? expr
@@ -221,13 +223,19 @@ assignAppend = qid '['! ']'! '='! expr {
 };
 
 // WHILE BLOCK
-whileBlock  = 'while' expr block {
+whileBlock
+@before {self.canBreak = YES;}
+@after {self.canBreak = NO;}
+            = 'while' expr block {
     XPNode *block = POP();
     XPNode *expr = POP();
     XPNode *whileNode = [XPNode nodeWithToken:POP()];
     [whileNode addChild:expr];
     [whileNode addChild:block];
     PUSH(whileNode);
+};
+break   = 'break' {
+    PUSH([XPNode nodeWithToken:POP()]);
 };
 
 // IF BLOCK
