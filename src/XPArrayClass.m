@@ -11,19 +11,19 @@
 
 @implementation XPArrayClass
 
-- (NSMethodSignature *)methodSignatureForMethodNamed:(NSString *)methName {
-    NSMethodSignature *sig = nil;
-    
+- (SEL)selectorForMethodNamed:(NSString *)methName {
+    SEL sel = NULL;
+
     if ([methName isEqualToString:@"get"]) {
-        sig = [self methodSignatureForSelector:@selector(get::)];
+        sel = @selector(get::);
     } else if ([methName isEqualToString:@"set"]) {
-        sig = [self methodSignatureForSelector:@selector(set:::)];
+        sel = @selector(set:::);
     } else if ([methName isEqualToString:@"append"]) {
-        sig = [self methodSignatureForSelector:@selector(append::)];
+        sel = @selector(append::);
     }
-    
-    TDAssert(sig);
-    return sig;
+    TDAssert(sel);
+
+    return sel;
 }
 
 

@@ -65,16 +65,21 @@
     TDAssert(name);
     XPClass *cls = self.class;
     
-    NSMethodSignature *sig = [cls methodSignatureForMethodNamed:name];
-    NSInvocation *invoc = [NSInvocation invocationWithMethodSignature:sig];
+    NSInvocation *invoc = nil;
+    NSMethodSignature *sig = [cls getInvocation:&invoc forMethodNamed:name];
     
     // set `this`
-    [invoc setArgument:self atIndex:0];
+    NSInteger i = 2;
+    [invoc setArgument:&self atIndex:i++];
     
     // set args
-    NSInteger i = 1;
     for (id arg in args) {
-        [invoc setArgument:arg atIndex:i++];
+        const char *type = [sig getArgumentTypeAtIndex:i];
+        if (0 == strcmp(@encode(NSInteger), type)) {
+            NSInteger x = [arg integerValue];
+            [invoc setArgument:&x atIndex:i];
+        }
+        ++i;
     }
     
     // invoke
@@ -85,6 +90,11 @@
     [invoc getReturnValue:&retVal];
     
     return retVal;
+}
+
+
+- (id)callInstanceMethodNamed:(NSString *)name withArg:(id)arg {
+    return [self callInstanceMethodNamed:name args:@[arg]];
 }
 
 @end

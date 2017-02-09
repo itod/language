@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class XPNode;
+@class XPObject;
 @class XPValue;
 @class XPGlobalScope;
 @class XPMemorySpace;
@@ -16,7 +17,7 @@
 @interface XPTreeWalker : NSObject
 
 - (id)walk:(XPNode *)root;
-- (XPValue *)loadVariableReference:(XPNode *)node;
+- (XPObject *)loadVariableReference:(XPNode *)node;
 - (XPMemorySpace *)spaceWithSymbolNamed:(NSString *)name;
 - (void)raise:(NSString *)name node:(XPNode *)node format:(NSString *)fmt, ...;
 

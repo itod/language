@@ -11,6 +11,7 @@
 #import "XPNode.h"
 #import "XPException.h"
 #import "XPValue.h"
+#import "XPObject.h"
 #import "XPFunctionSpace.h"
 
 @implementation XPTreeWalker
@@ -38,8 +39,8 @@
 #pragma mark -
 #pragma mark XPTreeWalker
 
-- (XPValue *)loadVariableReference:(XPNode *)node {
-    XPValue *res = [self _loadVariableReference:node];
+- (XPObject *)loadVariableReference:(XPNode *)node {
+    XPObject *res = [self _loadVariableReference:node];
     if (!res) {
         [self raise:XPExceptionUndeclaredSymbol node:node format:@"unknown var reference: `%@`", node.token.stringValue];
     }
@@ -47,10 +48,10 @@
 }
 
 
-- (XPValue *)_loadVariableReference:(XPNode *)node {
+- (XPObject *)_loadVariableReference:(XPNode *)node {
     NSString *name = node.token.stringValue;
     XPMemorySpace *space = [self spaceWithSymbolNamed:name];
-    id res = [space objectForName:name];
+    XPObject *res = [space objectForName:name];
     return res;
 }
 
@@ -148,6 +149,8 @@
         case XP_TOKEN_KIND_DIV:             res = [self div:node]; break;
         case XP_TOKEN_KIND_MOD:             res = [self mod:node]; break;
 
+        case XP_TOKEN_KIND_OPEN_BRACKET:    res = [self array:node]; break;
+
         default:
             TDAssert([node isKindOfClass:[XPValue class]]);
             res = node;
@@ -224,4 +227,6 @@
 - (id)neg:(XPNode *)node {return nil;}
 - (id)load:(XPNode *)node {return nil;}
 - (id)loadIndex:(XPNode *)node {return nil;}
+
+- (id)array:(XPNode *)node {return nil;}
 @end

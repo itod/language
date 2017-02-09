@@ -23,6 +23,9 @@
 
 #import "XPParser.h"
 
+#import "XPObject.h"
+#import "XPArrayClass.h"
+
 #define OFFSET 1
 
 @interface XPReturnExpception : NSException
@@ -188,24 +191,27 @@
 
 
 - (id)load:(XPNode *)node {
+    // (LOAD foo)
     XPNode *idNode = [node childAtIndex:0];
-    XPValue *val = [self loadVariableReference:idNode];
-    return val;
+    XPObject *obj = [self loadVariableReference:idNode];
+    return obj;
 }
 
 
 - (id)loadIndex:(XPNode *)node {
-    XPValue *ref = [self load:[node childAtIndex:0]];
+    // (GET_IDX (LOAD foo) `0`)
+    XPNode *refNode = [node childAtIndex:0];
+    XPNode *idxNode = [node childAtIndex:1];
+    XPObject *obj = [self load:refNode];
     
-    if (![ref isArrayValue]) {
-        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed access on non-array object `%@`", ref.token.stringValue];
+    if (![obj.class isKindOfClass:[XPArrayClass class]]) {
+        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed access on non-array object `%@`", refNode.token.stringValue];
         return nil;
     }
     
-    XPValue *idx = [self walk:[node childAtIndex:1]];
-    NSUInteger i = [idx doubleValue];
+    NSUInteger i = [[self walk:idxNode] doubleValue];
     
-    XPValue *res = [ref childAtIndex:i];
+    XPValue *res = [obj callInstanceMethodNamed:@"get" withArg:@(i)];
     return res;
 }
 
@@ -474,4 +480,18 @@
 - (id)times:(XPNode *)node  { return [self math:node op:XP_TOKEN_KIND_TIMES]; }
 - (id)div:(XPNode *)node    { return [self math:node op:XP_TOKEN_KIND_DIV]; }
 - (id)mod:(XPNode *)node    { return [self math:node op:XP_TOKEN_KIND_MOD]; }
+
+
+#pragma mark -
+#pragma mark Literals
+
+- (id)array:(XPNode *)node {
+    NSMutableArray *val = [NSMutableArray arrayWithCapacity:[node childCount]];
+    [val addObjectsFromArray:node.children];
+    
+    XPArrayClass *cls = [[[XPArrayClass alloc] init] autorelease];
+    XPObject *obj = [XPObject objectWithClass:cls value:val];
+    return obj;
+}
+
 @end

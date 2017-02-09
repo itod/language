@@ -221,12 +221,7 @@
 				D368A0071E3BE383005783BB /* XPParser.m */,
 				D37316AD1E3EBDE20034798E /* XPInterpreter.h */,
 				D37316AA1E3EBDD20034798E /* XPInterpreter.m */,
-				D37CE4AC1E4CE4500008945E /* XPClass.h */,
-				D37CE4AD1E4CE4500008945E /* XPClass.m */,
-				D37CE4A81E4CE4470008945E /* XPObject.h */,
-				D37CE4A91E4CE4470008945E /* XPObject.m */,
-				D37CE4B01E4CE6940008945E /* XPArrayClass.h */,
-				D37CE4B11E4CE6940008945E /* XPArrayClass.m */,
+				D37CE4B41E4CF2730008945E /* Object */,
 				D37316DE1E3FA9A10034798E /* Tree */,
 				D37316C01E3EC1330034798E /* Scope */,
 				D37316D51E3EC6B80034798E /* MemSpace */,
@@ -383,6 +378,19 @@
 				D373168F1E3E735A0034798E /* XPBaseExpressionTests.m */,
 			);
 			name = Unused;
+			sourceTree = "<group>";
+		};
+		D37CE4B41E4CF2730008945E /* Object */ = {
+			isa = PBXGroup;
+			children = (
+				D37CE4AC1E4CE4500008945E /* XPClass.h */,
+				D37CE4AD1E4CE4500008945E /* XPClass.m */,
+				D37CE4A81E4CE4470008945E /* XPObject.h */,
+				D37CE4A91E4CE4470008945E /* XPObject.m */,
+				D37CE4B01E4CE6940008945E /* XPArrayClass.h */,
+				D37CE4B11E4CE6940008945E /* XPArrayClass.m */,
+			);
+			name = Object;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

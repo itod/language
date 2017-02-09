@@ -13,5 +13,5 @@
 @interface XPClass : NSObject
 
 - (XPObject *)internedObjectWithValue:(id)val;
-- (NSMethodSignature *)methodSignatureForMethodNamed:(NSString *)methName;
+- (NSMethodSignature *)getInvocation:(NSInvocation **)outInvoc forMethodNamed:(NSString *)methName;
 @end

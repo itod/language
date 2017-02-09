@@ -15,6 +15,7 @@
 + (instancetype)null;
 + (instancetype)objectWithClass:(XPClass *)cls value:(id)val;
 
+- (id)callInstanceMethodNamed:(NSString *)name withArg:(id)arg; // convenience
 - (id)callInstanceMethodNamed:(NSString *)name args:(NSArray *)args;
 
 @property (nonatomic, retain, readonly) XPClass *class;
