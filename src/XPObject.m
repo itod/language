@@ -60,4 +60,31 @@
     [super dealloc];
 }
 
+
+- (id)callInstanceMethodNamed:(NSString *)name args:(NSArray *)args {
+    TDAssert(name);
+    XPClass *cls = self.class;
+    
+    NSMethodSignature *sig = [cls methodSignatureForMethodNamed:name];
+    NSInvocation *invoc = [NSInvocation invocationWithMethodSignature:sig];
+    
+    // set `this`
+    [invoc setArgument:self atIndex:0];
+    
+    // set args
+    NSInteger i = 1;
+    for (id arg in args) {
+        [invoc setArgument:arg atIndex:i++];
+    }
+    
+    // invoke
+    [invoc invokeWithTarget:cls];
+    
+    // get return val
+    id retVal = nil;
+    [invoc getReturnValue:&retVal];
+    
+    return retVal;
+}
+
 @end

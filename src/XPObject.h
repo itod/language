@@ -15,6 +15,8 @@
 + (instancetype)null;
 + (instancetype)objectWithClass:(XPClass *)cls value:(id)val;
 
+- (id)callInstanceMethodNamed:(NSString *)name args:(NSArray *)args;
+
 @property (nonatomic, retain, readonly) XPClass *class;
 @property (nonatomic, retain, readonly) id value;
 @end

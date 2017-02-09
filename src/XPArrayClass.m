@@ -7,6 +7,7 @@
 //
 
 #import "XPArrayClass.h"
+#import "XPObject.h"
 
 @implementation XPArrayClass
 
@@ -26,18 +27,22 @@
 }
 
 
-- (id)get:(id)this :(NSInteger)idx {
-    return nil;
+- (id)get:(XPObject *)this :(NSInteger)idx {
+    NSMutableArray *v = this.value;
+    id res = [v objectAtIndex:idx];
+    return res;
 }
 
 
-- (void)set:(id)this :(NSInteger)idx :(id)obj {
-
+- (void)set:(XPObject *)this :(NSInteger)idx :(id)obj {
+    NSMutableArray *v = this.value;
+    [v insertObject:obj atIndex:idx];
 }
 
 
-- (void)append:(id)this :(id)obj {
-    
+- (void)append:(XPObject *)this :(id)obj {
+    NSMutableArray *v = this.value;
+    [v addObject:obj];
 }
 
 @end
