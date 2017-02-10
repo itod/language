@@ -3,8 +3,6 @@
     
 #import <Language/XPException.h>
 #import <Language/XPNode.h>
-#import <Language/XPNumericValue.h>
-#import <Language/XPStringValue.h>
 #import <Language/XPFunctionValue.h>
 
 #import <Language/XPGlobalScope.h>
@@ -1313,7 +1311,7 @@
     [self matchNumber:NO]; 
     [self execute:^{
     
-    PUSH([XPNumericValue nodeWithToken:POP()]);
+    PUSH([XPNode nodeWithToken:POP()]);
 
     }];
 
@@ -1325,7 +1323,11 @@
     [self matchQuotedString:NO]; 
     [self execute:^{
     
-    PUSH([XPStringValue stringValueWithString:POP_QUOTED_STR()]);
+    //PKToken *oldTok = PEEK();
+    NSString *s = POP_QUOTED_STR();
+    PKToken *tok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:s doubleValue:0.0];
+    tok.tokenKind = TOKEN_KIND_BUILTIN_WORD;
+    PUSH([XPNode nodeWithToken:tok]);
 
     }];
 

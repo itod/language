@@ -13,8 +13,6 @@
 #import "XPFunctionSpace.h"
 
 #import "XPValue.h"
-#import "XPBooleanValue.h"
-#import "XPNumericValue.h"
 #import "XPFunctionValue.h"
 #import "XPNode.h"
 
@@ -25,6 +23,8 @@
 
 #import "XPObject.h"
 #import "XPBooleanClass.h"
+#import "XPNumberClass.h"
+#import "XPStringClass.h"
 #import "XPArrayClass.h"
 
 #define OFFSET 1
@@ -264,7 +264,7 @@
     if (b) {
         XPNode *block = [node childAtIndex:1];
         [self block:block];
-        return [XPBooleanValue booleanValueWithBoolean:YES];
+        return [XPObject objectWithClass:[XPBooleanClass classInstance] value:@YES];
     }
     
     NSUInteger childCount = [node childCount];
@@ -274,7 +274,7 @@
         if (b) break;
     }
     
-    return [XPBooleanValue booleanValueWithBoolean:NO];
+    return [XPObject objectWithClass:[XPBooleanClass classInstance] value:@NO];
 }
 
 
@@ -400,7 +400,7 @@
     XPNode *expr = [node childAtIndex:0];
     XPValue *val = [self walk:expr];
     BOOL b = [val boolValue];
-    XPValue *res = [XPBooleanValue booleanValueWithBoolean:!b];
+    XPObject *res = [XPObject objectWithClass:[XPBooleanClass classInstance] value:@(!b)];
     return res;
 }
 
@@ -409,7 +409,7 @@
     XPNode *expr = [node childAtIndex:0];
     XPValue *val = [self walk:expr];
     double n = [val doubleValue];
-    XPValue *res = [XPNumericValue numericValueWithNumber:-n];
+    XPObject *res = [XPObject objectWithClass:[XPNumberClass classInstance] value:@(-n)];
     return res;
 }
 
@@ -422,7 +422,7 @@
     BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
     
     BOOL res = lhs || rhs;
-    return [XPBooleanValue booleanValueWithBoolean:res];
+    return [XPObject objectWithClass:[XPBooleanClass classInstance] value:@(res)];
 }
 
 
@@ -431,7 +431,7 @@
     BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
     
     BOOL res = lhs && rhs;
-    return [XPBooleanValue booleanValueWithBoolean:res];
+    return [XPObject objectWithClass:[XPBooleanClass classInstance] value:@(res)];
 }
 
 
@@ -440,7 +440,7 @@
     XPValue *rhs = [self walk:[node childAtIndex:1]];
     
     BOOL res = [lhs compareToValue:rhs usingOperator:op];
-    return [XPBooleanValue booleanValueWithBoolean:res];
+    return [XPObject objectWithClass:[XPBooleanClass classInstance] value:@(res)];
 }
 
 - (id)eq:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_EQ]; }
@@ -480,7 +480,7 @@
             break;
     }
 
-    return [XPNumericValue numericValueWithNumber:res];
+    return [XPObject objectWithClass:[XPBooleanClass classInstance] value:@(res)];
 }
 
 - (id)plus:(XPNode *)node   { return [self math:node op:XP_TOKEN_KIND_PLUS]; }
@@ -502,6 +502,20 @@
     } else {
         obj = [XPObject objectWithClass:cls value:@NO];
     }
+    return obj;
+}
+
+
+- (id)number:(XPNode *)node {
+    XPNumberClass *cls = [XPNumberClass classInstance];
+    XPObject *obj = [XPObject objectWithClass:cls value:@(node.token.doubleValue)];
+    return obj;
+}
+
+
+- (id)string:(XPNode *)node {
+    XPNumberClass *cls = [XPNumberClass classInstance];
+    XPObject *obj = [XPObject objectWithClass:cls value:node.token.stringValue];
     return obj;
 }
 

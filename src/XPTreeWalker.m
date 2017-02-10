@@ -152,6 +152,10 @@
 // BOOLEAN
         case XP_TOKEN_KIND_TRUE:
         case XP_TOKEN_KIND_FALSE:           res = [self boolean:node]; break;
+// NUMBER
+        case TOKEN_KIND_BUILTIN_NUMBER:     res = [self number:node]; break;
+// STRING
+        case TOKEN_KIND_BUILTIN_WORD:       res = [self string:node]; break;
 // ARRAY
         case XP_TOKEN_KIND_OPEN_BRACKET:    res = [self array:node]; break;
 
@@ -232,6 +236,8 @@
 - (id)load:(XPNode *)node {return nil;}
 - (id)loadIndex:(XPNode *)node {return nil;}
 
-- (id)array:(XPNode *)node {return nil;}
 - (id)boolean:(XPNode *)node {return nil;}
+- (id)number:(XPNode *)node {return nil;}
+- (id)string:(XPNode *)node {return nil;}
+- (id)array:(XPNode *)node {return nil;}
 @end
