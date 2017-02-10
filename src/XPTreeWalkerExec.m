@@ -523,7 +523,11 @@
 - (id)array:(XPNode *)node {
     // ([ `a` `b`)
     NSMutableArray *val = [NSMutableArray arrayWithCapacity:[node childCount]];
-    [val addObjectsFromArray:node.children];
+    
+    for (XPNode *child in node.children) {
+        XPObject *obj = [self walk:child];
+        [val addObject:obj];
+    }
     
     XPArrayClass *cls = [XPArrayClass classInstance];
     XPObject *obj = [XPObject objectWithClass:cls value:val];
