@@ -14,7 +14,9 @@
 - (SEL)selectorForMethodNamed:(NSString *)methName {
     SEL sel = NULL;
 
-    if ([methName isEqualToString:@"get"]) {
+    if ([methName isEqualToString:@"length"]) {
+        sel = @selector(length:);
+    } else if ([methName isEqualToString:@"get"]) {
         sel = @selector(get::);
     } else if ([methName isEqualToString:@"set"]) {
         sel = @selector(set:::);
@@ -24,6 +26,13 @@
     TDAssert(sel);
 
     return sel;
+}
+
+
+- (id)length:(XPObject *)this {
+    NSMutableArray *v = this.value;
+    NSInteger c = [v count];
+    return @(c);
 }
 
 

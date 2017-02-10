@@ -10,7 +10,7 @@
 
 @interface XPMemorySpace ()
 @property (nonatomic, copy, readwrite) NSString *name;
-@property (nonatomic, retain, readwrite) NSMutableDictionary<NSString *, XPValue *> *members;
+@property (nonatomic, retain, readwrite) NSMutableDictionary<NSString *, XPObject *> *members;
 @end
 
 @implementation XPMemorySpace
@@ -39,7 +39,7 @@
 }
 
 
-- (XPValue *)objectForName:(NSString *)name {
+- (XPObject *)objectForName:(NSString *)name {
     TDAssertMainThread();
     TDAssert([name length]);
     TDAssert(_members);
@@ -48,7 +48,7 @@
 }
 
 
-- (void)setObject:(XPValue *)obj forName:(NSString *)name {
+- (void)setObject:(XPObject *)obj forName:(NSString *)name {
     TDAssertMainThread();
     TDAssert([name length]);
     TDAssert(_members);

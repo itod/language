@@ -74,11 +74,21 @@
     
     // set args
     for (id arg in args) {
-        const char *type = [sig getArgumentTypeAtIndex:i];
-        if (0 == strcmp(@encode(NSInteger), type)) {
+        const char *argType = [sig getArgumentTypeAtIndex:i];
+        
+        if (0 == strcmp(@encode(NSInteger), argType)) {
             NSInteger x = [arg integerValue];
             [invoc setArgument:&x atIndex:i];
         }
+        
+        else if (0 == strcmp(@encode(id), argType)) {
+            [invoc setArgument:&arg atIndex:i];
+        }
+        
+        else {
+            TDAssert(0);
+        }
+        
         ++i;
     }
     
@@ -87,9 +97,28 @@
     
     // get return val
     id retVal = nil;
-    [invoc getReturnValue:&retVal];
+    {
+        const char *retType = [sig methodReturnType];
+
+        if (0 == strcmp(@encode(void), retType)) {
+            // noop
+        }
+        
+        else if (0 == strcmp(@encode(id), retType)) {
+            [invoc getReturnValue:&retVal];
+        }
+
+        else {
+            TDAssert(0);
+        }
+    }
     
     return retVal;
+}
+
+
+- (id)callInstanceMethodNamed:(NSString *)name {
+    return [self callInstanceMethodNamed:name args:nil];
 }
 
 

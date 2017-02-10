@@ -124,65 +124,70 @@
 
 
 - (void)assignIndex:(XPNode *)node {
-    XPNode *qidNode = [node childAtIndex:0];
-    NSString *name = qidNode.token.stringValue;
+    // (SET_IDX foo `0` `c`)
+    XPNode *idNode = [node childAtIndex:0];
+    NSString *name = idNode.token.stringValue;
     
 
     
     
     
     // TODO: WHY NOT USING _loadVarRef:
-    XPValue *arrayVal = [self.currentSpace objectForName:name];
+    XPObject *arrObj = [self.currentSpace objectForName:name];
     
-    if (!arrayVal) {
+    if (!arrObj) {
         [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", name];
         return;
     }
     
-    if (![arrayVal isArrayValue]) {
+    if (![arrObj.class isKindOfClass:[XPArrayClass class]]) {
         [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", name];
         return;
     }
 
-    XPNode *idxExpr = [node childAtIndex:1];
-    NSInteger idx = [[self walk:idxExpr] doubleValue];
+    XPNode *idxNode = [node childAtIndex:1];
+    NSInteger idx = [[self walk:idxNode] doubleValue];
     
-    if (idx < 0 || idx >= [arrayVal childCount]) {
+    NSInteger len = [[arrObj callInstanceMethodNamed:@"length"] integerValue];
+    
+    if (idx < 0 || idx >= len) {
         [self raise:XPExceptionArrayIndexOutOfBounds node:node format:@"array index out of bounds: `%ld`", idx];
         return;
     }
 
-    XPValue *val = [self walk:[node childAtIndex:2]];
+    XPNode *valNode = [node childAtIndex:2];
+    XPObject *valObj = [self walk:valNode];
 
-    [arrayVal replaceChild:val atIndex:idx];
+    [arrObj callInstanceMethodNamed:@"set" args:@[@(idx), valObj]];
 }
 
 
 - (void)assignAppend:(XPNode *)node {
-    XPNode *qidNode = [node childAtIndex:0];
-    NSString *name = qidNode.token.stringValue;
+    // (APPEND foo `c`)
+    XPNode *idNode = [node childAtIndex:0];
+    NSString *name = idNode.token.stringValue;
     
     
     
     
     
     // TODO: WHY NOT USING _loadVarRef:
-    XPValue *arrayVal = [self.currentSpace objectForName:name];
+    XPObject *arrObj = [self.currentSpace objectForName:name];
     
-    if (!arrayVal) {
+    if (!arrObj) {
         [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", name];
         return;
     }
     
-    if (![arrayVal isArrayValue]) {
+    if (![arrObj.class isKindOfClass:[XPArrayClass class]]) {
         [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", name];
         return;
     }
     
-    XPValue *val = [self walk:[node childAtIndex:1]];
+    XPNode *valNode = [node childAtIndex:1];
+    XPObject *valObj = [self walk:valNode];
     
-    [arrayVal addChild:val];
-
+    [arrObj callInstanceMethodNamed:@"append" withArg:valObj];
 }
 
 

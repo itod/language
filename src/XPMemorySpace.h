@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@class XPValue;
+@class XPObject;
 
 @interface XPMemorySpace : NSObject
 
 - (instancetype)initWithName:(NSString *)name;
 
-- (XPValue *)objectForName:(NSString *)name;
-- (void)setObject:(XPValue *)obj forName:(NSString *)name;
+- (XPObject *)objectForName:(NSString *)name;
+- (void)setObject:(XPObject *)obj forName:(NSString *)name;
 
 @property (nonatomic, copy, readonly) NSString *name;
-@property (nonatomic, retain, readonly) NSMutableDictionary<NSString *, XPValue *> *members;
+@property (nonatomic, retain, readonly) NSMutableDictionary<NSString *, XPObject *> *members;
 @end
