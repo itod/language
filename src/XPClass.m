@@ -48,7 +48,6 @@
     } if ([methName isEqualToString:@"boolValue"]) {
         sel = @selector(boolValue:);
     }
-    TDAssert(sel);
     
     return sel;
 }
