@@ -407,7 +407,7 @@
 
 - (id)neg:(XPNode *)node {
     XPNode *expr = [node childAtIndex:0];
-    XPValue *val = [self walk:expr];
+    XPObject *val = [self walk:expr];
     double n = [val doubleValue];
     XPObject *res = [XPObject objectWithClass:[XPNumberClass classInstance] value:@(-n)];
     return res;
@@ -436,8 +436,8 @@
 
 
 - (id)rel:(XPNode *)node op:(NSInteger)op {
-    XPValue *lhs = [self walk:[node childAtIndex:0]];
-    XPValue *rhs = [self walk:[node childAtIndex:1]];
+    XPObject *lhs = [self walk:[node childAtIndex:0]];
+    XPObject *rhs = [self walk:[node childAtIndex:1]];
     
     BOOL res = [lhs compareToValue:rhs usingOperator:op];
     return [XPObject objectWithClass:[XPBooleanClass classInstance] value:@(res)];
@@ -514,14 +514,14 @@
 
 
 - (id)string:(XPNode *)node {
-    XPNumberClass *cls = [XPNumberClass classInstance];
+    XPStringClass *cls = [XPStringClass classInstance];
     XPObject *obj = [XPObject objectWithClass:cls value:node.token.stringValue];
     return obj;
 }
 
 
 - (id)array:(XPNode *)node {
-    // ([ `a` `b`)
+    // ([ a b)
     NSMutableArray *val = [NSMutableArray arrayWithCapacity:[node childCount]];
     
     for (XPNode *child in node.children) {
