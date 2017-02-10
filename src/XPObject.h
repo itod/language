@@ -10,7 +10,7 @@
 
 @class XPClass;
 
-@interface XPObject : NSObject
+@interface XPObject : NSObject <NSCopying>
 
 + (instancetype)null;
 + (instancetype)objectWithClass:(XPClass *)cls value:(id)val;

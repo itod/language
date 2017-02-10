@@ -45,7 +45,7 @@
 
 - (void)set:(XPObject *)this :(NSInteger)idx :(id)obj {
     NSMutableArray *v = this.value;
-    [v insertObject:obj atIndex:idx];
+    [v replaceObjectAtIndex:idx withObject:obj];
 }
 
 

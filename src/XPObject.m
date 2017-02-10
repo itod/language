@@ -61,6 +61,13 @@
 }
 
 
+- (id)copyWithZone:(NSZone *)zone {
+    id val = [[_value mutableCopyWithZone:zone] autorelease];
+    id that = [XPObject objectWithClass:self.class value:val];
+    return that;
+}
+
+
 - (id)callInstanceMethodNamed:(NSString *)name args:(NSArray *)args {
     TDAssert(name);
     XPClass *cls = self.class;
