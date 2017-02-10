@@ -133,4 +133,21 @@
     return [self callInstanceMethodNamed:name args:@[arg]];
 }
 
+
+- (NSString *)stringValue {
+    NSString *str = [self callInstanceMethodNamed:@"stringValue"];
+    return str;
+}
+
+
+- (double)doubleValue {
+    double d = [[self callInstanceMethodNamed:@"doubleValue"] doubleValue];
+    return d;
+}
+
+
+- (BOOL)boolValue {
+    BOOL b = [[self callInstanceMethodNamed:@"doubleValue"] boolValue];
+    return b;
+}
 @end

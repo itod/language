@@ -19,6 +19,10 @@
 - (id)callInstanceMethodNamed:(NSString *)name withArg:(id)arg; // convenience
 - (id)callInstanceMethodNamed:(NSString *)name args:(NSArray *)args;
 
+- (NSString *)stringValue;
+- (double)doubleValue;
+- (BOOL)boolValue;
+
 @property (nonatomic, retain, readonly) XPClass *class;
 @property (nonatomic, retain, readonly) id value;
 @end

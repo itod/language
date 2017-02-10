@@ -16,6 +16,12 @@
 
     if ([methName isEqualToString:@"length"]) {
         sel = @selector(length:);
+    } if ([methName isEqualToString:@"stringValue"]) {
+        sel = @selector(stringValue:);
+    } if ([methName isEqualToString:@"doubleValue"]) {
+        sel = @selector(doubleValue:);
+    } if ([methName isEqualToString:@"boolValue"]) {
+        sel = @selector(boolValue:);
     } else if ([methName isEqualToString:@"get"]) {
         sel = @selector(get::);
     } else if ([methName isEqualToString:@"set"]) {
@@ -52,6 +58,30 @@
 - (void)append:(XPObject *)this :(id)obj {
     NSMutableArray *v = this.value;
     [v addObject:obj];
+}
+
+
+- (id)stringValue:(XPObject *)this {
+    NSMutableString *buf = [NSMutableString stringWithString:@"["];
+    
+    TDAssert(this.value);
+    for (id obj in this.value) {
+        [buf appendFormat:@"%@,", [obj stringValue]];
+    }
+    
+    [buf appendString:@"]"];
+    
+    return buf;
+}
+
+
+- (id)doubleValue:(XPObject *)this {
+    return [this.value count] > 0 ? @1.0 : @0.0;
+}
+
+
+- (id)boolValue:(XPObject *)this {
+    return [this.value count] > 0 ? @YES : @NO;
 }
 
 @end
