@@ -1298,12 +1298,12 @@
         [self match:XP_TOKEN_KIND_TRUE discard:NO]; 
     } else if ([self predicts:XP_TOKEN_KIND_FALSE, 0]) {
         [self match:XP_TOKEN_KIND_FALSE discard:NO]; 
-        [self execute:^{
-         PUSH([XPNode nodeWithToken:POP()]); 
-        }];
     } else {
         [self raise:@"No viable alternative found in rule 'bool'."];
     }
+    [self execute:^{
+     PUSH([XPNode nodeWithToken:POP()]); 
+    }];
 
     [self fireDelegateSelector:@selector(parser:didMatchBool:)];
 }

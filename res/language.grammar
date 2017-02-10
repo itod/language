@@ -533,7 +533,9 @@ null = 'null'! {
     PUSH([XPValue nullValue]);
 };
 
-bool = 'true' | 'false' { PUSH([XPNode nodeWithToken:POP()]); };
+bool
+@after { PUSH([XPNode nodeWithToken:POP()]); } 
+    = 'true' | 'false';
 
 num = Number {
     PUSH([XPNumericValue nodeWithToken:POP()]);
