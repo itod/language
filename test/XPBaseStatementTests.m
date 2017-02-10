@@ -82,7 +82,8 @@
 
 
 - (XPObject *)valueForName:(NSString *)name {
-    return [self.interp.globals objectForName:name];
+    XPObject *obj = [self.interp.globals objectForName:name];
+    return obj;
 }
 
 @end

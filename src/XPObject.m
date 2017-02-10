@@ -177,7 +177,7 @@
 
 
 - (BOOL)boolValue {
-    BOOL b = [[self callInstanceMethodNamed:@"doubleValue"] boolValue];
+    BOOL b = [[self callInstanceMethodNamed:@"boolValue"] boolValue];
     return b;
 }
 
