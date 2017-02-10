@@ -13,6 +13,7 @@
 @interface XPClass : NSObject
 
 + (instancetype)classInstance;
++ (XPObject *)instanceWithValue:(id)val;
 
 - (XPObject *)internedObjectWithValue:(id)val;
 - (NSMethodSignature *)getInvocation:(NSInvocation **)outInvoc forMethodNamed:(NSString *)methName;

@@ -264,7 +264,7 @@
     if (b) {
         XPNode *block = [node childAtIndex:1];
         [self block:block];
-        return [XPObject objectWithClass:[XPBooleanClass classInstance] value:@YES];
+        return [XPBooleanClass instanceWithValue:@YES];
     }
     
     NSUInteger childCount = [node childCount];
@@ -274,7 +274,7 @@
         if (b) break;
     }
     
-    return [XPObject objectWithClass:[XPBooleanClass classInstance] value:@NO];
+    return [XPBooleanClass instanceWithValue:@NO];
 }
 
 
@@ -400,7 +400,7 @@
     XPNode *expr = [node childAtIndex:0];
     XPValue *val = [self walk:expr];
     BOOL b = [val boolValue];
-    XPObject *res = [XPObject objectWithClass:[XPBooleanClass classInstance] value:@(!b)];
+    XPObject *res = [XPBooleanClass instanceWithValue:@(!b)];
     return res;
 }
 
@@ -409,7 +409,7 @@
     XPNode *expr = [node childAtIndex:0];
     XPObject *obj = [self walk:expr];
     double n = [obj doubleValue];
-    XPObject *res = [XPObject objectWithClass:[XPNumberClass classInstance] value:@(-n)];
+    XPObject *res = [XPNumberClass instanceWithValue:@(-n)];
     return res;
 }
 
@@ -422,7 +422,7 @@
     BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
     
     BOOL res = lhs || rhs;
-    return [XPObject objectWithClass:[XPBooleanClass classInstance] value:@(res)];
+    return [XPBooleanClass instanceWithValue:@(res)];
 }
 
 
@@ -431,7 +431,7 @@
     BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
     
     BOOL res = lhs && rhs;
-    return [XPObject objectWithClass:[XPBooleanClass classInstance] value:@(res)];
+    return [XPBooleanClass instanceWithValue:@(res)];
 }
 
 
@@ -440,7 +440,7 @@
     XPObject *rhs = [self walk:[node childAtIndex:1]];
     
     BOOL res = [lhs compareToObject:rhs usingOperator:op];
-    return [XPObject objectWithClass:[XPBooleanClass classInstance] value:@(res)];
+    return [XPBooleanClass instanceWithValue:@(res)];
 }
 
 - (id)eq:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_EQ]; }
@@ -480,7 +480,7 @@
             break;
     }
 
-    return [XPObject objectWithClass:[XPBooleanClass classInstance] value:@(res)];
+    return [XPBooleanClass instanceWithValue:@(res)];
 }
 
 - (id)plus:(XPNode *)node   { return [self math:node op:XP_TOKEN_KIND_PLUS]; }
@@ -495,27 +495,19 @@
 
 - (id)boolean:(XPNode *)node {
     // false
-    XPBooleanClass *cls = [XPBooleanClass classInstance];
-    XPObject *obj = nil;
-    if ([node.token.stringValue isEqualToString:@"true"]) {
-        obj = [XPObject objectWithClass:cls value:@YES];
-    } else {
-        obj = [XPObject objectWithClass:cls value:@NO];
-    }
+    XPObject *obj = [XPBooleanClass instanceWithValue:([node.token.stringValue isEqualToString:@"true"]) ? @YES : @NO];
     return obj;
 }
 
 
 - (id)number:(XPNode *)node {
-    XPNumberClass *cls = [XPNumberClass classInstance];
-    XPObject *obj = [XPObject objectWithClass:cls value:@(node.token.doubleValue)];
+    XPObject *obj = [XPNumberClass instanceWithValue:@(node.token.doubleValue)];
     return obj;
 }
 
 
 - (id)string:(XPNode *)node {
-    XPStringClass *cls = [XPStringClass classInstance];
-    XPObject *obj = [XPObject objectWithClass:cls value:node.token.stringValue];
+    XPObject *obj = [XPStringClass instanceWithValue:node.token.stringValue];
     return obj;
 }
 
@@ -529,8 +521,7 @@
         [val addObject:obj];
     }
     
-    XPArrayClass *cls = [XPArrayClass classInstance];
-    XPObject *obj = [XPObject objectWithClass:cls value:val];
+    XPObject *obj = [XPArrayClass instanceWithValue:val];
     return obj;
 }
 

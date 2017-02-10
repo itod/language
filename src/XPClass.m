@@ -7,12 +7,20 @@
 //
 
 #import "XPClass.h"
+#import "XPObject.h"
 
 @implementation XPClass
 
 + (instancetype)classInstance {
     NSAssert2(0, @"%s is an abstract method and must be implemented in %@", __PRETTY_FUNCTION__, [self class]);
     return nil;
+}
+
+
++ (XPObject *)instanceWithValue:(id)val {
+    XPClass *cls = [self classInstance];
+    XPObject *obj = [XPObject objectWithClass:cls value:val];
+    return obj;
 }
 
 
