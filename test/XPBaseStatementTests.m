@@ -81,7 +81,7 @@
 }
 
 
-- (XPValue *)valueForName:(NSString *)name {
+- (XPObject *)valueForName:(NSString *)name {
     return [self.interp.globals objectForName:name];
 }
 

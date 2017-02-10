@@ -91,10 +91,10 @@
     //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     NSString *name = [[[node childAtIndex:0] token] stringValue];
     XPNode *expr = [node childAtIndex:1];
-    XPValue *val = [self walk:expr];
+    XPObject *valObj = [self walk:expr];
     
     TDAssert(self.currentSpace);
-    [self.currentSpace setObject:val forName:name];
+    [self.currentSpace setObject:valObj forName:name];
 }
 
 
@@ -117,9 +117,9 @@
     }
     
     XPNode *expr = [node childAtIndex:1];
-    XPValue *val = [self walk:expr];
+    XPObject *valObj = [self walk:expr];
     
-    [space setObject:val forName:name];
+    [space setObject:valObj forName:name];
 }
 
 
@@ -216,7 +216,7 @@
     
     NSUInteger i = [[self walk:idxNode] doubleValue];
     
-    XPValue *res = [obj callInstanceMethodNamed:@"get" withArg:@(i)];
+    XPObject *res = [obj callInstanceMethodNamed:@"get" withArg:@(i)];
     return res;
 }
 
@@ -329,8 +329,8 @@
     // APPLY DEFAULT PARAMS
     for (NSString *name in funcSym.defaultParamValues) {
         XPNode *expr = funcSym.defaultParamValues[name];
-        XPValue *val = [self walk:expr];
-        [funcSpace setObject:val forName:name];
+        XPObject *valObj = [self walk:expr];
+        [funcSpace setObject:valObj forName:name];
     }
     
     // EVAL ARGS
@@ -356,8 +356,8 @@
         NSUInteger i = 0;
         for (XPNode *argExpr in argExprs) {
             XPSymbol *param = funcSym.orderedParams[i];
-            XPValue *argValue = [self walk:argExpr];
-            [funcSpace setObject:argValue forName:param.name];
+            XPObject *valObj = [self walk:argExpr];
+            [funcSpace setObject:valObj forName:param.name];
             ++i;
         }
     }
