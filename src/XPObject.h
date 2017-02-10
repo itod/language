@@ -19,6 +19,11 @@
 - (id)callInstanceMethodNamed:(NSString *)name withArg:(id)arg; // convenience
 - (id)callInstanceMethodNamed:(NSString *)name args:(NSArray *)args;
 
+- (BOOL)isEqualToObject:(XPObject *)other;
+- (BOOL)isNotEqualToObject:(XPObject *)other;
+
+- (BOOL)compareToObject:(XPObject *)other usingOperator:(NSInteger)op;
+
 - (NSString *)stringValue;
 - (double)doubleValue;
 - (BOOL)boolValue;
@@ -28,6 +33,9 @@
 - (BOOL)isStringObject;
 - (BOOL)isFunctionObject;
 - (BOOL)isArrayObject;
+
+
+- (BOOL)isFunctionValue; // REMOVE
 
 @property (nonatomic, retain, readonly) XPClass *class;
 @property (nonatomic, retain, readonly) id value;

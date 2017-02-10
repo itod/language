@@ -68,7 +68,13 @@
 #pragma mark NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    id val = [[_value mutableCopyWithZone:zone] autorelease];
+    id val = nil;
+    if ([_value respondsToSelector:@selector(mutableCopyWithZone:)]) {
+        val = [_value mutableCopyWithZone:zone];
+    } else {
+        val = [_value copyWithZone:zone];
+    }
+    val = [val autorelease];
     id that = [XPObject objectWithClass:self.class value:val];
     return that;
 }
@@ -244,5 +250,12 @@
 - (BOOL)isArrayObject {
     return [self.class isKindOfClass:[XPArrayClass class]];
 }
+
+
+- (BOOL)isFunctionValue; // REMOVE
+{
+    return NO;
+}
+
 
 @end
