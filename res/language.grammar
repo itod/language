@@ -24,7 +24,6 @@
 @m {
 #import <Language/XPException.h>
 #import <Language/XPNode.h>
-#import <Language/XPBooleanValue.h>
 #import <Language/XPNumericValue.h>
 #import <Language/XPStringValue.h>
 #import <Language/XPFunctionValue.h>
@@ -534,13 +533,7 @@ null = 'null'! {
     PUSH([XPValue nullValue]);
 };
 
-bool
-    = true { PUSH([XPBooleanValue booleanValueWithBoolean:YES]); }
-    | false { PUSH([XPBooleanValue booleanValueWithBoolean:NO]); }
-    ;
-
-true = 'true'!;
-false = 'false'!;
+bool = 'true' | 'false' { PUSH([XPNode nodeWithToken:POP()]); };
 
 num = Number {
     PUSH([XPNumericValue nodeWithToken:POP()]);

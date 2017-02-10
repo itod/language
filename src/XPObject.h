@@ -23,6 +23,12 @@
 - (double)doubleValue;
 - (BOOL)boolValue;
 
+- (BOOL)isBooleanObject;
+- (BOOL)isNumericObject;
+- (BOOL)isStringObject;
+- (BOOL)isFunctionObject;
+- (BOOL)isArrayObject;
+
 @property (nonatomic, retain, readonly) XPClass *class;
 @property (nonatomic, retain, readonly) id value;
 @end

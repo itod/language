@@ -3,7 +3,6 @@
     
 #import <Language/XPException.h>
 #import <Language/XPNode.h>
-#import <Language/XPBooleanValue.h>
 #import <Language/XPNumericValue.h>
 #import <Language/XPStringValue.h>
 #import <Language/XPFunctionValue.h>
@@ -1296,34 +1295,17 @@
 - (void)bool_ {
     
     if ([self predicts:XP_TOKEN_KIND_TRUE, 0]) {
-        [self true_]; 
-        [self execute:^{
-         PUSH([XPBooleanValue booleanValueWithBoolean:YES]); 
-        }];
+        [self match:XP_TOKEN_KIND_TRUE discard:NO]; 
     } else if ([self predicts:XP_TOKEN_KIND_FALSE, 0]) {
-        [self false_]; 
+        [self match:XP_TOKEN_KIND_FALSE discard:NO]; 
         [self execute:^{
-         PUSH([XPBooleanValue booleanValueWithBoolean:NO]); 
+         PUSH([XPNode nodeWithToken:POP()]); 
         }];
     } else {
         [self raise:@"No viable alternative found in rule 'bool'."];
     }
 
     [self fireDelegateSelector:@selector(parser:didMatchBool:)];
-}
-
-- (void)true_ {
-    
-    [self match:XP_TOKEN_KIND_TRUE discard:YES]; 
-
-    [self fireDelegateSelector:@selector(parser:didMatchTrue:)];
-}
-
-- (void)false_ {
-    
-    [self match:XP_TOKEN_KIND_FALSE discard:YES]; 
-
-    [self fireDelegateSelector:@selector(parser:didMatchFalse:)];
 }
 
 - (void)num_ {

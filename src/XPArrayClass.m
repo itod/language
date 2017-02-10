@@ -11,17 +11,21 @@
 
 @implementation XPArrayClass
 
++ (instancetype)classInstance {
+    TDAssertMainThread();
+    static XPArrayClass *cls = nil;
+    if (!cls) {
+        cls = [[self alloc] init];
+    }
+    return cls;
+}
+
+
 - (SEL)selectorForMethodNamed:(NSString *)methName {
-    SEL sel = NULL;
+    SEL sel = [super selectorForMethodNamed:methName];
 
     if ([methName isEqualToString:@"length"]) {
         sel = @selector(length:);
-    } if ([methName isEqualToString:@"stringValue"]) {
-        sel = @selector(stringValue:);
-    } if ([methName isEqualToString:@"doubleValue"]) {
-        sel = @selector(doubleValue:);
-    } if ([methName isEqualToString:@"boolValue"]) {
-        sel = @selector(boolValue:);
     } else if ([methName isEqualToString:@"get"]) {
         sel = @selector(get::);
     } else if ([methName isEqualToString:@"set"]) {

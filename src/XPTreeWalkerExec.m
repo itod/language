@@ -24,6 +24,7 @@
 #import "XPParser.h"
 
 #import "XPObject.h"
+#import "XPBooleanClass.h"
 #import "XPArrayClass.h"
 
 #define OFFSET 1
@@ -140,7 +141,7 @@
         return;
     }
     
-    if (![arrObj.class isKindOfClass:[XPArrayClass class]]) {
+    if (![arrObj isArrayObject]) {
         [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", name];
         return;
     }
@@ -179,7 +180,7 @@
         return;
     }
     
-    if (![arrObj.class isKindOfClass:[XPArrayClass class]]) {
+    if (![arrObj isArrayObject]) {
         [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", name];
         return;
     }
@@ -209,7 +210,7 @@
     XPNode *idxNode = [node childAtIndex:1];
     XPObject *obj = [self load:refNode];
     
-    if (![obj.class isKindOfClass:[XPArrayClass class]]) {
+    if (![obj isArrayObject]) {
         [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed access on non-array object `%@`", refNode.token.stringValue];
         return nil;
     }
@@ -452,6 +453,8 @@
 
 
 - (id)math:(XPNode *)node op:(NSInteger)op {
+    // (+ `2` `1`)
+
     double lhs = [[self walk:[node childAtIndex:0]] doubleValue];
     double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
     
@@ -490,11 +493,25 @@
 #pragma mark -
 #pragma mark Literals
 
+- (id)boolean:(XPNode *)node {
+    // false
+    XPBooleanClass *cls = [XPBooleanClass classInstance];
+    XPObject *obj = nil;
+    if ([node.token.stringValue isEqualToString:@"true"]) {
+        obj = [XPObject objectWithClass:cls value:@YES];
+    } else {
+        obj = [XPObject objectWithClass:cls value:@NO];
+    }
+    return obj;
+}
+
+
 - (id)array:(XPNode *)node {
+    // ([ `a` `b`)
     NSMutableArray *val = [NSMutableArray arrayWithCapacity:[node childCount]];
     [val addObjectsFromArray:node.children];
     
-    XPArrayClass *cls = [[[XPArrayClass alloc] init] autorelease];
+    XPArrayClass *cls = [XPArrayClass classInstance];
     XPObject *obj = [XPObject objectWithClass:cls value:val];
     return obj;
 }

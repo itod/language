@@ -8,6 +8,9 @@
 
 #import "XPObject.h"
 #import "XPClass.h"
+#import "XPBooleanClass.h"
+#import "XPArrayClass.h"
+#import "XPParser.h"
 
 @interface XPObject ()
 @property (nonatomic, retain, readwrite) XPClass *class;
@@ -61,12 +64,18 @@
 }
 
 
+#pragma mark -
+#pragma mark NSCopying
+
 - (id)copyWithZone:(NSZone *)zone {
     id val = [[_value mutableCopyWithZone:zone] autorelease];
     id that = [XPObject objectWithClass:self.class value:val];
     return that;
 }
 
+
+#pragma mark -
+#pragma mark Method Invocation
 
 - (id)callInstanceMethodNamed:(NSString *)name args:(NSArray *)args {
     TDAssert(name);
@@ -111,6 +120,18 @@
             // noop
         }
         
+        else if (0 == strcmp(@encode(BOOL), retType)) {
+            BOOL b = NO;
+            [invoc setArgument:&b atIndex:i];
+            retVal = @(b);
+        }
+        
+        else if (0 == strcmp(@encode(double), retType)) {
+            double x = 0.0;
+            [invoc setArgument:&x atIndex:i];
+            retVal = @(x);
+        }
+        
         else if (0 == strcmp(@encode(id), retType)) {
             [invoc getReturnValue:&retVal];
         }
@@ -134,6 +155,9 @@
 }
 
 
+#pragma mark -
+#pragma mark Public
+
 - (NSString *)stringValue {
     NSString *str = [self callInstanceMethodNamed:@"stringValue"];
     return str;
@@ -150,4 +174,75 @@
     BOOL b = [[self callInstanceMethodNamed:@"doubleValue"] boolValue];
     return b;
 }
+
+
+- (BOOL)isEqualToObject:(XPObject *)other {
+    
+    if ([self isBooleanObject] || [other isBooleanObject]) {
+        return [self boolValue] == [other boolValue];
+    }
+    
+    if ([self isNumericObject] || [other isNumericObject]) {
+        return [self doubleValue] == [other doubleValue];
+    }
+    
+    return [[self stringValue] isEqualToString:[other stringValue]];
+}
+
+
+- (BOOL)isNotEqualToObject:(XPObject *)other {
+    
+    return ![self isEqualToObject:other];
+}
+
+
+- (BOOL)compareToObject:(XPObject *)other usingOperator:(NSInteger)op {
+    
+    if (op == XP_TOKEN_KIND_EQ) return [self isEqualToObject:other];
+    if (op == XP_TOKEN_KIND_NE) return [self isNotEqualToObject:other];
+    
+    return [self compareNumber:[self doubleValue] toNumber:[other doubleValue] usingOperator:op];
+}
+
+
+- (BOOL)compareNumber:(double)x toNumber:(double)y usingOperator:(NSInteger)op {
+    switch (op) {
+        case XP_TOKEN_KIND_LT:
+            return x < y;
+        case XP_TOKEN_KIND_LE:
+            return x <= y;
+        case XP_TOKEN_KIND_GT:
+            return x > y;
+        case XP_TOKEN_KIND_GE:
+            return x >= y;
+        default:
+            return NO;
+    }
+}
+
+
+- (BOOL)isBooleanObject {
+    return [self.class isKindOfClass:[XPBooleanClass class]];
+}
+
+
+- (BOOL)isNumericObject {
+    return NO;
+}
+
+
+- (BOOL)isStringObject {
+    return NO;
+}
+
+
+- (BOOL)isFunctionObject {
+    return NO;
+}
+
+
+- (BOOL)isArrayObject {
+    return [self.class isKindOfClass:[XPArrayClass class]];
+}
+
 @end

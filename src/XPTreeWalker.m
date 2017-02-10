@@ -149,6 +149,10 @@
         case XP_TOKEN_KIND_DIV:             res = [self div:node]; break;
         case XP_TOKEN_KIND_MOD:             res = [self mod:node]; break;
 
+// BOOLEAN
+        case XP_TOKEN_KIND_TRUE:
+        case XP_TOKEN_KIND_FALSE:           res = [self boolean:node]; break;
+// ARRAY
         case XP_TOKEN_KIND_OPEN_BRACKET:    res = [self array:node]; break;
 
         default:
@@ -229,4 +233,5 @@
 - (id)loadIndex:(XPNode *)node {return nil;}
 
 - (id)array:(XPNode *)node {return nil;}
+- (id)boolean:(XPNode *)node {return nil;}
 @end

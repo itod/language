@@ -10,6 +10,12 @@
 
 @implementation XPClass
 
++ (instancetype)classInstance {
+    NSAssert2(0, @"%s is an abstract method and must be implemented in %@", __PRETTY_FUNCTION__, [self class]);
+    return nil;
+}
+
+
 - (XPObject *)internedObjectWithValue:(id)val {
     return nil;
 }
@@ -33,8 +39,36 @@
 
 
 - (SEL)selectorForMethodNamed:(NSString *)methName {
+    SEL sel = NULL;
+    
+    if ([methName isEqualToString:@"stringValue"]) {
+        sel = @selector(stringValue:);
+    } if ([methName isEqualToString:@"doubleValue"]) {
+        sel = @selector(doubleValue:);
+    } if ([methName isEqualToString:@"boolValue"]) {
+        sel = @selector(boolValue:);
+    }
+    TDAssert(sel);
+    
+    return sel;
+}
+
+
+- (id)stringValue:(XPObject *)this {
     NSAssert2(0, @"%s is an abstract method and must be implemented in %@", __PRETTY_FUNCTION__, [self class]);
-    return NULL;
+    return nil;
+}
+
+
+- (id)doubleValue:(XPObject *)this {
+    NSAssert2(0, @"%s is an abstract method and must be implemented in %@", __PRETTY_FUNCTION__, [self class]);
+    return nil;
+}
+
+
+- (id)boolValue:(XPObject *)this {
+    NSAssert2(0, @"%s is an abstract method and must be implemented in %@", __PRETTY_FUNCTION__, [self class]);
+    return nil;
 }
 
 @end
