@@ -89,7 +89,7 @@
 #pragma mark DECL
 
 - (void)varDecl:(XPNode *)node {
-    NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
+    //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     NSString *name = [[[node childAtIndex:0] token] stringValue];
     XPNode *expr = [node childAtIndex:1];
     XPObject *valObj = [self walk:expr];
@@ -107,7 +107,7 @@
 #pragma mark ASSIGN
 
 - (void)assign:(XPNode *)node {
-    NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
+    //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     XPNode *idNode = [node childAtIndex:0];
     NSString *name = idNode.token.stringValue;
     
@@ -407,8 +407,8 @@
 
 - (id)neg:(XPNode *)node {
     XPNode *expr = [node childAtIndex:0];
-    XPObject *val = [self walk:expr];
-    double n = [val doubleValue];
+    XPObject *obj = [self walk:expr];
+    double n = [obj doubleValue];
     XPObject *res = [XPObject objectWithClass:[XPNumberClass classInstance] value:@(-n)];
     return res;
 }

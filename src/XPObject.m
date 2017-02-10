@@ -9,7 +9,10 @@
 #import "XPObject.h"
 #import "XPClass.h"
 #import "XPBooleanClass.h"
+#import "XPNumberClass.h"
+#import "XPStringClass.h"
 #import "XPArrayClass.h"
+#import "XPFunctionClass.h"
 #import "XPParser.h"
 
 @interface XPObject ()
@@ -233,17 +236,17 @@
 
 
 - (BOOL)isNumericObject {
-    return NO;
+    return [self.class isKindOfClass:[XPNumberClass class]];
 }
 
 
 - (BOOL)isStringObject {
-    return NO;
+    return [self.class isKindOfClass:[XPStringClass class]];
 }
 
 
 - (BOOL)isFunctionObject {
-    return NO;
+    return [self.class isKindOfClass:[XPFunctionClass class]];
 }
 
 
