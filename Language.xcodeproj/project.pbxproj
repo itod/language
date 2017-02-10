@@ -66,7 +66,6 @@
 		D37CE4B21E4CE6940008945E /* XPArrayClass.h in Headers */ = {isa = PBXBuildFile; fileRef = D37CE4B01E4CE6940008945E /* XPArrayClass.h */; };
 		D37CE4B31E4CE6940008945E /* XPArrayClass.m in Sources */ = {isa = PBXBuildFile; fileRef = D37CE4B11E4CE6940008945E /* XPArrayClass.m */; };
 		D3B5F72D1E47EED300740161 /* XPArrayValue.h in Headers */ = {isa = PBXBuildFile; fileRef = D3B5F72B1E47EED300740161 /* XPArrayValue.h */; };
-		D3B5F72E1E47EED300740161 /* XPArrayValue.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B5F72C1E47EED300740161 /* XPArrayValue.m */; };
 		D3B5F7361E47F50C00740161 /* XPArrayLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B5F7351E47F50C00740161 /* XPArrayLiteralTests.m */; };
 		D3BB83651E454B8F007AC9DD /* XPException.h in Headers */ = {isa = PBXBuildFile; fileRef = D3BB83641E454B8F007AC9DD /* XPException.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3DF58B71E429ACA006CAA07 /* XPFuncDeclTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58B61E429ACA006CAA07 /* XPFuncDeclTests.m */; };
@@ -540,7 +539,6 @@
 				D30C5C631E45094D001A6F5D /* XPFunctionValue.m in Sources */,
 				D37CE4AF1E4CE4500008945E /* XPClass.m in Sources */,
 				D37316CC1E3EC49C0034798E /* XPGlobalScope.m in Sources */,
-				D3B5F72E1E47EED300740161 /* XPArrayValue.m in Sources */,
 				D37316B71E3EBF800034798E /* XPSymbol.m in Sources */,
 				D37CE4B31E4CE6940008945E /* XPArrayClass.m in Sources */,
 				D37316D01E3EC4E50034798E /* XPLocalScope.m in Sources */,

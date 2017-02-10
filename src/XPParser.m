@@ -7,7 +7,6 @@
 #import <Language/XPNumericValue.h>
 #import <Language/XPStringValue.h>
 #import <Language/XPFunctionValue.h>
-#import <Language/XPArrayValue.h>
 
 #import <Language/XPGlobalScope.h>
 #import <Language/XPLocalScope.h>
@@ -1245,9 +1244,9 @@
     [self execute:^{
     
     NSArray *els = REV(ABOVE(_openSquareTok));
-    XPArrayValue *val = [XPArrayValue nodeWithToken:POP()];
-    [val addChildren:els];
-    PUSH(val);
+    XPNode *arrNode = [XPNode nodeWithToken:POP()];
+    [arrNode addChildren:els];
+    PUSH(arrNode);
 
     }];
 
