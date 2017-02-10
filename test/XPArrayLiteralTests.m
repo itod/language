@@ -52,8 +52,8 @@
 
 - (void)testWOW {
     [self eval:@"var foo=make();foo[]=1;var bar=make();bar[]=2;sub make() {return [];}"];
-    TDEqualObjects(@"[1,]", [self stringForName:@"foo"]);
-    TDEqualObjects(@"[2,]", [self stringForName:@"bar"]);
+    TDEqualObjects(@"[1]", [self stringForName:@"foo"]);
+    TDEqualObjects(@"[2]", [self stringForName:@"bar"]);
 }
 
 @end
