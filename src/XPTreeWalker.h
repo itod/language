@@ -10,7 +10,6 @@
 
 @class XPNode;
 @class XPObject;
-@class XPValue;
 @class XPGlobalScope;
 @class XPMemorySpace;
 

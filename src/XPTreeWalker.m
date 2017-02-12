@@ -10,7 +10,6 @@
 #import "XPParser.h"
 #import "XPNode.h"
 #import "XPException.h"
-#import "XPValue.h"
 #import "XPObject.h"
 #import "XPFunctionSpace.h"
 

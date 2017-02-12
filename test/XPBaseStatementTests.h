@@ -8,7 +8,7 @@
 
 #import "XPBaseTests.h"
 #import "XPNode.h"
-#import "XPValue.h"
+#import "XPObject.h"
 #import "XPMemorySpace.h"
 #import "XPInterpreter.h"
 
@@ -22,7 +22,7 @@
 - (BOOL)boolForName:(NSString *)name;
 - (double)doubleForName:(NSString *)name;
 - (NSString *)stringForName:(NSString *)name;
-- (XPValue *)valueForName:(NSString *)name;
+- (XPObject *)valueForName:(NSString *)name;
 
 @property (nonatomic, retain) XPNode *stat;
 @property (nonatomic, retain) XPInterpreter *interp;

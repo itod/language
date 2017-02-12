@@ -12,8 +12,6 @@
 #import "XPMemorySpace.h"
 #import "XPFunctionSpace.h"
 
-#import "XPValue.h"
-#import "XPFunctionValue.h"
 #import "XPNode.h"
 
 #import "XPVariableSymbol.h"
@@ -31,7 +29,7 @@
 #define OFFSET 1
 
 @interface XPReturnExpception : NSException
-@property (nonatomic, retain) XPValue *value;
+@property (nonatomic, retain) XPObject *value;
 @end
 
 @implementation XPReturnExpception
@@ -392,9 +390,9 @@
 
 - (void)returnStat:(XPNode *)node {
     XPNode *expr = [node childAtIndex:0];
-    XPValue *val = [[[self walk:expr] copy] autorelease];
+    XPObject *valObj = [[[self walk:expr] copy] autorelease];
     TDAssert(_returnException);
-    _returnException.value = val;
+    _returnException.value = valObj;
     @throw _returnException;
 }
 
@@ -404,8 +402,8 @@
 
 - (id)not:(XPNode *)node {
     XPNode *expr = [node childAtIndex:0];
-    XPValue *val = [self walk:expr];
-    BOOL b = [val boolValue];
+    XPObject *obj = [self walk:expr];
+    BOOL b = [obj boolValue];
     XPObject *res = [XPBooleanClass instanceWithValue:@(!b)];
     return res;
 }

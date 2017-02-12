@@ -9,7 +9,6 @@
 #import "XPScopedSymbol.h"
 
 @class XPNode;
-@class XPValue;
 
 @interface XPFunctionSymbol : XPScopedSymbol
 
