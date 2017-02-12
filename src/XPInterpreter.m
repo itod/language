@@ -43,8 +43,10 @@ NSString * const XPErrorLineNumberKey = @"line number";
 
 - (void)interpretString:(NSString *)input error:(NSError **)outErr {
     self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
+    self.globals = [[[XPMemorySpace alloc] initWithName:@"globals"] autorelease];       // global memory;
     self.parser = [[[XPParser alloc] initWithDelegate:nil] autorelease];
     _parser.globalScope = _globalScope;
+    _parser.globals = _globals;
     
     NSError *err = nil;
     PKAssembly *a = [_parser parseString:input error:&err];
@@ -66,8 +68,8 @@ NSString * const XPErrorLineNumberKey = @"line number";
     // EVAL WALK
     @try {
         XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] init] autorelease];
+        walker.globals = _globals;
         [walker walk:_root];
-        self.globals = walker.globals;
     } @catch (XPException *ex) {
         if (outErr) {
             NSString *domain = XPErrorDomain;

@@ -19,7 +19,6 @@
     self = [super init];
     if (self) {
         self.stack = [NSMutableArray array];
-        self.globals = [[[XPMemorySpace alloc] initWithName:@"globals"] autorelease];       // global memory
     }
     return self;
 }
@@ -70,6 +69,7 @@
         space = [_stack lastObject];
     }
     
+    // if not currently in global space, check globals
     if (!space && _globals != _currentSpace && [_globals objectForName:name]) {
         space = _globals;
     }

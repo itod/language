@@ -67,6 +67,11 @@
 }
 
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@ %@>", [_objectClass class], _value];
+}
+
+
 #pragma mark -
 #pragma mark NSCopying
 

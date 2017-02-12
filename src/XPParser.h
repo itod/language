@@ -12,6 +12,7 @@
 
 @class PKTokenizer;
 @class XPGlobalScope;
+@class XPMemorySpace;
 @protocol XPScope;
 
 enum {
@@ -58,6 +59,7 @@ enum {
 
 @property (nonatomic, retain) id <XPScope>currentScope;
 @property (nonatomic, retain) XPGlobalScope *globalScope;
+@property (nonatomic, retain) XPMemorySpace *globals;
 @property (nonatomic, assign) BOOL foundDefaultParam;
 
 @end

@@ -100,8 +100,19 @@
 
 
 - (void)funcDecl:(XPNode *)node {
+    // (sub make (BLOCK (return [)))
     NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     
+//    NSString *name = [[[node childAtIndex:0] token] stringValue];
+//    TDAssert(node.scope);
+//        
+//    XPSymbol *funcSym = [node.scope resolveSymbolNamed:name];
+//    TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
+//    
+//    XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
+//    
+//    TDAssert(self.currentSpace);
+//    [self.currentSpace setObject:obj forName:name];
 }
 
 

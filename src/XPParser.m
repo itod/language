@@ -8,6 +8,10 @@
 #import <Language/XPVariableSymbol.h>
 #import <Language/XPFunctionSymbol.h>
 
+#import <Language/XPMemorySpace.h>
+#import <Language/XPObject.h>
+#import <Language/XPFunctionClass.h>
+
 @interface PKParser ()
 - (void)raiseInRange:(NSRange)r lineNumber:(NSUInteger)lineNum name:(NSString *)name format:(NSString *)fmt, ...;
 @end
@@ -168,6 +172,7 @@
         
     self.currentScope = nil;
     self.globalScope = nil;
+    self.globals = nil;
     self.blockTok = nil;
     self.loadTok = nil;
     self.callTok = nil;
@@ -604,6 +609,7 @@
     [_currentScope defineSymbol:funcSym];
     id subTok = POP();
     XPNode *funcNode = [XPNode nodeWithToken:subTok];
+    funcNode.scope = _currentScope;
     [funcNode addChild:[XPNode nodeWithToken:nameTok]]; // qid / func name
     PUSH(funcNode);
     PUSH(subTok); // barrier for later
@@ -615,7 +621,18 @@
     [self funcBody_]; 
     [self execute:^{
     
-    POP(); // pop func node for non literals
+
+    XPNode *funcNode = POP();
+    NSString *name = [[[funcNode childAtIndex:0] token] stringValue];
+    TDAssert(funcNode.scope);
+        
+    XPSymbol *funcSym = [funcNode.scope resolveSymbolNamed:name];
+    TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
+    
+    XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
+    
+    TDAssert(self.globals);
+    [self.globals setObject:obj forName:name];
 
     }];
 
@@ -639,9 +656,9 @@
     
     XPNode *block = POP();
     POP(); // 'sub'
-    XPNode *func = POP();
-    [func addChild:block];
-    PUSH(func); // for literals
+    XPNode *funcNode = POP();
+    [funcNode addChild:block];
+    PUSH(funcNode);
 
     XPFunctionSymbol *funcSym = (id)_currentScope;
     funcSym.blockNode = block;
@@ -745,6 +762,7 @@
     // don't define fyncSym here
     id subTok = POP();
     XPNode *funcNode = [XPNode nodeWithToken:_anonTok];
+    funcNode.scope = _currentScope;
     [funcNode addChild:(id)funcSym];
     PUSH(funcNode);
     PUSH(subTok); // barrier for later
