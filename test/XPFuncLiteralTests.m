@@ -40,4 +40,9 @@
     TDEqualObjects(XPExceptionTypeMismatch, self.error.localizedDescription);
 }
 
+- (void)testFwdValueRef {
+    [self fail:@"var bar=foo;var baz=bar();sub foo(){return 33;}"];
+    TDEquals(33.0, [self doubleForName:@"baz"]);
+}
+
 @end
