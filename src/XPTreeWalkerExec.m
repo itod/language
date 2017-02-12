@@ -138,24 +138,19 @@
 
 
 - (void)assignIndex:(XPNode *)node {
+    //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     // (SET_IDX foo `0` `c`)
     XPNode *idNode = [node childAtIndex:0];
-    NSString *name = idNode.token.stringValue;
     
-
-    
-    
-    
-    // TODO: WHY NOT USING _loadVarRef:
-    XPObject *arrObj = [self.currentSpace objectForName:name];
+    XPObject *arrObj = [self loadVariableReference:idNode];
     
     if (!arrObj) {
-        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", name];
+        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.token.stringValue];
         return;
     }
     
     if (![arrObj isArrayObject]) {
-        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", name];
+        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", idNode.token.stringValue];
         return;
     }
 
@@ -177,24 +172,19 @@
 
 
 - (void)assignAppend:(XPNode *)node {
+    //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     // (APPEND foo `c`)
     XPNode *idNode = [node childAtIndex:0];
-    NSString *name = idNode.token.stringValue;
     
-    
-    
-    
-    
-    // TODO: WHY NOT USING _loadVarRef:
-    XPObject *arrObj = [self.currentSpace objectForName:name];
+    XPObject *arrObj = [self loadVariableReference:idNode];
     
     if (!arrObj) {
-        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", name];
+        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.token.stringValue];
         return;
     }
     
     if (![arrObj isArrayObject]) {
-        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", name];
+        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", idNode.token.stringValue];
         return;
     }
     
