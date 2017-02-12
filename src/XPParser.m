@@ -1322,7 +1322,8 @@
     [self execute:^{
     
     NSArray *els = REV(ABOVE(_openSquareTok));
-    XPNode *arrNode = [XPNode nodeWithToken:POP()];
+    POP(); // square
+    XPNode *arrNode = [XPNode nodeWithToken:_arrayTok];
     [arrNode addChildren:els];
     PUSH(arrNode);
 
