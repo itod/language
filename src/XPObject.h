@@ -34,6 +34,6 @@
 - (BOOL)isFunctionObject;
 - (BOOL)isArrayObject;
 
-@property (nonatomic, retain, readonly) XPClass *class;
+@property (nonatomic, retain, readonly) XPClass *objectClass;
 @property (nonatomic, retain, readonly) id value;
 @end

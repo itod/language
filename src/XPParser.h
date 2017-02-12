@@ -8,6 +8,7 @@
 #define XP_TOKEN_KIND_NEG -6
 #define XP_TOKEN_KIND_LOAD -7
 #define XP_TOKEN_KIND_LOAD_INDEX -8
+#define XP_TOKEN_KIND_FUNC_LITERAL -9
 
 @class PKTokenizer;
 @class XPGlobalScope;

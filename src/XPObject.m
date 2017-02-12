@@ -16,7 +16,7 @@
 #import "XPParser.h"
 
 @interface XPObject ()
-@property (nonatomic, retain, readwrite) XPClass *class;
+@property (nonatomic, retain, readwrite) XPClass *objectClass;
 @property (nonatomic, retain, readwrite) id value;
 @end
 
@@ -37,7 +37,7 @@
     TDAssert(val);
     XPObject *obj = [cls internedObjectWithValue:val];
     if (!obj) {
-        obj = [[[self alloc] initWithClass:cls value:val] autorelease];
+        obj = [[[XPObject alloc] initWithClass:cls value:val] autorelease];
     }
     return obj;
 }
@@ -53,7 +53,7 @@
 - (instancetype)initWithClass:(XPClass *)cls value:(id)val {
     self = [super init];
     if (self) {
-        self.class = cls;
+        self.objectClass = cls;
         self.value = val;
     }
     return self;
@@ -61,7 +61,7 @@
 
 
 - (void)dealloc {
-    self.class = nil;
+    self.objectClass = nil;
     self.value = nil;
     [super dealloc];
 }
@@ -78,7 +78,7 @@
         val = [_value copyWithZone:zone];
     }
     val = [val autorelease];
-    id that = [XPObject objectWithClass:self.class value:val];
+    id that = [XPObject objectWithClass:self.objectClass value:val];
     return that;
 }
 
@@ -88,7 +88,7 @@
 
 - (id)callInstanceMethodNamed:(NSString *)name args:(NSArray *)args {
     TDAssert(name);
-    XPClass *cls = self.class;
+    XPClass *cls = self.objectClass;
     
     NSInvocation *invoc = nil;
     NSMethodSignature *sig = [cls getInvocation:&invoc forMethodNamed:name];
@@ -231,27 +231,27 @@
 
 
 - (BOOL)isBooleanObject {
-    return [self.class isKindOfClass:[XPBooleanClass class]];
+    return [self.objectClass isKindOfClass:[XPBooleanClass class]];
 }
 
 
 - (BOOL)isNumericObject {
-    return [self.class isKindOfClass:[XPNumberClass class]];
+    return [self.objectClass isKindOfClass:[XPNumberClass class]];
 }
 
 
 - (BOOL)isStringObject {
-    return [self.class isKindOfClass:[XPStringClass class]];
+    return [self.objectClass isKindOfClass:[XPStringClass class]];
 }
 
 
 - (BOOL)isFunctionObject {
-    return [self.class isKindOfClass:[XPFunctionClass class]];
+    return [self.objectClass isKindOfClass:[XPFunctionClass class]];
 }
 
 
 - (BOOL)isArrayObject {
-    return [self.class isKindOfClass:[XPArrayClass class]];
+    return [self.objectClass isKindOfClass:[XPArrayClass class]];
 }
 
 @end

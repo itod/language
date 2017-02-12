@@ -158,6 +158,8 @@
         case TOKEN_KIND_BUILTIN_WORD:       res = [self string:node]; break;
 // ARRAY
         case XP_TOKEN_KIND_OPEN_BRACKET:    res = [self array:node]; break;
+// FUNCTION
+        case XP_TOKEN_KIND_FUNC_LITERAL:    res = [self function:node]; break;
 
         default:
             res = node;
@@ -239,4 +241,5 @@
 - (id)number:(XPNode *)node {return nil;}
 - (id)string:(XPNode *)node {return nil;}
 - (id)array:(XPNode *)node {return nil;}
+- (id)function:(XPNode *)node {return nil;}
 @end

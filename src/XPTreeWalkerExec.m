@@ -26,6 +26,7 @@
 #import "XPNumberClass.h"
 #import "XPStringClass.h"
 #import "XPArrayClass.h"
+#import "XPFunctionClass.h"
 
 #define OFFSET 1
 
@@ -93,6 +94,7 @@
     NSString *name = [[[node childAtIndex:0] token] stringValue];
     XPNode *expr = [node childAtIndex:1];
     XPObject *valObj = [self walk:expr];
+    TDAssert([valObj isKindOfClass:[XPObject class]]);
     
     TDAssert(self.currentSpace);
     [self.currentSpace setObject:valObj forName:name];
@@ -303,8 +305,9 @@
         
         if (var) {
             TDAssert([var isKindOfClass:[XPObject class]]);
-            if (1||[var isFunctionObject]) {
+            if ([var isFunctionObject]) {
                 funcSym = var.value;
+                TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
             } else {
                 [self raise:XPExceptionTypeMismatch node:node format:@"illegal call to `%@()`, `%@` is not a function", name, name];
                 return nil;
@@ -527,5 +530,15 @@
     XPObject *obj = [XPArrayClass instanceWithValue:val];
     return obj;
 }
+
+
+- (id)function:(XPNode *)node {
+    // (<ANON> <XPFunctionSymbol 0x100322580 <ANON>> (BLOCK (return 1)))
+    XPFunctionSymbol *funcSym = [node childAtIndex:0];
+    XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
+    return obj;
+}
+
+
 
 @end
