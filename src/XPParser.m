@@ -36,6 +36,8 @@
 @property (nonatomic, retain) PKToken *notTok;
 @property (nonatomic, retain) PKToken *negTok;
 @property (nonatomic, retain) PKToken *commaTok;
+@property (nonatomic, retain) PKToken *arrayTok;
+@property (nonatomic, retain) PKToken *dictTok;
 @property (nonatomic, assign) BOOL negation;
 @property (nonatomic, assign) BOOL negative;
 @property (nonatomic, assign) BOOL canBreak;
@@ -92,6 +94,10 @@
     self.negTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"NEG" doubleValue:0.0];
     self.negTok.tokenKind = XP_TOKEN_KIND_NEG;
     self.commaTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"," doubleValue:0.0];
+    self.arrayTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"ARRAY" doubleValue:0.0];
+    self.arrayTok.tokenKind = XP_TOKEN_KIND_ARRAY_LITERAL;
+    self.dictTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"ARRAY" doubleValue:0.0];
+    self.dictTok.tokenKind = XP_TOKEN_KIND_ARRAY_LITERAL;
 
         self.startRuleName = @"program";
         self.tokenKindTab[@"{"] = @(XP_TOKEN_KIND_OPEN_CURLY);
@@ -106,6 +112,7 @@
         self.tokenKindTab[@"else"] = @(XP_TOKEN_KIND_ELSE);
         self.tokenKindTab[@"!"] = @(XP_TOKEN_KIND_BANG);
         self.tokenKindTab[@"continue"] = @(XP_TOKEN_KIND_CONTINUE);
+        self.tokenKindTab[@":"] = @(XP_TOKEN_KIND_COLON);
         self.tokenKindTab[@";"] = @(XP_TOKEN_KIND_SEMI_COLON);
         self.tokenKindTab[@"<"] = @(XP_TOKEN_KIND_LT);
         self.tokenKindTab[@"%"] = @(XP_TOKEN_KIND_MOD);
@@ -144,6 +151,7 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_ELSE] = @"else";
         self.tokenKindNameTab[XP_TOKEN_KIND_BANG] = @"!";
         self.tokenKindNameTab[XP_TOKEN_KIND_CONTINUE] = @"continue";
+        self.tokenKindNameTab[XP_TOKEN_KIND_COLON] = @":";
         self.tokenKindNameTab[XP_TOKEN_KIND_SEMI_COLON] = @";";
         self.tokenKindNameTab[XP_TOKEN_KIND_LT] = @"<";
         self.tokenKindNameTab[XP_TOKEN_KIND_MOD] = @"%";
@@ -196,6 +204,8 @@
     self.notTok = nil;
     self.negTok = nil;
     self.commaTok = nil;
+    self.arrayTok = nil;
+    self.dictTok = nil;
 
 
     [super dealloc];
@@ -1330,6 +1340,54 @@
     }
 
     [self fireDelegateSelector:@selector(parser:didMatchElemList:)];
+}
+
+- (void)dictLiteral_ {
+    
+    [self match:XP_TOKEN_KIND_OPEN_CURLY discard:NO]; 
+    if ([self speculate:^{ [self pairList_]; }]) {
+        [self pairList_]; 
+    }
+    [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
+    [self execute:^{
+    
+    NSArray *pairs = ABOVE(_openCurlyTok);
+    POP(); // culry
+    XPNode *dictNode = [XPNode nodeWithToken:_dictTok];
+    [dictNode addChildren:pairs];
+    PUSH(dictNode);
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchDictLiteral:)];
+}
+
+- (void)pairList_ {
+    
+    [self pair_]; 
+    while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self pair_]; }]) {
+        [self match:XP_TOKEN_KIND_COMMA discard:YES]; 
+        [self pair_]; 
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchPairList:)];
+}
+
+- (void)pair_ {
+    
+    [self expr_]; 
+    [self match:XP_TOKEN_KIND_COLON discard:YES]; 
+    [self expr_]; 
+    [self execute:^{
+    
+    id valExpr = POP();
+    id keyExpr = POP();
+    id pair = @[keyExpr, valExpr];
+    PUSH(pair);
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchPair:)];
 }
 
 - (void)scalar_ {

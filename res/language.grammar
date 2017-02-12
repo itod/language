@@ -8,6 +8,8 @@
 #define XP_TOKEN_KIND_LOAD -7
 #define XP_TOKEN_KIND_LOAD_INDEX -8
 #define XP_TOKEN_KIND_FUNC_LITERAL -9
+#define XP_TOKEN_KIND_ARRAY_LITERAL -10
+#define XP_TOKEN_KIND_DICT_LITERAL -11
 
 @class PKTokenizer;
 @class XPGlobalScope;
@@ -59,6 +61,8 @@
 @property (nonatomic, retain) PKToken *notTok;
 @property (nonatomic, retain) PKToken *negTok;
 @property (nonatomic, retain) PKToken *commaTok;
+@property (nonatomic, retain) PKToken *arrayTok;
+@property (nonatomic, retain) PKToken *dictTok;
 @property (nonatomic, assign) BOOL negation;
 @property (nonatomic, assign) BOOL negative;
 @property (nonatomic, assign) BOOL canBreak;
@@ -111,6 +115,10 @@
     self.negTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"NEG" doubleValue:0.0];
     self.negTok.tokenKind = XP_TOKEN_KIND_NEG;
     self.commaTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"," doubleValue:0.0];
+    self.arrayTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"ARRAY" doubleValue:0.0];
+    self.arrayTok.tokenKind = XP_TOKEN_KIND_ARRAY_LITERAL;
+    self.dictTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"ARRAY" doubleValue:0.0];
+    self.dictTok.tokenKind = XP_TOKEN_KIND_ARRAY_LITERAL;
 }
 
 @dealloc {
@@ -134,6 +142,8 @@
     self.notTok = nil;
     self.negTok = nil;
     self.commaTok = nil;
+    self.arrayTok = nil;
+    self.dictTok = nil;
 }
 
 // GLOBAL
@@ -570,6 +580,21 @@ arrayLiteral = '[' elemList? ']'! {
     PUSH(arrNode);
 };
 elemList = expr (','! expr)*;
+
+dictLiteral = '{' pairList? '}'! {
+    NSArray *pairs = ABOVE(_openCurlyTok);
+    POP(); // culry
+    XPNode *dictNode = [XPNode nodeWithToken:_dictTok];
+    [dictNode addChildren:pairs];
+    PUSH(dictNode);
+};
+pairList = pair (','! pair)*;
+pair = expr ':'! expr {
+    id valExpr = POP();
+    id keyExpr = POP();
+    id pair = @[keyExpr, valExpr];
+    PUSH(pair);
+};
 
 scalar = null | str | num | bool;
 
