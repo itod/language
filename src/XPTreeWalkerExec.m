@@ -100,8 +100,8 @@
 
 
 - (void)funcDecl:(XPNode *)node {
+    //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     // (sub make (BLOCK (return [)))
-    NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     
 //    NSString *name = [[[node childAtIndex:0] token] stringValue];
 //    TDAssert(node.scope);
