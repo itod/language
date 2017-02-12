@@ -323,10 +323,11 @@
             }
         }
         
-        // or a statically-declared func
-        if (!funcSym) {
-            funcSym = (id)[node.scope resolveSymbolNamed:name];
-        }
+        // NOT NEEDED CUZ ALL FUNCS ARE DATA VALUES (for fwd indirect reference)
+//        // or a statically-declared func
+//        if (!funcSym) {
+//            funcSym = (id)[node.scope resolveSymbolNamed:name];
+//        }
         
         if (!funcSym) {
             [self raise:XPExceptionUndeclaredSymbol node:node format:@"call to known function named: `%@`", name];
