@@ -890,9 +890,9 @@
         [self relationalExpr_]; 
         [self execute:^{
         
-    XPValue *rhs = POP();
+    XPNode *rhs = POP();
     XPNode *eqNode = [XPNode nodeWithToken:POP()];
-    XPValue *lhs = POP();
+    XPNode *lhs = POP();
     [eqNode addChild:lhs];
     [eqNode addChild:rhs];
     PUSH(eqNode);
@@ -949,9 +949,9 @@
         [self additiveExpr_]; 
         [self execute:^{
         
-    XPValue *rhs = POP();
+    XPNode *rhs = POP();
     XPNode *relNode = [XPNode nodeWithToken:POP()];
-    XPValue *lhs = POP();
+    XPNode *lhs = POP();
     [relNode addChild:lhs];
     [relNode addChild:rhs];
     PUSH(relNode);
@@ -990,9 +990,9 @@
         [self multiplicativeExpr_]; 
         [self execute:^{
         
-    XPValue *rhs = POP();
+    XPNode *rhs = POP();
     XPNode *addNode = [XPNode nodeWithToken:POP()];
-    XPValue *lhs = POP();
+    XPNode *lhs = POP();
     [addNode addChild:lhs];
     [addNode addChild:rhs];
     PUSH(addNode);
@@ -1040,9 +1040,9 @@
         [self unaryExpr_]; 
         [self execute:^{
         
-    XPValue *rhs = POP();
+    XPNode *rhs = POP();
     XPNode *multNode = [XPNode nodeWithToken:POP()];
-    XPValue *lhs = POP();
+    XPNode *lhs = POP();
     [multNode addChild:lhs];
     [multNode addChild:rhs];
     PUSH(multNode);
@@ -1282,7 +1282,7 @@
     [self match:XP_TOKEN_KIND_NULL discard:YES]; 
     [self execute:^{
     
-    PUSH([XPValue nullValue]);
+    PUSH([XPNode nodeWithToken:POP()]);
 
     }];
 

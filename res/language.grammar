@@ -411,9 +411,9 @@ andExpr = equalityExpr (and equalityExpr {
 eq      = '==';
 ne      = '!=';
 equalityExpr = relationalExpr ((eq | ne) relationalExpr {
-    XPValue *rhs = POP();
+    XPNode *rhs = POP();
     XPNode *eqNode = [XPNode nodeWithToken:POP()];
-    XPValue *lhs = POP();
+    XPNode *lhs = POP();
     [eqNode addChild:lhs];
     [eqNode addChild:rhs];
     PUSH(eqNode);
@@ -424,9 +424,9 @@ gt    =  '>';
 le    = '<=';
 ge    = '>=';
 relationalExpr = additiveExpr ((lt | gt | le | ge) additiveExpr {
-    XPValue *rhs = POP();
+    XPNode *rhs = POP();
     XPNode *relNode = [XPNode nodeWithToken:POP()];
-    XPValue *lhs = POP();
+    XPNode *lhs = POP();
     [relNode addChild:lhs];
     [relNode addChild:rhs];
     PUSH(relNode);
@@ -435,9 +435,9 @@ relationalExpr = additiveExpr ((lt | gt | le | ge) additiveExpr {
 plus    = '+';
 minus   = '-';
 additiveExpr = multiplicativeExpr ((plus | minus) multiplicativeExpr {
-    XPValue *rhs = POP();
+    XPNode *rhs = POP();
     XPNode *addNode = [XPNode nodeWithToken:POP()];
-    XPValue *lhs = POP();
+    XPNode *lhs = POP();
     [addNode addChild:lhs];
     [addNode addChild:rhs];
     PUSH(addNode);
@@ -447,9 +447,9 @@ times   = '*';
 div     = '/';
 mod     = '%';
 multiplicativeExpr = unaryExpr ((times | div | mod) unaryExpr {
-    XPValue *rhs = POP();
+    XPNode *rhs = POP();
     XPNode *multNode = [XPNode nodeWithToken:POP()];
-    XPValue *lhs = POP();
+    XPNode *lhs = POP();
     [multNode addChild:lhs];
     [multNode addChild:rhs];
     PUSH(multNode);
@@ -528,7 +528,7 @@ elemList = expr (','! expr)*;
 scalar = null | str | num | bool;
 
 null = 'null'! {
-    PUSH([XPValue nullValue]);
+    PUSH([XPNode nodeWithToken:POP()]);
 };
 
 bool
