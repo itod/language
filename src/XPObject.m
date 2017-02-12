@@ -236,6 +236,11 @@
 }
 
 
+- (XPEnumeration *)enumeration {
+    return [_objectClass enumeration:self];
+}
+
+
 - (BOOL)isBooleanObject {
     return [self.objectClass isKindOfClass:[XPBooleanClass class]];
 }

@@ -21,6 +21,7 @@
 - (void)raise:(NSString *)name node:(XPNode *)node format:(NSString *)fmt, ...;
 
 - (void)block:(XPNode *)node;
+- (void)block:(XPNode *)node withVars:(NSDictionary<NSString *, XPObject *> *)vars;
 - (void)funcBlock:(XPNode *)node;
 
 @property (nonatomic, retain) XPGlobalScope *globalScope;

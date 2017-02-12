@@ -58,6 +58,7 @@
 @property (nonatomic, retain) PKToken *equalsTok;
 @property (nonatomic, retain) PKToken *notTok;
 @property (nonatomic, retain) PKToken *negTok;
+@property (nonatomic, retain) PKToken *commaTok;
 @property (nonatomic, assign) BOOL negation;
 @property (nonatomic, assign) BOOL negative;
 @property (nonatomic, assign) BOOL canBreak;
@@ -109,6 +110,7 @@
     self.notTok.tokenKind = XP_TOKEN_KIND_NOT;
     self.negTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"NEG" doubleValue:0.0];
     self.negTok.tokenKind = XP_TOKEN_KIND_NEG;
+    self.commaTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"," doubleValue:0.0];
 }
 
 @dealloc {
@@ -131,6 +133,7 @@
     self.equalsTok = nil;
     self.notTok = nil;
     self.negTok = nil;
+    self.commaTok = nil;
 }
 
 // GLOBAL
@@ -146,7 +149,7 @@ globalList  = globalItem+ {
     [block addChildren:items];
     PUSH(block);
 };
-globalItem  = stat | ifBlock | whileBlock | block | funcDecl;
+globalItem  = stat | ifBlock | whileBlock | forBlock | block | funcDecl;
 
 // LOCAL
 localList   = localItem* {
@@ -156,7 +159,7 @@ localList   = localItem* {
     [block addChildren:stats];
     PUSH(block);
 };
-localItem   = stat | ifBlock | whileBlock | block;
+localItem   = stat | ifBlock | whileBlock | forBlock | block;
 
 // FUNC
 funcBlock   = '{' funcList '}'!;
@@ -167,7 +170,7 @@ funcList    = funcItem* {
     [block addChildren:stats];
     PUSH(block);
 };
-funcItem    = stat | ifBlock | whileBlock | block | returnStat;
+funcItem    = stat | ifBlock | whileBlock | forBlock | block | returnStat;
 
 block
 @before { self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope]; }
@@ -247,6 +250,29 @@ break       = 'break' {
 };
 continue    = 'continue' {
     PUSH([XPNode nodeWithToken:POP()]);
+};
+
+// FOR BLOCK
+forBlock
+@before {self.canBreak = YES;}
+@after {self.canBreak = NO;}
+            = 'for' qid (',' qid)? 'in'! expr block {
+    XPNode *block = POP();
+    XPNode *collExpr = POP();
+    XPNode *valNode = [XPNode nodeWithToken:POP()];
+    XPNode *keyNode = nil;
+    
+    if (EQ(PEEK(), _commaTok)) {
+        POP(); // comma
+        keyNode = [XPNode nodeWithToken:POP()];
+    }
+    
+    XPNode *forNode = [XPNode nodeWithToken:POP()];
+    [forNode addChild:valNode];
+    [forNode addChild:collExpr];
+    [forNode addChild:block];
+    if (keyNode) [forNode addChild:keyNode];
+    PUSH(forNode);
 };
 
 // IF BLOCK

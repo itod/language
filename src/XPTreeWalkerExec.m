@@ -26,6 +26,8 @@
 #import "XPArrayClass.h"
 #import "XPFunctionClass.h"
 
+#import "XPEnumeration.h"
+
 #define OFFSET 1
 
 @interface XPReturnExpception : NSException
@@ -226,7 +228,7 @@
 
 
 #pragma mark -
-#pragma mark While
+#pragma mark LOOPS
 
 - (void)whileBlock:(XPNode *)node {
     XPNode *expr = [node childAtIndex:0];
@@ -246,6 +248,50 @@
 }
 
 
+- (void)forBlock:(XPNode *)node {
+    XPNode *valNode = [node childAtIndex:0];
+    XPNode *collExpr = [node childAtIndex:1];
+    XPNode *block = [node childAtIndex:2];
+    XPNode *keyNode = nil;
+    if ([node childCount] > 3) {
+        keyNode = [node childAtIndex:3];
+    }
+    
+    XPObject *collObj = [self walk:collExpr];
+    XPEnumeration *e = [collObj enumeration];
+    if (!e) {
+        [self raise:XPExceptionTypeMismatch node:node format:@"cannot execute `for` loop on non-collection types", collObj];
+        return;
+    }
+    
+    while ([e hasMore]) {
+        
+        // set val
+        NSMutableDictionary *vars = [NSMutableDictionary dictionaryWithCapacity:2];
+        NSString *valName = valNode.token.stringValue;
+        XPObject *valObj = e.values[e.current];
+        vars[valName] = valObj;
+        
+        // set key
+        if (keyNode) {
+            TDAssert(0);
+            NSString *keyName = keyNode.token.stringValue;
+            XPObject *keyObj = e.values[e.current];
+            vars[keyName] = keyObj;
+        }
+            
+        @try {
+            [self block:block withVars:vars];
+        } @catch (XPBreakException *ex) {
+            break;
+        } @catch (XPContinueException *ex) {
+            // continue on
+        }
+        ++e.current;
+    }
+}
+
+
 - (void)breakNode:(XPNode *)node {
     TDAssert(_breakException);
     @throw _breakException;
@@ -256,6 +302,7 @@
     TDAssert(_continueException);
     @throw _continueException;
 }
+
 
 
 #pragma mark -

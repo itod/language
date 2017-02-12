@@ -8,6 +8,7 @@
 
 #import "XPArrayClass.h"
 #import "XPObject.h"
+#import "XPEnumeration.h"
 
 @implementation XPArrayClass
 
@@ -36,6 +37,12 @@
     TDAssert(sel);
 
     return sel;
+}
+
+
+- (XPEnumeration *)enumeration:(XPObject *)this {
+    XPEnumeration *e = [XPEnumeration enumerationWithValues:[[this.value copy] autorelease]];
+    return e;
 }
 
 

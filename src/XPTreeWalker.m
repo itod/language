@@ -119,6 +119,7 @@
             
 // LOOPS
         case XP_TOKEN_KIND_WHILE:           [self whileBlock:node]; break;
+        case XP_TOKEN_KIND_FOR:             [self forBlock:node]; break;
         case XP_TOKEN_KIND_IF:              res = [self ifBlock:node]; break;
         case XP_TOKEN_KIND_ELSE:            [self elseBlock:node]; break;
         case XP_TOKEN_KIND_BREAK:           [self breakNode:node]; break;
@@ -172,6 +173,11 @@
 
 
 - (void)block:(XPNode *)node {
+    [self block:node withVars:nil];
+}
+
+
+- (void)block:(XPNode *)node withVars:(NSDictionary<NSString *, XPObject *> *)vars {
     XPMemorySpace *savedSpace = _currentSpace;
 
     if (_currentSpace) {
@@ -182,6 +188,11 @@
         self.currentSpace = _globals;
     }
     TDAssert(_currentSpace);
+    
+    for (NSString *name in vars) {
+        XPObject *obj = vars[name];
+        [_currentSpace setObject:obj forName:name];
+    }
     
     for (XPNode *stat in node.children) {
         [self walk:stat];
@@ -211,6 +222,7 @@
 - (void)returnStat:(XPNode *)node {}
 
 - (void)whileBlock:(XPNode *)node {}
+- (void)forBlock:(XPNode *)node {}
 - (id)ifBlock:(XPNode *)node {return nil;}
 - (void)elseBlock:(XPNode *)node {}
 - (void)breakNode:(XPNode *)node {}

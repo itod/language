@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class XPClass;
+@class XPEnumeration;
 
 @interface XPObject : NSObject <NSCopying>
 
@@ -33,6 +34,8 @@
 - (BOOL)isStringObject;
 - (BOOL)isFunctionObject;
 - (BOOL)isArrayObject;
+
+- (XPEnumeration *)enumeration;
 
 @property (nonatomic, retain, readonly) XPClass *objectClass;
 @property (nonatomic, retain, readonly) id value;

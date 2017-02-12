@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class XPObject;
+@class XPEnumeration;
 
 @interface XPClass : NSObject
 
@@ -17,6 +18,8 @@
 
 - (XPObject *)internedObjectWithValue:(id)val;
 - (NSMethodSignature *)getInvocation:(NSInvocation **)outInvoc forMethodNamed:(NSString *)methName;
+
+- (XPEnumeration *)enumeration:(XPObject *)this;
 
 // Subclass
 - (SEL)selectorForMethodNamed:(NSString *)methName;
