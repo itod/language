@@ -1297,7 +1297,7 @@
 
 - (void)null_ {
     
-    [self match:XP_TOKEN_KIND_NULL discard:YES]; 
+    [self match:XP_TOKEN_KIND_NULL discard:NO]; 
     [self execute:^{
     
     PUSH([XPNode nodeWithToken:POP()]);

@@ -148,6 +148,8 @@
         case XP_TOKEN_KIND_DIV:             res = [self div:node]; break;
         case XP_TOKEN_KIND_MOD:             res = [self mod:node]; break;
 
+// NULL
+        case XP_TOKEN_KIND_NULL:            res = [self null:node]; break;
 // BOOLEAN
         case XP_TOKEN_KIND_TRUE:
         case XP_TOKEN_KIND_FALSE:           res = [self boolean:node]; break;
@@ -236,6 +238,7 @@
 - (id)load:(XPNode *)node {return nil;}
 - (id)loadIndex:(XPNode *)node {return nil;}
 
+- (id)null:(XPNode *)node {return nil;}
 - (id)boolean:(XPNode *)node {return nil;}
 - (id)number:(XPNode *)node {return nil;}
 - (id)string:(XPNode *)node {return nil;}

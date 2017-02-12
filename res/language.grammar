@@ -547,7 +547,7 @@ elemList = expr (','! expr)*;
 
 scalar = null | str | num | bool;
 
-null = 'null'! {
+null = 'null' {
     PUSH([XPNode nodeWithToken:POP()]);
 };
 

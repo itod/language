@@ -499,6 +499,12 @@
 #pragma mark -
 #pragma mark Literals
 
+- (id)null:(XPNode *)node {
+    XPObject *obj = [XPObject null];
+    return obj;
+}
+
+
 - (id)boolean:(XPNode *)node {
     // false
     XPObject *obj = [XPBooleanClass instanceWithValue:([node.token.stringValue isEqualToString:@"true"]) ? @YES : @NO];

@@ -62,4 +62,9 @@
     TDEquals(2.0, [self doubleForName:@"x"]);
 }
 
+- (void)testAssignNull {
+    [self eval:@"var x=1;x=null;"];
+    TDEqualObjects([XPObject null], [self valueForName:@"x"]);
+}
+
 @end

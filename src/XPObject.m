@@ -8,6 +8,7 @@
 
 #import "XPObject.h"
 #import "XPClass.h"
+#import "XPNullClass.h"
 #import "XPBooleanClass.h"
 #import "XPNumberClass.h"
 #import "XPStringClass.h"
@@ -26,7 +27,7 @@
     TDAssertMainThread();
     static XPObject *null = nil;
     if (!null) {
-        null = [[XPObject alloc] initWithClass:nil value:nil];
+        null = [[XPObject alloc] initWithClass:[XPNullClass classInstance] value:nil];
     }
     return null;
 }
