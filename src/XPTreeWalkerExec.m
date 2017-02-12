@@ -100,6 +100,8 @@
 
 
 - (void)funcDecl:(XPNode *)node {
+    NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
+    
 }
 
 
@@ -297,11 +299,12 @@
         name = nameNode.token.stringValue;
         
         // maybe this was a call on a func literal
-        XPValue *var = [self _loadVariableReference:nameNode];
+        XPObject *var = [self _loadVariableReference:nameNode];
         
         if (var) {
-            if ([var isFunctionValue]) {
-                funcSym = (id)[var childAtIndex:0];
+            TDAssert([var isKindOfClass:[XPObject class]]);
+            if (1||[var isFunctionObject]) {
+                funcSym = var.value;
             } else {
                 [self raise:XPExceptionTypeMismatch node:node format:@"illegal call to `%@()`, `%@` is not a function", name, name];
                 return nil;

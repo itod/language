@@ -160,7 +160,6 @@
         case XP_TOKEN_KIND_OPEN_BRACKET:    res = [self array:node]; break;
 
         default:
-            TDAssert([node isKindOfClass:[XPValue class]]);
             res = node;
             break;
     }

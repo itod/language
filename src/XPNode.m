@@ -70,11 +70,6 @@
 
 
 - (NSString *)description {
-    return [self treeDescription];
-}
-
-
-- (NSString *)treeDescription {
     if (![_kids count]) {
         return self.name;
     }
@@ -88,7 +83,7 @@
     NSInteger i = 0;
     for (XPNode *kid in _kids) {
         NSString *fmt = 0 == i++ ? @"%@" : @" %@";
-        [ms appendFormat:fmt, [kid treeDescription]];
+        [ms appendFormat:fmt, [kid description]];
     }
     
     if (![self isNil]) {

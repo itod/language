@@ -67,11 +67,6 @@ double XPNumberFromString(NSString *s) {
 
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@ %p `%@`>", [self class], self, [self stringValue]];
-}
-
-
-- (NSString *)treeDescription {
     return [NSString stringWithFormat:@"`%@`", [self stringValue]];
 }
 

@@ -3,8 +3,6 @@
     
 #import <Language/XPException.h>
 #import <Language/XPNode.h>
-#import <Language/XPFunctionValue.h>
-
 #import <Language/XPGlobalScope.h>
 #import <Language/XPLocalScope.h>
 #import <Language/XPVariableSymbol.h>
@@ -604,9 +602,9 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:nameTok.stringValue enclosingScope:_currentScope];
     [_currentScope defineSymbol:funcSym];
     id subTok = POP();
-    XPNode *func = [XPNode nodeWithToken:subTok];
-    [func addChild:[XPNode nodeWithToken:nameTok]]; // qid / func name
-    PUSH(func);
+    XPNode *funcNode = [XPNode nodeWithToken:subTok];
+    [funcNode addChild:[XPNode nodeWithToken:nameTok]]; // qid / func name
+    PUSH(funcNode);
     PUSH(subTok); // barrier for later
 
     // push func scope
@@ -745,9 +743,9 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:_anonTok.stringValue enclosingScope:_currentScope];
     // don't define fyncSym here
     id subTok = POP();
-    XPNode *func = [XPFunctionValue nodeWithToken:_anonTok];
-    [func addChild:(id)funcSym];
-    PUSH(func);
+    XPNode *funcNode = [XPNode nodeWithToken:_anonTok];
+    [funcNode addChild:(id)funcSym];
+    PUSH(funcNode);
     PUSH(subTok); // barrier for later
 
     // push func scope

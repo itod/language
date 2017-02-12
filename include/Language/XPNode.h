@@ -24,8 +24,6 @@
 
 - (BOOL)isNil;
 
-- (NSString *)treeDescription;
-
 @property (nonatomic, assign, readonly) NSUInteger type;
 @property (nonatomic, retain, readonly) NSString *name;
 

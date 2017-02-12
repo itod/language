@@ -254,11 +254,4 @@
     return [self.class isKindOfClass:[XPArrayClass class]];
 }
 
-
-- (BOOL)isFunctionValue; // REMOVE
-{
-    return NO;
-}
-
-
 @end
