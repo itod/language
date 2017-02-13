@@ -50,14 +50,14 @@
     TDEqualObjects(@"{a:2}", [self stringForName:@"bar"]);
 }
 
-//- (void)testSetIndexNested {
-//    [self eval:@"var a=['x'];{a[0]='y';}var b=a[0];"];
-//    TDEqualObjects(@"y", [self stringForName:@"b"]);
-//}
-//
-//- (void)testAppendNested {
-//    [self eval:@"var a=[];{a[]='c';}var b=a[0];"];
-//    TDEqualObjects(@"c", [self stringForName:@"b"]);
-//}
+- (void)testSetIndexNested {
+    [self eval:@"var a={'a':1};{a['a']=2;}var b=a['a'];"];
+    TDEquals(2.0, [self doubleForName:@"b"]);
+}
+
+- (void)testAppendNested {
+    [self eval:@"var a={};{a['1']='c';}var b=a['1'];"];
+    TDEqualObjects(@"c", [self stringForName:@"b"]);
+}
 
 @end
