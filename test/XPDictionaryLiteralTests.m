@@ -44,12 +44,12 @@
     TDEqualObjects(@"d", [self stringForName:@"baz"]);
 }
 
-//- (void)testCopyFuncRetVal {
-//    [self eval:@"var foo=make();foo[]=1;var bar=make();bar[]=2;sub make() {return [];}"];
-//    TDEqualObjects(@"[1]", [self stringForName:@"foo"]);
-//    TDEqualObjects(@"[2]", [self stringForName:@"bar"]);
-//}
-//
+- (void)testCopyFuncRetVal {
+    [self eval:@"var foo=make();foo['a']='1';var bar=make();bar['a']='2';sub make() {return {};}"];
+    TDEqualObjects(@"{a:1}", [self stringForName:@"foo"]);
+    TDEqualObjects(@"{a:2}", [self stringForName:@"bar"]);
+}
+
 //- (void)testSetIndexNested {
 //    [self eval:@"var a=['x'];{a[0]='y';}var b=a[0];"];
 //    TDEqualObjects(@"y", [self stringForName:@"b"]);
