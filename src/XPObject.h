@@ -36,6 +36,7 @@
 - (BOOL)isArrayObject;
 - (BOOL)isDictionaryObject;
 
+- (NSUInteger)hash;
 - (XPEnumeration *)enumeration;
 
 @property (nonatomic, retain, readonly) XPClass *objectClass;

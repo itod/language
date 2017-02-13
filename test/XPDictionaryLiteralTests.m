@@ -45,9 +45,9 @@
 }
 
 - (void)testCopyFuncRetVal {
-    [self eval:@"var foo=make();foo['a']='1';var bar=make();bar['a']='2';sub make() {return {};}"];
-    TDEqualObjects(@"{a:1}", [self stringForName:@"foo"]);
-    TDEqualObjects(@"{a:2}", [self stringForName:@"bar"]);
+    [self eval:@"var foo=make();foo['a']='1';var bar=make();bar['a']='2';var baz=foo['a'];var bat=bar['a'];sub make() {return {};}"];
+    TDEqualObjects(@"1", [self stringForName:@"baz"]);
+    TDEqualObjects(@"2", [self stringForName:@"bat"]);
 }
 
 - (void)testSetIndexNested {

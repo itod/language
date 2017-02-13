@@ -39,7 +39,14 @@
 
 
 - (XPEnumeration *)enumeration:(XPObject *)this {
-    XPEnumeration *e = [XPEnumeration enumerationWithValues:[[this.value copy] autorelease]];
+    NSMutableArray *pairs = [NSMutableArray arrayWithCapacity:[this.value count]];
+    
+    for (id key in this.value) {
+        id val = this.value[key];
+        [pairs addObject:@[key, val]];
+    }
+    
+    XPEnumeration *e = [XPEnumeration enumerationWithValues:pairs];
     return e;
 }
 
@@ -53,14 +60,14 @@
 
 - (id)get:(XPObject *)this :(XPObject *)key {
     NSMutableDictionary *tab = this.value;
-    id res = [tab objectForKey:[key stringValue]]; // ??
+    id res = [tab objectForKey:key];
     return res;
 }
 
 
 - (void)set:(XPObject *)this :(XPObject *)key :(XPObject *)obj {
     NSMutableDictionary *v = this.value;
-    [v setObject:obj forKey:[key stringValue]]; // ??
+    [v setObject:obj forKey:key];
 }
 
 

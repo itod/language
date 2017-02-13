@@ -47,7 +47,7 @@
 
 - (instancetype)init {
     TDAssert(0);
-    self = [super init];
+    self = [self initWithClass:nil value:nil];
     return self;
 }
 
@@ -84,8 +84,9 @@
     } else {
         val = [_value copyWithZone:zone];
     }
-    val = [val autorelease];
-    id that = [XPObject objectWithClass:self.objectClass value:val];
+    XPObject *that = [XPObject objectWithClass:self.objectClass value:val];
+    [val release];
+    
     return that;
 }
 
@@ -194,15 +195,17 @@
 
 - (BOOL)isEqualToObject:(XPObject *)other {
     
-    if ([self isBooleanObject] || [other isBooleanObject]) {
-        return [self boolValue] == [other boolValue];
-    }
+    return _objectClass == other->_objectClass && [_value isEqual:other->_value];
     
-    if ([self isNumericObject] || [other isNumericObject]) {
-        return [self doubleValue] == [other doubleValue];
-    }
-    
-    return [[self stringValue] isEqualToString:[other stringValue]];
+//    if ([self isBooleanObject] || [other isBooleanObject]) {
+//        return [self boolValue] == [other boolValue];
+//    }
+//    
+//    if ([self isNumericObject] || [other isNumericObject]) {
+//        return [self doubleValue] == [other doubleValue];
+//    }
+//    
+//    return [[self stringValue] isEqualToString:[other stringValue]];
 }
 
 
@@ -234,6 +237,20 @@
         default:
             return NO;
     }
+}
+
+
+- (BOOL)isEqual:(id)obj {
+    if (![obj isMemberOfClass:[self class]]) {
+        return NO;
+    }
+    
+    return [self isEqualToObject:obj];
+}
+
+
+- (NSUInteger)hash {
+    return [_value hash];
 }
 
 

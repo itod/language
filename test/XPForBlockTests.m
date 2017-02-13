@@ -26,11 +26,18 @@
     [super tearDown];
 }
 
-- (void)testWhileTrueParse {
+- (void)testLoopArray {
     [self eval:@"var x=[3,2,1];var y=[];for el in x {y[]=el;}var a=y[0];var b=y[1];var c=y[2];"];
     TDEquals(3.0, [self doubleForName:@"a"]);
     TDEquals(2.0, [self doubleForName:@"b"]);
     TDEquals(1.0, [self doubleForName:@"c"]);
+}
+
+- (void)testLoopDict {
+    [self eval:@"var x={'a':'1','b':'2','c':'3'};var y={};for key,val in x {y[key]=val;}var a=y['a'];var b=y['b'];var c=y['c'];"];
+    TDEquals(1.0, [self doubleForName:@"a"]);
+    TDEquals(2.0, [self doubleForName:@"b"]);
+    TDEquals(3.0, [self doubleForName:@"c"]);
 }
 
 @end

@@ -293,17 +293,21 @@
         // set val
         NSMutableDictionary *vars = [NSMutableDictionary dictionaryWithCapacity:2];
         NSString *valName = valNode.token.stringValue;
-        XPObject *valObj = e.values[e.current];
-        vars[valName] = valObj;
         
-        // set key
         if (keyNode) {
-            TDAssert(0);
             NSString *keyName = keyNode.token.stringValue;
-            XPObject *keyObj = e.values[e.current];
+
+            NSArray *pair = e.values[e.current];
+            TDAssert(2 == [pair count]);
+            XPObject *keyObj = pair[0];
+            XPObject *valObj = pair[1];
             vars[keyName] = keyObj;
+            vars[valName] = valObj;
+        } else {
+            XPObject *valObj = e.values[e.current];
+            vars[valName] = valObj;
         }
-            
+        
         @try {
             [self block:block withVars:vars];
         } @catch (XPBreakException *ex) {
@@ -617,7 +621,7 @@
         TDAssert(2 == [pairNode childCount]);
         XPObject *keyObj = [self walk:[pairNode childAtIndex:0]];
         XPObject *valObj = [self walk:[pairNode childAtIndex:1]];
-        [val setObject:valObj forKey:[keyObj stringValue]];
+        [val setObject:valObj forKey:keyObj];
     }
     
     XPObject *obj = [XPDictionaryClass instanceWithValue:val];
