@@ -158,9 +158,10 @@
 
         // check array bounds
         {
+            NSInteger checkIdx = labs(idx);
             NSInteger len = [[collObj callInstanceMethodNamed:@"length"] integerValue];
             
-            if (idx < 1 || idx > len) {
+            if (checkIdx < 1 || checkIdx > len) {
                 [self raise:XPExceptionArrayIndexOutOfBounds node:node format:@"array index out of bounds: `%ld`", idx];
                 return;
             }

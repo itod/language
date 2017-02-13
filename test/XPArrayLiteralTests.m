@@ -32,6 +32,19 @@
     TDEqualObjects(@"b", [self stringForName:@"baz"]);
 }
 
+- (void)testFetchNegIndex {
+    [self eval:@"var foo=['a','b'];var bar=foo[-1];var baz=foo[-2];"];
+    TDEqualObjects(@"b", [self stringForName:@"bar"]);
+    TDEqualObjects(@"a", [self stringForName:@"baz"]);
+}
+
+- (void)testFetchNegIndex3 {
+    [self eval:@"var foo=['a','b','c'];var bar=foo[-1];var baz=foo[-2];var bat=foo[-3];"];
+    TDEqualObjects(@"c", [self stringForName:@"bar"]);
+    TDEqualObjects(@"b", [self stringForName:@"baz"]);
+    TDEqualObjects(@"a", [self stringForName:@"bat"]);
+}
+
 - (void)testInsertAtIndex {
     [self eval:@"var foo=['a','b'];foo[1]='c';foo[2]='d';var bar=foo[1];var baz=foo[2];"];
     TDEqualObjects(@"c", [self stringForName:@"bar"]);

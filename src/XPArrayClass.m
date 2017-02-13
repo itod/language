@@ -53,16 +53,32 @@
 }
 
 
+- (NSInteger)nativeIndexForIndex:(NSInteger)inIdx inArray:(NSArray *)v {
+    NSInteger outIdx = inIdx;
+    
+    if (inIdx < 0) {
+        NSUInteger c = [v count];
+        outIdx = c+outIdx;
+    } else {
+        outIdx = inIdx-1;
+    }
+    
+    return outIdx;
+}
+
+
 - (id)get:(XPObject *)this :(NSInteger)idx {
     NSMutableArray *v = this.value;
-    id res = [v objectAtIndex:(idx-1)];
+    idx = [self nativeIndexForIndex:idx inArray:v];
+    id res = [v objectAtIndex:idx];
     return res;
 }
 
 
 - (void)set:(XPObject *)this :(NSInteger)idx :(XPObject *)obj {
     NSMutableArray *v = this.value;
-    [v replaceObjectAtIndex:(idx-1) withObject:obj];
+    idx = [self nativeIndexForIndex:idx inArray:v];
+    [v replaceObjectAtIndex:idx withObject:obj];
 }
 
 
