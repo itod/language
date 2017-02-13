@@ -80,12 +80,11 @@
 - (id)copyWithZone:(NSZone *)zone {
     id val = nil;
     if ([_value respondsToSelector:@selector(mutableCopyWithZone:)]) {
-        val = [_value mutableCopyWithZone:zone];
+        val = [[_value mutableCopyWithZone:zone] autorelease];
     } else {
-        val = [_value copyWithZone:zone];
+        val = [[_value copyWithZone:zone] autorelease];
     }
-    XPObject *that = [XPObject objectWithClass:self.objectClass value:val];
-    [val release];
+    XPObject *that = [[XPObject objectWithClass:self.objectClass value:val] retain];
     
     return that;
 }
