@@ -117,8 +117,8 @@
     self.commaTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"," doubleValue:0.0];
     self.arrayTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"ARRAY" doubleValue:0.0];
     self.arrayTok.tokenKind = XP_TOKEN_KIND_ARRAY_LITERAL;
-    self.dictTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"ARRAY" doubleValue:0.0];
-    self.dictTok.tokenKind = XP_TOKEN_KIND_ARRAY_LITERAL;
+    self.dictTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"DICT" doubleValue:0.0];
+    self.dictTok.tokenKind = XP_TOKEN_KIND_DICT_LITERAL;
 }
 
 @dealloc {
@@ -551,7 +551,7 @@ subExpr
     PUSH_ALL(REV(objs));
 };
 
-atom = scalar | arrayLiteral | funcLiteral | funcCall | indexCall | varRef;
+atom = scalar | arrayLiteral | dictLiteral | funcLiteral | funcCall | indexCall | varRef;
 
 indexCall = qid '['! expr ']'! {
     XPNode *exprNode = POP();

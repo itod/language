@@ -34,6 +34,7 @@
 - (BOOL)isStringObject;
 - (BOOL)isFunctionObject;
 - (BOOL)isArrayObject;
+- (BOOL)isDictionaryObject;
 
 - (XPEnumeration *)enumeration;
 

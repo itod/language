@@ -13,6 +13,7 @@
 #import "XPNumberClass.h"
 #import "XPStringClass.h"
 #import "XPArrayClass.h"
+#import "XPDictionaryClass.h"
 #import "XPFunctionClass.h"
 #import "XPParser.h"
 
@@ -263,6 +264,11 @@
 
 - (BOOL)isArrayObject {
     return [self.objectClass isKindOfClass:[XPArrayClass class]];
+}
+
+
+- (BOOL)isDictionaryObject {
+    return [self.objectClass isKindOfClass:[XPDictionaryClass class]];
 }
 
 @end

@@ -215,15 +215,26 @@
     XPNode *refNode = [node childAtIndex:0];
     XPNode *idxNode = [node childAtIndex:1];
     XPObject *obj = [self load:refNode];
+
+    XPObject *res = nil;
+
+    if ([obj isArrayObject]) {
+        NSUInteger i = [[self walk:idxNode] doubleValue];
+        
+        res = [obj callInstanceMethodNamed:@"get" withArg:@(i)];
+    }
     
-    if (![obj isArrayObject]) {
+    else if ([obj isDictionaryObject]) {
+        XPObject *keyObj = [self walk:idxNode];
+        
+        res = [obj callInstanceMethodNamed:@"get" withArg:keyObj];
+    }
+    
+    else {
         [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed access on non-array object `%@`", refNode.token.stringValue];
         return nil;
     }
     
-    NSUInteger i = [[self walk:idxNode] doubleValue];
-    
-    XPObject *res = [obj callInstanceMethodNamed:@"get" withArg:@(i)];
     return res;
 }
 
@@ -587,7 +598,7 @@
 
 
 - (id)dictionary:(XPNode *)node {
-    // 
+    // (DICT (: b 2) (: a 1))
     NSMutableDictionary *val = [NSMutableDictionary dictionaryWithCapacity:[node childCount]];
     
     for (XPNode *pairNode in node.children) {

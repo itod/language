@@ -96,8 +96,8 @@
     self.commaTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"," doubleValue:0.0];
     self.arrayTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"ARRAY" doubleValue:0.0];
     self.arrayTok.tokenKind = XP_TOKEN_KIND_ARRAY_LITERAL;
-    self.dictTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"ARRAY" doubleValue:0.0];
-    self.dictTok.tokenKind = XP_TOKEN_KIND_ARRAY_LITERAL;
+    self.dictTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"DICT" doubleValue:0.0];
+    self.dictTok.tokenKind = XP_TOKEN_KIND_DICT_LITERAL;
 
         self.startRuleName = @"program";
         self.tokenKindTab[@"{"] = @(XP_TOKEN_KIND_OPEN_CURLY);
@@ -288,15 +288,15 @@
 
 - (void)localItem_ {
     
-    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+    if ([self speculate:^{ [self stat_]; }]) {
         [self stat_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_IF, 0]) {
+    } else if ([self speculate:^{ [self ifBlock_]; }]) {
         [self ifBlock_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_WHILE, 0]) {
+    } else if ([self speculate:^{ [self whileBlock_]; }]) {
         [self whileBlock_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_FOR, 0]) {
+    } else if ([self speculate:^{ [self forBlock_]; }]) {
         [self forBlock_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
+    } else if ([self speculate:^{ [self block_]; }]) {
         [self block_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'localItem'."];
@@ -334,17 +334,17 @@
 
 - (void)funcItem_ {
     
-    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+    if ([self speculate:^{ [self stat_]; }]) {
         [self stat_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_IF, 0]) {
+    } else if ([self speculate:^{ [self ifBlock_]; }]) {
         [self ifBlock_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_WHILE, 0]) {
+    } else if ([self speculate:^{ [self whileBlock_]; }]) {
         [self whileBlock_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_FOR, 0]) {
+    } else if ([self speculate:^{ [self forBlock_]; }]) {
         [self forBlock_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
+    } else if ([self speculate:^{ [self block_]; }]) {
         [self block_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_RETURN, 0]) {
+    } else if ([self speculate:^{ [self returnStat_]; }]) {
         [self returnStat_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'funcItem'."];
@@ -1139,7 +1139,7 @@
     
     if ([self predicts:XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_NOT, 0]) {
         [self negatedUnary_]; 
-    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
+    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
         [self unary_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'unaryExpr'."];
@@ -1187,7 +1187,7 @@
     
     if ([self predicts:XP_TOKEN_KIND_MINUS, 0]) {
         [self signedPrimaryExpr_]; 
-    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
+    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
         [self primaryExpr_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'unary'."];
@@ -1225,7 +1225,7 @@
 
 - (void)primaryExpr_ {
     
-    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
+    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
         [self atom_]; 
     } else if ([self predicts:XP_TOKEN_KIND_OPEN_PAREN, 0]) {
         [self subExpr_]; 
@@ -1258,6 +1258,8 @@
         [self scalar_]; 
     } else if ([self speculate:^{ [self arrayLiteral_]; }]) {
         [self arrayLiteral_]; 
+    } else if ([self speculate:^{ [self dictLiteral_]; }]) {
+        [self dictLiteral_]; 
     } else if ([self speculate:^{ [self funcLiteral_]; }]) {
         [self funcLiteral_]; 
     } else if ([self speculate:^{ [self funcCall_]; }]) {
