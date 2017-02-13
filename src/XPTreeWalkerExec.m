@@ -27,6 +27,8 @@
 #import "XPDictionaryClass.h"
 #import "XPFunctionClass.h"
 
+#import "XPSymbol.h"
+
 #import "XPEnumeration.h"
 
 #define OFFSET 1
@@ -93,6 +95,12 @@
 - (void)varDecl:(XPNode *)node {
     //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     NSString *name = [[[node childAtIndex:0] token] stringValue];
+    
+    if ([[XPSymbol reservedWords] containsObject:name]) {
+        [self raise:XPExceptionReservedWord node:node format:@"cannot define variable with reserved name `%@`", name];
+        return;
+    }
+    
     XPNode *expr = [node childAtIndex:1];
     XPObject *valObj = [self walk:expr];
     TDAssert([valObj isKindOfClass:[XPObject class]]);
@@ -105,6 +113,13 @@
 - (void)funcDecl:(XPNode *)node {
     //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     // (sub make (BLOCK (return [)))
+
+    NSString *name = [[[node childAtIndex:0] token] stringValue];
+
+    if ([[XPSymbol reservedWords] containsObject:name]) {
+        [self raise:XPExceptionReservedWord node:node format:@"cannot define subroutine with reserved name `%@`", name];
+        return;
+    }
     
 //    NSString *name = [[[node childAtIndex:0] token] stringValue];
 //    TDAssert(node.scope);
@@ -387,7 +402,7 @@
                 funcSym = var.value;
                 TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
             } else {
-                [self raise:XPExceptionTypeMismatch node:node format:@"illegal call to `%@()`, `%@` is not a function", name, name];
+                [self raise:XPExceptionTypeMismatch node:node format:@"illegal call to `%@()`, `%@` is not a subroutine", name, name];
                 return nil;
             }
         }
@@ -399,7 +414,7 @@
 //        }
         
         if (!funcSym) {
-            [self raise:XPExceptionUndeclaredSymbol node:node format:@"call to known function named: `%@`", name];
+            [self raise:XPExceptionUndeclaredSymbol node:node format:@"call to known subroutine named: `%@`", name];
             return nil;
         }
         

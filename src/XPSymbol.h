@@ -11,6 +11,7 @@
 @protocol XPScope;
 
 @interface XPSymbol : NSObject
++ (NSSet *)reservedWords;
 
 + (instancetype)symbolWithName:(NSString *)name;
 - (instancetype)initWithName:(NSString *)name;

@@ -10,6 +10,7 @@
 
 // static
 extern NSString * const XPExceptionSyntaxError;
+extern NSString * const XPExceptionReservedWord;
 
 // runtime
 extern NSString * const XPExceptionUndeclaredSymbol;

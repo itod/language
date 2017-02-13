@@ -9,7 +9,43 @@
 #import "XPSymbol.h"
 #import "XPScope.h"
 
+static NSSet *sReserved = nil;
+
 @implementation XPSymbol
+
++ (void)initialize {
+    if ([XPSymbol class] == self) {
+        sReserved = [[NSSet alloc] initWithObjects:
+          @"for",
+          @"in",
+          @"while",
+          @"if",
+          @"else",
+          @"break",
+          @"continue",
+          @"return",
+          @"and",
+          @"or",
+          @"not",
+          @"true",
+          @"false",
+          @"null",
+          @"boolean",
+          @"number",
+          @"string",
+          @"array",
+          @"table",
+          @"sub",
+          @"var",
+        nil];
+    }
+}
+
+
++ (NSSet *)reservedWords {
+    return sReserved;
+}
+
 
 + (instancetype)symbolWithName:(NSString *)name {
     return [[[self alloc] initWithName:name] autorelease];

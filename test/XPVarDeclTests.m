@@ -29,4 +29,15 @@
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
+- (void)testReservedIf {
+    [self fail:@"var if = 1;"];
+    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+    //TDEqualObjects(XPExceptionReservedWord, self.error.localizedDescription);
+}
+
+- (void)testReservedString {
+    [self fail:@"var string = 1;"]; 
+    TDEqualObjects(XPExceptionReservedWord, self.error.localizedDescription);
+}
+
 @end
