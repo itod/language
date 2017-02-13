@@ -38,18 +38,12 @@
     TDEqualObjects(@"4", [self stringForName:@"baz"]);
 }
 
-//- (void)testInsertAtIndexOutOfOrder {
-//    [self eval:@"var foo=['a','b'];foo[1]='d';foo[0]='c';var bar=foo[0];var baz=foo[1];"];
-//    TDEqualObjects(@"c", [self stringForName:@"bar"]);
-//    TDEqualObjects(@"d", [self stringForName:@"baz"]);
-//}
-//
-//- (void)testAppend {
-//    [self eval:@"var foo=[];foo[]='c';foo[]='d';var bar=foo[0];var baz=foo[1];"];
-//    TDEqualObjects(@"c", [self stringForName:@"bar"]);
-//    TDEqualObjects(@"d", [self stringForName:@"baz"]);
-//}
-//
+- (void)testInsertAtIndexOutOfOrder {
+    [self eval:@"var foo={'a':'1','b':'2'};foo['b']='d';foo['a']='c';var bar=foo['a'];var baz=foo['b'];"];
+    TDEqualObjects(@"c", [self stringForName:@"bar"]);
+    TDEqualObjects(@"d", [self stringForName:@"baz"]);
+}
+
 //- (void)testCopyFuncRetVal {
 //    [self eval:@"var foo=make();foo[]=1;var bar=make();bar[]=2;sub make() {return [];}"];
 //    TDEqualObjects(@"[1]", [self stringForName:@"foo"]);
