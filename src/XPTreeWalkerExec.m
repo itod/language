@@ -24,6 +24,7 @@
 #import "XPNumberClass.h"
 #import "XPStringClass.h"
 #import "XPArrayClass.h"
+#import "XPDictionaryClass.h"
 #import "XPFunctionClass.h"
 
 #import "XPEnumeration.h"
@@ -581,6 +582,22 @@
     }
     
     XPObject *obj = [XPArrayClass instanceWithValue:val];
+    return obj;
+}
+
+
+- (id)dictionary:(XPNode *)node {
+    // 
+    NSMutableDictionary *val = [NSMutableDictionary dictionaryWithCapacity:[node childCount]];
+    
+    for (XPNode *pairNode in node.children) {
+        TDAssert(2 == [pairNode childCount]);
+        XPObject *keyObj = [self walk:[pairNode childAtIndex:0]];
+        XPObject *valObj = [self walk:[pairNode childAtIndex:1]];
+        [val setObject:valObj forKey:[keyObj stringValue]];
+    }
+    
+    XPObject *obj = [XPDictionaryClass instanceWithValue:val];
     return obj;
 }
 

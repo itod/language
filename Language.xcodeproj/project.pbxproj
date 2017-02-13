@@ -66,6 +66,8 @@
 		D3A7F2941E51219900C7099B /* XPEnumeration.h in Headers */ = {isa = PBXBuildFile; fileRef = D3A7F2921E51219900C7099B /* XPEnumeration.h */; };
 		D3A7F2951E51219900C7099B /* XPEnumeration.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F2931E51219900C7099B /* XPEnumeration.m */; };
 		D3A7F2971E51245400C7099B /* XPForBlockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F2961E51245400C7099B /* XPForBlockTests.m */; };
+		D3A7F29A1E512E6D00C7099B /* XPDictionaryClass.h in Headers */ = {isa = PBXBuildFile; fileRef = D3A7F2981E512E6D00C7099B /* XPDictionaryClass.h */; };
+		D3A7F29B1E512E6D00C7099B /* XPDictionaryClass.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F2991E512E6D00C7099B /* XPDictionaryClass.m */; };
 		D3B5F7361E47F50C00740161 /* XPArrayLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B5F7351E47F50C00740161 /* XPArrayLiteralTests.m */; };
 		D3BB83651E454B8F007AC9DD /* XPException.h in Headers */ = {isa = PBXBuildFile; fileRef = D3BB83641E454B8F007AC9DD /* XPException.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3DF58B71E429ACA006CAA07 /* XPFuncDeclTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58B61E429ACA006CAA07 /* XPFuncDeclTests.m */; };
@@ -157,6 +159,8 @@
 		D3A7F2921E51219900C7099B /* XPEnumeration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPEnumeration.h; path = src/XPEnumeration.h; sourceTree = SOURCE_ROOT; };
 		D3A7F2931E51219900C7099B /* XPEnumeration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPEnumeration.m; path = src/XPEnumeration.m; sourceTree = SOURCE_ROOT; };
 		D3A7F2961E51245400C7099B /* XPForBlockTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPForBlockTests.m; path = test/XPForBlockTests.m; sourceTree = SOURCE_ROOT; };
+		D3A7F2981E512E6D00C7099B /* XPDictionaryClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPDictionaryClass.h; path = src/XPDictionaryClass.h; sourceTree = SOURCE_ROOT; };
+		D3A7F2991E512E6D00C7099B /* XPDictionaryClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPDictionaryClass.m; path = src/XPDictionaryClass.m; sourceTree = SOURCE_ROOT; };
 		D3B5F7351E47F50C00740161 /* XPArrayLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPArrayLiteralTests.m; path = test/XPArrayLiteralTests.m; sourceTree = SOURCE_ROOT; };
 		D3BB83641E454B8F007AC9DD /* XPException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPException.h; path = include/Language/XPException.h; sourceTree = SOURCE_ROOT; };
 		D3DF58B61E429ACA006CAA07 /* XPFuncDeclTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFuncDeclTests.m; path = test/XPFuncDeclTests.m; sourceTree = SOURCE_ROOT; };
@@ -374,6 +378,8 @@
 				D3A7F2841E4D7A8A00C7099B /* XPStringClass.m */,
 				D37CE4B01E4CE6940008945E /* XPArrayClass.h */,
 				D37CE4B11E4CE6940008945E /* XPArrayClass.m */,
+				D3A7F2981E512E6D00C7099B /* XPDictionaryClass.h */,
+				D3A7F2991E512E6D00C7099B /* XPDictionaryClass.m */,
 				D3A7F28A1E4E5D1700C7099B /* XPFunctionClass.h */,
 				D3A7F28B1E4E5D1700C7099B /* XPFunctionClass.m */,
 				D3A7F2921E51219900C7099B /* XPEnumeration.h */,
@@ -394,6 +400,7 @@
 				D3BB83651E454B8F007AC9DD /* XPException.h in Headers */,
 				D37316A41E3EBD5C0034798E /* XPNode.h in Headers */,
 				D3DF58BE1E429E45006CAA07 /* XPFunctionSymbol.h in Headers */,
+				D3A7F29A1E512E6D00C7099B /* XPDictionaryClass.h in Headers */,
 				D368A0081E3BE383005783BB /* XPParser.h in Headers */,
 				D37316C31E3EC1470034798E /* XPBaseScope.h in Headers */,
 				D37316DC1E3FA9980034798E /* XPTreeWalker.h in Headers */,
@@ -529,6 +536,7 @@
 				D3A7F27E1E4D71CC00C7099B /* XPBooleanClass.m in Sources */,
 				D3A7F2951E51219900C7099B /* XPEnumeration.m in Sources */,
 				D3A7F2821E4D79FB00C7099B /* XPNumberClass.m in Sources */,
+				D3A7F29B1E512E6D00C7099B /* XPDictionaryClass.m in Sources */,
 				D37CE4B31E4CE6940008945E /* XPArrayClass.m in Sources */,
 				D37316D01E3EC4E50034798E /* XPLocalScope.m in Sources */,
 				D3DF58C71E42F346006CAA07 /* XPFunctionSpace.m in Sources */,

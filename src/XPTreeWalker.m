@@ -160,6 +160,8 @@
         case TOKEN_KIND_BUILTIN_WORD:       res = [self string:node]; break;
 // ARRAY
         case XP_TOKEN_KIND_ARRAY_LITERAL:   res = [self array:node]; break;
+// DICT
+        case XP_TOKEN_KIND_DICT_LITERAL:    res = [self dictionary:node]; break;
 // FUNCTION
         case XP_TOKEN_KIND_FUNC_LITERAL:    res = [self function:node]; break;
 
@@ -255,5 +257,6 @@
 - (id)number:(XPNode *)node {return nil;}
 - (id)string:(XPNode *)node {return nil;}
 - (id)array:(XPNode *)node {return nil;}
+- (id)dictionary:(XPNode *)node {return nil;}
 - (id)function:(XPNode *)node {return nil;}
 @end

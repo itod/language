@@ -1377,14 +1377,17 @@
 - (void)pair_ {
     
     [self expr_]; 
-    [self match:XP_TOKEN_KIND_COLON discard:YES]; 
+    [self match:XP_TOKEN_KIND_COLON discard:NO]; 
     [self expr_]; 
     [self execute:^{
     
-    id valExpr = POP();
-    id keyExpr = POP();
-    id pair = @[keyExpr, valExpr];
-    PUSH(pair);
+    XPNode *valExpr = POP();
+    PKToken *colonTok = POP();
+    XPNode *keyExpr = POP();
+    XPNode *pairNode = [XPNode nodeWithToken:colonTok];
+    [pairNode addChild:keyExpr];
+    [pairNode addChild:valExpr];
+    PUSH(pairNode);
 
     }];
 

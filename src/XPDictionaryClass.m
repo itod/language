@@ -1,20 +1,20 @@
 //
-//  XPArrayClass.m
+//  XPDictionaryClass.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/9/17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "XPArrayClass.h"
+#import "XPDictionaryClass.h"
 #import "XPObject.h"
 #import "XPEnumeration.h"
 
-@implementation XPArrayClass
+@implementation XPDictionaryClass
 
 + (instancetype)classInstance {
     TDAssertMainThread();
-    static XPArrayClass *cls = nil;
+    static XPDictionaryClass *cls = nil;
     if (!cls) {
         cls = [[self alloc] init];
     }
@@ -31,8 +31,6 @@
         sel = @selector(get::);
     } else if ([methName isEqualToString:@"set"]) {
         sel = @selector(set:::);
-    } else if ([methName isEqualToString:@"append"]) {
-        sel = @selector(append::);
     }
     TDAssert(sel);
 
@@ -47,42 +45,37 @@
 
 
 - (id)length:(XPObject *)this {
-    NSMutableArray *v = this.value;
+    NSMutableDictionary *v = this.value;
     NSInteger c = [v count];
     return @(c);
 }
 
 
-- (id)get:(XPObject *)this :(NSInteger)idx {
-    NSMutableArray *v = this.value;
-    id res = [v objectAtIndex:idx];
+- (id)get:(XPObject *)this :(XPObject *)key {
+    NSMutableDictionary *tab = this.value;
+    id res = [tab objectForKey:[key stringValue]]; // ??
     return res;
 }
 
 
-- (void)set:(XPObject *)this :(NSInteger)idx :(XPObject *)obj {
-    NSMutableArray *v = this.value;
-    [v replaceObjectAtIndex:idx withObject:obj];
-}
-
-
-- (void)append:(XPObject *)this :(XPObject *)obj {
-    NSMutableArray *v = this.value;
-    [v addObject:obj];
+- (void)set:(XPObject *)this :(XPObject *)key :(XPObject *)obj {
+    NSMutableDictionary *v = this.value;
+    [v setObject:obj forKey:[key stringValue]]; // ??
 }
 
 
 - (id)stringValue:(XPObject *)this {
-    NSMutableString *buf = [NSMutableString stringWithString:@"["];
+    NSMutableString *buf = [NSMutableString stringWithString:@"{"];
     
     TDAssert(this.value);
     NSUInteger c = [this.value count];
     NSUInteger i = 0;
-    for (id obj in this.value) {
-        [buf appendFormat:@"%@%@", [obj stringValue], i++ == c-1 ? @"" : @","];
+    for (id key in this.value) {
+        XPObject *obj = this.value[key];
+        [buf appendFormat:@"%@:%@%@", [key description], [obj stringValue], i++ == c-1 ? @"" : @","];
     }
     
-    [buf appendString:@"]"];
+    [buf appendString:@"}"];
     
     return buf;
 }

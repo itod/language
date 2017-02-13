@@ -590,11 +590,14 @@ dictLiteral = '{' pairList? '}'! {
     PUSH(dictNode);
 };
 pairList = pair (','! pair)*;
-pair = expr ':'! expr {
-    id valExpr = POP();
-    id keyExpr = POP();
-    id pair = @[keyExpr, valExpr];
-    PUSH(pair);
+pair = expr ':' expr {
+    XPNode *valExpr = POP();
+    PKToken *colonTok = POP();
+    XPNode *keyExpr = POP();
+    XPNode *pairNode = [XPNode nodeWithToken:colonTok];
+    [pairNode addChild:keyExpr];
+    [pairNode addChild:valExpr];
+    PUSH(pairNode);
 };
 
 scalar = null | str | num | bool;
