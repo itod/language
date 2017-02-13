@@ -55,14 +55,14 @@
 
 - (id)get:(XPObject *)this :(NSInteger)idx {
     NSMutableArray *v = this.value;
-    id res = [v objectAtIndex:idx];
+    id res = [v objectAtIndex:(idx-1)];
     return res;
 }
 
 
 - (void)set:(XPObject *)this :(NSInteger)idx :(XPObject *)obj {
     NSMutableArray *v = this.value;
-    [v replaceObjectAtIndex:idx withObject:obj];
+    [v replaceObjectAtIndex:(idx-1) withObject:obj];
 }
 
 

@@ -155,12 +155,15 @@
     if ([collObj isArrayObject]) {
         XPNode *idxNode = [node childAtIndex:1];
         NSInteger idx = [[self walk:idxNode] doubleValue];
-        
-        NSInteger len = [[collObj callInstanceMethodNamed:@"length"] integerValue];
-        
-        if (idx < 0 || idx >= len) {
-            [self raise:XPExceptionArrayIndexOutOfBounds node:node format:@"array index out of bounds: `%ld`", idx];
-            return;
+
+        // check array bounds
+        {
+            NSInteger len = [[collObj callInstanceMethodNamed:@"length"] integerValue];
+            
+            if (idx < 1 || idx > len) {
+                [self raise:XPExceptionArrayIndexOutOfBounds node:node format:@"array index out of bounds: `%ld`", idx];
+                return;
+            }
         }
         
         XPNode *valNode = [node childAtIndex:2];
