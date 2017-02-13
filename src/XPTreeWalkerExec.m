@@ -145,32 +145,44 @@
     // (SET_IDX foo `0` `c`)
     XPNode *idNode = [node childAtIndex:0];
     
-    XPObject *arrObj = [self loadVariableReference:idNode];
+    XPObject *collObj = [self loadVariableReference:idNode];
     
-    if (!arrObj) {
+    if (!collObj) {
         [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.token.stringValue];
         return;
     }
     
-    if (![arrObj isArrayObject]) {
+    if ([collObj isArrayObject]) {
+        XPNode *idxNode = [node childAtIndex:1];
+        NSInteger idx = [[self walk:idxNode] doubleValue];
+        
+        NSInteger len = [[collObj callInstanceMethodNamed:@"length"] integerValue];
+        
+        if (idx < 0 || idx >= len) {
+            [self raise:XPExceptionArrayIndexOutOfBounds node:node format:@"array index out of bounds: `%ld`", idx];
+            return;
+        }
+        
+        XPNode *valNode = [node childAtIndex:2];
+        XPObject *valObj = [self walk:valNode];
+        
+        [collObj callInstanceMethodNamed:@"set" args:@[@(idx), valObj]];
+    }
+    
+    else if ([collObj isDictionaryObject]) {
+        XPNode *keyNode = [node childAtIndex:1];
+        XPObject *keyObj = [self walk:keyNode];
+        
+        XPNode *valNode = [node childAtIndex:2];
+        XPObject *valObj = [self walk:valNode];
+        
+        [collObj callInstanceMethodNamed:@"set" args:@[keyObj, valObj]];
+    }
+    
+    else {
         [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", idNode.token.stringValue];
         return;
     }
-
-    XPNode *idxNode = [node childAtIndex:1];
-    NSInteger idx = [[self walk:idxNode] doubleValue];
-    
-    NSInteger len = [[arrObj callInstanceMethodNamed:@"length"] integerValue];
-    
-    if (idx < 0 || idx >= len) {
-        [self raise:XPExceptionArrayIndexOutOfBounds node:node format:@"array index out of bounds: `%ld`", idx];
-        return;
-    }
-
-    XPNode *valNode = [node childAtIndex:2];
-    XPObject *valObj = [self walk:valNode];
-
-    [arrObj callInstanceMethodNamed:@"set" args:@[@(idx), valObj]];
 }
 
 
