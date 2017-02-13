@@ -194,17 +194,19 @@
 
 - (BOOL)isEqualToObject:(XPObject *)other {
     
-    return _objectClass == other->_objectClass && [_value isEqual:other->_value];
+    if ([self isBooleanObject] || [other isBooleanObject]) {
+        return [self boolValue] == [other boolValue];
+    }
     
-//    if ([self isBooleanObject] || [other isBooleanObject]) {
-//        return [self boolValue] == [other boolValue];
-//    }
-//    
-//    if ([self isNumericObject] || [other isNumericObject]) {
-//        return [self doubleValue] == [other doubleValue];
-//    }
-//    
-//    return [[self stringValue] isEqualToString:[other stringValue]];
+    if ([self isNumericObject] || [other isNumericObject]) {
+        return [self doubleValue] == [other doubleValue];
+    }
+    
+    if ([self isStringObject] || [other isStringObject]) {
+        return [[self stringValue] isEqualToString:[other stringValue]];
+    }
+
+    return _objectClass == other->_objectClass && [_value isEqual:other->_value];
 }
 
 
