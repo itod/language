@@ -77,7 +77,7 @@
     self.indexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"GET_IDX" doubleValue:0.0];
     self.indexTok.tokenKind = XP_TOKEN_KIND_LOAD_INDEX;
     self.assignIndexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"SET_IDX" doubleValue:0.0];
-    self.assignIndexTok.tokenKind = XP_TOKEN_KIND_ASSIGN_INDEX;
+    self.assignIndexTok.tokenKind = XP_TOKEN_KIND_ASSIGN_SUBSCRIPT;
     self.assignAppendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"APPEND" doubleValue:0.0];
     self.assignAppendTok.tokenKind = XP_TOKEN_KIND_ASSIGN_APPEND;
     self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];

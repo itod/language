@@ -110,7 +110,7 @@
             
 // ASSIGNMENTS
         case XP_TOKEN_KIND_EQUALS:          [self assign:node]; break;
-        case XP_TOKEN_KIND_ASSIGN_INDEX:    [self assignIndex:node]; break;
+        case XP_TOKEN_KIND_ASSIGN_SUBSCRIPT:[self assignSubscript:node]; break;
         case XP_TOKEN_KIND_ASSIGN_APPEND:   [self assignAppend:node]; break;
             
 // FUNCTIONS
@@ -217,7 +217,7 @@
 - (void)funcDecl:(XPNode *)node {}
 
 - (void)assign:(XPNode *)node {}
-- (void)assignIndex:(XPNode *)node {}
+- (void)assignSubscript:(XPNode *)node {}
 - (void)assignAppend:(XPNode *)node {}
 
 - (id)call:(XPNode *)node {return nil;}

@@ -140,7 +140,7 @@
 }
 
 
-- (void)assignIndex:(XPNode *)node {
+- (void)assignSubscript:(XPNode *)node {
     //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     // (SET_IDX foo `0` `c`)
     XPNode *idNode = [node childAtIndex:0];
