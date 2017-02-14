@@ -160,21 +160,21 @@
     // (SET_IDX foo `0` `c`)
     XPNode *idNode = [node childAtIndex:0];
     
-    XPObject *seqObj = [self loadVariableReference:idNode];
+    XPObject *collObj = [self loadVariableReference:idNode];
     
-    if (!seqObj) {
+    if (!collObj) {
         [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.token.stringValue];
         return;
     }
     
-    if ([seqObj isStringObject] || [seqObj isArrayObject]) {
+    if ([collObj isStringObject] || [collObj isArrayObject]) {
         XPNode *idxNode = [node childAtIndex:1];
         NSInteger idx = [[self walk:idxNode] doubleValue];
 
         // check array bounds
         {
             NSInteger checkIdx = labs(idx);
-            NSInteger len = [[seqObj callInstanceMethodNamed:@"length"] integerValue];
+            NSInteger len = [[collObj callInstanceMethodNamed:@"length"] integerValue];
             
             if (checkIdx < 1 || checkIdx > len) {
                 [self raise:XPExceptionArrayIndexOutOfBounds node:node format:@"array index out of bounds: `%ld`", idx];
@@ -185,17 +185,17 @@
         XPNode *valNode = [node childAtIndex:2];
         XPObject *valObj = [self walk:valNode];
         
-        [seqObj callInstanceMethodNamed:@"set" args:@[@(idx), valObj]];
+        [collObj callInstanceMethodNamed:@"set" args:@[@(idx), valObj]];
     }
     
-    else if ([seqObj isDictionaryObject]) {
+    else if ([collObj isDictionaryObject]) {
         XPNode *keyNode = [node childAtIndex:1];
         XPObject *keyObj = [self walk:keyNode];
         
         XPNode *valNode = [node childAtIndex:2];
         XPObject *valObj = [self walk:valNode];
         
-        [seqObj callInstanceMethodNamed:@"set" args:@[keyObj, valObj]];
+        [collObj callInstanceMethodNamed:@"set" args:@[keyObj, valObj]];
     }
     
     else {
@@ -210,22 +210,22 @@
     // (APPEND foo `c`)
     XPNode *idNode = [node childAtIndex:0];
     
-    XPObject *arrObj = [self loadVariableReference:idNode];
+    XPObject *seqObj = [self loadVariableReference:idNode];
     
-    if (!arrObj) {
+    if (!seqObj) {
         [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.token.stringValue];
         return;
     }
     
-    if (![arrObj isArrayObject]) {
-        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", idNode.token.stringValue];
+    if (![seqObj isStringObject] && ![seqObj isArrayObject]) {
+        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-sequence object `%@`", idNode.token.stringValue];
         return;
     }
     
     XPNode *valNode = [node childAtIndex:1];
     XPObject *valObj = [self walk:valNode];
     
-    [arrObj callInstanceMethodNamed:@"append" withArg:valObj];
+    [seqObj callInstanceMethodNamed:@"append" withArg:valObj];
 }
 
 
@@ -300,10 +300,10 @@
         keyNode = [node childAtIndex:3];
     }
     
-    XPObject *seqObj = [self walk:collExpr];
-    XPEnumeration *e = [seqObj enumeration];
+    XPObject *collObj = [self walk:collExpr];
+    XPEnumeration *e = [collObj enumeration];
     if (!e) {
-        [self raise:XPExceptionTypeMismatch node:node format:@"cannot execute `for` loop on non-sequence types", seqObj];
+        [self raise:XPExceptionTypeMismatch node:node format:@"cannot execute `for` loop on non-collection types", collObj];
         return;
     }
     
