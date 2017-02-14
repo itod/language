@@ -8,6 +8,7 @@
 
 #import "XPStringClass.h"
 #import "XPObject.h"
+#import "XPEnumeration.h"
 
 @implementation XPStringClass
 
@@ -43,6 +44,20 @@
     NSMutableString *s = this.value;
     NSInteger c = [s length];
     return @(c);
+}
+
+
+- (XPEnumeration *)enumeration:(XPObject *)this {
+    NSString *s = this.value;
+    NSUInteger c = [s length];
+    NSMutableArray *v = [NSMutableArray arrayWithCapacity:c];
+    
+    for (NSUInteger i = 0; i < c; ++i) {
+        [v addObject:[XPStringClass instanceWithValue:[NSString stringWithFormat:@"%C", [s characterAtIndex:i]]]];
+    }
+    
+    XPEnumeration *e = [XPEnumeration enumerationWithValues:v];
+    return e;
 }
 
 
