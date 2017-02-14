@@ -160,21 +160,21 @@
     // (SET_IDX foo `0` `c`)
     XPNode *idNode = [node childAtIndex:0];
     
-    XPObject *collObj = [self loadVariableReference:idNode];
+    XPObject *seqObj = [self loadVariableReference:idNode];
     
-    if (!collObj) {
+    if (!seqObj) {
         [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.token.stringValue];
         return;
     }
     
-    if ([collObj isArrayObject]) {
+    if ([seqObj isStringObject] || [seqObj isArrayObject]) {
         XPNode *idxNode = [node childAtIndex:1];
         NSInteger idx = [[self walk:idxNode] doubleValue];
 
         // check array bounds
         {
             NSInteger checkIdx = labs(idx);
-            NSInteger len = [[collObj callInstanceMethodNamed:@"length"] integerValue];
+            NSInteger len = [[seqObj callInstanceMethodNamed:@"length"] integerValue];
             
             if (checkIdx < 1 || checkIdx > len) {
                 [self raise:XPExceptionArrayIndexOutOfBounds node:node format:@"array index out of bounds: `%ld`", idx];
@@ -185,17 +185,17 @@
         XPNode *valNode = [node childAtIndex:2];
         XPObject *valObj = [self walk:valNode];
         
-        [collObj callInstanceMethodNamed:@"set" args:@[@(idx), valObj]];
+        [seqObj callInstanceMethodNamed:@"set" args:@[@(idx), valObj]];
     }
     
-    else if ([collObj isDictionaryObject]) {
+    else if ([seqObj isDictionaryObject]) {
         XPNode *keyNode = [node childAtIndex:1];
         XPObject *keyObj = [self walk:keyNode];
         
         XPNode *valNode = [node childAtIndex:2];
         XPObject *valObj = [self walk:valNode];
         
-        [collObj callInstanceMethodNamed:@"set" args:@[keyObj, valObj]];
+        [seqObj callInstanceMethodNamed:@"set" args:@[keyObj, valObj]];
     }
     
     else {
@@ -249,7 +249,7 @@
 
     XPObject *res = nil;
 
-    if ([obj isArrayObject] || [obj isStringObject]) {
+    if ([obj isStringObject] || [obj isArrayObject]) {
         NSUInteger i = [[self walk:idxNode] doubleValue];
         
         res = [obj callInstanceMethodNamed:@"get" withArg:@(i)];
@@ -300,10 +300,10 @@
         keyNode = [node childAtIndex:3];
     }
     
-    XPObject *collObj = [self walk:collExpr];
-    XPEnumeration *e = [collObj enumeration];
+    XPObject *seqObj = [self walk:collExpr];
+    XPEnumeration *e = [seqObj enumeration];
     if (!e) {
-        [self raise:XPExceptionTypeMismatch node:node format:@"cannot execute `for` loop on non-collection types", collObj];
+        [self raise:XPExceptionTypeMismatch node:node format:@"cannot execute `for` loop on non-sequence types", seqObj];
         return;
     }
     

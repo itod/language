@@ -57,11 +57,11 @@
     if (self) {
         self.objectClass = cls;
         
-//        if ([val respondsToSelector:@selector(mutableCopy)]) {
-//            val = [[val mutableCopy] autorelease];
-//        } else {
-//            val = [[val copy] autorelease];
-//        }
+        if ([val respondsToSelector:@selector(mutableCopyWithZone:)]) {
+            val = [[val mutableCopy] autorelease];
+        } else if ([val respondsToSelector:@selector(copyWithZone:)]) {
+            val = [[val copy] autorelease];
+        }
         
         self.value = val;
     }
