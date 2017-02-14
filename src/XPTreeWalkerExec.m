@@ -638,6 +638,12 @@
 }
 
 
+- (id)nan:(XPNode *)node {
+    XPObject *obj = [XPObject nan];
+    return obj;
+}
+
+
 - (id)boolean:(XPNode *)node {
     // false
     XPObject *obj = [XPBooleanClass instanceWithValue:([node.token.stringValue isEqualToString:@"true"]) ? @YES : @NO];

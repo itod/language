@@ -153,6 +153,8 @@
 
 // NULL
         case XP_TOKEN_KIND_NULL:            res = [self null:node]; break;
+// NaN
+        case XP_TOKEN_KIND_NAN:             res = [self nan:node]; break;
 // BOOLEAN
         case XP_TOKEN_KIND_TRUE:
         case XP_TOKEN_KIND_FALSE:           res = [self boolean:node]; break;
@@ -255,6 +257,7 @@
 - (id)loadSubscript:(XPNode *)node {return nil;}
 
 - (id)null:(XPNode *)node {return nil;}
+- (id)nan:(XPNode *)node {return nil;}
 - (id)boolean:(XPNode *)node {return nil;}
 - (id)number:(XPNode *)node {return nil;}
 - (id)string:(XPNode *)node {return nil;}

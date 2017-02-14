@@ -386,7 +386,7 @@ dfaultParam = qid '='! expr {
 
     // set default val
     XPFunctionSymbol *funcSym = (id)_currentScope;
-    [funcSym setDefaultValue:expr forParamNamed:name];
+    [funcSym setDefaultExpression:expr forParamNamed:name];
 
     XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];
     NSMutableDictionary *params = POP();
@@ -597,15 +597,19 @@ pair = expr ':' expr {
     PUSH(pairNode);
 };
 
-scalar = null | str | num | bool;
+scalar = null | nan | str | num | bool;
 
 null = 'null' {
     PUSH([XPNode nodeWithToken:POP()]);
 };
 
-bool
-@after { PUSH([XPNode nodeWithToken:POP()]); } 
-    = 'true' | 'false';
+nan = 'NaN' {
+    PUSH([XPNode nodeWithToken:POP()]);
+};
+
+bool = ('true' | 'false') {
+    PUSH([XPNode nodeWithToken:POP()]);
+};
 
 num = Number {
     PUSH([XPNode nodeWithToken:POP()]);

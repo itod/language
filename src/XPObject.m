@@ -34,6 +34,16 @@
 }
 
 
++ (instancetype)nan {
+    TDAssertMainThread();
+    static XPObject *nan = nil;
+    if (!nan) {
+        nan = [[XPObject alloc] initWithClass:[XPNumberClass classInstance] value:@(NAN)];
+    }
+    return nan;
+}
+
+
 + (instancetype)objectWithClass:(XPClass *)cls value:(id)val {
     TDAssert(cls);
     TDAssert(val);
