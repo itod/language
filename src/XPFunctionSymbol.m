@@ -31,6 +31,7 @@
 
 - (void)dealloc {
     self.blockNode = nil;
+    self.nativeBody = nil;
     self.params = nil;
     self.orderedParams = nil;
     self.defaultParamValues = nil;

@@ -45,4 +45,11 @@
     TDEquals(3.0, [self doubleForName:@"c"]);
 }
 
+- (void)testLoopRange {
+    [self eval:@"var y=[];for el in range(3) {y[]=el;}var a=y[1];var b=y[2];var c=y[3];"];
+    TDEquals(1.0, [self doubleForName:@"a"]);
+    TDEquals(2.0, [self doubleForName:@"b"]);
+    TDEquals(3.0, [self doubleForName:@"c"]);
+}
+
 @end

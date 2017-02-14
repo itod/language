@@ -16,6 +16,7 @@
 
 #import "XPVariableSymbol.h"
 #import "XPFunctionSymbol.h"
+#import "XPFunctionBody.h"
 
 #import "XPParser.h"
 
@@ -462,22 +463,32 @@
             ++i;
         }
     }
-    
+
     // CALL
-    id result = nil;
+    XPObject *result = nil;
     {
         TDAssert(self.stack);
         [self.stack addObject:funcSpace];
         
-        TDAssert(funcSym.blockNode);
-        @try {
-            [self funcBlock:funcSym.blockNode];
-        } @catch (XPReturnExpception *ex) {
-            result = ex.value;
+        // user-defined function
+        if (funcSym.blockNode) {
+            TDAssert(!funcSym.nativeBody);
+            @try {
+                [self funcBlock:funcSym.blockNode];
+            } @catch (XPReturnExpception *ex) {
+                result = ex.value;
+            }
         }
+        
+        // native function
+        else {
+            TDAssert(funcSym.nativeBody);
+            result = [funcSym.nativeBody call];
+        }
+        
         [self.stack removeLastObject];
     }
-    
+
     // POP MEMORY SPACE
     self.currentSpace = saveSpace;
     return result;
