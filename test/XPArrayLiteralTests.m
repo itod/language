@@ -7,8 +7,6 @@
 //
 
 #import "XPBaseStatementTests.h"
-#import "XPNode.h"
-#import "XPMemorySpace.h"
 
 @interface XPArrayLiteralTests : XPBaseStatementTests
 
