@@ -7,7 +7,10 @@
 //
 
 #import "FNRange.h"
+#import "XPNumberClass.h"
+#import "XPArrayClass.h"
 #import "XPFunctionSymbol.h"
+#import "XPMemorySpace.h"
 
 @implementation FNRange
 
@@ -30,17 +33,53 @@
                       step, @"step",
                       nil];
     
-//    [funcSym setDefaultExpression:<#(XPNode *)#> forParamNamed:@"b"];
-//    [funcSym setDefaultExpression:<#(XPNode *)#> forParamNamed:@"step"];
+    [funcSym setDefaultObject:[XPNumberClass instanceWithValue:@(NAN)] forParamNamed:@"b"];
+    [funcSym setDefaultObject:[XPNumberClass instanceWithValue:@1] forParamNamed:@"step"];
     return funcSym;
 }
 
 
-- (XPObject *)call {
+- (XPObject *)callInSpace:(XPMemorySpace *)space {
+    TDAssert(space);
     
+    // calc start, stop, step
+    NSInteger start = 0;
+    NSInteger stop = 0;
+    NSInteger step = 0;
+    {
+        XPObject *aObj = [space objectForName:@"a"];           TDAssert(aObj);
+        XPObject *bObj = [space objectForName:@"b"];           TDAssert(bObj);
+        XPObject *stepObj = [space objectForName:@"step"];     TDAssert(stepObj);
+        
+        double a = [aObj doubleValue];
+        double b = [bObj doubleValue];
+        step = [stepObj doubleValue];
+        
+        BOOL singleArgGiven = isnan(b);
+        
+        if (singleArgGiven) {
+            start = 1;
+            stop = a;
+        } else {
+            start = a;
+            stop = b;
+        }
+    }
     
-    
-    return nil;
+    // build array
+    XPObject *arrObj = nil;
+    {
+        NSMutableArray *v = [NSMutableArray arrayWithCapacity:stop-start];
+        
+        for (NSInteger i = start; i <= stop; i = start+i*step) {
+            XPObject *obj = [XPNumberClass instanceWithValue:@(i)];
+            [v addObject:obj];
+        }
+        
+        arrObj = [XPArrayClass instanceWithValue:v];
+    }
+
+    return arrObj;
 }
 
 @end

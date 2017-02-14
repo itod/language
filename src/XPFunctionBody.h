@@ -10,9 +10,10 @@
 
 @class XPObject;
 @class XPFunctionSymbol;
+@class XPMemorySpace;
 
 @interface XPFunctionBody : NSObject
 + (NSString *)name;
 - (XPFunctionSymbol *)symbol;
-- (XPObject *)call;
+- (XPObject *)callInSpace:(XPMemorySpace *)space;
 @end

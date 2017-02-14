@@ -511,7 +511,7 @@
         // native function
         else {
             TDAssert(funcSym.nativeBody);
-            result = [funcSym.nativeBody call];
+            result = [funcSym.nativeBody callInSpace:self.currentSpace];
         }
         
         [self.stack removeLastObject];
