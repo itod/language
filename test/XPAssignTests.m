@@ -65,4 +65,9 @@
     TDEqualObjects([XPObject null], [self valueForName:@"x"]);
 }
 
+- (void)testAssignNaN {
+    [self eval:@"var x=1;x=NaN;"];
+    TDEqualObjects([XPObject nan], [self valueForName:@"x"]);
+}
+
 @end
