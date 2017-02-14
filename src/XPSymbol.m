@@ -30,9 +30,14 @@ static NSSet *sReserved = nil;
                      @"true",
                      @"false",
                      @"null",
+                     @"NaN",
                      
                      @"sub",
                      @"var",
+                     @"class",
+                     @"extends",
+                     @"static",
+                     @"interface",
                      
                      @"boolean",
                      @"number",
