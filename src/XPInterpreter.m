@@ -18,6 +18,8 @@
 
 #import "XPFunctionClass.h"
 #import "XPFunctionSymbol.h"
+
+#import "FNCount.h"
 #import "FNRange.h"
 
 #import <PEGKit/PKAssembly.h>
@@ -53,6 +55,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
     
     // DECLARE NATIVE FUNCS
     {
+        [self declareNativeFunction:[FNCount class]];
         [self declareNativeFunction:[FNRange class]];
     }
     

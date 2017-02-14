@@ -55,6 +55,7 @@ static NSSet *sReserved = nil;
                      @"head",
                      @"tail",
                      @"range",
+                     @"isNaN",
                      
                      nil];
     }

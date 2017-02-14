@@ -25,7 +25,7 @@
 - (SEL)selectorForMethodNamed:(NSString *)methName {
     SEL sel = [super selectorForMethodNamed:methName];
     
-    if ([methName isEqualToString:@"length"]) {
+    if ([methName isEqualToString:@"count"]) {
         sel = @selector(length:);
     } else if ([methName isEqualToString:@"get"]) {
         sel = @selector(get::);
