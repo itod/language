@@ -37,6 +37,22 @@ static NSSet *sReserved = nil;
           @"table",
           @"sub",
           @"var",
+                     
+          @"map",
+          @"filter",
+          @"copy",
+          @"len",
+          @"matches",
+          @"replace",
+          @"compare",
+          @"indexOf",
+          @"trim",
+          @"upperCase",
+          @"lowerCase",
+          @"titleCase",
+          @"head",
+          @"tail",
+                     
         nil];
     }
 }
