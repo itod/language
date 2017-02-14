@@ -22,10 +22,9 @@
 @property (nonatomic, retain) PKToken *blockTok;
 @property (nonatomic, retain) PKToken *loadTok;
 @property (nonatomic, retain) PKToken *callTok;
-@property (nonatomic, retain) PKToken *indexTok;
-@property (nonatomic, retain) PKToken *assignIndexTok;
-@property (nonatomic, retain) PKToken *assignAppendTok;
-@property (nonatomic, retain) PKToken *subTok;
+@property (nonatomic, retain) PKToken *loadSubscriptTok;
+@property (nonatomic, retain) PKToken *assignSubscriptTok;
+@property (nonatomic, retain) PKToken *appendTok;
 @property (nonatomic, retain) PKToken *anonTok;
 @property (nonatomic, retain) PKToken *openParenTok;
 @property (nonatomic, retain) PKToken *openCurlyTok;
@@ -74,13 +73,12 @@
     self.loadTok.tokenKind = XP_TOKEN_KIND_LOAD;
     self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
-    self.indexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"GET_IDX" doubleValue:0.0];
-    self.indexTok.tokenKind = XP_TOKEN_KIND_LOAD_INDEX;
-    self.assignIndexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"SET_IDX" doubleValue:0.0];
-    self.assignIndexTok.tokenKind = XP_TOKEN_KIND_ASSIGN_SUBSCRIPT;
-    self.assignAppendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"APPEND" doubleValue:0.0];
-    self.assignAppendTok.tokenKind = XP_TOKEN_KIND_ASSIGN_APPEND;
-    self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];
+    self.loadSubscriptTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"GET_SUBSCRIPT" doubleValue:0.0];
+    self.loadSubscriptTok.tokenKind = XP_TOKEN_KIND_LOAD_SUBSCRIPT;
+    self.assignSubscriptTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"SET_SUBSCRIPT" doubleValue:0.0];
+    self.assignSubscriptTok.tokenKind = XP_TOKEN_KIND_SAVE_SUBSCRIPT;
+    self.appendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"APPEND" doubleValue:0.0];
+    self.appendTok.tokenKind = XP_TOKEN_KIND_APPEND;
     self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"<ANON>" doubleValue:0.0];
     self.anonTok.tokenKind = XP_TOKEN_KIND_FUNC_LITERAL;
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
@@ -190,10 +188,9 @@
     self.blockTok = nil;
     self.loadTok = nil;
     self.callTok = nil;
-    self.indexTok = nil;
-    self.assignIndexTok = nil;
-    self.assignAppendTok = nil;
-    self.subTok = nil;
+    self.loadSubscriptTok = nil;
+    self.assignSubscriptTok = nil;
+    self.appendTok = nil;
     self.anonTok = nil;
     self.openParenTok = nil;
     self.openCurlyTok = nil;
@@ -456,7 +453,7 @@
     XPNode *idx = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     
-    XPNode *stat = [XPNode nodeWithToken:_assignIndexTok];
+    XPNode *stat = [XPNode nodeWithToken:_assignSubscriptTok];
     [stat addChild:lhs];
     [stat addChild:idx];
     [stat addChild:rhs];
@@ -479,7 +476,7 @@
     XPNode *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     
-    XPNode *stat = [XPNode nodeWithToken:_assignAppendTok];
+    XPNode *stat = [XPNode nodeWithToken:_appendTok];
     [stat addChild:lhs];
     [stat addChild:rhs];
     PUSH(stat);
@@ -1264,8 +1261,8 @@
         [self funcLiteral_]; 
     } else if ([self speculate:^{ [self funcCall_]; }]) {
         [self funcCall_]; 
-    } else if ([self speculate:^{ [self indexCall_]; }]) {
-        [self indexCall_]; 
+    } else if ([self speculate:^{ [self subscriptLoad_]; }]) {
+        [self subscriptLoad_]; 
     } else if ([self speculate:^{ [self varRef_]; }]) {
         [self varRef_]; 
     } else {
@@ -1275,7 +1272,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchAtom:)];
 }
 
-- (void)indexCall_ {
+- (void)subscriptLoad_ {
     
     [self qid_]; 
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:YES]; 
@@ -1289,14 +1286,14 @@
     XPNode *idNode = [XPNode nodeWithToken:POP()];
     [refNode addChild:idNode];
 
-    XPNode *callNode = [XPNode nodeWithToken:_indexTok];
+    XPNode *callNode = [XPNode nodeWithToken:_loadSubscriptTok];
     [callNode addChild:refNode];
     [callNode addChild:exprNode];
     PUSH(callNode);
 
     }];
 
-    [self fireDelegateSelector:@selector(parser:didMatchIndexCall:)];
+    [self fireDelegateSelector:@selector(parser:didMatchSubscriptLoad:)];
 }
 
 - (void)varRef_ {

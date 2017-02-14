@@ -2,11 +2,11 @@
     
 #define XP_TOKEN_KIND_BLOCK -2
 #define XP_TOKEN_KIND_CALL  -3
-#define XP_TOKEN_KIND_ASSIGN_SUBSCRIPT -4
-#define XP_TOKEN_KIND_ASSIGN_APPEND -5
-#define XP_TOKEN_KIND_NEG -6
-#define XP_TOKEN_KIND_LOAD -7
-#define XP_TOKEN_KIND_LOAD_INDEX -8
+#define XP_TOKEN_KIND_APPEND -4
+#define XP_TOKEN_KIND_SAVE_SUBSCRIPT -5
+#define XP_TOKEN_KIND_LOAD_SUBSCRIPT -6
+#define XP_TOKEN_KIND_NEG -7
+#define XP_TOKEN_KIND_LOAD -8
 #define XP_TOKEN_KIND_FUNC_LITERAL -9
 #define XP_TOKEN_KIND_ARRAY_LITERAL -10
 #define XP_TOKEN_KIND_DICT_LITERAL -11
@@ -47,10 +47,9 @@
 @property (nonatomic, retain) PKToken *blockTok;
 @property (nonatomic, retain) PKToken *loadTok;
 @property (nonatomic, retain) PKToken *callTok;
-@property (nonatomic, retain) PKToken *indexTok;
-@property (nonatomic, retain) PKToken *assignIndexTok;
-@property (nonatomic, retain) PKToken *assignAppendTok;
-@property (nonatomic, retain) PKToken *subTok;
+@property (nonatomic, retain) PKToken *loadSubscriptTok;
+@property (nonatomic, retain) PKToken *assignSubscriptTok;
+@property (nonatomic, retain) PKToken *appendTok;
 @property (nonatomic, retain) PKToken *anonTok;
 @property (nonatomic, retain) PKToken *openParenTok;
 @property (nonatomic, retain) PKToken *openCurlyTok;
@@ -95,13 +94,12 @@
     self.loadTok.tokenKind = XP_TOKEN_KIND_LOAD;
     self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
-    self.indexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"GET_IDX" doubleValue:0.0];
-    self.indexTok.tokenKind = XP_TOKEN_KIND_LOAD_INDEX;
-    self.assignIndexTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"SET_IDX" doubleValue:0.0];
-    self.assignIndexTok.tokenKind = XP_TOKEN_KIND_ASSIGN_INDEX;
-    self.assignAppendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"APPEND" doubleValue:0.0];
-    self.assignAppendTok.tokenKind = XP_TOKEN_KIND_ASSIGN_APPEND;
-    self.subTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"sub" doubleValue:0.0];
+    self.loadSubscriptTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"GET_SUBSCRIPT" doubleValue:0.0];
+    self.loadSubscriptTok.tokenKind = XP_TOKEN_KIND_LOAD_SUBSCRIPT;
+    self.assignSubscriptTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"SET_SUBSCRIPT" doubleValue:0.0];
+    self.assignSubscriptTok.tokenKind = XP_TOKEN_KIND_SAVE_SUBSCRIPT;
+    self.appendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"APPEND" doubleValue:0.0];
+    self.appendTok.tokenKind = XP_TOKEN_KIND_APPEND;
     self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"<ANON>" doubleValue:0.0];
     self.anonTok.tokenKind = XP_TOKEN_KIND_FUNC_LITERAL;
     self.openParenTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"(" doubleValue:0.0];
@@ -128,10 +126,9 @@
     self.blockTok = nil;
     self.loadTok = nil;
     self.callTok = nil;
-    self.indexTok = nil;
-    self.assignIndexTok = nil;
-    self.assignAppendTok = nil;
-    self.subTok = nil;
+    self.loadSubscriptTok = nil;
+    self.assignSubscriptTok = nil;
+    self.appendTok = nil;
     self.anonTok = nil;
     self.openParenTok = nil;
     self.openCurlyTok = nil;
@@ -226,7 +223,7 @@ assignIndex = qid '['! expr ']'! '='! expr {
     XPNode *idx = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     
-    XPNode *stat = [XPNode nodeWithToken:_assignIndexTok];
+    XPNode *stat = [XPNode nodeWithToken:_assignSubscriptTok];
     [stat addChild:lhs];
     [stat addChild:idx];
     [stat addChild:rhs];
@@ -237,7 +234,7 @@ assignAppend = qid '['! ']'! '='! expr {
     XPNode *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     
-    XPNode *stat = [XPNode nodeWithToken:_assignAppendTok];
+    XPNode *stat = [XPNode nodeWithToken:_appendTok];
     [stat addChild:lhs];
     [stat addChild:rhs];
     PUSH(stat);
@@ -551,16 +548,16 @@ subExpr
     PUSH_ALL(REV(objs));
 };
 
-atom = scalar | arrayLiteral | dictLiteral | funcLiteral | funcCall | indexCall | varRef;
+atom = scalar | arrayLiteral | dictLiteral | funcLiteral | funcCall | subscriptLoad | varRef;
 
-indexCall = qid '['! expr ']'! {
+subscriptLoad = qid '['! expr ']'! {
     XPNode *exprNode = POP();
 
     XPNode *refNode = [XPNode nodeWithToken:_loadTok];
     XPNode *idNode = [XPNode nodeWithToken:POP()];
     [refNode addChild:idNode];
 
-    XPNode *callNode = [XPNode nodeWithToken:_indexTok];
+    XPNode *callNode = [XPNode nodeWithToken:_loadSubscriptTok];
     [callNode addChild:refNode];
     [callNode addChild:exprNode];
     PUSH(callNode);

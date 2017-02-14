@@ -107,11 +107,15 @@
 // DECLARATIONS
         case XP_TOKEN_KIND_VAR:             [self varDecl:node]; break;
         case XP_TOKEN_KIND_SUB:             [self funcDecl:node]; break;
-            
+
+// REFERENCES
+        case XP_TOKEN_KIND_LOAD:            res = [self load:node]; break;
+        case XP_TOKEN_KIND_LOAD_SUBSCRIPT:  res = [self loadSubscript:node]; break;
+
 // ASSIGNMENTS
         case XP_TOKEN_KIND_EQUALS:          [self assign:node]; break;
-        case XP_TOKEN_KIND_ASSIGN_SUBSCRIPT:[self assignSubscript:node]; break;
-        case XP_TOKEN_KIND_ASSIGN_APPEND:   [self assignAppend:node]; break;
+        case XP_TOKEN_KIND_SAVE_SUBSCRIPT:  [self saveSubscript:node]; break;
+        case XP_TOKEN_KIND_APPEND:          [self append:node]; break;
             
 // FUNCTIONS
         case XP_TOKEN_KIND_CALL:            res = [self call:node]; break;
@@ -128,8 +132,6 @@
 // UNARY EXPR
         case XP_TOKEN_KIND_NOT:             res = [self not:node]; break;
         case XP_TOKEN_KIND_NEG:             res = [self neg:node]; break;
-        case XP_TOKEN_KIND_LOAD:            res = [self load:node]; break;
-        case XP_TOKEN_KIND_LOAD_INDEX:      res = [self loadIndex:node]; break;
             
 // BINARY EXPR
         case XP_TOKEN_KIND_OR:              res = [self or:node]; break;
@@ -217,8 +219,8 @@
 - (void)funcDecl:(XPNode *)node {}
 
 - (void)assign:(XPNode *)node {}
-- (void)assignSubscript:(XPNode *)node {}
-- (void)assignAppend:(XPNode *)node {}
+- (void)saveSubscript:(XPNode *)node {}
+- (void)append:(XPNode *)node {}
 
 - (id)call:(XPNode *)node {return nil;}
 - (void)returnStat:(XPNode *)node {}
@@ -250,7 +252,7 @@
 - (id)not:(XPNode *)node {return nil;}
 - (id)neg:(XPNode *)node {return nil;}
 - (id)load:(XPNode *)node {return nil;}
-- (id)loadIndex:(XPNode *)node {return nil;}
+- (id)loadSubscript:(XPNode *)node {return nil;}
 
 - (id)null:(XPNode *)node {return nil;}
 - (id)boolean:(XPNode *)node {return nil;}
