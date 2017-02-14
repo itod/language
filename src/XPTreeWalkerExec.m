@@ -249,7 +249,7 @@
 
     XPObject *res = nil;
 
-    if ([obj isArrayObject]) {
+    if ([obj isArrayObject] || [obj isStringObject]) {
         NSUInteger i = [[self walk:idxNode] doubleValue];
         
         res = [obj callInstanceMethodNamed:@"get" withArg:@(i)];

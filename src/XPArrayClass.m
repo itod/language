@@ -67,7 +67,7 @@
 }
 
 
-- (id)get:(XPObject *)this :(NSInteger)idx {
+- (XPObject *)get:(XPObject *)this :(NSInteger)idx {
     NSMutableArray *v = this.value;
     idx = [self nativeIndexForIndex:idx inArray:v];
     id res = [v objectAtIndex:idx];

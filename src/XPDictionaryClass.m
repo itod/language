@@ -58,7 +58,7 @@
 }
 
 
-- (id)get:(XPObject *)this :(XPObject *)key {
+- (XPObject *)get:(XPObject *)this :(XPObject *)key {
     NSMutableDictionary *tab = this.value;
     id res = [tab objectForKey:key];
     return res;

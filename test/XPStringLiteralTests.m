@@ -30,26 +30,26 @@
     TDEqualObjects(@"b", [self stringForName:@"baz"]);
 }
 
-//- (void)testFetchNegIndex {
-//    [self eval:@"var foo=['a','b'];var bar=foo[-1];var baz=foo[-2];"];
-//    TDEqualObjects(@"b", [self stringForName:@"bar"]);
-//    TDEqualObjects(@"a", [self stringForName:@"baz"]);
-//}
-//
-//- (void)testFetchNegIndex3 {
-//    [self eval:@"var foo=['a','b','c'];var bar=foo[-1];var baz=foo[-2];var bat=foo[-3];"];
-//    TDEqualObjects(@"c", [self stringForName:@"bar"]);
-//    TDEqualObjects(@"b", [self stringForName:@"baz"]);
-//    TDEqualObjects(@"a", [self stringForName:@"bat"]);
-//}
-//
-//- (void)testInsertNegIndex3 {
-//    [self eval:@"var foo=['a','b','c'];foo[-1]='z';foo[-2]='y';foo[-3]='x';var bar=foo[1];var baz=foo[2];var bat=foo[3];"];
-//    TDEqualObjects(@"x", [self stringForName:@"bar"]);
-//    TDEqualObjects(@"y", [self stringForName:@"baz"]);
-//    TDEqualObjects(@"z", [self stringForName:@"bat"]);
-//}
-//
+- (void)testFetchNegIndex {
+    [self eval:@"var foo='ab';var bar=foo[-1];var baz=foo[-2];"];
+    TDEqualObjects(@"b", [self stringForName:@"bar"]);
+    TDEqualObjects(@"a", [self stringForName:@"baz"]);
+}
+
+- (void)testFetchNegIndex3 {
+    [self eval:@"var foo='abc';var bar=foo[-1];var baz=foo[-2];var bat=foo[-3];"];
+    TDEqualObjects(@"c", [self stringForName:@"bar"]);
+    TDEqualObjects(@"b", [self stringForName:@"baz"]);
+    TDEqualObjects(@"a", [self stringForName:@"bat"]);
+}
+
+- (void)testInsertNegIndex3 {
+    [self eval:@"var foo='abc';foo[-1]='z';foo[-2]='y';foo[-3]='x';var bar=foo[1];var baz=foo[2];var bat=foo[3];"];
+    TDEqualObjects(@"x", [self stringForName:@"bar"]);
+    TDEqualObjects(@"y", [self stringForName:@"baz"]);
+    TDEqualObjects(@"z", [self stringForName:@"bat"]);
+}
+
 //- (void)testInsertAtIndex {
 //    [self eval:@"var foo=['a','b'];foo[1]='c';foo[2]='d';var bar=foo[1];var baz=foo[2];"];
 //    TDEqualObjects(@"c", [self stringForName:@"bar"]);

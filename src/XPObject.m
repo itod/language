@@ -56,6 +56,13 @@
     self = [super init];
     if (self) {
         self.objectClass = cls;
+        
+//        if ([val respondsToSelector:@selector(mutableCopy)]) {
+//            val = [[val mutableCopy] autorelease];
+//        } else {
+//            val = [[val copy] autorelease];
+//        }
+        
         self.value = val;
     }
     return self;

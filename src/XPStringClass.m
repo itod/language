@@ -23,8 +23,67 @@
 
 - (SEL)selectorForMethodNamed:(NSString *)methName {
     SEL sel = [super selectorForMethodNamed:methName];
+    
+    if ([methName isEqualToString:@"length"]) {
+        sel = @selector(length:);
+    } else if ([methName isEqualToString:@"get"]) {
+        sel = @selector(get::);
+    } else if ([methName isEqualToString:@"set"]) {
+        sel = @selector(set:::);
+    } else if ([methName isEqualToString:@"append"]) {
+        sel = @selector(append::);
+    }
     TDAssert(sel);
+    
     return sel;
+}
+
+
+- (id)length:(XPObject *)this {
+    NSMutableString *s = this.value;
+    NSInteger c = [s length];
+    return @(c);
+}
+
+
+- (NSInteger)nativeIndexForIndex:(NSInteger)inIdx inString:(NSString *)s {
+    NSInteger outIdx = inIdx;
+    
+    if (inIdx < 0) {
+        NSUInteger c = [s length];
+        outIdx = c+outIdx;
+    } else {
+        outIdx = inIdx-1;
+    }
+    
+    return outIdx;
+}
+
+
+- (XPObject *)get:(XPObject *)this :(NSInteger)idx {
+    NSMutableString *s = this.value;
+    idx = [self nativeIndexForIndex:idx inString:s];
+    unichar res = [s characterAtIndex:idx];
+    return [XPStringClass instanceWithValue:[NSString stringWithFormat:@"%C", res]];
+}
+
+
+- (void)set:(XPObject *)this :(NSInteger)idx :(XPObject *)obj {
+    if (![obj isStringObject]) {
+        @throw obj; // TODO
+    }
+    NSMutableString *s = this.value;
+    idx = [self nativeIndexForIndex:idx inString:s];
+    [s replaceCharactersInRange:NSMakeRange(idx, 1) withString:obj.value];
+}
+
+
+- (void)append:(XPObject *)this :(XPObject *)obj {
+    if (![obj isStringObject]) {
+        @throw obj; // TODO
+    }
+    NSMutableString *s = this.value;
+    [s appendString:obj.value];
 }
 
 
