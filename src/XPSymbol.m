@@ -16,9 +16,14 @@ static NSSet *sReserved = nil;
 + (void)initialize {
     if ([XPSymbol class] == self) {
         sReserved = [[NSSet alloc] initWithObjects:
+                     @"import",
+                     @"switch",
+                     @"case",
+                     @"default",
                      @"for",
                      @"in",
                      @"while",
+                     @"do",
                      @"if",
                      @"else",
                      @"break",
@@ -34,19 +39,32 @@ static NSSet *sReserved = nil;
                      
                      @"sub",
                      @"var",
+                     @"const",
                      
+                     @"new",
                      @"class",
                      @"extends",
                      @"static",
                      @"interface",
                      @"public",
                      @"private",
+                     @"abstract",
+                     @"this",
+                     @"super",
                      
+                     @"throws",
+                     @"try",
+                     @"catch",
+                     @"finally",
+                     
+                     @"object",
                      @"boolean",
                      @"number",
                      @"string",
                      @"array",
                      @"dictionary",
+                     
+                     @"await",
                      
                      @"assert",
                      @"print",
