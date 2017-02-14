@@ -19,8 +19,14 @@
 #import "XPFunctionClass.h"
 #import "XPFunctionSymbol.h"
 
+#import "FNBoolean.h"
+#import "FNNumber.h"
+#import "FNString.h"
+
 #import "FNCount.h"
+#import "FNPrint.h"
 #import "FNRange.h"
+#import "FNType.h"
 
 #import <PEGKit/PKAssembly.h>
 
@@ -55,8 +61,14 @@ NSString * const XPErrorLineNumberKey = @"line number";
     
     // DECLARE NATIVE FUNCS
     {
+        [self declareNativeFunction:[FNBoolean class]];
+        [self declareNativeFunction:[FNNumber class]];
+        [self declareNativeFunction:[FNString class]];
+        
         [self declareNativeFunction:[FNCount class]];
+        [self declareNativeFunction:[FNPrint class]];
         [self declareNativeFunction:[FNRange class]];
+        [self declareNativeFunction:[FNType class]];
     }
     
     // PARSE

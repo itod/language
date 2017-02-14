@@ -21,6 +21,11 @@
 }
 
 
+- (NSString *)name {
+    return @"number";
+}
+
+
 - (SEL)selectorForMethodNamed:(NSString *)methName {
     SEL sel = [super selectorForMethodNamed:methName];
     TDAssert(sel);

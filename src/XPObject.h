@@ -30,6 +30,10 @@
 - (double)doubleValue;
 - (BOOL)boolValue;
 
+- (XPObject *)asBooleanObject;
+- (XPObject *)asNumberObject;
+- (XPObject *)asStringObject;
+
 - (BOOL)isBooleanObject;
 - (BOOL)isNumericObject;
 - (BOOL)isStringObject;

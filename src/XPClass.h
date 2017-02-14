@@ -16,6 +16,8 @@
 + (instancetype)classInstance;
 + (XPObject *)instanceWithValue:(id)val;
 
+- (NSString *)name;
+
 - (XPObject *)internedObjectWithValue:(id)val;
 - (NSMethodSignature *)getInvocation:(NSInvocation **)outInvoc forMethodNamed:(NSString *)methName;
 

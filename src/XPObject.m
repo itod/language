@@ -191,6 +191,21 @@
 #pragma mark -
 #pragma mark Public
 
+- (XPObject *)asBooleanObject {
+    return [XPBooleanClass instanceWithValue:@([self boolValue])];
+}
+
+
+- (XPObject *)asNumberObject {
+    return [XPNumberClass instanceWithValue:@([self doubleValue])];
+}
+
+
+- (XPObject *)asStringObject {
+    return [XPStringClass instanceWithValue:[self stringValue]];
+}
+
+
 - (NSString *)stringValue {
     NSString *str = [self callInstanceMethodNamed:@"stringValue"];
     return str;

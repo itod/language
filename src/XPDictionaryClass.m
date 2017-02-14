@@ -22,6 +22,11 @@
 }
 
 
+- (NSString *)name {
+    return @"table";
+}
+
+
 - (SEL)selectorForMethodNamed:(NSString *)methName {
     SEL sel = [super selectorForMethodNamed:methName];
 

@@ -40,6 +40,8 @@ static NSSet *sReserved = nil;
                      @"array",
                      @"table",
                      
+                     @"assert",
+                     @"print",
                      @"map",
                      @"filter",
                      @"copy",

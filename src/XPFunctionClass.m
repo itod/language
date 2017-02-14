@@ -21,6 +21,11 @@
 }
 
 
+- (NSString *)name {
+    return @"subroutine";
+}
+
+
 - (SEL)selectorForMethodNamed:(NSString *)methName {
     SEL sel = [super selectorForMethodNamed:methName];
     TDAssert(sel);
@@ -29,7 +34,7 @@
 
 
 - (id)stringValue:(XPObject *)this {
-    return @"[object Function]"; // TODO
+    return @"[object Subroutine]"; // TODO
 }
 
 
