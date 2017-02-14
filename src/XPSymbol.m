@@ -16,6 +16,8 @@ static NSSet *sReserved = nil;
 + (void)initialize {
     if ([XPSymbol class] == self) {
         sReserved = [[NSSet alloc] initWithObjects:
+                     @"synchronized",
+                     @"await",
                      @"import",
                      @"switch",
                      @"case",
@@ -63,8 +65,6 @@ static NSSet *sReserved = nil;
                      @"string",
                      @"array",
                      @"dictionary",
-                     
-                     @"await",
                      
                      @"assert",
                      @"print",

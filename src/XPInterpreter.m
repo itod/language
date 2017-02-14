@@ -23,6 +23,7 @@
 #import "FNNumber.h"
 #import "FNString.h"
 
+#import "FNAssert.h"
 #import "FNCount.h"
 #import "FNPrint.h"
 #import "FNRange.h"
@@ -65,6 +66,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
         [self declareNativeFunction:[FNNumber class]];
         [self declareNativeFunction:[FNString class]];
         
+        [self declareNativeFunction:[FNAssert class]];
         [self declareNativeFunction:[FNCount class]];
         [self declareNativeFunction:[FNPrint class]];
         [self declareNativeFunction:[FNRange class]];
