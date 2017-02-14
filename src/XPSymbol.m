@@ -46,7 +46,7 @@ static NSSet *sReserved = nil;
                      @"number",
                      @"string",
                      @"array",
-                     @"table",
+                     @"dictionary",
                      
                      @"assert",
                      @"print",
