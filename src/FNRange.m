@@ -29,7 +29,9 @@
                       b, @"b",
                       step, @"step",
                       nil];
-
+    
+//    [funcSym setDefaultExpression:<#(XPNode *)#> forParamNamed:@"b"];
+//    [funcSym setDefaultExpression:<#(XPNode *)#> forParamNamed:@"step"];
     return funcSym;
 }
 

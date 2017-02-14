@@ -115,13 +115,25 @@
     //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     // (sub make (BLOCK (return [)))
 
-    NSString *name = [[[node childAtIndex:0] token] stringValue];
+    XPNode *nameNode = [node childAtIndex:0];
+    NSString *name = nameNode.token.stringValue;
 
     if ([[XPSymbol reservedWords] containsObject:name]) {
         [self raise:XPExceptionReservedWord node:node format:@"cannot define subroutine with reserved name `%@`", name];
         return;
     }
     
+    XPFunctionSymbol *funcSym = nil;
+    {
+        // maybe this was a call on a func literal
+        XPObject *var = [self _loadVariableReference:nameNode];
+        TDAssert([var isKindOfClass:[XPObject class]]);
+        funcSym = var.value;
+        TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
+    }
+
+    [self evalDefaultParams:funcSym];
+
 //    NSString *name = [[[node childAtIndex:0] token] stringValue];
 //    TDAssert(node.scope);
 //        
@@ -132,6 +144,19 @@
 //    
 //    TDAssert(self.currentSpace);
 //    [self.currentSpace setObject:obj forName:name];
+}
+
+
+- (void)evalDefaultParams:(XPFunctionSymbol *)funcSym {
+    if (!funcSym.defaultParamExpressions) return;
+    
+    for (NSString *name in funcSym.defaultParamExpressions) {
+        XPNode *expr = funcSym.defaultParamExpressions[name];
+        XPObject *valObj = [self walk:expr];
+        [funcSym setDefaultObject:valObj forParamNamed:name];
+    }
+    
+    funcSym.defaultParamExpressions = nil;
 }
 
 
@@ -429,17 +454,20 @@
     self.currentSpace = funcSpace;
 
     // APPLY DEFAULT PARAMS
-    for (NSString *name in funcSym.defaultParamValues) {
-        XPNode *expr = funcSym.defaultParamValues[name];
-        XPObject *valObj = [self walk:expr];
-        [funcSpace setObject:valObj forName:name];
+    {
+        [self evalDefaultParams:funcSym];
+        
+        for (NSString *name in funcSym.defaultParamObjects) {
+            XPObject *valObj = funcSym.defaultParamObjects[name];
+            [funcSpace setObject:valObj forName:name];
+        }
     }
     
     // EVAL ARGS
     {
         NSUInteger argCount = [node childCount]-OFFSET;                     TDAssert(NSNotFound != argCount);
         NSUInteger paramCount = [funcSym.params count];                     TDAssert(NSNotFound != paramCount);
-        NSUInteger defaultParamCount = [funcSym.defaultParamValues count];  TDAssert(NSNotFound != defaultParamCount);
+        NSUInteger defaultParamCount = [funcSym.defaultParamObjects count]; TDAssert(NSNotFound != defaultParamCount);
         
         // check for too many args
         if (argCount > paramCount) {

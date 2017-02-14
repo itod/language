@@ -34,7 +34,8 @@
     self.nativeBody = nil;
     self.params = nil;
     self.orderedParams = nil;
-    self.defaultParamValues = nil;
+    self.defaultParamExpressions = nil;
+    self.defaultParamObjects = nil;
     [super dealloc];
 }
 
@@ -65,16 +66,29 @@
 #pragma mark -
 #pragma mark XPFunctionSymbol
 
-- (void)setDefaultValue:(XPNode *)val forParamNamed:(NSString *)name {
+- (void)setDefaultExpression:(XPNode *)val forParamNamed:(NSString *)name {
     TDAssert(val);
     TDAssert([name length]);
     
-    if (!_defaultParamValues) {
-        self.defaultParamValues = [NSMutableDictionary dictionary];
+    if (!_defaultParamExpressions) {
+        self.defaultParamExpressions = [NSMutableDictionary dictionary];
     }
     
-    TDAssert(_defaultParamValues);
-    [_defaultParamValues setObject:val forKey:name];
+    TDAssert(_defaultParamExpressions);
+    [_defaultParamExpressions setObject:val forKey:name];
+}
+
+
+- (void)setDefaultObject:(XPObject *)obj forParamNamed:(NSString *)name {
+    TDAssert(obj);
+    TDAssert([name length]);
+    
+    if (!_defaultParamObjects) {
+        self.defaultParamObjects = [NSMutableDictionary dictionary];
+    }
+    
+    TDAssert(_defaultParamObjects);
+    [_defaultParamObjects setObject:obj forKey:name];
 }
 
 @end

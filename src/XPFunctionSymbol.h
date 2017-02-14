@@ -9,6 +9,8 @@
 #import "XPScopedSymbol.h"
 
 @class XPNode;
+@class XPObject;
+@class XPTreeWalker;
 @class XPFunctionBody;
 
 @interface XPFunctionSymbol : XPScopedSymbol
@@ -16,11 +18,13 @@
 + (instancetype)symbolWithName:(NSString *)name enclosingScope:(id<XPScope>)scope;
 - (instancetype)initWithName:(NSString *)name enclosingScope:(id<XPScope>)scope;
 
-- (void)setDefaultValue:(XPNode *)val forParamNamed:(NSString *)name;
+- (void)setDefaultExpression:(XPNode *)val forParamNamed:(NSString *)name;
+- (void)setDefaultObject:(XPObject *)obj forParamNamed:(NSString *)name;
 
 @property (nonatomic, retain) XPNode *blockNode;
 @property (nonatomic, retain) XPFunctionBody *nativeBody;
 @property (nonatomic, retain) NSMutableDictionary<NSString *, XPSymbol *> *params;
 @property (nonatomic, retain) NSMutableArray<XPSymbol *> *orderedParams;
-@property (nonatomic, retain) NSMutableDictionary<NSString *, XPNode *> *defaultParamValues;
+@property (nonatomic, retain) NSMutableDictionary<NSString *, XPNode *> *defaultParamExpressions;
+@property (nonatomic, retain) NSMutableDictionary<NSString *, XPObject *> *defaultParamObjects;
 @end

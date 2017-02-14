@@ -779,7 +779,7 @@
 
     // set default val
     XPFunctionSymbol *funcSym = (id)_currentScope;
-    [funcSym setDefaultValue:expr forParamNamed:name];
+    [funcSym setDefaultExpression:expr forParamNamed:name];
 
     XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];
     NSMutableDictionary *params = POP();
