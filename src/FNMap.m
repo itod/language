@@ -11,7 +11,7 @@
 #import "XPFunctionClass.h"
 #import "XPArrayClass.h"
 #import "XPFunctionSymbol.h"
-#import "XPMemorySpace.h"
+#import "XPFunctionSpace.h"
 #import "XPException.h"
 
 @implementation FNMap
@@ -45,6 +45,8 @@
     XPObject *func = [space objectForName:@"function"];
     TDAssert(func);
     
+    XPFunctionSymbol *funcSym = func.value;
+    
     if (![coll isArrayObject]) {
         [XPException raise:XPExceptionTypeMismatch format:@"`map()` subroutine called on non-array object"];
         return nil;
@@ -55,8 +57,31 @@
     
     for (XPObject *oldItem in old) {
         TDAssert([oldItem isKindOfClass:[XPObject class]]);
+
+        XPFunctionSpace *funcSpace = [XPFunctionSpace functionSpaceWithSymbol:funcSym];
         
-        XPObject *newItem = call(func, oldItem);
+        // EVAL ARGS
+        {
+            XPSymbol *param = funcSym.orderedParams[0];
+            [funcSpace setObject:oldItem forName:param.name];
+        }
+        
+        // CALL
+        XPObject *newItem = nil;
+//        {
+//            TDAssert(self.stack);
+//            [self.stack addObject:funcSpace];
+//            
+//            TDAssert(funcSym.blockNode);
+//            @try {
+//                [self funcBlock:funcSym.blockNode];
+//            } @catch (XPReturnExpception *ex) {
+//                newItem = ex.value;
+//            }
+//            
+//            [self.stack removeLastObject];
+//        }
+        
         [new addObject:newItem];
     }
     
