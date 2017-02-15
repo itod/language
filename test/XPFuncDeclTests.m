@@ -106,4 +106,12 @@
     TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
 }
 
+- (void)testDupeParams {
+    [self fail:@"sub foo(a,a) { }"];
+    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+
+    [self fail:@"sub foo(b,b=10) { }"];
+    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+}
+
 @end

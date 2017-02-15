@@ -381,29 +381,39 @@ param       = dfaultParam | nakedParam;
 dfaultParam = qid '='! expr {
     _foundDefaultParam = YES;
 
-    XPNode *expr = POP();
+    XPNode *exprNode = POP();
+    PKToken *nameToken = PEEK();
     NSString *name = POP_STR();
 
-    // set default val
     XPFunctionSymbol *funcSym = (id)_currentScope;
-    [funcSym setDefaultExpression:expr forParamNamed:name];
+
+    // set default val
+    [funcSym setDefaultExpression:exprNode forParamNamed:name];
 
     XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];
     NSMutableDictionary *params = POP();
+
+    // check for dupe param names
+    if ([params objectForKey:name]) [self raiseInRange:NSMakeRange(nameToken.offset, [name length]) lineNumber:nameToken.lineNumber name:XPExceptionSyntaxError format:@"more than one param named `%@` in declaration of subroutine `%@`", name, funcSym.name];
+
     [params setObject:sym forKey:name];
     PUSH(params);
     [funcSym.orderedParams addObject:sym];
 };
 
 nakedParam  = { !_foundDefaultParam }? qid {
-    PKToken *qidTok = POP();
-    NSString *name = qidTok.stringValue;
+    PKToken *nameTok = PEEK();
+    NSString *name = POP_STR();
     XPVariableSymbol *sym = [XPVariableSymbol symbolWithName:name];
+    XPFunctionSymbol *funcSym = (id)_currentScope;
     NSMutableDictionary *params = POP();
+        
+    // check for dupe param names
+    if ([params objectForKey:name]) [self raiseInRange:NSMakeRange(nameTok.offset, [name length]) lineNumber:nameTok.lineNumber name:XPExceptionSyntaxError format:@"more than one param named `%@` in declaration of subroutine `%@`", name, funcSym.name];
+        
     [params setObject:sym forKey:name];
     PUSH(params);
 
-    XPFunctionSymbol *funcSym = (id)_currentScope;
     [funcSym.orderedParams addObject:sym];
 };
 
