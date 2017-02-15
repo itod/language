@@ -31,6 +31,9 @@
 #import "FNPosition.h"
 #import "FNRange.h"
 
+#import "FNMap.h"
+#import "FNFilter.h"
+
 #import "FNTrim.h"
 #import "FNLowercase.h"
 #import "FNUppercase.h"
@@ -87,6 +90,10 @@ NSString * const XPErrorLineNumberKey = @"line number";
         [self declareNativeFunction:[FNCount class]];
         [self declareNativeFunction:[FNPosition class]];
         [self declareNativeFunction:[FNRange class]];
+        
+        // coll
+        [self declareNativeFunction:[FNMap class]];
+        [self declareNativeFunction:[FNFilter class]];
 
         // str
         [self declareNativeFunction:[FNTrim class]];
@@ -98,8 +105,6 @@ NSString * const XPErrorLineNumberKey = @"line number";
         
         // num
         [self declareNativeFunction:[FNIsNan class]];
-        
-        
     }
     
     // PARSE
