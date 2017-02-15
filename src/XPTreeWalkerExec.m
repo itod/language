@@ -634,14 +634,12 @@
 #pragma mark Literals
 
 - (id)null:(XPNode *)node {
-    XPObject *obj = [XPObject nullObject];
-    return obj;
+    return [XPObject nullObject];
 }
 
 
 - (id)nan:(XPNode *)node {
-    XPObject *obj = [XPObject nanObject];
-    return obj;
+    return [XPObject nanObject];
 }
 
 
@@ -703,7 +701,5 @@
     XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
     return obj;
 }
-
-
 
 @end

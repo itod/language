@@ -7,6 +7,7 @@
 //
 
 #import "FNRange.h"
+#import "XPObject.h"
 #import "XPNumberClass.h"
 #import "XPArrayClass.h"
 #import "XPFunctionSymbol.h"
@@ -33,7 +34,7 @@
                       step, @"step",
                       nil];
     
-    [funcSym setDefaultObject:[XPNumberClass instanceWithValue:@(NAN)] forParamNamed:@"b"];
+    [funcSym setDefaultObject:[XPObject nanObject] forParamNamed:@"b"];
     [funcSym setDefaultObject:[XPNumberClass instanceWithValue:@1] forParamNamed:@"step"];
     return funcSym;
 }
