@@ -1,5 +1,5 @@
 //
-//  FNLowerCase.h
+//  FNLowercase.h
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
