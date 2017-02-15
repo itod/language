@@ -74,4 +74,9 @@
     TDEquals(NO, [self boolForName:@"b"]);
 }
 
+- (void)testNumber1EqNumberTrue {
+    [self eval:@"var b=number('1')==number(true);"];
+    TDTrue([self boolForName:@"b"]);
+}
+
 @end

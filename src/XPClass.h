@@ -23,6 +23,10 @@
 
 - (XPEnumeration *)enumeration:(XPObject *)this;
 
+- (id)stringValue:(XPObject *)this;
+- (id)doubleValue:(XPObject *)this;
+- (id)boolValue:(XPObject *)this;
+
 // Subclass
 - (SEL)selectorForMethodNamed:(NSString *)methName;
 @end

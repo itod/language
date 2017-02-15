@@ -217,20 +217,17 @@
 
 
 - (NSString *)stringValue {
-    NSString *str = [self callInstanceMethodNamed:@"stringValue"];
-    return str;
+    return [self.objectClass stringValue:self];
 }
 
 
 - (double)doubleValue {
-    double d = [[self callInstanceMethodNamed:@"doubleValue"] doubleValue];
-    return d;
+    return [[self.objectClass doubleValue:self] doubleValue];
 }
 
 
 - (BOOL)boolValue {
-    BOOL b = [[self callInstanceMethodNamed:@"boolValue"] boolValue];
-    return b;
+    return [[self.objectClass boolValue:self] boolValue];
 }
 
 
@@ -294,12 +291,12 @@
 
 
 - (NSUInteger)hash {
-    return [_value hash];
+    return [self.value hash];
 }
 
 
 - (XPEnumeration *)enumeration {
-    return [_objectClass enumeration:self];
+    return [self.objectClass enumeration:self];
 }
 
 
