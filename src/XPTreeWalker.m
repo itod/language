@@ -139,6 +139,7 @@
             
         case XP_TOKEN_KIND_EQ:              res = [self eq:node]; break;
         case XP_TOKEN_KIND_NE:              res = [self ne:node]; break;
+        case XP_TOKEN_KIND_IS:              res = [self is:node]; break;
             
         case XP_TOKEN_KIND_LT:              res = [self lt:node]; break;
         case XP_TOKEN_KIND_LE:              res = [self le:node]; break;
@@ -156,8 +157,8 @@
 // NaN
         case XP_TOKEN_KIND_NAN:             res = [self nan:node]; break;
 // BOOLEAN
-        case XP_TOKEN_KIND_TRUE:
-        case XP_TOKEN_KIND_FALSE:           res = [self boolean:node]; break;
+        case XP_TOKEN_KIND_TRUE:            res = [self trueNode:node]; break;
+        case XP_TOKEN_KIND_FALSE:           res = [self falseNode:node]; break;
 // NUMBER
         case TOKEN_KIND_BUILTIN_NUMBER:     res = [self number:node]; break;
 // STRING
@@ -239,6 +240,7 @@
 
 - (id)eq:(XPNode *)node {return nil;}
 - (id)ne:(XPNode *)node {return nil;}
+- (id)is:(XPNode *)node {return nil;}
 
 - (id)lt:(XPNode *)node {return nil;}
 - (id)le:(XPNode *)node {return nil;}
@@ -258,7 +260,8 @@
 
 - (id)null:(XPNode *)node {return nil;}
 - (id)nan:(XPNode *)node {return nil;}
-- (id)boolean:(XPNode *)node {return nil;}
+- (id)trueNode:(XPNode *)node {return nil;}
+- (id)falseNode:(XPNode *)node {return nil;}
 - (id)number:(XPNode *)node {return nil;}
 - (id)string:(XPNode *)node {return nil;}
 - (id)array:(XPNode *)node {return nil;}

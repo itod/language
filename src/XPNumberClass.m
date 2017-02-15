@@ -9,6 +9,15 @@
 #import "XPNumberClass.h"
 #import "XPObject.h"
 
+@interface XPObject ()
+- (instancetype)initWithClass:(XPClass *)cls value:(id)val;
+@end
+
+@interface XPNumberClass ()
+@property (nonatomic, retain) NSMutableDictionary *cache;
+@property (nonatomic, retain) XPObject *nanObject;
+@end
+
 @implementation XPNumberClass
 
 + (instancetype)classInstance {
@@ -18,6 +27,32 @@
         cls = [[self alloc] init];
     }
     return cls;
+}
+
+
+- (void)dealloc {
+    self.cache = nil;
+    self.nanObject = nil;
+    [super dealloc];
+}
+
+
+- (XPObject *)internedObjectWithValue:(id)val {
+    TDAssertMainThread();
+    
+    XPObject *res = nil;
+    
+    if (isnan([val doubleValue])) {
+        res = self.nanObject;
+    } else {
+        res = self.cache[val];
+        if (!res) {
+            res = [[[XPObject alloc] initWithClass:self value:val] autorelease];
+            self.cache[val] = res;
+        }
+    }
+    
+    return res;
 }
 
 
@@ -48,5 +83,25 @@
     return (d != 0.0 && !isnan(d)) ? @YES : @NO;
 }
 
+
+#pragma mark -
+#pragma markPrivate
+
+- (NSMutableDictionary *)cache {
+    if (!_cache) {
+        self.cache = [NSMutableDictionary dictionary];
+    }
+    
+    return _cache;
+}
+
+
+- (XPObject *)nanObject {
+    if (!_nanObject) {
+        self.nanObject = [[[XPObject alloc] initWithClass:self value:@(NAN)] autorelease];
+    }
+    
+    return _nanObject;
+}
 
 @end

@@ -9,5 +9,5 @@
 #import "XPClass.h"
 
 @interface XPNumberClass : XPClass
-
+- (XPObject *)nanObject;
 @end

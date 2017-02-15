@@ -9,5 +9,6 @@
 #import "XPClass.h"
 
 @interface XPBooleanClass : XPClass
-
+- (XPObject *)trueObject;
+- (XPObject *)falseObject;
 @end

@@ -24,6 +24,7 @@ static NSSet *sReserved = nil;
                      @"default",
                      @"for",
                      @"in",
+                     @"is",
                      @"while",
                      @"do",
                      @"if",

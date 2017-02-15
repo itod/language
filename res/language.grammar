@@ -463,7 +463,8 @@ andExpr = equalityExpr (and equalityExpr {
 
 eq      = '==';
 ne      = '!=';
-equalityExpr = relationalExpr ((eq | ne) relationalExpr {
+is      = 'is';
+equalityExpr = relationalExpr ((eq | ne | is) relationalExpr {
     XPNode *rhs = POP();
     XPNode *eqNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();

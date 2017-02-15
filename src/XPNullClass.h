@@ -9,5 +9,5 @@
 #import "XPClass.h"
 
 @interface XPNullClass : XPClass
-
+- (XPObject *)nullObject;
 @end

@@ -132,4 +132,21 @@
     TDFalse([self boolForName:@"foo"]);
 }
 
+- (void)testFooIsBar {
+    [self eval:@"var foo=1;var bar=foo;var yn=foo is bar;"];
+    TDTrue([self boolForName:@"yn"]);
+}
+
+- (void)testFooIsBar2 {
+    [self eval:@"var foo=1;var bar=1;var yn=foo is bar;"];
+    TDTrue([self boolForName:@"yn"]);
+}
+
+- (void)test1Is1 {
+    [self eval:@"var foo=1 is 1;"];
+    TDTrue([self boolForName:@"foo"]);
+}
+
+
+
 @end

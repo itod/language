@@ -9,6 +9,14 @@
 #import "XPNullClass.h"
 #import "XPObject.h"
 
+@interface XPObject ()
+- (instancetype)initWithClass:(XPClass *)cls value:(id)val;
+@end
+
+@interface XPNullClass ()
+@property (nonatomic, retain) XPObject *nullObject;
+@end
+
 @implementation XPNullClass
 
 + (instancetype)classInstance {
@@ -18,6 +26,18 @@
         cls = [[self alloc] init];
     }
     return cls;
+}
+
+
+- (void)dealloc {
+    self.nullObject = nil;
+    [super dealloc];
+}
+
+
+- (XPObject *)internedObjectWithValue:(id)val {
+    TDAssertMainThread();
+    return self.nullObject;
 }
 
 
@@ -34,7 +54,7 @@
 
 
 - (id)stringValue:(XPObject *)this {
-    return @"";
+    return @"(null)";
 }
 
 
@@ -47,5 +67,13 @@
     return @NO;
 }
 
+
+- (XPObject *)nullObject {
+    if (!_nullObject) {
+        self.nullObject = [[[XPObject alloc] initWithClass:self value:[NSNull null]] autorelease];
+    }
+    
+    return _nullObject;
+}
 
 @end

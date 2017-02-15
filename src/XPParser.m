@@ -100,10 +100,11 @@
         self.startRuleName = @"program";
         self.tokenKindTab[@"{"] = @(XP_TOKEN_KIND_OPEN_CURLY);
         self.tokenKindTab[@">="] = @(XP_TOKEN_KIND_GE);
-        self.tokenKindTab[@"for"] = @(XP_TOKEN_KIND_FOR);
+        self.tokenKindTab[@"is"] = @(XP_TOKEN_KIND_IS);
         self.tokenKindTab[@"break"] = @(XP_TOKEN_KIND_BREAK);
-        self.tokenKindTab[@"}"] = @(XP_TOKEN_KIND_CLOSE_CURLY);
+        self.tokenKindTab[@"for"] = @(XP_TOKEN_KIND_FOR);
         self.tokenKindTab[@"return"] = @(XP_TOKEN_KIND_RETURN);
+        self.tokenKindTab[@"}"] = @(XP_TOKEN_KIND_CLOSE_CURLY);
         self.tokenKindTab[@"true"] = @(XP_TOKEN_KIND_TRUE);
         self.tokenKindTab[@"if"] = @(XP_TOKEN_KIND_IF);
         self.tokenKindTab[@"!="] = @(XP_TOKEN_KIND_NE);
@@ -140,10 +141,11 @@
 
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_CURLY] = @"{";
         self.tokenKindNameTab[XP_TOKEN_KIND_GE] = @">=";
-        self.tokenKindNameTab[XP_TOKEN_KIND_FOR] = @"for";
+        self.tokenKindNameTab[XP_TOKEN_KIND_IS] = @"is";
         self.tokenKindNameTab[XP_TOKEN_KIND_BREAK] = @"break";
-        self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_CURLY] = @"}";
+        self.tokenKindNameTab[XP_TOKEN_KIND_FOR] = @"for";
         self.tokenKindNameTab[XP_TOKEN_KIND_RETURN] = @"return";
+        self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_CURLY] = @"}";
         self.tokenKindNameTab[XP_TOKEN_KIND_TRUE] = @"true";
         self.tokenKindNameTab[XP_TOKEN_KIND_IF] = @"if";
         self.tokenKindNameTab[XP_TOKEN_KIND_NE] = @"!=";
@@ -957,14 +959,23 @@
     [self fireDelegateSelector:@selector(parser:didMatchNe:)];
 }
 
+- (void)is_ {
+    
+    [self match:XP_TOKEN_KIND_IS discard:NO]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchIs:)];
+}
+
 - (void)equalityExpr_ {
     
     [self relationalExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_EQ, 0]) {[self eq_]; } else if ([self predicts:XP_TOKEN_KIND_NE, 0]) {[self ne_]; } else {[self raise:@"No viable alternative found in rule 'equalityExpr'."];}[self relationalExpr_]; }]) {
+    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_EQ, 0]) {[self eq_]; } else if ([self predicts:XP_TOKEN_KIND_NE, 0]) {[self ne_]; } else if ([self predicts:XP_TOKEN_KIND_IS, 0]) {[self is_]; } else {[self raise:@"No viable alternative found in rule 'equalityExpr'."];}[self relationalExpr_]; }]) {
         if ([self predicts:XP_TOKEN_KIND_EQ, 0]) {
             [self eq_]; 
         } else if ([self predicts:XP_TOKEN_KIND_NE, 0]) {
             [self ne_]; 
+        } else if ([self predicts:XP_TOKEN_KIND_IS, 0]) {
+            [self is_]; 
         } else {
             [self raise:@"No viable alternative found in rule 'equalityExpr'."];
         }

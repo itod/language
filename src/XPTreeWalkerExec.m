@@ -584,6 +584,7 @@
 
 - (id)eq:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_EQ]; }
 - (id)ne:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_NE]; }
+- (id)is:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_IS]; }
 
 - (id)lt:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_LT]; }
 - (id)le:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_LE]; }
@@ -619,7 +620,7 @@
             break;
     }
 
-    return [XPBooleanClass instanceWithValue:@(res)];
+    return [XPNumberClass instanceWithValue:@(res)];
 }
 
 - (id)plus:(XPNode *)node   { return [self math:node op:XP_TOKEN_KIND_PLUS]; }
@@ -633,21 +634,24 @@
 #pragma mark Literals
 
 - (id)null:(XPNode *)node {
-    XPObject *obj = [XPObject null];
+    XPObject *obj = [XPObject nullObject];
     return obj;
 }
 
 
 - (id)nan:(XPNode *)node {
-    XPObject *obj = [XPObject nan];
+    XPObject *obj = [XPObject nanObject];
     return obj;
 }
 
 
-- (id)boolean:(XPNode *)node {
-    // false
-    XPObject *obj = [XPBooleanClass instanceWithValue:([node.token.stringValue isEqualToString:@"true"]) ? @YES : @NO];
-    return obj;
+- (id)trueNode:(XPNode *)node {
+    return [XPObject trueObject];
+}
+
+
+- (id)falseNode:(XPNode *)node {
+    return [XPObject falseObject];
 }
 
 

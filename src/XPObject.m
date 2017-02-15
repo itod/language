@@ -24,23 +24,27 @@
 
 @implementation XPObject
 
-+ (instancetype)null {
++ (instancetype)nullObject {
     TDAssertMainThread();
-    static XPObject *null = nil;
-    if (!null) {
-        null = [[XPObject alloc] initWithClass:[XPNullClass classInstance] value:nil];
-    }
-    return null;
+    return [[XPNullClass classInstance] nullObject];
 }
 
 
-+ (instancetype)nan {
++ (instancetype)nanObject {
     TDAssertMainThread();
-    static XPObject *nan = nil;
-    if (!nan) {
-        nan = [[XPObject alloc] initWithClass:[XPNumberClass classInstance] value:@(NAN)];
-    }
-    return nan;
+    return [[XPNumberClass classInstance] nanObject];
+}
+
+
++ (instancetype)trueObject {
+    TDAssertMainThread();
+    return [[XPBooleanClass classInstance] trueObject];
+}
+
+
++ (instancetype)falseObject {
+    TDAssertMainThread();
+    return [[XPBooleanClass classInstance] falseObject];
 }
 
 
@@ -252,6 +256,7 @@
     
     if (op == XP_TOKEN_KIND_EQ) return [self isEqualToObject:other];
     if (op == XP_TOKEN_KIND_NE) return [self isNotEqualToObject:other];
+    if (op == XP_TOKEN_KIND_IS) return self == other;
     
     return [self compareNumber:[self doubleValue] toNumber:[other doubleValue] usingOperator:op];
 }

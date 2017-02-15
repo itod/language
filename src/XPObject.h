@@ -13,8 +13,10 @@
 
 @interface XPObject : NSObject <NSCopying>
 
-+ (instancetype)null;
-+ (instancetype)nan;
++ (instancetype)nullObject;
++ (instancetype)nanObject;
++ (instancetype)trueObject;
++ (instancetype)falseObject;
 + (instancetype)objectWithClass:(XPClass *)cls value:(id)val;
 
 - (id)callInstanceMethodNamed:(NSString *)name; // convenience
