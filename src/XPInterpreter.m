@@ -29,6 +29,10 @@
 #import "FNRange.h"
 #import "FNType.h"
 
+#import "FNTrim.h"
+#import "FNLowercase.h"
+#import "FNUppercase.h"
+
 #import <PEGKit/PKAssembly.h>
 
 NSString * const XPErrorDomain = @"XPErrorDomain";
@@ -71,6 +75,10 @@ NSString * const XPErrorLineNumberKey = @"line number";
         [self declareNativeFunction:[FNPrint class]];
         [self declareNativeFunction:[FNRange class]];
         [self declareNativeFunction:[FNType class]];
+
+        [self declareNativeFunction:[FNTrim class]];
+        [self declareNativeFunction:[FNLowercase class]];
+        [self declareNativeFunction:[FNUppercase class]];
     }
     
     // PARSE
