@@ -9,6 +9,7 @@
 #import "FNMap.h"
 #import "XPObject.h"
 #import "XPFunctionClass.h"
+#import "XPArrayClass.h"
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 #import "XPException.h"
@@ -41,10 +42,25 @@
     
     XPObject *coll = [space objectForName:@"collection"];
     TDAssert(coll);
-    XPObject *func = [space objectForName:@"func"];
+    XPObject *func = [space objectForName:@"function"];
     TDAssert(func);
     
-    return nil;
+    if (![coll isArrayObject]) {
+        [XPException raise:XPExceptionTypeMismatch format:@"`map()` subroutine called on non-array object"];
+        return nil;
+    }
+    
+    NSArray *old = coll.value;
+    NSMutableArray *new = [NSMutableArray arrayWithCapacity:[old count]];
+    
+    for (XPObject *oldItem in old) {
+        TDAssert([oldItem isKindOfClass:[XPObject class]]);
+        
+        XPObject *newItem = call(func, oldItem);
+        [new addObject:newItem];
+    }
+    
+    return [XPArrayClass instanceWithValue:new];
 }
 
 @end
