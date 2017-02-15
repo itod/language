@@ -9,9 +9,12 @@
 #import "FNFilter.h"
 #import "XPObject.h"
 #import "XPFunctionClass.h"
+#import "XPArrayClass.h"
 #import "XPFunctionSymbol.h"
-#import "XPMemorySpace.h"
+#import "XPFunctionSpace.h"
 #import "XPException.h"
+#import "XPReturnException.h"
+#import "XPTreeWalker.h"
 
 @implementation FNFilter
 
@@ -36,15 +39,61 @@
 }
 
 
-- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(id)walker {
+- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(XPTreeWalker *)walker {
     TDAssert(space);
     
     XPObject *coll = [space objectForName:@"collection"];
     TDAssert(coll);
-    XPObject *func = [space objectForName:@"func"];
+    XPObject *func = [space objectForName:@"function"];
     TDAssert(func);
     
-    return nil;
+    XPFunctionSymbol *funcSym = func.value;
+    
+    if (![coll isArrayObject]) {
+        [XPException raise:XPExceptionTypeMismatch format:@"`map()` subroutine called on non-array object"];
+        return nil;
+    }
+    
+    NSArray *old = coll.value;
+    NSMutableArray *new = [NSMutableArray arrayWithCapacity:[old count]];
+    
+    for (XPObject *oldItem in old) {
+        TDAssert([oldItem isKindOfClass:[XPObject class]]);
+        
+        XPFunctionSpace *funcSpace = [XPFunctionSpace functionSpaceWithSymbol:funcSym];
+        walker.currentSpace = funcSpace;
+        
+        // EVAL ARGS
+        {
+            XPSymbol *param = funcSym.orderedParams[0];
+            [funcSpace setObject:oldItem forName:param.name];
+        }
+        
+        // CALL
+        XPObject *yn = nil;
+        {
+            TDAssert(walker.stack);
+            [walker.stack addObject:funcSpace];
+            
+            TDAssert(funcSym.blockNode);
+            @try {
+                [walker funcBlock:funcSym.blockNode];
+            } @catch (XPReturnExpception *ex) {
+                yn = ex.value;
+            }
+            
+            [walker.stack removeLastObject];
+        }
+        
+        if ([yn boolValue]) {
+            [new addObject:oldItem];
+        }
+        
+        // POP MEMORY SPACE
+        walker.currentSpace = space;
+    }
+    
+    return [XPArrayClass instanceWithValue:new];
 }
 
 @end
