@@ -89,7 +89,7 @@
             NSError *err = nil;
             NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:opts error:&err];
             if (!regex) {
-                [XPException raise:XPExceptionRuntimeError format:@"could not create Regex from pattern '%@'", pattern];
+                [XPException raise:XPExceptionRegexError format:@"could not create Regex from pattern '%@'", pattern];
             }
             
             NSUInteger numMatches = [[regex matchesInString:input options:0 range:NSMakeRange(0, [input length])] count];

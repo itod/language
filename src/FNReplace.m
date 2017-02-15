@@ -16,37 +16,8 @@
 
 @implementation FNReplace
 
-+ (NSRegularExpressionOptions)regexOptionsForString:(NSString *)flags {
-    NSRegularExpressionOptions opts = 0;
-    
-    if ([flags length]) {
-        if ([flags rangeOfString:@"i"].length) {
-            opts |= NSRegularExpressionCaseInsensitive;
-        }
-        
-        if ([flags rangeOfString:@"m"].length) {
-            opts |= NSRegularExpressionAnchorsMatchLines;
-        }
-        
-        if ([flags rangeOfString:@"x"].length) {
-            opts |= NSRegularExpressionAllowCommentsAndWhitespace;
-        }
-        
-        if ([flags rangeOfString:@"s"].length) {
-            opts |= NSRegularExpressionDotMatchesLineSeparators;
-        }
-        
-        if ([flags rangeOfString:@"u"].length) {
-            opts |= NSRegularExpressionUseUnicodeWordBoundaries;
-        }
-    }
-    
-    return opts;
-}
-
-
 + (NSString *)name {
-    return @"matches";
+    return @"replace";
 }
 
 
@@ -56,11 +27,13 @@
     
     XPSymbol *input = [XPSymbol symbolWithName:@"input"];
     XPSymbol *pattern = [XPSymbol symbolWithName:@"pattern"];
+    XPSymbol *replacement = [XPSymbol symbolWithName:@"replacement"];
     XPSymbol *flags = [XPSymbol symbolWithName:@"flags"];
-    funcSym.orderedParams = [NSMutableArray arrayWithObjects:input, pattern, flags, nil];
+    funcSym.orderedParams = [NSMutableArray arrayWithObjects:input, pattern, replacement, flags, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                       input, @"input",
                       pattern, @"pattern",
+                      replacement, @"replacement",
                       flags, @"flags",
                       nil];
     
@@ -71,18 +44,18 @@
 
 
 - (XPObject *)callInSpace:(XPMemorySpace *)space {
-    TDAssert(space);
-    
-    BOOL res = NO;
+    NSString *res = @"";
     
     NSString *input = [[space objectForName:@"input"] stringValue];
-    
     if ([input length]) {
         
         NSString *pattern = [[space objectForName:@"pattern"] stringValue];
         if ([pattern length]) {
             
+            NSString *replacement = [[space objectForName:@"replacement"] stringValue];
+            
             NSString *flags = [[space objectForName:@"flags"] stringValue];
+            
             NSRegularExpressionOptions opts = [FNMatches regexOptionsForString:flags];
             
             //NSString *escapedStr = [NSRegularExpression escapedPatternForString:regexStr];
@@ -90,21 +63,14 @@
             NSError *err = nil;
             NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:opts error:&err];
             if (!regex) {
-                [XPException raise:XPExceptionRuntimeError format:@"could not create Regex from pattern '%@'", pattern];
+                [XPException raise:XPExceptionRegexError format:@"could not create Regex from pattern '%@'", pattern];
             }
             
-            NSUInteger numMatches = [[regex matchesInString:input options:0 range:NSMakeRange(0, [input length])] count];
-            NSAssert(NSNotFound != numMatches, @"this would be surprising");
-            
-            if (NSNotFound == numMatches || 0 == numMatches) {
-                res = NO;
-            } else {
-                res = YES;
-            }
+            res = [regex stringByReplacingMatchesInString:input options:NSMatchingReportCompletion range:NSMakeRange(0, [input length]) withTemplate:replacement];
         }
     }
     
-    return [XPObject boolean:res];
+    return [XPStringClass instanceWithValue:res];
 }
 
 @end
