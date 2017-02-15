@@ -37,7 +37,7 @@
 		D3166E151E54BAFE00DEE3A0 /* FNMatches.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E131E54BAFE00DEE3A0 /* FNMatches.m */; };
 		D3166E181E54BD4F00DEE3A0 /* FNReplace.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166E161E54BD4F00DEE3A0 /* FNReplace.h */; };
 		D3166E191E54BD4F00DEE3A0 /* FNReplace.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E171E54BD4F00DEE3A0 /* FNReplace.m */; };
-		D3166E1C1E54BF4200DEE3A0 /* FNRegexTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E1A1E54BD9000DEE3A0 /* FNRegexTests.m */; };
+		D3166E1C1E54BF4200DEE3A0 /* FNStringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E1A1E54BD9000DEE3A0 /* FNStringTests.m */; };
 		D3166E201E54C76200DEE3A0 /* FNIsNan.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166E1E1E54C76200DEE3A0 /* FNIsNan.h */; };
 		D3166E211E54C76200DEE3A0 /* FNIsNan.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E1F1E54C76200DEE3A0 /* FNIsNan.m */; };
 		D3166E241E54C8BD00DEE3A0 /* FNCompare.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166E221E54C8BD00DEE3A0 /* FNCompare.h */; };
@@ -167,7 +167,7 @@
 		D3166E131E54BAFE00DEE3A0 /* FNMatches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNMatches.m; path = src/FNMatches.m; sourceTree = SOURCE_ROOT; };
 		D3166E161E54BD4F00DEE3A0 /* FNReplace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNReplace.h; path = src/FNReplace.h; sourceTree = SOURCE_ROOT; };
 		D3166E171E54BD4F00DEE3A0 /* FNReplace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNReplace.m; path = src/FNReplace.m; sourceTree = SOURCE_ROOT; };
-		D3166E1A1E54BD9000DEE3A0 /* FNRegexTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNRegexTests.m; path = test/FNRegexTests.m; sourceTree = SOURCE_ROOT; };
+		D3166E1A1E54BD9000DEE3A0 /* FNStringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNStringTests.m; path = test/FNStringTests.m; sourceTree = SOURCE_ROOT; };
 		D3166E1E1E54C76200DEE3A0 /* FNIsNan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNIsNan.h; path = src/FNIsNan.h; sourceTree = SOURCE_ROOT; };
 		D3166E1F1E54C76200DEE3A0 /* FNIsNan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNIsNan.m; path = src/FNIsNan.m; sourceTree = SOURCE_ROOT; };
 		D3166E221E54C8BD00DEE3A0 /* FNCompare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNCompare.h; path = src/FNCompare.h; sourceTree = SOURCE_ROOT; };
@@ -336,7 +336,7 @@
 				D3166DDA1E53997100DEE3A0 /* FNCountTests.m */,
 				D3166DED1E53B21700DEE3A0 /* FNTypeTests.m */,
 				D3166DFB1E53B8CA00DEE3A0 /* FNAssertTests.m */,
-				D3166E1A1E54BD9000DEE3A0 /* FNRegexTests.m */,
+				D3166E1A1E54BD9000DEE3A0 /* FNStringTests.m */,
 			);
 			name = Func;
 			sourceTree = "<group>";
@@ -760,7 +760,7 @@
 				D373169E1E3EBA490034798E /* XPBaseStatementTests.m in Sources */,
 				D3166DF51E53B38A00DEE3A0 /* FNTypeTests.m in Sources */,
 				D3B5F7361E47F50C00740161 /* XPArrayLiteralTests.m in Sources */,
-				D3166E1C1E54BF4200DEE3A0 /* FNRegexTests.m in Sources */,
+				D3166E1C1E54BF4200DEE3A0 /* FNStringTests.m in Sources */,
 				D368A01A1E3BE4F8005783BB /* XPEqualityExpressionTests.m in Sources */,
 				D37316931E3EB75F0034798E /* XPVarDeclTests.m in Sources */,
 				D3A7F2971E51245400C7099B /* XPForBlockTests.m in Sources */,

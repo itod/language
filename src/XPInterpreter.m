@@ -34,6 +34,7 @@
 #import "FNUppercase.h"
 #import "FNMatches.h"
 #import "FNReplace.h"
+#import "FNCompare.h"
 
 #import "FNIsNan.h"
 
@@ -88,6 +89,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
         [self declareNativeFunction:[FNUppercase class]];
         [self declareNativeFunction:[FNMatches class]];
         [self declareNativeFunction:[FNReplace class]];
+        [self declareNativeFunction:[FNCompare class]];
         
         // num
         [self declareNativeFunction:[FNIsNan class]];

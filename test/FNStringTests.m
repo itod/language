@@ -1,5 +1,5 @@
 //
-//  FNRegexTests.m
+//  FNStringTests.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 5/12/14.
@@ -8,11 +8,11 @@
 
 #import "XPBaseStatementTests.h"
 
-@interface FNRegexTests : XPBaseStatementTests
+@interface FNStringTests : XPBaseStatementTests
 
 @end
 
-@implementation FNRegexTests
+@implementation FNStringTests
 
 - (void)setUp {
     [super setUp];
@@ -22,6 +22,33 @@
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void)testUppercase {
+    [self eval:@"var s=uppercase('a');"];
+    TDEqualObjects(@"A", [self stringForName:@"s"]);
+    
+    [self eval:@"var s=uppercase('ab');"];
+    TDEqualObjects(@"AB", [self stringForName:@"s"]);
+}
+
+- (void)testLowercase {
+    [self eval:@"var s=lowercase('A');"];
+    TDEqualObjects(@"a", [self stringForName:@"s"]);
+    
+    [self eval:@"var s=lowercase('AB');"];
+    TDEqualObjects(@"ab", [self stringForName:@"s"]);
+}
+
+- (void)testCompare {
+    [self eval:@"var n=compare('a', 'a');"];
+    TDEquals(0.0, [self doubleForName:@"n"]);
+    
+    [self eval:@"var n=compare('a', 'b');"];
+    TDEquals(-1.0, [self doubleForName:@"n"]);
+    
+    [self eval:@"var n=compare('b', 'a');"];
+    TDEquals(1.0, [self doubleForName:@"n"]);
 }
 
 - (void)testMatches {

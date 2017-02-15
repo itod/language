@@ -8,6 +8,7 @@
 
 #import "FNCompare.h"
 #import "XPObject.h"
+#import "XPNumberClass.h"
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 
@@ -22,10 +23,12 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *obj = [XPSymbol symbolWithName:@"obj"];
-    funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, nil];
+    XPSymbol *lhs = [XPSymbol symbolWithName:@"lhs"];
+    XPSymbol *rhs = [XPSymbol symbolWithName:@"rhs"];
+    funcSym.orderedParams = [NSMutableArray arrayWithObjects:lhs, rhs, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      obj, @"obj",
+                      lhs, @"lhs",
+                      rhs, @"rhs",
                       nil];
     
     return funcSym;
@@ -35,11 +38,17 @@
 - (XPObject *)callInSpace:(XPMemorySpace *)space {
     TDAssert(space);
     
-    XPObject *obj = [space objectForName:@"obj"];
-    TDAssert(obj);
+    XPObject *lhs = [space objectForName:@"lhs"];
+    TDAssert(lhs);
+    XPObject *rhs = [space objectForName:@"rhs"];
+    TDAssert(rhs);
     
-    BOOL res = [obj isNumericObject] && isnan([obj.value doubleValue]);
-    return [XPObject boolean:res];
+    NSString *lhsStr = [lhs stringValue];
+    NSString *rhsStr = [rhs stringValue];
+    
+    double res = [lhsStr compare:rhsStr];
+    
+    return [XPNumberClass instanceWithValue:@(res)];
 }
 
 @end
