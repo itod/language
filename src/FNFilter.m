@@ -60,6 +60,7 @@
     for (XPObject *oldItem in old) {
         TDAssert([oldItem isKindOfClass:[XPObject class]]);
         
+        // PUSH MEMORY SPACE
         XPFunctionSpace *funcSpace = [XPFunctionSpace functionSpaceWithSymbol:funcSym];
         walker.currentSpace = funcSpace;
         
