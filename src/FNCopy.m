@@ -23,12 +23,12 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *obj = [XPSymbol symbolWithName:@"obj"];
+    XPSymbol *obj = [XPSymbol symbolWithName:@"object"];
     //XPSymbol *deep = [XPSymbol symbolWithName:@"deep"];
     funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, nil];
 //    funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, deep, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      obj, @"obj",
+                      obj, @"object",
 //                      deep, @"deep",
                       nil];
     
@@ -40,7 +40,7 @@
 - (XPObject *)callInSpace:(XPMemorySpace *)space {
     TDAssert(space);
     
-    XPObject *obj = [space objectForName:@"obj"];
+    XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
     
     XPObject *res = [obj callInstanceMethodNamed:@"copy"];

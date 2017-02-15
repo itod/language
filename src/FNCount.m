@@ -23,10 +23,10 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *obj = [XPSymbol symbolWithName:@"obj"];
+    XPSymbol *obj = [XPSymbol symbolWithName:@"object"];
     funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      obj, @"obj",
+                      obj, @"object",
                       nil];
     
     return funcSym;
@@ -36,7 +36,7 @@
 - (XPObject *)callInSpace:(XPMemorySpace *)space {
     TDAssert(space);
     
-    XPObject *obj = [space objectForName:@"obj"];
+    XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
     
     NSInteger c = [[obj callInstanceMethodNamed:@"count"] integerValue];

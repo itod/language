@@ -25,8 +25,10 @@
 #import "FNType.h"
 
 #import "FNAssert.h"
-#import "FNCount.h"
 #import "FNPrint.h"
+
+#import "FNCount.h"
+#import "FNPosition.h"
 #import "FNRange.h"
 
 #import "FNTrim.h"
@@ -79,8 +81,11 @@ NSString * const XPErrorLineNumberKey = @"line number";
 
         // util
         [self declareNativeFunction:[FNAssert class]];
-        [self declareNativeFunction:[FNCount class]];
         [self declareNativeFunction:[FNPrint class]];
+        
+        // seq
+        [self declareNativeFunction:[FNCount class]];
+        [self declareNativeFunction:[FNPosition class]];
         [self declareNativeFunction:[FNRange class]];
 
         // str
@@ -93,6 +98,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
         
         // num
         [self declareNativeFunction:[FNIsNan class]];
+        
         
     }
     

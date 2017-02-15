@@ -68,6 +68,7 @@ static NSSet *sReserved = nil;
                      @"string",
                      @"array",
                      @"dictionary",
+                     @"void",
                      
                      @"assert",
                      @"log",
@@ -82,8 +83,6 @@ static NSSet *sReserved = nil;
                      @"trim",
                      @"uppercase",
                      @"lowercase",
-                     @"head",
-                     @"tail",
                      @"range",
                      @"isNaN",
                      
