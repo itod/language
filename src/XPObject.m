@@ -99,13 +99,14 @@
 #pragma mark NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    id val = nil;
-    if ([_value respondsToSelector:@selector(mutableCopyWithZone:)]) {
-        val = [[_value mutableCopyWithZone:zone] autorelease];
-    } else {
-        val = [[_value copyWithZone:zone] autorelease];
-    }
-    XPObject *that = [[XPObject objectWithClass:self.objectClass value:val] retain];
+    id val = _value;
+//    id val = nil;
+//    if ([_value respondsToSelector:@selector(mutableCopyWithZone:)]) {
+//        val = [[_value mutableCopyWithZone:zone] autorelease];
+//    } else {
+//        val = [[_value copyWithZone:zone] autorelease];
+//    }
+    XPObject *that = [[XPObject objectWithClass:self.objectClass value:val] retain]; // val is copied in -init
     
     return that;
 }
