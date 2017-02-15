@@ -299,6 +299,8 @@
         [self forBlock_]; 
     } else if ([self speculate:^{ [self localBlock_]; }]) {
         [self localBlock_]; 
+    } else if ([self speculate:^{ [self returnStat_]; }]) {
+        [self returnStat_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'localItem'."];
     }

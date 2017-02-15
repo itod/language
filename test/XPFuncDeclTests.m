@@ -115,7 +115,8 @@
 }
 
 - (void)testFoo {
-    [self eval:@"var foo=test(0);sub test(n){return true;}"];
+    [self eval:@"var foo=test(0);sub test(n){if 0==n%2 {return true;} else {return false;}}"];
     TDTrue([self boolForName:@"foo"]);
 }
+
 @end

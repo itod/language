@@ -166,7 +166,7 @@ localList   = localItem* {
     [block addChildren:stats];
     PUSH(block);
 };
-localItem   = stat | ifBlock | whileBlock | forBlock | localBlock;
+localItem   = stat | ifBlock | whileBlock | forBlock | localBlock | returnStat;
 
 // FUNC
 funcBlock   = '{' funcList '}'!;

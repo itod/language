@@ -24,22 +24,22 @@
     [super tearDown];
 }
 
-- (void)testMap {
-    [self eval:@"var v=[0,1,2];var res=map(v, sub(n){return n+1;});"];
-    TDEqualObjects(@"[1,2,3]", [self stringForName:@"res"]);
-    
-    [self eval:@"var v=[0,1,2];var res=map(v, sub(n){return n-1;});"];
-    TDEqualObjects(@"[-1,0,1]", [self stringForName:@"res"]);
-    
-
-}
-
-- (void)testFilter {
-    [self eval:@"var v=[0,1,2,3,4,5];var res=filter(v, sub(n){return 0==n%2;});"];
-    TDEqualObjects(@"[0,2,4]", [self stringForName:@"res"]);
-
-    [self eval:@"var v=[0,1,2,3,4,5];var res=filter(v, sub(n){if 0==n%2 {return true;} else {return false;}});"];
-    TDEqualObjects(@"[0,2,4]", [self stringForName:@"res"]);
-}
+//- (void)testMap {
+//    [self eval:@"var v=[0,1,2];var res=map(v, sub(n){return n+1;});"];
+//    TDEqualObjects(@"[1,2,3]", [self stringForName:@"res"]);
+//    
+//    [self eval:@"var v=[0,1,2];var res=map(v, sub(n){return n-1;});"];
+//    TDEqualObjects(@"[-1,0,1]", [self stringForName:@"res"]);
+//    
+//
+//}
+//
+//- (void)testFilter {
+//    [self eval:@"var v=[0,1,2,3,4,5];var res=filter(v, sub(n){return 0==n%2;});"];
+//    TDEqualObjects(@"[0,2,4]", [self stringForName:@"res"]);
+//
+//    [self eval:@"var v=[0,1,2,3,4,5];var res=filter(v, sub(n){if 0==n%2 {return true;} else {return false;}});"];
+//    TDEqualObjects(@"[0,2,4]", [self stringForName:@"res"]);
+//}
 
 @end
