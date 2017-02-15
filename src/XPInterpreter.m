@@ -35,6 +35,8 @@
 #import "FNMatches.h"
 #import "FNReplace.h"
 
+#import "FNIsNan.h"
+
 #import <PEGKit/PKAssembly.h>
 
 NSString * const XPErrorDomain = @"XPErrorDomain";
@@ -86,6 +88,10 @@ NSString * const XPErrorLineNumberKey = @"line number";
         [self declareNativeFunction:[FNUppercase class]];
         [self declareNativeFunction:[FNMatches class]];
         [self declareNativeFunction:[FNReplace class]];
+        
+        // num
+        [self declareNativeFunction:[FNIsNan class]];
+        
     }
     
     // PARSE

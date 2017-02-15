@@ -135,9 +135,7 @@
 - (void)testFooIsBar {
     [self eval:@"var foo=1;var bar=foo;var yn=foo is bar;"];
     TDTrue([self boolForName:@"yn"]);
-}
 
-- (void)testFooIsBar2 {
     [self eval:@"var foo=1;var bar=1;var yn=foo is bar;"];
     TDTrue([self boolForName:@"yn"]);
 }
@@ -147,6 +145,12 @@
     TDTrue([self boolForName:@"foo"]);
 }
 
+- (void)testNaN {
+    [self eval:@"var foo=NaN == NaN;"];
+    TDFalse([self boolForName:@"foo"]);
 
+    [self eval:@"var foo=NaN is NaN;"];
+    TDTrue([self boolForName:@"foo"]);
+}
 
 @end
