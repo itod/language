@@ -48,6 +48,11 @@
 }
 
 
++ (instancetype)boolean:(BOOL)yn {
+    return yn ? [self trueObject] : [self falseObject];
+}
+
+
 + (instancetype)objectWithClass:(XPClass *)cls value:(id)val {
     TDAssert(cls);
     TDAssert(val);
@@ -197,7 +202,7 @@
 #pragma mark Public
 
 - (XPObject *)asBooleanObject {
-    return [XPBooleanClass instanceWithValue:@([self boolValue])];
+    return [XPObject boolean:[self boolValue]];
 }
 
 

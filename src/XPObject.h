@@ -17,6 +17,7 @@
 + (instancetype)nanObject;
 + (instancetype)trueObject;
 + (instancetype)falseObject;
++ (instancetype)boolean:(BOOL)yn;
 + (instancetype)objectWithClass:(XPClass *)cls value:(id)val;
 
 - (id)callInstanceMethodNamed:(NSString *)name; // convenience

@@ -32,7 +32,7 @@
 //                      deep, @"deep",
                       nil];
     
-//    [funcSym setDefaultObject:[XPBooleanClass instanceWithValue:@NO] forParamNamed:@"deep"];
+//    [funcSym setDefaultObject:[XPObject falseObject] forParamNamed:@"deep"];
     return funcSym;
 }
 
