@@ -35,7 +35,7 @@
 }
 
 
-- (XPObject *)callInSpace:(XPMemorySpace *)space {
+- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(id)walker {
     TDAssert(space);
     
     XPObject *lhs = [space objectForName:@"lhs"];

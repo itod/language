@@ -43,7 +43,7 @@
 }
 
 
-- (XPObject *)callInSpace:(XPMemorySpace *)space {
+- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(id)walker {
     NSString *res = @"";
     
     NSString *input = [[space objectForName:@"input"] stringValue];

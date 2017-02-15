@@ -15,5 +15,5 @@
 @interface XPFunctionBody : NSObject
 + (NSString *)name;
 - (XPFunctionSymbol *)symbol;
-- (XPObject *)callInSpace:(XPMemorySpace *)space;
+- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(id)walker;
 @end

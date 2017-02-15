@@ -33,7 +33,7 @@
 }
 
 
-- (XPObject *)callInSpace:(XPMemorySpace *)space {
+- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(id)walker {
     TDAssert(space);
     
     XPObject *str = [space objectForName:@"str"];

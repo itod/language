@@ -31,33 +31,9 @@
 #import "XPSymbol.h"
 
 #import "XPEnumeration.h"
+#import "XPReturnException.h"
 
 #define OFFSET 1
-
-@interface XPReturnExpception : NSException
-@property (nonatomic, retain) XPObject *value;
-@end
-
-@implementation XPReturnExpception
-
-- (void)dealloc {
-    self.value = nil;
-    [super dealloc];
-}
-
-@end
-
-@interface XPBreakException : NSException
-@end
-
-@implementation XPBreakException
-@end
-
-@interface XPContinueException : NSException
-@end
-
-@implementation XPContinueException
-@end
 
 @interface XPTreeWalker ()
 - (id)_loadVariableReference:(XPNode *)node;
@@ -511,7 +487,7 @@
         // native function
         else {
             TDAssert(funcSym.nativeBody);
-            result = [funcSym.nativeBody callInSpace:self.currentSpace];
+            result = [funcSym.nativeBody callInSpace:self.currentSpace walker:self];
         }
         
         [self.stack removeLastObject];

@@ -40,7 +40,7 @@
 }
 
 
-- (XPObject *)callInSpace:(XPMemorySpace *)space {
+- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(id)walker {
     TDAssert(space);
     
     // calc start, stop, step

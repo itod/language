@@ -13,6 +13,8 @@
 #import "XPFunctionSymbol.h"
 #import "XPFunctionSpace.h"
 #import "XPException.h"
+#import "XPReturnException.h"
+#import "XPTreeWalker.h"
 
 @implementation FNMap
 
@@ -37,7 +39,7 @@
 }
 
 
-- (XPObject *)callInSpace:(XPMemorySpace *)space {
+- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(XPTreeWalker *)walker {
     TDAssert(space);
     
     XPObject *coll = [space objectForName:@"collection"];
@@ -59,7 +61,8 @@
         TDAssert([oldItem isKindOfClass:[XPObject class]]);
 
         XPFunctionSpace *funcSpace = [XPFunctionSpace functionSpaceWithSymbol:funcSym];
-        
+        walker.currentSpace = funcSpace;
+
         // EVAL ARGS
         {
             XPSymbol *param = funcSym.orderedParams[0];
@@ -68,21 +71,24 @@
         
         // CALL
         XPObject *newItem = nil;
-//        {
-//            TDAssert(self.stack);
-//            [self.stack addObject:funcSpace];
-//            
-//            TDAssert(funcSym.blockNode);
-//            @try {
-//                [self funcBlock:funcSym.blockNode];
-//            } @catch (XPReturnExpception *ex) {
-//                newItem = ex.value;
-//            }
-//            
-//            [self.stack removeLastObject];
-//        }
+        {
+            TDAssert(walker.stack);
+            [walker.stack addObject:funcSpace];
+            
+            TDAssert(funcSym.blockNode);
+            @try {
+                [walker funcBlock:funcSym.blockNode];
+            } @catch (XPReturnExpception *ex) {
+                newItem = ex.value;
+            }
+            
+            [walker.stack removeLastObject];
+        }
         
         [new addObject:newItem];
+
+        // POP MEMORY SPACE
+        walker.currentSpace = space;
     }
     
     return [XPArrayClass instanceWithValue:new];

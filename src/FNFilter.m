@@ -36,7 +36,7 @@
 }
 
 
-- (XPObject *)callInSpace:(XPMemorySpace *)space {
+- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(id)walker {
     TDAssert(space);
     
     XPObject *coll = [space objectForName:@"collection"];
