@@ -8,6 +8,7 @@
 
 #import "FNAssert.h"
 #import "XPObject.h"
+#import "XPStringClass.h"
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 #import "XPException.h"
@@ -24,10 +25,14 @@
     funcSym.nativeBody = self;
     
     XPSymbol *test = [XPSymbol symbolWithName:@"test"];
-    funcSym.orderedParams = [NSMutableArray arrayWithObjects:test, nil];
+    XPSymbol *msg = [XPSymbol symbolWithName:@"message"];
+    funcSym.orderedParams = [NSMutableArray arrayWithObjects:test, msg, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                       test, @"test",
+                      msg, @"message",
                       nil];
+    
+    [funcSym setDefaultObject:[XPStringClass instanceWithValue:@""] forParamNamed:@"message"];
     
     return funcSym;
 }
@@ -38,13 +43,14 @@
     
     XPObject *test = [space objectForName:@"test"];
     TDAssert(test);
+    NSString *msg = [[space objectForName:@"message"] stringValue];
     
     BOOL yn = [test boolValue];
     
     if (!yn) {
         NSString *str = [test stringValue];
-        NSLog(@"%@", str);
-        [XPException raise:XPExceptionAssertionFailed format:@"assertion failed: `%@`", str];
+        NSLog(@"Assertion Failed: `%@`, %@", str, msg);
+        [XPException raise:XPExceptionAssertionFailed format:@"assertion failed: `%@`, %@", str, msg];
     }
     
     return nil;
