@@ -337,11 +337,25 @@
 			name = Types;
 			sourceTree = "<group>";
 		};
+		D3166E111E53F8E500DEE3A0 /* String */ = {
+			isa = PBXGroup;
+			children = (
+				D3166E011E53F64300DEE3A0 /* FNTrim.h */,
+				D3166E021E53F64300DEE3A0 /* FNTrim.m */,
+				D3166E051E53F6DB00DEE3A0 /* FNLowercase.h */,
+				D3166E061E53F6DB00DEE3A0 /* FNLowerCase.m */,
+				D3166E091E53F71800DEE3A0 /* FNUppercase.h */,
+				D3166E0A1E53F71800DEE3A0 /* FNUppercase.m */,
+			);
+			name = String;
+			sourceTree = "<group>";
+		};
 		D32E70BB1E5365CF00728D80 /* Functions */ = {
 			isa = PBXGroup;
 			children = (
 				D32E70BC1E5365F700728D80 /* XPFunctionBody.h */,
 				D32E70BD1E5365F700728D80 /* XPFunctionBody.m */,
+				D3166E111E53F8E500DEE3A0 /* String */,
 				D3166DF61E53B7B100DEE3A0 /* Types */,
 				D3166DDD1E53B03300DEE3A0 /* FNPrint.h */,
 				D3166DDE1E53B03300DEE3A0 /* FNPrint.m */,
@@ -353,12 +367,6 @@
 				D32E70C11E5367A900728D80 /* FNRange.m */,
 				D3166DFD1E53B9A900DEE3A0 /* FNCopy.h */,
 				D3166DFE1E53B9A900DEE3A0 /* FNCopy.m */,
-				D3166E011E53F64300DEE3A0 /* FNTrim.h */,
-				D3166E021E53F64300DEE3A0 /* FNTrim.m */,
-				D3166E051E53F6DB00DEE3A0 /* FNLowercase.h */,
-				D3166E061E53F6DB00DEE3A0 /* FNLowerCase.m */,
-				D3166E091E53F71800DEE3A0 /* FNUppercase.h */,
-				D3166E0A1E53F71800DEE3A0 /* FNUppercase.m */,
 			);
 			name = Functions;
 			sourceTree = "<group>";

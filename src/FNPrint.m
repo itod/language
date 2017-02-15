@@ -14,7 +14,7 @@
 @implementation FNPrint
 
 + (NSString *)name {
-    return @"print";
+    return @"log";
 }
 
 

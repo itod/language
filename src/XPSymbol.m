@@ -69,7 +69,7 @@ static NSSet *sReserved = nil;
                      @"dictionary",
                      
                      @"assert",
-                     @"print",
+                     @"log",
                      @"map",
                      @"filter",
                      @"copy",
