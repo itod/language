@@ -258,8 +258,8 @@
         [self whileBlock_]; 
     } else if ([self speculate:^{ [self forBlock_]; }]) {
         [self forBlock_]; 
-    } else if ([self speculate:^{ [self block_]; }]) {
-        [self block_]; 
+    } else if ([self speculate:^{ [self localBlock_]; }]) {
+        [self localBlock_]; 
     } else if ([self speculate:^{ [self funcDecl_]; }]) {
         [self funcDecl_]; 
     } else {
@@ -297,8 +297,8 @@
         [self whileBlock_]; 
     } else if ([self speculate:^{ [self forBlock_]; }]) {
         [self forBlock_]; 
-    } else if ([self speculate:^{ [self block_]; }]) {
-        [self block_]; 
+    } else if ([self speculate:^{ [self localBlock_]; }]) {
+        [self localBlock_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'localItem'."];
     }
@@ -343,8 +343,8 @@
         [self whileBlock_]; 
     } else if ([self speculate:^{ [self forBlock_]; }]) {
         [self forBlock_]; 
-    } else if ([self speculate:^{ [self block_]; }]) {
-        [self block_]; 
+    } else if ([self speculate:^{ [self localBlock_]; }]) {
+        [self localBlock_]; 
     } else if ([self speculate:^{ [self returnStat_]; }]) {
         [self returnStat_]; 
     } else {
@@ -354,7 +354,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchFuncItem:)];
 }
 
-- (void)block_ {
+- (void)localBlock_ {
     
     [self execute:^{
      self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope]; 
@@ -366,7 +366,7 @@
      self.currentScope = _currentScope.enclosingScope; 
     }];
 
-    [self fireDelegateSelector:@selector(parser:didMatchBlock:)];
+    [self fireDelegateSelector:@selector(parser:didMatchLocalBlock:)];
 }
 
 - (void)stat_ {
@@ -497,7 +497,7 @@
     }];
     [self match:XP_TOKEN_KIND_WHILE discard:NO]; 
     [self expr_]; 
-    [self block_]; 
+    [self localBlock_]; 
     [self execute:^{
     
     XPNode *block = POP();
@@ -552,7 +552,7 @@
     }
     [self match:XP_TOKEN_KIND_IN discard:YES]; 
     [self expr_]; 
-    [self block_]; 
+    [self localBlock_]; 
     [self execute:^{
     
     XPNode *block = POP();
@@ -584,7 +584,7 @@
     
     [self match:XP_TOKEN_KIND_IF discard:NO]; 
     [self expr_]; 
-    [self block_]; 
+    [self localBlock_]; 
     [self execute:^{
     
     XPNode *block = POP();
@@ -610,7 +610,7 @@
     [self match:XP_TOKEN_KIND_ELSE discard:YES]; 
     [self match:XP_TOKEN_KIND_IF discard:NO]; 
     [self expr_]; 
-    [self block_]; 
+    [self localBlock_]; 
     [self execute:^{
     
     XPNode *block = POP();
@@ -630,7 +630,7 @@
 - (void)elseBlock_ {
     
     [self match:XP_TOKEN_KIND_ELSE discard:NO]; 
-    [self block_]; 
+    [self localBlock_]; 
     [self execute:^{
     
     XPNode *block = POP();

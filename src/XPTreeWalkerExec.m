@@ -495,6 +495,10 @@
 
     // POP MEMORY SPACE
     self.currentSpace = saveSpace;
+    
+    if (!result) {
+        result = [XPObject nullObject];
+    }
     return result;
 }
 

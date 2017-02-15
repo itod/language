@@ -114,4 +114,8 @@
     TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
 }
 
+- (void)testFoo {
+    [self eval:@"var foo=test(0);sub test(n){return true;}"];
+    TDTrue([self boolForName:@"foo"]);
+}
 @end

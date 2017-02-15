@@ -156,7 +156,7 @@ globalList  = globalItem+ {
     [block addChildren:items];
     PUSH(block);
 };
-globalItem  = stat | ifBlock | whileBlock | forBlock | block | funcDecl;
+globalItem  = stat | ifBlock | whileBlock | forBlock | localBlock | funcDecl;
 
 // LOCAL
 localList   = localItem* {
@@ -166,7 +166,7 @@ localList   = localItem* {
     [block addChildren:stats];
     PUSH(block);
 };
-localItem   = stat | ifBlock | whileBlock | forBlock | block;
+localItem   = stat | ifBlock | whileBlock | forBlock | localBlock;
 
 // FUNC
 funcBlock   = '{' funcList '}'!;
@@ -177,9 +177,9 @@ funcList    = funcItem* {
     [block addChildren:stats];
     PUSH(block);
 };
-funcItem    = stat | ifBlock | whileBlock | forBlock | block | returnStat;
+funcItem    = stat | ifBlock | whileBlock | forBlock | localBlock | returnStat;
 
-block
+localBlock
 @before { self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope]; }
 @after { self.currentScope = _currentScope.enclosingScope; }
             = '{' localList '}'!;
@@ -244,7 +244,7 @@ assignAppend = qid '['! ']'! '='! expr {
 whileBlock
 @before {self.canBreak = YES;}
 @after {self.canBreak = NO;}
-            = 'while' expr block {
+            = 'while' expr localBlock {
     XPNode *block = POP();
     XPNode *expr = POP();
     XPNode *whileNode = [XPNode nodeWithToken:POP()];
@@ -263,7 +263,7 @@ continue    = 'continue' {
 forBlock
 @before {self.canBreak = YES;}
 @after {self.canBreak = NO;}
-            = 'for' qid (',' qid)? 'in'! expr block {
+            = 'for' qid (',' qid)? 'in'! expr localBlock {
     XPNode *block = POP();
     XPNode *collExpr = POP();
     XPNode *valNode = [XPNode nodeWithToken:POP()];
@@ -283,7 +283,7 @@ forBlock
 };
 
 // IF BLOCK
-ifBlock     = 'if' expr block {
+ifBlock     = 'if' expr localBlock {
     XPNode *block = POP();
     XPNode *expr = POP();
     XPNode *ifNode = [XPNode nodeWithToken:POP()];
@@ -292,7 +292,7 @@ ifBlock     = 'if' expr block {
     PUSH(ifNode);
 }
               elifBlock* elseBlock?;
-elifBlock   = 'else'! 'if' expr block {
+elifBlock   = 'else'! 'if' expr localBlock {
     XPNode *block = POP();
     XPNode *expr = POP();
     XPNode *elifNode = [XPNode nodeWithToken:POP()];
@@ -302,7 +302,7 @@ elifBlock   = 'else'! 'if' expr block {
     XPNode *ifNode = PEEK();
     [ifNode addChild:elifNode];
 };
-elseBlock   = 'else' block {
+elseBlock   = 'else' localBlock {
     XPNode *block = POP();
     XPNode *elseNode = [XPNode nodeWithToken:POP()];
     [elseNode addChild:block];
