@@ -57,6 +57,7 @@ static NSSet *sReserved = nil;
                      @"super",
                      
                      @"throws",
+                     @"throw",
                      @"try",
                      @"catch",
                      @"finally",

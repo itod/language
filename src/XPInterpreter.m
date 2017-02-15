@@ -22,16 +22,18 @@
 #import "FNBoolean.h"
 #import "FNNumber.h"
 #import "FNString.h"
+#import "FNType.h"
 
 #import "FNAssert.h"
 #import "FNCount.h"
 #import "FNPrint.h"
 #import "FNRange.h"
-#import "FNType.h"
 
 #import "FNTrim.h"
 #import "FNLowercase.h"
 #import "FNUppercase.h"
+#import "FNMatches.h"
+#import "FNReplace.h"
 
 #import <PEGKit/PKAssembly.h>
 
@@ -66,19 +68,24 @@ NSString * const XPErrorLineNumberKey = @"line number";
     
     // DECLARE NATIVE FUNCS
     {
+        // types
         [self declareNativeFunction:[FNBoolean class]];
         [self declareNativeFunction:[FNNumber class]];
         [self declareNativeFunction:[FNString class]];
-        
+        [self declareNativeFunction:[FNType class]];
+
+        // util
         [self declareNativeFunction:[FNAssert class]];
         [self declareNativeFunction:[FNCount class]];
         [self declareNativeFunction:[FNPrint class]];
         [self declareNativeFunction:[FNRange class]];
-        [self declareNativeFunction:[FNType class]];
 
+        // str
         [self declareNativeFunction:[FNTrim class]];
         [self declareNativeFunction:[FNLowercase class]];
         [self declareNativeFunction:[FNUppercase class]];
+        [self declareNativeFunction:[FNMatches class]];
+        [self declareNativeFunction:[FNReplace class]];
     }
     
     // PARSE

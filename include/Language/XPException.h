@@ -13,6 +13,7 @@ extern NSString * const XPExceptionSyntaxError;
 extern NSString * const XPExceptionReservedWord;
 
 // runtime
+extern NSString * const XPExceptionRuntimeError;
 extern NSString * const XPExceptionUndeclaredSymbol;
 extern NSString * const XPExceptionTooManyArguments;
 extern NSString * const XPExceptionTooFewArguments;
