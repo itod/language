@@ -11,10 +11,10 @@ for i in range(3) {
 {
     var i = 47;
     var foo = sub() {
-        log('should be 47, i:' & i);
         for func in funcs {
             func();
         }
+        log('should be 47, i:' & i);
     };
     foo();
 }
