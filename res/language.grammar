@@ -222,10 +222,10 @@ varDecl     = 'var' qid '='! expr {
 };
 qid         = Word;
 
-plusEq = '+=';
+plusEq  = '+=';
 minusEq = '-=';
 timesEq = '*=';
-divEq = '/=';
+divEq   = '/=';
 assign      = qid ('=' | plusEq | minusEq | timesEq | divEq) expr {
     XPNode *rhs = POP();
     PKToken *tok = POP();
