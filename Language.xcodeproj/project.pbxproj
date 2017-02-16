@@ -545,12 +545,12 @@
 				D37316A01E3EBD4B0034798E /* XPNode.m */,
 				D3BB83641E454B8F007AC9DD /* XPException.h */,
 				D37316EB1E4121110034798E /* XPException.m */,
+				D3166E3A1E54EBA200DEE3A0 /* XPReturnException.h */,
+				D3166E3B1E54EBA200DEE3A0 /* XPReturnException.m */,
 				D37316DA1E3FA9980034798E /* XPTreeWalker.h */,
 				D37316DB1E3FA9980034798E /* XPTreeWalker.m */,
 				D37316E31E3FAB140034798E /* XPTreeWalkerExec.h */,
 				D37316E41E3FAB140034798E /* XPTreeWalkerExec.m */,
-				D3166E3A1E54EBA200DEE3A0 /* XPReturnException.h */,
-				D3166E3B1E54EBA200DEE3A0 /* XPReturnException.m */,
 			);
 			name = Tree;
 			sourceTree = "<group>";
