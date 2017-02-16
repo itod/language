@@ -74,6 +74,10 @@
     [t.symbolState add:@"!="];
     [t.symbolState add:@"<="];
     [t.symbolState add:@">="];
+    [t.symbolState add:@"+="];
+    [t.symbolState add:@"-="];
+    [t.symbolState add:@"*="];
+    [t.symbolState add:@"/="];
 //    [t.symbolState add:@"&&"];
 //    [t.symbolState add:@"||"];
     
@@ -208,7 +212,11 @@ varDecl     = 'var' qid '='! expr {
 };
 qid         = Word;
 
-assign      = qid '=' expr {
+plusEq = '+=';
+minusEq = '-=';
+timesEq = '*=';
+divEq = '/=';
+assign      = qid ('=' | plusEq | minusEq | timesEq | divEq) expr {
     XPNode *rhs = POP();
     PKToken *tok = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];

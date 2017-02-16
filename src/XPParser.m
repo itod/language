@@ -53,6 +53,10 @@
 @property (nonatomic, retain) NSMutableDictionary *stat_memo;
 @property (nonatomic, retain) NSMutableDictionary *varDecl_memo;
 @property (nonatomic, retain) NSMutableDictionary *qid_memo;
+@property (nonatomic, retain) NSMutableDictionary *plusEq_memo;
+@property (nonatomic, retain) NSMutableDictionary *minusEq_memo;
+@property (nonatomic, retain) NSMutableDictionary *timesEq_memo;
+@property (nonatomic, retain) NSMutableDictionary *divEq_memo;
 @property (nonatomic, retain) NSMutableDictionary *assign_memo;
 @property (nonatomic, retain) NSMutableDictionary *assignIndex_memo;
 @property (nonatomic, retain) NSMutableDictionary *assignAppend_memo;
@@ -127,6 +131,10 @@
     [t.symbolState add:@"!="];
     [t.symbolState add:@"<="];
     [t.symbolState add:@">="];
+    [t.symbolState add:@"+="];
+    [t.symbolState add:@"-="];
+    [t.symbolState add:@"*="];
+    [t.symbolState add:@"/="];
 //    [t.symbolState add:@"&&"];
 //    [t.symbolState add:@"||"];
     
@@ -176,20 +184,23 @@
         self.startRuleName = @"program";
         self.tokenKindTab[@"{"] = @(XP_TOKEN_KIND_OPEN_CURLY);
         self.tokenKindTab[@">="] = @(XP_TOKEN_KIND_GE);
+        self.tokenKindTab[@"*="] = @(XP_TOKEN_KIND_TIMESEQ);
         self.tokenKindTab[@"is"] = @(XP_TOKEN_KIND_IS);
         self.tokenKindTab[@"break"] = @(XP_TOKEN_KIND_BREAK);
         self.tokenKindTab[@"for"] = @(XP_TOKEN_KIND_FOR);
         self.tokenKindTab[@"return"] = @(XP_TOKEN_KIND_RETURN);
         self.tokenKindTab[@"}"] = @(XP_TOKEN_KIND_CLOSE_CURLY);
         self.tokenKindTab[@"true"] = @(XP_TOKEN_KIND_TRUE);
-        self.tokenKindTab[@"if"] = @(XP_TOKEN_KIND_IF);
+        self.tokenKindTab[@"+="] = @(XP_TOKEN_KIND_PLUSEQ);
         self.tokenKindTab[@"!="] = @(XP_TOKEN_KIND_NE);
+        self.tokenKindTab[@"if"] = @(XP_TOKEN_KIND_IF);
         self.tokenKindTab[@"else"] = @(XP_TOKEN_KIND_ELSE);
         self.tokenKindTab[@"!"] = @(XP_TOKEN_KIND_BANG);
         self.tokenKindTab[@"continue"] = @(XP_TOKEN_KIND_CONTINUE);
         self.tokenKindTab[@":"] = @(XP_TOKEN_KIND_COLON);
         self.tokenKindTab[@";"] = @(XP_TOKEN_KIND_SEMI_COLON);
         self.tokenKindTab[@"<"] = @(XP_TOKEN_KIND_LT);
+        self.tokenKindTab[@"-="] = @(XP_TOKEN_KIND_MINUSEQ);
         self.tokenKindTab[@"%"] = @(XP_TOKEN_KIND_MOD);
         self.tokenKindTab[@"="] = @(XP_TOKEN_KIND_EQUALS);
         self.tokenKindTab[@"&"] = @(XP_TOKEN_KIND_AMP);
@@ -198,6 +209,7 @@
         self.tokenKindTab[@"while"] = @(XP_TOKEN_KIND_WHILE);
         self.tokenKindTab[@"var"] = @(XP_TOKEN_KIND_VAR);
         self.tokenKindTab[@")"] = @(XP_TOKEN_KIND_CLOSE_PAREN);
+        self.tokenKindTab[@"/="] = @(XP_TOKEN_KIND_DIVEQ);
         self.tokenKindTab[@"*"] = @(XP_TOKEN_KIND_TIMES);
         self.tokenKindTab[@"or"] = @(XP_TOKEN_KIND_OR);
         self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
@@ -218,20 +230,23 @@
 
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_CURLY] = @"{";
         self.tokenKindNameTab[XP_TOKEN_KIND_GE] = @">=";
+        self.tokenKindNameTab[XP_TOKEN_KIND_TIMESEQ] = @"*=";
         self.tokenKindNameTab[XP_TOKEN_KIND_IS] = @"is";
         self.tokenKindNameTab[XP_TOKEN_KIND_BREAK] = @"break";
         self.tokenKindNameTab[XP_TOKEN_KIND_FOR] = @"for";
         self.tokenKindNameTab[XP_TOKEN_KIND_RETURN] = @"return";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_CURLY] = @"}";
         self.tokenKindNameTab[XP_TOKEN_KIND_TRUE] = @"true";
-        self.tokenKindNameTab[XP_TOKEN_KIND_IF] = @"if";
+        self.tokenKindNameTab[XP_TOKEN_KIND_PLUSEQ] = @"+=";
         self.tokenKindNameTab[XP_TOKEN_KIND_NE] = @"!=";
+        self.tokenKindNameTab[XP_TOKEN_KIND_IF] = @"if";
         self.tokenKindNameTab[XP_TOKEN_KIND_ELSE] = @"else";
         self.tokenKindNameTab[XP_TOKEN_KIND_BANG] = @"!";
         self.tokenKindNameTab[XP_TOKEN_KIND_CONTINUE] = @"continue";
         self.tokenKindNameTab[XP_TOKEN_KIND_COLON] = @":";
         self.tokenKindNameTab[XP_TOKEN_KIND_SEMI_COLON] = @";";
         self.tokenKindNameTab[XP_TOKEN_KIND_LT] = @"<";
+        self.tokenKindNameTab[XP_TOKEN_KIND_MINUSEQ] = @"-=";
         self.tokenKindNameTab[XP_TOKEN_KIND_MOD] = @"%";
         self.tokenKindNameTab[XP_TOKEN_KIND_EQUALS] = @"=";
         self.tokenKindNameTab[XP_TOKEN_KIND_AMP] = @"&";
@@ -240,6 +255,7 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_WHILE] = @"while";
         self.tokenKindNameTab[XP_TOKEN_KIND_VAR] = @"var";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_PAREN] = @")";
+        self.tokenKindNameTab[XP_TOKEN_KIND_DIVEQ] = @"/=";
         self.tokenKindNameTab[XP_TOKEN_KIND_TIMES] = @"*";
         self.tokenKindNameTab[XP_TOKEN_KIND_OR] = @"or";
         self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
@@ -270,6 +286,10 @@
         self.stat_memo = [NSMutableDictionary dictionary];
         self.varDecl_memo = [NSMutableDictionary dictionary];
         self.qid_memo = [NSMutableDictionary dictionary];
+        self.plusEq_memo = [NSMutableDictionary dictionary];
+        self.minusEq_memo = [NSMutableDictionary dictionary];
+        self.timesEq_memo = [NSMutableDictionary dictionary];
+        self.divEq_memo = [NSMutableDictionary dictionary];
         self.assign_memo = [NSMutableDictionary dictionary];
         self.assignIndex_memo = [NSMutableDictionary dictionary];
         self.assignAppend_memo = [NSMutableDictionary dictionary];
@@ -374,6 +394,10 @@
     self.stat_memo = nil;
     self.varDecl_memo = nil;
     self.qid_memo = nil;
+    self.plusEq_memo = nil;
+    self.minusEq_memo = nil;
+    self.timesEq_memo = nil;
+    self.divEq_memo = nil;
     self.assign_memo = nil;
     self.assignIndex_memo = nil;
     self.assignAppend_memo = nil;
@@ -455,6 +479,10 @@
     [_stat_memo removeAllObjects];
     [_varDecl_memo removeAllObjects];
     [_qid_memo removeAllObjects];
+    [_plusEq_memo removeAllObjects];
+    [_minusEq_memo removeAllObjects];
+    [_timesEq_memo removeAllObjects];
+    [_divEq_memo removeAllObjects];
     [_assign_memo removeAllObjects];
     [_assignIndex_memo removeAllObjects];
     [_assignAppend_memo removeAllObjects];
@@ -782,10 +810,66 @@
     [self parseRule:@selector(__qid) withMemo:_qid_memo];
 }
 
+- (void)__plusEq {
+    
+    [self match:XP_TOKEN_KIND_PLUSEQ discard:NO]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchPlusEq:)];
+}
+
+- (void)plusEq_ {
+    [self parseRule:@selector(__plusEq) withMemo:_plusEq_memo];
+}
+
+- (void)__minusEq {
+    
+    [self match:XP_TOKEN_KIND_MINUSEQ discard:NO]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchMinusEq:)];
+}
+
+- (void)minusEq_ {
+    [self parseRule:@selector(__minusEq) withMemo:_minusEq_memo];
+}
+
+- (void)__timesEq {
+    
+    [self match:XP_TOKEN_KIND_TIMESEQ discard:NO]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchTimesEq:)];
+}
+
+- (void)timesEq_ {
+    [self parseRule:@selector(__timesEq) withMemo:_timesEq_memo];
+}
+
+- (void)__divEq {
+    
+    [self match:XP_TOKEN_KIND_DIVEQ discard:NO]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchDivEq:)];
+}
+
+- (void)divEq_ {
+    [self parseRule:@selector(__divEq) withMemo:_divEq_memo];
+}
+
 - (void)__assign {
     
     [self qid_]; 
-    [self match:XP_TOKEN_KIND_EQUALS discard:NO]; 
+    if ([self predicts:XP_TOKEN_KIND_EQUALS, 0]) {
+        [self match:XP_TOKEN_KIND_EQUALS discard:NO]; 
+    } else if ([self predicts:XP_TOKEN_KIND_PLUSEQ, 0]) {
+        [self plusEq_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_MINUSEQ, 0]) {
+        [self minusEq_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_TIMESEQ, 0]) {
+        [self timesEq_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_DIVEQ, 0]) {
+        [self divEq_]; 
+    } else {
+        [self raise:@"No viable alternative found in rule 'assign'."];
+    }
     [self expr_]; 
     [self execute:^{
     

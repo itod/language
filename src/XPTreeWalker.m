@@ -129,6 +129,11 @@
         case XP_TOKEN_KIND_SAVE_SUBSCRIPT:  [self saveSubscript:node]; break;
         case XP_TOKEN_KIND_APPEND:          [self append:node]; break;
             
+        case XP_TOKEN_KIND_PLUSEQ:          [self plusEq:node]; break;
+        case XP_TOKEN_KIND_MINUSEQ:         [self minusEq:node]; break;
+        case XP_TOKEN_KIND_TIMESEQ:         [self timesEq:node]; break;
+        case XP_TOKEN_KIND_DIVEQ:           [self divEq:node]; break;
+
 // FUNCTIONS
         case XP_TOKEN_KIND_CALL:            res = [self call:node]; break;
         case XP_TOKEN_KIND_RETURN:          [self returnStat:node]; break;
@@ -236,6 +241,10 @@
 - (void)funcDecl:(XPNode *)node {}
 
 - (void)assign:(XPNode *)node {}
+- (void)plusEq:(XPNode *)node {}
+- (void)minusEq:(XPNode *)node {}
+- (void)timesEq:(XPNode *)node {}
+- (void)divEq:(XPNode *)node {}
 - (void)saveSubscript:(XPNode *)node {}
 - (void)append:(XPNode *)node {}
 

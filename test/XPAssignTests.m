@@ -70,4 +70,24 @@
     TDEqualObjects([XPObject nanObject], [self valueForName:@"x"]);
 }
 
+- (void)testPlusEq {
+    [self eval:@"var x=1;x+=1;"];
+    TDEquals(2.0, [self doubleForName:@"x"]);
+}
+
+- (void)testMinusEq {
+    [self eval:@"var x=1;x-=1;"];
+    TDEquals(0.0, [self doubleForName:@"x"]);
+}
+
+- (void)testTimesEq {
+    [self eval:@"var x=1;x*=3;"];
+    TDEquals(3.0, [self doubleForName:@"x"]);
+}
+
+- (void)testDivEq {
+    [self eval:@"var x=9;x/=3;"];
+    TDEquals(3.0, [self doubleForName:@"x"]);
+}
+
 @end

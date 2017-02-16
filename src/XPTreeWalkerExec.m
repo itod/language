@@ -139,6 +139,50 @@
 #pragma mark -
 #pragma mark ASSIGN
 
+- (void)assignEq:(XPNode *)node op:(NSInteger)op {
+    //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
+    XPNode *idNode = [node childAtIndex:0];
+    NSString *name = idNode.token.stringValue;
+    
+    XPMemorySpace *space = [self spaceWithSymbolNamed:name];
+    if (!space) {
+        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", name];
+        return;
+    }
+    
+    double lhs = [[space objectForName:name] doubleValue];
+    double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
+    
+    double res = 0.0;
+    switch (op) {
+        case XP_TOKEN_KIND_PLUSEQ:
+            res = lhs + rhs;
+            break;
+        case XP_TOKEN_KIND_MINUSEQ:
+            res = lhs - rhs;
+            break;
+        case XP_TOKEN_KIND_TIMESEQ:
+            res = lhs * rhs;
+            break;
+        case XP_TOKEN_KIND_DIVEQ:
+            res = lhs / rhs;
+            break;
+        default:
+            TDAssert(0);
+            break;
+    }
+
+    XPObject *valObj = [XPNumberClass instanceWithValue:@(res)];
+    [space setObject:valObj forName:name];
+}
+
+
+- (void)plusEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_PLUSEQ]; }
+- (void)minusEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_MINUSEQ]; }
+- (void)timesEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_TIMESEQ]; }
+- (void)divEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_DIVEQ]; }
+
+
 - (void)assign:(XPNode *)node {
     //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     XPNode *idNode = [node childAtIndex:0];
@@ -154,6 +198,38 @@
     XPObject *valObj = [self walk:expr];
     
     [space setObject:valObj forName:name];
+}
+
+
+- (id)assign:(XPNode *)node op:(NSInteger)op {
+    // (+ `2` `1`)
+    
+    double lhs = [[self walk:[node childAtIndex:0]] doubleValue];
+    double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
+    
+    double res = 0.0;
+    switch (op) {
+        case XP_TOKEN_KIND_PLUS:
+            res = lhs + rhs;
+            break;
+        case XP_TOKEN_KIND_MINUS:
+            res = lhs - rhs;
+            break;
+        case XP_TOKEN_KIND_TIMES:
+            res = lhs * rhs;
+            break;
+        case XP_TOKEN_KIND_DIV:
+            res = lhs / rhs;
+            break;
+        case XP_TOKEN_KIND_MOD:
+            res = lrint(lhs) % lrint(rhs);
+            break;
+        default:
+            TDAssert(0);
+            break;
+    }
+    
+    return [XPNumberClass instanceWithValue:@(res)];
 }
 
 
