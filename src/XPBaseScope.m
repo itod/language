@@ -42,6 +42,11 @@
 }
 
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@ : %@>", [self class], _symbols];
+}
+
+
 - (id <XPScope>)getParentScope {
     return self.enclosingScope;
 }
