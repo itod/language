@@ -52,4 +52,14 @@
     TDEquals(3.0, [self doubleForName:@"c"]);
 }
 
+- (void)testNestedLoops {
+    [self eval:@"for i in range(3) {for j in range(3){log(i);}}"];
+    
+}
+
+- (void)testClosuresLoop {
+    [self eval:@"var funcs=[];for i in range(3){funcs[]=sub(){log(i);};}for func in funcs {func();}"];
+    TDNil(self.error);
+}
+
 @end
