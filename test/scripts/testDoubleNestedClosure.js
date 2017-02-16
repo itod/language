@@ -4,14 +4,15 @@ var funcs = [];
 for i in range(3) {
     funcs[] = sub () {
         x = i;
-        log(i); // should log 3
+        log('should be 3, i:');
+        log(i);
     };
 }
 
 {
     var i = 47;
     var foo = sub() {
-        log('should be 47:');
+        log('should be 47, i');
         log(i);
         for func in funcs {
             func();

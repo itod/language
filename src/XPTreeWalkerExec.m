@@ -465,10 +465,11 @@
     }
 
     // PUSH MEMORY SPACE
-    XPMemorySpace *saveSpace = self.currentSpace;
-    TDAssert(saveSpace);
-    self.closureSpace = funcSym.closureSpace;
+    XPMemorySpace *savedCurrentSpace = self.currentSpace;
+    TDAssert(savedCurrentSpace);
     self.currentSpace = funcSpace;
+    XPMemorySpace *savedClosureSpace = self.closureSpace;
+    self.closureSpace = funcSym.closureSpace;
 
     // CALL
     XPObject *result = nil;
@@ -496,8 +497,8 @@
     }
 
     // POP MEMORY SPACE
-    self.currentSpace = saveSpace;
-    self.closureSpace = nil;
+    self.closureSpace = savedClosureSpace;
+    self.currentSpace = savedCurrentSpace;
     
     if (!result) {
         result = [XPObject nullObject];

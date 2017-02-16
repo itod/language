@@ -96,9 +96,9 @@
     TDEquals(3.0, [self doubleForName:@"x"]);
 }
 
-//- (void)testDoubleNestedClosure {
-//    [self eval:[self stringForSelector:_cmd]];
-//    TDEquals(3.0, [self doubleForName:@"x"]);
-//}
+- (void)testDoubleNestedClosure {
+    [self eval:[self stringForSelector:_cmd]];
+    TDEquals(3.0, [self doubleForName:@"x"]);
+}
 
 @end
