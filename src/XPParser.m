@@ -99,7 +99,7 @@
 @property (nonatomic, retain) NSMutableDictionary *div_memo;
 @property (nonatomic, retain) NSMutableDictionary *mod_memo;
 @property (nonatomic, retain) NSMutableDictionary *multiplicativeExpr_memo;
-@property (nonatomic, retain) NSMutableDictionary *amp_memo;
+@property (nonatomic, retain) NSMutableDictionary *cat_memo;
 @property (nonatomic, retain) NSMutableDictionary *concatExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *unaryExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *negatedUnary_memo;
@@ -136,7 +136,7 @@
     [t.symbolState add:@"*="];
     [t.symbolState add:@"/="];
 //    [t.symbolState add:@"&&"];
-//    [t.symbolState add:@"||"];
+    [t.symbolState add:@"||"];
     
     [t setTokenizerState:t.symbolState from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'-' to:'-'];
@@ -213,7 +213,6 @@
         self.tokenKindTab[@"-="] = @(XP_TOKEN_KIND_MINUSEQ);
         self.tokenKindTab[@"%"] = @(XP_TOKEN_KIND_MOD);
         self.tokenKindTab[@"="] = @(XP_TOKEN_KIND_EQUALS);
-        self.tokenKindTab[@"&"] = @(XP_TOKEN_KIND_AMP);
         self.tokenKindTab[@">"] = @(XP_TOKEN_KIND_GT);
         self.tokenKindTab[@"("] = @(XP_TOKEN_KIND_OPEN_PAREN);
         self.tokenKindTab[@"while"] = @(XP_TOKEN_KIND_WHILE);
@@ -222,16 +221,17 @@
         self.tokenKindTab[@"/="] = @(XP_TOKEN_KIND_DIVEQ);
         self.tokenKindTab[@"*"] = @(XP_TOKEN_KIND_TIMES);
         self.tokenKindTab[@"or"] = @(XP_TOKEN_KIND_OR);
-        self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
+        self.tokenKindTab[@"||"] = @(XP_TOKEN_KIND_CAT);
         self.tokenKindTab[@"+"] = @(XP_TOKEN_KIND_PLUS);
-        self.tokenKindTab[@"null"] = @(XP_TOKEN_KIND_NULL);
+        self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
         self.tokenKindTab[@"["] = @(XP_TOKEN_KIND_OPEN_BRACKET);
         self.tokenKindTab[@","] = @(XP_TOKEN_KIND_COMMA);
         self.tokenKindTab[@"and"] = @(XP_TOKEN_KIND_AND);
-        self.tokenKindTab[@"NaN"] = @(XP_TOKEN_KIND_NAN);
+        self.tokenKindTab[@"null"] = @(XP_TOKEN_KIND_NULL);
         self.tokenKindTab[@"-"] = @(XP_TOKEN_KIND_MINUS);
         self.tokenKindTab[@"in"] = @(XP_TOKEN_KIND_IN);
         self.tokenKindTab[@"]"] = @(XP_TOKEN_KIND_CLOSE_BRACKET);
+        self.tokenKindTab[@"NaN"] = @(XP_TOKEN_KIND_NAN);
         self.tokenKindTab[@"/"] = @(XP_TOKEN_KIND_DIV);
         self.tokenKindTab[@"false"] = @(XP_TOKEN_KIND_FALSE);
         self.tokenKindTab[@"sub"] = @(XP_TOKEN_KIND_SUB);
@@ -259,7 +259,6 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_MINUSEQ] = @"-=";
         self.tokenKindNameTab[XP_TOKEN_KIND_MOD] = @"%";
         self.tokenKindNameTab[XP_TOKEN_KIND_EQUALS] = @"=";
-        self.tokenKindNameTab[XP_TOKEN_KIND_AMP] = @"&";
         self.tokenKindNameTab[XP_TOKEN_KIND_GT] = @">";
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_PAREN] = @"(";
         self.tokenKindNameTab[XP_TOKEN_KIND_WHILE] = @"while";
@@ -268,16 +267,17 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_DIVEQ] = @"/=";
         self.tokenKindNameTab[XP_TOKEN_KIND_TIMES] = @"*";
         self.tokenKindNameTab[XP_TOKEN_KIND_OR] = @"or";
-        self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
+        self.tokenKindNameTab[XP_TOKEN_KIND_CAT] = @"||";
         self.tokenKindNameTab[XP_TOKEN_KIND_PLUS] = @"+";
-        self.tokenKindNameTab[XP_TOKEN_KIND_NULL] = @"null";
+        self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_BRACKET] = @"[";
         self.tokenKindNameTab[XP_TOKEN_KIND_COMMA] = @",";
         self.tokenKindNameTab[XP_TOKEN_KIND_AND] = @"and";
-        self.tokenKindNameTab[XP_TOKEN_KIND_NAN] = @"NaN";
+        self.tokenKindNameTab[XP_TOKEN_KIND_NULL] = @"null";
         self.tokenKindNameTab[XP_TOKEN_KIND_MINUS] = @"-";
         self.tokenKindNameTab[XP_TOKEN_KIND_IN] = @"in";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_BRACKET] = @"]";
+        self.tokenKindNameTab[XP_TOKEN_KIND_NAN] = @"NaN";
         self.tokenKindNameTab[XP_TOKEN_KIND_DIV] = @"/";
         self.tokenKindNameTab[XP_TOKEN_KIND_FALSE] = @"false";
         self.tokenKindNameTab[XP_TOKEN_KIND_SUB] = @"sub";
@@ -342,7 +342,7 @@
         self.div_memo = [NSMutableDictionary dictionary];
         self.mod_memo = [NSMutableDictionary dictionary];
         self.multiplicativeExpr_memo = [NSMutableDictionary dictionary];
-        self.amp_memo = [NSMutableDictionary dictionary];
+        self.cat_memo = [NSMutableDictionary dictionary];
         self.concatExpr_memo = [NSMutableDictionary dictionary];
         self.unaryExpr_memo = [NSMutableDictionary dictionary];
         self.negatedUnary_memo = [NSMutableDictionary dictionary];
@@ -450,7 +450,7 @@
     self.div_memo = nil;
     self.mod_memo = nil;
     self.multiplicativeExpr_memo = nil;
-    self.amp_memo = nil;
+    self.cat_memo = nil;
     self.concatExpr_memo = nil;
     self.unaryExpr_memo = nil;
     self.negatedUnary_memo = nil;
@@ -535,7 +535,7 @@
     [_div_memo removeAllObjects];
     [_mod_memo removeAllObjects];
     [_multiplicativeExpr_memo removeAllObjects];
-    [_amp_memo removeAllObjects];
+    [_cat_memo removeAllObjects];
     [_concatExpr_memo removeAllObjects];
     [_unaryExpr_memo removeAllObjects];
     [_negatedUnary_memo removeAllObjects];
@@ -1776,22 +1776,22 @@
     [self parseRule:@selector(__multiplicativeExpr) withMemo:_multiplicativeExpr_memo];
 }
 
-- (void)__amp {
+- (void)__cat {
     
-    [self match:XP_TOKEN_KIND_AMP discard:NO]; 
+    [self match:XP_TOKEN_KIND_CAT discard:NO]; 
 
-    [self fireDelegateSelector:@selector(parser:didMatchAmp:)];
+    [self fireDelegateSelector:@selector(parser:didMatchCat:)];
 }
 
-- (void)amp_ {
-    [self parseRule:@selector(__amp) withMemo:_amp_memo];
+- (void)cat_ {
+    [self parseRule:@selector(__cat) withMemo:_cat_memo];
 }
 
 - (void)__concatExpr {
     
     [self unaryExpr_]; 
-    while ([self speculate:^{ [self amp_]; [self unaryExpr_]; }]) {
-        [self amp_]; 
+    while ([self speculate:^{ [self cat_]; [self unaryExpr_]; }]) {
+        [self cat_]; 
         [self unaryExpr_]; 
         [self execute:^{
         
