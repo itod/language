@@ -263,7 +263,7 @@
         XPNode *valNode = [node childAtIndex:2];
         XPObject *valObj = [self walk:valNode];
         
-        [collObj callInstanceMethodNamed:@"set" args:@[@(idx), valObj]];
+        [collObj callInstanceMethodNamed:@"set" withArgs:@[@(idx), valObj]];
     }
     
     else if ([collObj isDictionaryObject]) {
@@ -273,7 +273,7 @@
         XPNode *valNode = [node childAtIndex:2];
         XPObject *valObj = [self walk:valNode];
         
-        [collObj callInstanceMethodNamed:@"set" args:@[keyObj, valObj]];
+        [collObj callInstanceMethodNamed:@"set" withArgs:@[keyObj, valObj]];
     }
     
     else {
@@ -322,25 +322,50 @@
 - (id)loadSubscript:(XPNode *)node {
     // (GET_IDX (LOAD foo) `0`)
     XPNode *refNode = [node childAtIndex:0];
-    XPNode *idxNode = [node childAtIndex:1];
+    XPNode *startNode = [node childAtIndex:1];
+    XPNode *stopNode = nil;
+    XPNode *stepNode = nil;
+    
+    if ([node childCount] > 2) {
+        stopNode = [node childAtIndex:2];
+        
+        if ([node childCount] > 3) {
+            stepNode = [node childAtIndex:3];
+        }
+    }
+    
     XPObject *obj = [self load:refNode];
 
     XPObject *res = nil;
 
     if ([obj isStringObject] || [obj isArrayObject]) {
-        NSUInteger i = [[self walk:idxNode] doubleValue];
+        NSInteger start = [[self walk:startNode] doubleValue];
         
-        res = [obj callInstanceMethodNamed:@"get" withArg:@(i)];
+        if (stopNode) {
+            NSInteger stop = [[self walk:stopNode] doubleValue];
+            NSInteger step = 1;
+            if (stepNode) {
+                step = [[self walk:stepNode] doubleValue];
+            }
+            res = [obj callInstanceMethodNamed:@"slice" withArgs:@[@(start), @(stop), @(step)]];
+        } else {
+            res = [obj callInstanceMethodNamed:@"get" withArg:@(start)];
+        }
     }
     
     else if ([obj isDictionaryObject]) {
-        XPObject *keyObj = [self walk:idxNode];
+        if (stopNode) {
+            [self raise:XPExceptionTypeMismatch node:node format:@"attempting sliced subscript access on dictionary object `%@`", refNode.token.stringValue];
+            return nil;
+        }
+        TDAssert(!stepNode);
+        XPObject *keyObj = [self walk:startNode];
         
         res = [obj callInstanceMethodNamed:@"get" withArg:keyObj];
     }
     
     else {
-        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed access on non-array object `%@`", refNode.token.stringValue];
+        [self raise:XPExceptionTypeMismatch node:node format:@"attempting subscript access on non-collection object `%@`", refNode.token.stringValue];
         return nil;
     }
     

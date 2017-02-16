@@ -120,7 +120,7 @@
 #pragma mark -
 #pragma mark Method Invocation
 
-- (id)callInstanceMethodNamed:(NSString *)name args:(NSArray *)args {
+- (id)callInstanceMethodNamed:(NSString *)name withArgs:(NSArray *)args {
     TDAssert(name);
     XPClass *cls = self.objectClass;
     
@@ -189,12 +189,12 @@
 
 
 - (id)callInstanceMethodNamed:(NSString *)name {
-    return [self callInstanceMethodNamed:name args:nil];
+    return [self callInstanceMethodNamed:name withArgs:nil];
 }
 
 
 - (id)callInstanceMethodNamed:(NSString *)name withArg:(id)arg {
-    return [self callInstanceMethodNamed:name args:@[arg]];
+    return [self callInstanceMethodNamed:name withArgs:@[arg]];
 }
 
 

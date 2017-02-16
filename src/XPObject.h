@@ -22,7 +22,7 @@
 
 - (id)callInstanceMethodNamed:(NSString *)name; // convenience
 - (id)callInstanceMethodNamed:(NSString *)name withArg:(id)arg; // convenience
-- (id)callInstanceMethodNamed:(NSString *)name args:(NSArray *)args;
+- (id)callInstanceMethodNamed:(NSString *)name withArgs:(NSArray *)args;
 
 - (BOOL)isEqualToObject:(XPObject *)other;
 - (BOOL)isNotEqualToObject:(XPObject *)other;

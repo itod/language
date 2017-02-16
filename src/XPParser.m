@@ -2069,12 +2069,31 @@
 - (void)__subscriptLoad {
     
     [self qid_]; 
-    [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:YES]; 
+    [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:NO]; 
     [self expr_]; 
+    if ([self speculate:^{ if ([self speculate:^{ [self match:XP_TOKEN_KIND_COLON discard:YES]; [self expr_]; }]) {[self match:XP_TOKEN_KIND_COLON discard:YES]; [self expr_]; }[self match:XP_TOKEN_KIND_COLON discard:YES]; [self expr_]; }]) {
+        if ([self speculate:^{ [self match:XP_TOKEN_KIND_COLON discard:YES]; [self expr_]; }]) {
+            [self match:XP_TOKEN_KIND_COLON discard:YES]; 
+            [self expr_]; 
+        }
+        [self match:XP_TOKEN_KIND_COLON discard:YES]; 
+        [self expr_]; 
+    }
     [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
     [self execute:^{
     
-    XPNode *exprNode = POP();
+    NSArray *nodes = REV(ABOVE(_openSquareTok));
+    POP(); // square
+    
+    XPNode *startNode = startNode=nodes[0];
+    XPNode *stopNode = nil;
+    XPNode *stepNode = nil;
+    switch ([nodes count]) {
+        case 1: { } break;
+        case 2: { stopNode=nodes[1]; } break;
+        case 3: { stopNode=nodes[1]; stepNode=nodes[2]; } break;
+        default:{ TDAssert(0); } break;
+    }
 
     XPNode *refNode = [XPNode nodeWithToken:_loadTok];
     XPNode *idNode = [XPNode nodeWithToken:POP()];
@@ -2082,7 +2101,9 @@
 
     XPNode *callNode = [XPNode nodeWithToken:_loadSubscriptTok];
     [callNode addChild:refNode];
-    [callNode addChild:exprNode];
+    [callNode addChild:startNode];
+    if (stopNode) [callNode addChild:stopNode];
+    if (stepNode) [callNode addChild:stepNode];
     PUSH(callNode);
 
     }];
