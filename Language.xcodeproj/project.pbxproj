@@ -55,6 +55,9 @@
 		D3166E3D1E54EBA200DEE3A0 /* XPReturnException.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E3B1E54EBA200DEE3A0 /* XPReturnException.m */; };
 		D3166E441E55F8EC00DEE3A0 /* testClosuresLoopWithLocalVar.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166E431E55F8EC00DEE3A0 /* testClosuresLoopWithLocalVar.js */; };
 		D3166E471E55FE6D00DEE3A0 /* testClosuresLoopWithGlobalVar.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166E461E55FE6D00DEE3A0 /* testClosuresLoopWithGlobalVar.js */; };
+		D3166E491E5603D200DEE3A0 /* testDoubleNestedClosure.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166E481E5603D200DEE3A0 /* testDoubleNestedClosure.js */; };
+		D3166E4B1E56046E00DEE3A0 /* testLocalVarFromClosure.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166E4A1E56046E00DEE3A0 /* testLocalVarFromClosure.js */; };
+		D3166E4D1E5604D600DEE3A0 /* testGlobalVarFromClosure.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166E4C1E5604D600DEE3A0 /* testGlobalVarFromClosure.js */; };
 		D32E70BE1E5365F700728D80 /* XPFunctionBody.h in Headers */ = {isa = PBXBuildFile; fileRef = D32E70BC1E5365F700728D80 /* XPFunctionBody.h */; };
 		D32E70BF1E5365F700728D80 /* XPFunctionBody.m in Sources */ = {isa = PBXBuildFile; fileRef = D32E70BD1E5365F700728D80 /* XPFunctionBody.m */; };
 		D32E70C21E5367A900728D80 /* FNRange.h in Headers */ = {isa = PBXBuildFile; fileRef = D32E70C01E5367A900728D80 /* FNRange.h */; };
@@ -194,6 +197,9 @@
 		D3166E3B1E54EBA200DEE3A0 /* XPReturnException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPReturnException.m; path = src/XPReturnException.m; sourceTree = SOURCE_ROOT; };
 		D3166E431E55F8EC00DEE3A0 /* testClosuresLoopWithLocalVar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testClosuresLoopWithLocalVar.js; path = test/scripts/testClosuresLoopWithLocalVar.js; sourceTree = SOURCE_ROOT; };
 		D3166E461E55FE6D00DEE3A0 /* testClosuresLoopWithGlobalVar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testClosuresLoopWithGlobalVar.js; path = test/scripts/testClosuresLoopWithGlobalVar.js; sourceTree = SOURCE_ROOT; };
+		D3166E481E5603D200DEE3A0 /* testDoubleNestedClosure.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testDoubleNestedClosure.js; path = test/scripts/testDoubleNestedClosure.js; sourceTree = SOURCE_ROOT; };
+		D3166E4A1E56046E00DEE3A0 /* testLocalVarFromClosure.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testLocalVarFromClosure.js; path = test/scripts/testLocalVarFromClosure.js; sourceTree = SOURCE_ROOT; };
+		D3166E4C1E5604D600DEE3A0 /* testGlobalVarFromClosure.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testGlobalVarFromClosure.js; path = test/scripts/testGlobalVarFromClosure.js; sourceTree = SOURCE_ROOT; };
 		D32E70BC1E5365F700728D80 /* XPFunctionBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPFunctionBody.h; path = src/XPFunctionBody.h; sourceTree = SOURCE_ROOT; };
 		D32E70BD1E5365F700728D80 /* XPFunctionBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFunctionBody.m; path = src/XPFunctionBody.m; sourceTree = SOURCE_ROOT; };
 		D32E70C01E5367A900728D80 /* FNRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNRange.h; path = src/FNRange.h; sourceTree = SOURCE_ROOT; };
@@ -439,6 +445,9 @@
 			children = (
 				D3166E461E55FE6D00DEE3A0 /* testClosuresLoopWithGlobalVar.js */,
 				D3166E431E55F8EC00DEE3A0 /* testClosuresLoopWithLocalVar.js */,
+				D3166E481E5603D200DEE3A0 /* testDoubleNestedClosure.js */,
+				D3166E4C1E5604D600DEE3A0 /* testGlobalVarFromClosure.js */,
+				D3166E4A1E56046E00DEE3A0 /* testLocalVarFromClosure.js */,
 			);
 			name = Scripts;
 			sourceTree = "<group>";
@@ -752,7 +761,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3166E471E55FE6D00DEE3A0 /* testClosuresLoopWithGlobalVar.js in Resources */,
+				D3166E491E5603D200DEE3A0 /* testDoubleNestedClosure.js in Resources */,
+				D3166E4B1E56046E00DEE3A0 /* testLocalVarFromClosure.js in Resources */,
 				D3166E441E55F8EC00DEE3A0 /* testClosuresLoopWithLocalVar.js in Resources */,
+				D3166E4D1E5604D600DEE3A0 /* testGlobalVarFromClosure.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -66,12 +66,27 @@
     [self eval:@"var funcs=[];for i in range(3){funcs[]=sub(){log(i);};}for func in funcs {func();}"];
 }
 
+- (void)testLocalVarFromClosure {
+    [self eval:[self stringForSelector:_cmd]];
+    TDEquals(47.0, [self doubleForName:@"x"]);
+}
+
+- (void)testGlobalVarFromClosure {
+    [self eval:[self stringForSelector:_cmd]];
+    TDEquals(47.0, [self doubleForName:@"x"]);
+}
+
 - (void)testClosuresLoopWithGlobalVar {
     [self eval:[self stringForSelector:_cmd]];
     TDEquals(3.0, [self doubleForName:@"x"]);
 }
 
 - (void)testClosuresLoopWithLocalVar {
+    [self eval:[self stringForSelector:_cmd]];
+    TDEquals(3.0, [self doubleForName:@"x"]);
+}
+
+- (void)testDoubleNestedClosure {
     [self eval:[self stringForSelector:_cmd]];
     TDEquals(3.0, [self doubleForName:@"x"]);
 }
