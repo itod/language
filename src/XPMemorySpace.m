@@ -41,6 +41,16 @@
 }
 
 
+- (BOOL)containsObjectForName:(NSString *)name {
+    TDAssertMainThread();
+    TDAssert([name length]);
+    TDAssert(_members);
+    
+    XPObject *obj = [_members objectForKey:name];
+    return nil != obj;
+}
+
+
 - (XPObject *)objectForName:(NSString *)name {
     TDAssertMainThread();
     TDAssert([name length]);

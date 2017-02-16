@@ -14,6 +14,7 @@
 
 - (instancetype)initWithName:(NSString *)name enclosingSpace:(XPMemorySpace *)space;
 
+- (BOOL)containsObjectForName:(NSString *)name;
 - (XPObject *)objectForName:(NSString *)name;
 - (void)setObject:(XPObject *)obj forName:(NSString *)name;
 
