@@ -614,6 +614,14 @@
 - (id)mod:(XPNode *)node    { return [self math:node op:XP_TOKEN_KIND_MOD]; }
 
 
+- (id)concat:(XPNode *)node {
+    NSString *lhs = [[self walk:[node childAtIndex:0]] stringValue];
+    NSString *rhs = [[self walk:[node childAtIndex:1]] stringValue];
+    NSString *res = [NSString stringWithFormat:@"%@%@", lhs, rhs];
+    return [XPStringClass instanceWithValue:res];
+}
+
+
 #pragma mark -
 #pragma mark Literals
 

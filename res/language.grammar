@@ -74,8 +74,8 @@
     [t.symbolState add:@"!="];
     [t.symbolState add:@"<="];
     [t.symbolState add:@">="];
-    [t.symbolState add:@"&&"];
-    [t.symbolState add:@"||"];
+//    [t.symbolState add:@"&&"];
+//    [t.symbolState add:@"||"];
     
     [t setTokenizerState:t.symbolState from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'-' to:'-'];
@@ -510,13 +510,23 @@ additiveExpr = multiplicativeExpr ((plus | minus) multiplicativeExpr {
 times   = '*';
 div     = '/';
 mod     = '%';
-multiplicativeExpr = unaryExpr ((times | div | mod) unaryExpr {
+multiplicativeExpr = concatExpr ((times | div | mod) concatExpr {
     XPNode *rhs = POP();
     XPNode *multNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
     [multNode addChild:lhs];
     [multNode addChild:rhs];
     PUSH(multNode);
+})*;
+
+amp     = '&';
+concatExpr = unaryExpr (amp unaryExpr {
+    XPNode *rhs = POP();
+    XPNode *catNode = [XPNode nodeWithToken:POP()];
+    XPNode *lhs = POP();
+    [catNode addChild:lhs];
+    [catNode addChild:rhs];
+    PUSH(catNode);
 })*;
 
 unaryExpr 

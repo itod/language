@@ -4,7 +4,7 @@ var funcs = [];
 for i in range(3) {
     funcs[] = sub () {
         x = i;
-        log(i); // should log 3
+        log('i should be 3, i:' & i);
     };
 }
 

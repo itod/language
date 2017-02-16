@@ -95,6 +95,8 @@
 @property (nonatomic, retain) NSMutableDictionary *div_memo;
 @property (nonatomic, retain) NSMutableDictionary *mod_memo;
 @property (nonatomic, retain) NSMutableDictionary *multiplicativeExpr_memo;
+@property (nonatomic, retain) NSMutableDictionary *amp_memo;
+@property (nonatomic, retain) NSMutableDictionary *concatExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *unaryExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *negatedUnary_memo;
 @property (nonatomic, retain) NSMutableDictionary *unary_memo;
@@ -125,8 +127,8 @@
     [t.symbolState add:@"!="];
     [t.symbolState add:@"<="];
     [t.symbolState add:@">="];
-    [t.symbolState add:@"&&"];
-    [t.symbolState add:@"||"];
+//    [t.symbolState add:@"&&"];
+//    [t.symbolState add:@"||"];
     
     [t setTokenizerState:t.symbolState from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'-' to:'-'];
@@ -190,6 +192,7 @@
         self.tokenKindTab[@"<"] = @(XP_TOKEN_KIND_LT);
         self.tokenKindTab[@"%"] = @(XP_TOKEN_KIND_MOD);
         self.tokenKindTab[@"="] = @(XP_TOKEN_KIND_EQUALS);
+        self.tokenKindTab[@"&"] = @(XP_TOKEN_KIND_AMP);
         self.tokenKindTab[@">"] = @(XP_TOKEN_KIND_GT);
         self.tokenKindTab[@"("] = @(XP_TOKEN_KIND_OPEN_PAREN);
         self.tokenKindTab[@"while"] = @(XP_TOKEN_KIND_WHILE);
@@ -231,6 +234,7 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_LT] = @"<";
         self.tokenKindNameTab[XP_TOKEN_KIND_MOD] = @"%";
         self.tokenKindNameTab[XP_TOKEN_KIND_EQUALS] = @"=";
+        self.tokenKindNameTab[XP_TOKEN_KIND_AMP] = @"&";
         self.tokenKindNameTab[XP_TOKEN_KIND_GT] = @">";
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_PAREN] = @"(";
         self.tokenKindNameTab[XP_TOKEN_KIND_WHILE] = @"while";
@@ -308,6 +312,8 @@
         self.div_memo = [NSMutableDictionary dictionary];
         self.mod_memo = [NSMutableDictionary dictionary];
         self.multiplicativeExpr_memo = [NSMutableDictionary dictionary];
+        self.amp_memo = [NSMutableDictionary dictionary];
+        self.concatExpr_memo = [NSMutableDictionary dictionary];
         self.unaryExpr_memo = [NSMutableDictionary dictionary];
         self.negatedUnary_memo = [NSMutableDictionary dictionary];
         self.unary_memo = [NSMutableDictionary dictionary];
@@ -410,6 +416,8 @@
     self.div_memo = nil;
     self.mod_memo = nil;
     self.multiplicativeExpr_memo = nil;
+    self.amp_memo = nil;
+    self.concatExpr_memo = nil;
     self.unaryExpr_memo = nil;
     self.negatedUnary_memo = nil;
     self.unary_memo = nil;
@@ -489,6 +497,8 @@
     [_div_memo removeAllObjects];
     [_mod_memo removeAllObjects];
     [_multiplicativeExpr_memo removeAllObjects];
+    [_amp_memo removeAllObjects];
+    [_concatExpr_memo removeAllObjects];
     [_unaryExpr_memo removeAllObjects];
     [_negatedUnary_memo removeAllObjects];
     [_unary_memo removeAllObjects];
@@ -538,7 +548,7 @@
     
     do {
         [self globalItem_]; 
-    } while ([self predicts:TOKEN_KIND_BUILTIN_ANY, 0]);
+    } while ([self speculate:^{ [self globalItem_]; }]);
     [self execute:^{
     
     NSArray *items = REV(ABOVE(nil));
@@ -1641,8 +1651,8 @@
 
 - (void)__multiplicativeExpr {
     
-    [self unaryExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_TIMES, 0]) {[self times_]; } else if ([self predicts:XP_TOKEN_KIND_DIV, 0]) {[self div_]; } else if ([self predicts:XP_TOKEN_KIND_MOD, 0]) {[self mod_]; } else {[self raise:@"No viable alternative found in rule 'multiplicativeExpr'."];}[self unaryExpr_]; }]) {
+    [self concatExpr_]; 
+    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_TIMES, 0]) {[self times_]; } else if ([self predicts:XP_TOKEN_KIND_DIV, 0]) {[self div_]; } else if ([self predicts:XP_TOKEN_KIND_MOD, 0]) {[self mod_]; } else {[self raise:@"No viable alternative found in rule 'multiplicativeExpr'."];}[self concatExpr_]; }]) {
         if ([self predicts:XP_TOKEN_KIND_TIMES, 0]) {
             [self times_]; 
         } else if ([self predicts:XP_TOKEN_KIND_DIV, 0]) {
@@ -1652,7 +1662,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'multiplicativeExpr'."];
         }
-        [self unaryExpr_]; 
+        [self concatExpr_]; 
         [self execute:^{
         
     XPNode *rhs = POP();
@@ -1670,6 +1680,42 @@
 
 - (void)multiplicativeExpr_ {
     [self parseRule:@selector(__multiplicativeExpr) withMemo:_multiplicativeExpr_memo];
+}
+
+- (void)__amp {
+    
+    [self match:XP_TOKEN_KIND_AMP discard:NO]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchAmp:)];
+}
+
+- (void)amp_ {
+    [self parseRule:@selector(__amp) withMemo:_amp_memo];
+}
+
+- (void)__concatExpr {
+    
+    [self unaryExpr_]; 
+    while ([self speculate:^{ [self amp_]; [self unaryExpr_]; }]) {
+        [self amp_]; 
+        [self unaryExpr_]; 
+        [self execute:^{
+        
+    XPNode *rhs = POP();
+    XPNode *catNode = [XPNode nodeWithToken:POP()];
+    XPNode *lhs = POP();
+    [catNode addChild:lhs];
+    [catNode addChild:rhs];
+    PUSH(catNode);
+
+        }];
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchConcatExpr:)];
+}
+
+- (void)concatExpr_ {
+    [self parseRule:@selector(__concatExpr) withMemo:_concatExpr_memo];
 }
 
 - (void)__unaryExpr {

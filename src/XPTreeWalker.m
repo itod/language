@@ -164,6 +164,8 @@
         case XP_TOKEN_KIND_DIV:             res = [self div:node]; break;
         case XP_TOKEN_KIND_MOD:             res = [self mod:node]; break;
 
+        case XP_TOKEN_KIND_AMP:             res = [self concat:node]; break;
+
 // NULL
         case XP_TOKEN_KIND_NULL:            res = [self null:node]; break;
 // NaN
@@ -264,6 +266,8 @@
 - (id)times:(XPNode *)node {return nil;}
 - (id)div:(XPNode *)node {return nil;}
 - (id)mod:(XPNode *)node {return nil;}
+
+- (id)concat:(XPNode *)node {return nil;}
 
 - (id)not:(XPNode *)node {return nil;}
 - (id)neg:(XPNode *)node {return nil;}
