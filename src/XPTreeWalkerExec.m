@@ -467,6 +467,7 @@
     // PUSH MEMORY SPACE
     XPMemorySpace *saveSpace = self.currentSpace;
     TDAssert(saveSpace);
+    self.closureSpace = funcSym.closureSpace;
     self.currentSpace = funcSpace;
 
     // CALL
@@ -496,6 +497,7 @@
 
     // POP MEMORY SPACE
     self.currentSpace = saveSpace;
+    self.closureSpace = nil;
     
     if (!result) {
         result = [XPObject nullObject];
@@ -679,6 +681,7 @@
 - (id)function:(XPNode *)node {
     // (<ANON> <XPFunctionSymbol 0x100322580 <ANON>> (BLOCK (return 1)))
     XPFunctionSymbol *funcSym = [node childAtIndex:0];
+    funcSym.closureSpace = self.currentSpace;
     XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
     return obj;
 }

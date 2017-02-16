@@ -28,6 +28,7 @@
     self.globalScope = nil;
     self.globals = nil;
     self.currentSpace = nil;
+    self.closureSpace = nil;
     self.stack = nil;
     
     [super dealloc];
@@ -73,6 +74,11 @@
     TDAssert(_stack);
     if (!res && [_stack count] && [_stack lastObject] != _currentSpace && [[_stack lastObject] containsObjectForName:name]) {
         res = [_stack lastObject];
+    }
+    
+    // if present, check closure space
+    if (!res && _closureSpace != _currentSpace && [_closureSpace containsObjectForName:name]) {
+        res = _closureSpace;
     }
     
     // if not currently in global space, check globals

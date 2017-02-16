@@ -27,6 +27,7 @@
 @property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, retain) XPMemorySpace *globals;
 @property (nonatomic, retain) XPMemorySpace *currentSpace;
+@property (nonatomic, retain) XPMemorySpace *closureSpace;
 
 @property (nonatomic, retain) NSMutableArray<XPMemorySpace *> *stack;
 @end

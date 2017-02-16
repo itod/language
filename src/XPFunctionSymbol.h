@@ -12,6 +12,7 @@
 @class XPObject;
 @class XPTreeWalker;
 @class XPFunctionBody;
+@class XPMemorySpace;
 
 @interface XPFunctionSymbol : XPScopedSymbol
 
@@ -23,6 +24,7 @@
 
 @property (nonatomic, retain) XPNode *blockNode;
 @property (nonatomic, retain) XPFunctionBody *nativeBody;
+@property (nonatomic, retain) XPMemorySpace *closureSpace;
 @property (nonatomic, retain) NSMutableDictionary<NSString *, XPSymbol *> *params;
 @property (nonatomic, retain) NSMutableArray<XPSymbol *> *orderedParams;
 @property (nonatomic, retain) NSMutableDictionary<NSString *, XPNode *> *defaultParamExpressions;
