@@ -686,6 +686,24 @@
 }
 
 
+- (id)shiftLeft:(XPNode *)node {
+    double lhs = [[self walk:[node childAtIndex:0]] doubleValue];
+    double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
+    
+    double res = lrint(lhs) << lrint(rhs);
+    return [XPNumberClass instanceWithValue:@(res)];
+}
+
+
+- (id)shiftRight:(XPNode *)node {
+    double lhs = [[self walk:[node childAtIndex:0]] doubleValue];
+    double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
+    
+    double res = lrint(lhs) >> lrint(rhs);
+    return [XPNumberClass instanceWithValue:@(res)];
+}
+
+
 - (id)rel:(XPNode *)node op:(NSInteger)op {
     XPObject *lhs = [self walk:[node childAtIndex:0]];
     XPObject *rhs = [self walk:[node childAtIndex:1]];

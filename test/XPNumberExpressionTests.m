@@ -51,4 +51,23 @@
     TDEquals(7.0, [self doubleForName:@"n"]);
 }
 
+- (void)testShiftLeft {
+    [self eval:@"var n=$1 << 1;"];
+    TDEquals(2.0, [self doubleForName:@"n"]);
+    
+    [self eval:@"var n=$1 << 2;"];
+    TDEquals(4.0, [self doubleForName:@"n"]);
+    
+    [self eval:@"var n=$10 << 2;"];
+    TDEquals(8.0, [self doubleForName:@"n"]);
+}
+
+- (void)testShiftRight {
+    [self eval:@"var n=$10 >> 1;"];
+    TDEquals(1.0, [self doubleForName:@"n"]);
+    
+    [self eval:@"var n=$100 >> 2;"];
+    TDEquals(1.0, [self doubleForName:@"n"]);
+}
+
 @end

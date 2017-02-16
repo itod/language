@@ -158,6 +158,9 @@
         case XP_TOKEN_KIND_BITOR:           res = [self bitOr:node]; break;
         case XP_TOKEN_KIND_BITXOR:          res = [self bitXor:node]; break;
 
+        case XP_TOKEN_KIND_SHIFTLEFT:       res = [self shiftLeft:node]; break;
+        case XP_TOKEN_KIND_SHIFTRIGHT:      res = [self shiftRight:node]; break;
+
         case XP_TOKEN_KIND_EQ:              res = [self eq:node]; break;
         case XP_TOKEN_KIND_NE:              res = [self ne:node]; break;
         case XP_TOKEN_KIND_IS:              res = [self is:node]; break;
@@ -268,6 +271,9 @@
 - (id)bitAnd:(XPNode *)node {return nil;}
 - (id)bitOr:(XPNode *)node {return nil;}
 - (id)bitXor:(XPNode *)node {return nil;}
+
+- (id)shiftLeft:(XPNode *)node {return nil;}
+- (id)shiftRight:(XPNode *)node {return nil;}
 
 - (id)eq:(XPNode *)node {return nil;}
 - (id)ne:(XPNode *)node {return nil;}
