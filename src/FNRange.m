@@ -72,7 +72,8 @@
     {
         NSMutableArray *v = [NSMutableArray arrayWithCapacity:labs(stop-start)];
         
-        for (NSInteger i = start; i <= stop; i = start+i*step) {
+//        for (NSInteger i = start; i <= stop; i = start+i*step) {
+        for (NSInteger i = start; i > 0 && i <= stop; i += step) {
             XPObject *obj = [XPNumberClass instanceWithValue:@(i)];
             [v addObject:obj];
         }
