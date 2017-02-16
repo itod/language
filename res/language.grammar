@@ -84,6 +84,16 @@
     [t setTokenizerState:t.symbolState from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'\'' to:'\''];
+    
+    // hex numbers
+    [t setTokenizerState:t.numberState from:'#' to:'#'];
+    [t.numberState addPrefix:@"#" forRadix:16];
+    [t.numberState addGroupingSeparator:'_' forRadix:16];
+    // bin numbers
+    [t setTokenizerState:t.numberState from:'$' to:'$'];
+    [t.numberState addPrefix:@"$" forRadix:2];
+    [t.numberState addGroupingSeparator:'_' forRadix:2];
+
     return t;
 }
 
