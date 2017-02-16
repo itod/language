@@ -601,7 +601,7 @@ subExpr
 
 atom = scalar | arrayLiteral | dictLiteral | funcLiteral | funcCall | subscriptLoad | varRef;
 
-subscriptLoad = qid '[' expr ((':'! expr)? ':'! expr)? ']'! {
+subscriptLoad = qid '[' expr (':'! expr)? (':'! expr)? ']'! {
     NSArray *nodes = REV(ABOVE(_openSquareTok));
     POP(); // square
     

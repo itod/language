@@ -38,6 +38,8 @@
         sel = @selector(set:::);
     } else if ([methName isEqualToString:@"append"]) {
         sel = @selector(append::);
+    } else if ([methName isEqualToString:@"slice"]) {
+        sel = @selector(slice::::);
     }
     TDAssert(sel);
 
@@ -90,6 +92,27 @@
 - (void)append:(XPObject *)this :(XPObject *)obj {
     NSMutableArray *v = this.value;
     [v addObject:obj];
+}
+
+
+- (XPObject *)slice:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(NSInteger)step {
+    NSMutableArray *v = this.value;
+    
+    // build array
+    XPObject *arrObj = nil;
+    {
+        NSMutableArray *res = [NSMutableArray arrayWithCapacity:labs(stop-start)];
+        
+        for (NSInteger i = start; i <= stop; i = start+i*step) {
+            NSInteger j = [self nativeIndexForIndex:i inArray:v];
+            XPObject *obj = [v objectAtIndex:j];
+            [res addObject:obj];
+        }
+        
+        arrObj = [XPArrayClass instanceWithValue:res];
+    }
+    
+    return arrObj;
 }
 
 

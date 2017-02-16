@@ -41,90 +41,6 @@
 @property (nonatomic, assign) BOOL negative;
 @property (nonatomic, assign) BOOL canBreak;
 
-@property (nonatomic, retain) NSMutableDictionary *program_memo;
-@property (nonatomic, retain) NSMutableDictionary *globalList_memo;
-@property (nonatomic, retain) NSMutableDictionary *globalItem_memo;
-@property (nonatomic, retain) NSMutableDictionary *localList_memo;
-@property (nonatomic, retain) NSMutableDictionary *localItem_memo;
-@property (nonatomic, retain) NSMutableDictionary *funcBlock_memo;
-@property (nonatomic, retain) NSMutableDictionary *funcList_memo;
-@property (nonatomic, retain) NSMutableDictionary *funcItem_memo;
-@property (nonatomic, retain) NSMutableDictionary *localBlock_memo;
-@property (nonatomic, retain) NSMutableDictionary *stat_memo;
-@property (nonatomic, retain) NSMutableDictionary *varDecl_memo;
-@property (nonatomic, retain) NSMutableDictionary *qid_memo;
-@property (nonatomic, retain) NSMutableDictionary *plusEq_memo;
-@property (nonatomic, retain) NSMutableDictionary *minusEq_memo;
-@property (nonatomic, retain) NSMutableDictionary *timesEq_memo;
-@property (nonatomic, retain) NSMutableDictionary *divEq_memo;
-@property (nonatomic, retain) NSMutableDictionary *assign_memo;
-@property (nonatomic, retain) NSMutableDictionary *assignIndex_memo;
-@property (nonatomic, retain) NSMutableDictionary *assignAppend_memo;
-@property (nonatomic, retain) NSMutableDictionary *whileBlock_memo;
-@property (nonatomic, retain) NSMutableDictionary *break_memo;
-@property (nonatomic, retain) NSMutableDictionary *continue_memo;
-@property (nonatomic, retain) NSMutableDictionary *forBlock_memo;
-@property (nonatomic, retain) NSMutableDictionary *ifBlock_memo;
-@property (nonatomic, retain) NSMutableDictionary *elifBlock_memo;
-@property (nonatomic, retain) NSMutableDictionary *elseBlock_memo;
-@property (nonatomic, retain) NSMutableDictionary *returnStat_memo;
-@property (nonatomic, retain) NSMutableDictionary *funcDecl_memo;
-@property (nonatomic, retain) NSMutableDictionary *funcBody_memo;
-@property (nonatomic, retain) NSMutableDictionary *paramList_memo;
-@property (nonatomic, retain) NSMutableDictionary *param_memo;
-@property (nonatomic, retain) NSMutableDictionary *dfaultParam_memo;
-@property (nonatomic, retain) NSMutableDictionary *nakedParam_memo;
-@property (nonatomic, retain) NSMutableDictionary *funcLiteral_memo;
-@property (nonatomic, retain) NSMutableDictionary *funcCall_memo;
-@property (nonatomic, retain) NSMutableDictionary *argList_memo;
-@property (nonatomic, retain) NSMutableDictionary *arg_memo;
-@property (nonatomic, retain) NSMutableDictionary *expr_memo;
-@property (nonatomic, retain) NSMutableDictionary *or_memo;
-@property (nonatomic, retain) NSMutableDictionary *orExpr_memo;
-@property (nonatomic, retain) NSMutableDictionary *and_memo;
-@property (nonatomic, retain) NSMutableDictionary *andExpr_memo;
-@property (nonatomic, retain) NSMutableDictionary *eq_memo;
-@property (nonatomic, retain) NSMutableDictionary *ne_memo;
-@property (nonatomic, retain) NSMutableDictionary *is_memo;
-@property (nonatomic, retain) NSMutableDictionary *equalityExpr_memo;
-@property (nonatomic, retain) NSMutableDictionary *lt_memo;
-@property (nonatomic, retain) NSMutableDictionary *gt_memo;
-@property (nonatomic, retain) NSMutableDictionary *le_memo;
-@property (nonatomic, retain) NSMutableDictionary *ge_memo;
-@property (nonatomic, retain) NSMutableDictionary *relationalExpr_memo;
-@property (nonatomic, retain) NSMutableDictionary *plus_memo;
-@property (nonatomic, retain) NSMutableDictionary *minus_memo;
-@property (nonatomic, retain) NSMutableDictionary *additiveExpr_memo;
-@property (nonatomic, retain) NSMutableDictionary *times_memo;
-@property (nonatomic, retain) NSMutableDictionary *div_memo;
-@property (nonatomic, retain) NSMutableDictionary *mod_memo;
-@property (nonatomic, retain) NSMutableDictionary *multiplicativeExpr_memo;
-@property (nonatomic, retain) NSMutableDictionary *bitAnd_memo;
-@property (nonatomic, retain) NSMutableDictionary *bitOr_memo;
-@property (nonatomic, retain) NSMutableDictionary *bitXor_memo;
-@property (nonatomic, retain) NSMutableDictionary *bitExpr_memo;
-@property (nonatomic, retain) NSMutableDictionary *cat_memo;
-@property (nonatomic, retain) NSMutableDictionary *concatExpr_memo;
-@property (nonatomic, retain) NSMutableDictionary *unaryExpr_memo;
-@property (nonatomic, retain) NSMutableDictionary *negatedUnary_memo;
-@property (nonatomic, retain) NSMutableDictionary *unary_memo;
-@property (nonatomic, retain) NSMutableDictionary *signedPrimaryExpr_memo;
-@property (nonatomic, retain) NSMutableDictionary *primaryExpr_memo;
-@property (nonatomic, retain) NSMutableDictionary *subExpr_memo;
-@property (nonatomic, retain) NSMutableDictionary *atom_memo;
-@property (nonatomic, retain) NSMutableDictionary *subscriptLoad_memo;
-@property (nonatomic, retain) NSMutableDictionary *varRef_memo;
-@property (nonatomic, retain) NSMutableDictionary *arrayLiteral_memo;
-@property (nonatomic, retain) NSMutableDictionary *elemList_memo;
-@property (nonatomic, retain) NSMutableDictionary *dictLiteral_memo;
-@property (nonatomic, retain) NSMutableDictionary *pairList_memo;
-@property (nonatomic, retain) NSMutableDictionary *pair_memo;
-@property (nonatomic, retain) NSMutableDictionary *scalar_memo;
-@property (nonatomic, retain) NSMutableDictionary *null_memo;
-@property (nonatomic, retain) NSMutableDictionary *nan_memo;
-@property (nonatomic, retain) NSMutableDictionary *bool_memo;
-@property (nonatomic, retain) NSMutableDictionary *num_memo;
-@property (nonatomic, retain) NSMutableDictionary *str_memo;
 @end
 
 @implementation XPParser { }
@@ -294,90 +210,6 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_LE] = @"<=";
         self.tokenKindNameTab[XP_TOKEN_KIND_EQ] = @"==";
 
-        self.program_memo = [NSMutableDictionary dictionary];
-        self.globalList_memo = [NSMutableDictionary dictionary];
-        self.globalItem_memo = [NSMutableDictionary dictionary];
-        self.localList_memo = [NSMutableDictionary dictionary];
-        self.localItem_memo = [NSMutableDictionary dictionary];
-        self.funcBlock_memo = [NSMutableDictionary dictionary];
-        self.funcList_memo = [NSMutableDictionary dictionary];
-        self.funcItem_memo = [NSMutableDictionary dictionary];
-        self.localBlock_memo = [NSMutableDictionary dictionary];
-        self.stat_memo = [NSMutableDictionary dictionary];
-        self.varDecl_memo = [NSMutableDictionary dictionary];
-        self.qid_memo = [NSMutableDictionary dictionary];
-        self.plusEq_memo = [NSMutableDictionary dictionary];
-        self.minusEq_memo = [NSMutableDictionary dictionary];
-        self.timesEq_memo = [NSMutableDictionary dictionary];
-        self.divEq_memo = [NSMutableDictionary dictionary];
-        self.assign_memo = [NSMutableDictionary dictionary];
-        self.assignIndex_memo = [NSMutableDictionary dictionary];
-        self.assignAppend_memo = [NSMutableDictionary dictionary];
-        self.whileBlock_memo = [NSMutableDictionary dictionary];
-        self.break_memo = [NSMutableDictionary dictionary];
-        self.continue_memo = [NSMutableDictionary dictionary];
-        self.forBlock_memo = [NSMutableDictionary dictionary];
-        self.ifBlock_memo = [NSMutableDictionary dictionary];
-        self.elifBlock_memo = [NSMutableDictionary dictionary];
-        self.elseBlock_memo = [NSMutableDictionary dictionary];
-        self.returnStat_memo = [NSMutableDictionary dictionary];
-        self.funcDecl_memo = [NSMutableDictionary dictionary];
-        self.funcBody_memo = [NSMutableDictionary dictionary];
-        self.paramList_memo = [NSMutableDictionary dictionary];
-        self.param_memo = [NSMutableDictionary dictionary];
-        self.dfaultParam_memo = [NSMutableDictionary dictionary];
-        self.nakedParam_memo = [NSMutableDictionary dictionary];
-        self.funcLiteral_memo = [NSMutableDictionary dictionary];
-        self.funcCall_memo = [NSMutableDictionary dictionary];
-        self.argList_memo = [NSMutableDictionary dictionary];
-        self.arg_memo = [NSMutableDictionary dictionary];
-        self.expr_memo = [NSMutableDictionary dictionary];
-        self.or_memo = [NSMutableDictionary dictionary];
-        self.orExpr_memo = [NSMutableDictionary dictionary];
-        self.and_memo = [NSMutableDictionary dictionary];
-        self.andExpr_memo = [NSMutableDictionary dictionary];
-        self.eq_memo = [NSMutableDictionary dictionary];
-        self.ne_memo = [NSMutableDictionary dictionary];
-        self.is_memo = [NSMutableDictionary dictionary];
-        self.equalityExpr_memo = [NSMutableDictionary dictionary];
-        self.lt_memo = [NSMutableDictionary dictionary];
-        self.gt_memo = [NSMutableDictionary dictionary];
-        self.le_memo = [NSMutableDictionary dictionary];
-        self.ge_memo = [NSMutableDictionary dictionary];
-        self.relationalExpr_memo = [NSMutableDictionary dictionary];
-        self.plus_memo = [NSMutableDictionary dictionary];
-        self.minus_memo = [NSMutableDictionary dictionary];
-        self.additiveExpr_memo = [NSMutableDictionary dictionary];
-        self.times_memo = [NSMutableDictionary dictionary];
-        self.div_memo = [NSMutableDictionary dictionary];
-        self.mod_memo = [NSMutableDictionary dictionary];
-        self.multiplicativeExpr_memo = [NSMutableDictionary dictionary];
-        self.bitAnd_memo = [NSMutableDictionary dictionary];
-        self.bitOr_memo = [NSMutableDictionary dictionary];
-        self.bitXor_memo = [NSMutableDictionary dictionary];
-        self.bitExpr_memo = [NSMutableDictionary dictionary];
-        self.cat_memo = [NSMutableDictionary dictionary];
-        self.concatExpr_memo = [NSMutableDictionary dictionary];
-        self.unaryExpr_memo = [NSMutableDictionary dictionary];
-        self.negatedUnary_memo = [NSMutableDictionary dictionary];
-        self.unary_memo = [NSMutableDictionary dictionary];
-        self.signedPrimaryExpr_memo = [NSMutableDictionary dictionary];
-        self.primaryExpr_memo = [NSMutableDictionary dictionary];
-        self.subExpr_memo = [NSMutableDictionary dictionary];
-        self.atom_memo = [NSMutableDictionary dictionary];
-        self.subscriptLoad_memo = [NSMutableDictionary dictionary];
-        self.varRef_memo = [NSMutableDictionary dictionary];
-        self.arrayLiteral_memo = [NSMutableDictionary dictionary];
-        self.elemList_memo = [NSMutableDictionary dictionary];
-        self.dictLiteral_memo = [NSMutableDictionary dictionary];
-        self.pairList_memo = [NSMutableDictionary dictionary];
-        self.pair_memo = [NSMutableDictionary dictionary];
-        self.scalar_memo = [NSMutableDictionary dictionary];
-        self.null_memo = [NSMutableDictionary dictionary];
-        self.nan_memo = [NSMutableDictionary dictionary];
-        self.bool_memo = [NSMutableDictionary dictionary];
-        self.num_memo = [NSMutableDictionary dictionary];
-        self.str_memo = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -406,179 +238,8 @@
     self.arrayTok = nil;
     self.dictTok = nil;
 
-    self.program_memo = nil;
-    self.globalList_memo = nil;
-    self.globalItem_memo = nil;
-    self.localList_memo = nil;
-    self.localItem_memo = nil;
-    self.funcBlock_memo = nil;
-    self.funcList_memo = nil;
-    self.funcItem_memo = nil;
-    self.localBlock_memo = nil;
-    self.stat_memo = nil;
-    self.varDecl_memo = nil;
-    self.qid_memo = nil;
-    self.plusEq_memo = nil;
-    self.minusEq_memo = nil;
-    self.timesEq_memo = nil;
-    self.divEq_memo = nil;
-    self.assign_memo = nil;
-    self.assignIndex_memo = nil;
-    self.assignAppend_memo = nil;
-    self.whileBlock_memo = nil;
-    self.break_memo = nil;
-    self.continue_memo = nil;
-    self.forBlock_memo = nil;
-    self.ifBlock_memo = nil;
-    self.elifBlock_memo = nil;
-    self.elseBlock_memo = nil;
-    self.returnStat_memo = nil;
-    self.funcDecl_memo = nil;
-    self.funcBody_memo = nil;
-    self.paramList_memo = nil;
-    self.param_memo = nil;
-    self.dfaultParam_memo = nil;
-    self.nakedParam_memo = nil;
-    self.funcLiteral_memo = nil;
-    self.funcCall_memo = nil;
-    self.argList_memo = nil;
-    self.arg_memo = nil;
-    self.expr_memo = nil;
-    self.or_memo = nil;
-    self.orExpr_memo = nil;
-    self.and_memo = nil;
-    self.andExpr_memo = nil;
-    self.eq_memo = nil;
-    self.ne_memo = nil;
-    self.is_memo = nil;
-    self.equalityExpr_memo = nil;
-    self.lt_memo = nil;
-    self.gt_memo = nil;
-    self.le_memo = nil;
-    self.ge_memo = nil;
-    self.relationalExpr_memo = nil;
-    self.plus_memo = nil;
-    self.minus_memo = nil;
-    self.additiveExpr_memo = nil;
-    self.times_memo = nil;
-    self.div_memo = nil;
-    self.mod_memo = nil;
-    self.multiplicativeExpr_memo = nil;
-    self.bitAnd_memo = nil;
-    self.bitOr_memo = nil;
-    self.bitXor_memo = nil;
-    self.bitExpr_memo = nil;
-    self.cat_memo = nil;
-    self.concatExpr_memo = nil;
-    self.unaryExpr_memo = nil;
-    self.negatedUnary_memo = nil;
-    self.unary_memo = nil;
-    self.signedPrimaryExpr_memo = nil;
-    self.primaryExpr_memo = nil;
-    self.subExpr_memo = nil;
-    self.atom_memo = nil;
-    self.subscriptLoad_memo = nil;
-    self.varRef_memo = nil;
-    self.arrayLiteral_memo = nil;
-    self.elemList_memo = nil;
-    self.dictLiteral_memo = nil;
-    self.pairList_memo = nil;
-    self.pair_memo = nil;
-    self.scalar_memo = nil;
-    self.null_memo = nil;
-    self.nan_memo = nil;
-    self.bool_memo = nil;
-    self.num_memo = nil;
-    self.str_memo = nil;
 
     [super dealloc];
-}
-
-- (void)clearMemo {
-    [_program_memo removeAllObjects];
-    [_globalList_memo removeAllObjects];
-    [_globalItem_memo removeAllObjects];
-    [_localList_memo removeAllObjects];
-    [_localItem_memo removeAllObjects];
-    [_funcBlock_memo removeAllObjects];
-    [_funcList_memo removeAllObjects];
-    [_funcItem_memo removeAllObjects];
-    [_localBlock_memo removeAllObjects];
-    [_stat_memo removeAllObjects];
-    [_varDecl_memo removeAllObjects];
-    [_qid_memo removeAllObjects];
-    [_plusEq_memo removeAllObjects];
-    [_minusEq_memo removeAllObjects];
-    [_timesEq_memo removeAllObjects];
-    [_divEq_memo removeAllObjects];
-    [_assign_memo removeAllObjects];
-    [_assignIndex_memo removeAllObjects];
-    [_assignAppend_memo removeAllObjects];
-    [_whileBlock_memo removeAllObjects];
-    [_break_memo removeAllObjects];
-    [_continue_memo removeAllObjects];
-    [_forBlock_memo removeAllObjects];
-    [_ifBlock_memo removeAllObjects];
-    [_elifBlock_memo removeAllObjects];
-    [_elseBlock_memo removeAllObjects];
-    [_returnStat_memo removeAllObjects];
-    [_funcDecl_memo removeAllObjects];
-    [_funcBody_memo removeAllObjects];
-    [_paramList_memo removeAllObjects];
-    [_param_memo removeAllObjects];
-    [_dfaultParam_memo removeAllObjects];
-    [_nakedParam_memo removeAllObjects];
-    [_funcLiteral_memo removeAllObjects];
-    [_funcCall_memo removeAllObjects];
-    [_argList_memo removeAllObjects];
-    [_arg_memo removeAllObjects];
-    [_expr_memo removeAllObjects];
-    [_or_memo removeAllObjects];
-    [_orExpr_memo removeAllObjects];
-    [_and_memo removeAllObjects];
-    [_andExpr_memo removeAllObjects];
-    [_eq_memo removeAllObjects];
-    [_ne_memo removeAllObjects];
-    [_is_memo removeAllObjects];
-    [_equalityExpr_memo removeAllObjects];
-    [_lt_memo removeAllObjects];
-    [_gt_memo removeAllObjects];
-    [_le_memo removeAllObjects];
-    [_ge_memo removeAllObjects];
-    [_relationalExpr_memo removeAllObjects];
-    [_plus_memo removeAllObjects];
-    [_minus_memo removeAllObjects];
-    [_additiveExpr_memo removeAllObjects];
-    [_times_memo removeAllObjects];
-    [_div_memo removeAllObjects];
-    [_mod_memo removeAllObjects];
-    [_multiplicativeExpr_memo removeAllObjects];
-    [_bitAnd_memo removeAllObjects];
-    [_bitOr_memo removeAllObjects];
-    [_bitXor_memo removeAllObjects];
-    [_bitExpr_memo removeAllObjects];
-    [_cat_memo removeAllObjects];
-    [_concatExpr_memo removeAllObjects];
-    [_unaryExpr_memo removeAllObjects];
-    [_negatedUnary_memo removeAllObjects];
-    [_unary_memo removeAllObjects];
-    [_signedPrimaryExpr_memo removeAllObjects];
-    [_primaryExpr_memo removeAllObjects];
-    [_subExpr_memo removeAllObjects];
-    [_atom_memo removeAllObjects];
-    [_subscriptLoad_memo removeAllObjects];
-    [_varRef_memo removeAllObjects];
-    [_arrayLiteral_memo removeAllObjects];
-    [_elemList_memo removeAllObjects];
-    [_dictLiteral_memo removeAllObjects];
-    [_pairList_memo removeAllObjects];
-    [_pair_memo removeAllObjects];
-    [_scalar_memo removeAllObjects];
-    [_null_memo removeAllObjects];
-    [_nan_memo removeAllObjects];
-    [_bool_memo removeAllObjects];
-    [_num_memo removeAllObjects];
-    [_str_memo removeAllObjects];
 }
 
 - (void)start {
@@ -588,7 +249,7 @@
 
 }
 
-- (void)__program {
+- (void)program_ {
     
     [self execute:^{
     
@@ -600,11 +261,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchProgram:)];
 }
 
-- (void)program_ {
-    [self parseRule:@selector(__program) withMemo:_program_memo];
-}
-
-- (void)__globalList {
+- (void)globalList_ {
     
     do {
         [self globalItem_]; 
@@ -621,11 +278,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchGlobalList:)];
 }
 
-- (void)globalList_ {
-    [self parseRule:@selector(__globalList) withMemo:_globalList_memo];
-}
-
-- (void)__globalItem {
+- (void)globalItem_ {
     
     if ([self speculate:^{ [self stat_]; }]) {
         [self stat_]; 
@@ -646,11 +299,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchGlobalItem:)];
 }
 
-- (void)globalItem_ {
-    [self parseRule:@selector(__globalItem) withMemo:_globalItem_memo];
-}
-
-- (void)__localList {
+- (void)localList_ {
     
     while ([self speculate:^{ [self localItem_]; }]) {
         [self localItem_]; 
@@ -668,11 +317,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchLocalList:)];
 }
 
-- (void)localList_ {
-    [self parseRule:@selector(__localList) withMemo:_localList_memo];
-}
-
-- (void)__localItem {
+- (void)localItem_ {
     
     if ([self speculate:^{ [self stat_]; }]) {
         [self stat_]; 
@@ -693,11 +338,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchLocalItem:)];
 }
 
-- (void)localItem_ {
-    [self parseRule:@selector(__localItem) withMemo:_localItem_memo];
-}
-
-- (void)__funcBlock {
+- (void)funcBlock_ {
     
     [self match:XP_TOKEN_KIND_OPEN_CURLY discard:NO]; 
     [self funcList_]; 
@@ -706,11 +347,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchFuncBlock:)];
 }
 
-- (void)funcBlock_ {
-    [self parseRule:@selector(__funcBlock) withMemo:_funcBlock_memo];
-}
-
-- (void)__funcList {
+- (void)funcList_ {
     
     while ([self speculate:^{ [self funcItem_]; }]) {
         [self funcItem_]; 
@@ -728,11 +365,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchFuncList:)];
 }
 
-- (void)funcList_ {
-    [self parseRule:@selector(__funcList) withMemo:_funcList_memo];
-}
-
-- (void)__funcItem {
+- (void)funcItem_ {
     
     if ([self speculate:^{ [self stat_]; }]) {
         [self stat_]; 
@@ -753,11 +386,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchFuncItem:)];
 }
 
-- (void)funcItem_ {
-    [self parseRule:@selector(__funcItem) withMemo:_funcItem_memo];
-}
-
-- (void)__localBlock {
+- (void)localBlock_ {
     
     [self execute:^{
      self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope]; 
@@ -772,11 +401,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchLocalBlock:)];
 }
 
-- (void)localBlock_ {
-    [self parseRule:@selector(__localBlock) withMemo:_localBlock_memo];
-}
-
-- (void)__stat {
+- (void)stat_ {
     
     if ([self speculate:^{ [self varDecl_]; }]) {
         [self varDecl_]; 
@@ -800,11 +425,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchStat:)];
 }
 
-- (void)stat_ {
-    [self parseRule:@selector(__stat) withMemo:_stat_memo];
-}
-
-- (void)__varDecl {
+- (void)varDecl_ {
     
     [self match:XP_TOKEN_KIND_VAR discard:NO]; 
     [self qid_]; 
@@ -825,66 +446,42 @@
     [self fireDelegateSelector:@selector(parser:didMatchVarDecl:)];
 }
 
-- (void)varDecl_ {
-    [self parseRule:@selector(__varDecl) withMemo:_varDecl_memo];
-}
-
-- (void)__qid {
+- (void)qid_ {
     
     [self matchWord:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchQid:)];
 }
 
-- (void)qid_ {
-    [self parseRule:@selector(__qid) withMemo:_qid_memo];
-}
-
-- (void)__plusEq {
+- (void)plusEq_ {
     
     [self match:XP_TOKEN_KIND_PLUSEQ discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchPlusEq:)];
 }
 
-- (void)plusEq_ {
-    [self parseRule:@selector(__plusEq) withMemo:_plusEq_memo];
-}
-
-- (void)__minusEq {
+- (void)minusEq_ {
     
     [self match:XP_TOKEN_KIND_MINUSEQ discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchMinusEq:)];
 }
 
-- (void)minusEq_ {
-    [self parseRule:@selector(__minusEq) withMemo:_minusEq_memo];
-}
-
-- (void)__timesEq {
+- (void)timesEq_ {
     
     [self match:XP_TOKEN_KIND_TIMESEQ discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchTimesEq:)];
 }
 
-- (void)timesEq_ {
-    [self parseRule:@selector(__timesEq) withMemo:_timesEq_memo];
-}
-
-- (void)__divEq {
+- (void)divEq_ {
     
     [self match:XP_TOKEN_KIND_DIVEQ discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchDivEq:)];
 }
 
-- (void)divEq_ {
-    [self parseRule:@selector(__divEq) withMemo:_divEq_memo];
-}
-
-- (void)__assign {
+- (void)assign_ {
     
     [self qid_]; 
     if ([self predicts:XP_TOKEN_KIND_EQUALS, 0]) {
@@ -916,11 +513,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchAssign:)];
 }
 
-- (void)assign_ {
-    [self parseRule:@selector(__assign) withMemo:_assign_memo];
-}
-
-- (void)__assignIndex {
+- (void)assignIndex_ {
     
     [self qid_]; 
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:YES]; 
@@ -945,11 +538,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchAssignIndex:)];
 }
 
-- (void)assignIndex_ {
-    [self parseRule:@selector(__assignIndex) withMemo:_assignIndex_memo];
-}
-
-- (void)__assignAppend {
+- (void)assignAppend_ {
     
     [self qid_]; 
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:YES]; 
@@ -971,11 +560,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchAssignAppend:)];
 }
 
-- (void)assignAppend_ {
-    [self parseRule:@selector(__assignAppend) withMemo:_assignAppend_memo];
-}
-
-- (void)__whileBlock {
+- (void)whileBlock_ {
     
     [self execute:^{
     self.canBreak = YES;
@@ -1000,11 +585,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchWhileBlock:)];
 }
 
-- (void)whileBlock_ {
-    [self parseRule:@selector(__whileBlock) withMemo:_whileBlock_memo];
-}
-
-- (void)__break {
+- (void)break_ {
     
     [self match:XP_TOKEN_KIND_BREAK discard:NO]; 
     [self execute:^{
@@ -1016,11 +597,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchBreak:)];
 }
 
-- (void)break_ {
-    [self parseRule:@selector(__break) withMemo:_break_memo];
-}
-
-- (void)__continue {
+- (void)continue_ {
     
     [self match:XP_TOKEN_KIND_CONTINUE discard:NO]; 
     [self execute:^{
@@ -1032,11 +609,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchContinue:)];
 }
 
-- (void)continue_ {
-    [self parseRule:@selector(__continue) withMemo:_continue_memo];
-}
-
-- (void)__forBlock {
+- (void)forBlock_ {
     
     [self execute:^{
     self.canBreak = YES;
@@ -1077,11 +650,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchForBlock:)];
 }
 
-- (void)forBlock_ {
-    [self parseRule:@selector(__forBlock) withMemo:_forBlock_memo];
-}
-
-- (void)__ifBlock {
+- (void)ifBlock_ {
     
     [self match:XP_TOKEN_KIND_IF discard:NO]; 
     [self expr_]; 
@@ -1106,11 +675,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchIfBlock:)];
 }
 
-- (void)ifBlock_ {
-    [self parseRule:@selector(__ifBlock) withMemo:_ifBlock_memo];
-}
-
-- (void)__elifBlock {
+- (void)elifBlock_ {
     
     [self match:XP_TOKEN_KIND_ELSE discard:YES]; 
     [self match:XP_TOKEN_KIND_IF discard:NO]; 
@@ -1132,11 +697,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchElifBlock:)];
 }
 
-- (void)elifBlock_ {
-    [self parseRule:@selector(__elifBlock) withMemo:_elifBlock_memo];
-}
-
-- (void)__elseBlock {
+- (void)elseBlock_ {
     
     [self match:XP_TOKEN_KIND_ELSE discard:NO]; 
     [self localBlock_]; 
@@ -1154,11 +715,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchElseBlock:)];
 }
 
-- (void)elseBlock_ {
-    [self parseRule:@selector(__elseBlock) withMemo:_elseBlock_memo];
-}
-
-- (void)__returnStat {
+- (void)returnStat_ {
     
     [self match:XP_TOKEN_KIND_RETURN discard:NO]; 
     [self expr_]; 
@@ -1175,11 +732,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchReturnStat:)];
 }
 
-- (void)returnStat_ {
-    [self parseRule:@selector(__returnStat) withMemo:_returnStat_memo];
-}
-
-- (void)__funcDecl {
+- (void)funcDecl_ {
     
     [self match:XP_TOKEN_KIND_SUB discard:NO]; 
     [self qid_]; 
@@ -1221,11 +774,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchFuncDecl:)];
 }
 
-- (void)funcDecl_ {
-    [self parseRule:@selector(__funcDecl) withMemo:_funcDecl_memo];
-}
-
-- (void)__funcBody {
+- (void)funcBody_ {
     
     [self match:XP_TOKEN_KIND_OPEN_PAREN discard:YES]; 
     [self paramList_]; 
@@ -1257,11 +806,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchFuncBody:)];
 }
 
-- (void)funcBody_ {
-    [self parseRule:@selector(__funcBody) withMemo:_funcBody_memo];
-}
-
-- (void)__paramList {
+- (void)paramList_ {
     
     [self execute:^{
     
@@ -1281,11 +826,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchParamList:)];
 }
 
-- (void)paramList_ {
-    [self parseRule:@selector(__paramList) withMemo:_paramList_memo];
-}
-
-- (void)__param {
+- (void)param_ {
     
     if ([self speculate:^{ [self dfaultParam_]; }]) {
         [self dfaultParam_]; 
@@ -1298,11 +839,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchParam:)];
 }
 
-- (void)param_ {
-    [self parseRule:@selector(__param) withMemo:_param_memo];
-}
-
-- (void)__dfaultParam {
+- (void)dfaultParam_ {
     
     [self qid_]; 
     [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
@@ -1335,11 +872,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchDfaultParam:)];
 }
 
-- (void)dfaultParam_ {
-    [self parseRule:@selector(__dfaultParam) withMemo:_dfaultParam_memo];
-}
-
-- (void)__nakedParam {
+- (void)nakedParam_ {
     
     [self testAndThrow:(id)^{ return !_foundDefaultParam; }]; 
     [self qid_]; 
@@ -1364,11 +897,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchNakedParam:)];
 }
 
-- (void)nakedParam_ {
-    [self parseRule:@selector(__nakedParam) withMemo:_nakedParam_memo];
-}
-
-- (void)__funcLiteral {
+- (void)funcLiteral_ {
     
     [self match:XP_TOKEN_KIND_SUB discard:NO]; 
     [self execute:^{
@@ -1392,11 +921,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchFuncLiteral:)];
 }
 
-- (void)funcLiteral_ {
-    [self parseRule:@selector(__funcLiteral) withMemo:_funcLiteral_memo];
-}
-
-- (void)__funcCall {
+- (void)funcCall_ {
     
     [self qid_]; 
     [self match:XP_TOKEN_KIND_OPEN_PAREN discard:NO]; 
@@ -1419,11 +944,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchFuncCall:)];
 }
 
-- (void)funcCall_ {
-    [self parseRule:@selector(__funcCall) withMemo:_funcCall_memo];
-}
-
-- (void)__argList {
+- (void)argList_ {
     
     [self arg_]; 
     while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self arg_]; }]) {
@@ -1434,44 +955,28 @@
     [self fireDelegateSelector:@selector(parser:didMatchArgList:)];
 }
 
-- (void)argList_ {
-    [self parseRule:@selector(__argList) withMemo:_argList_memo];
-}
-
-- (void)__arg {
+- (void)arg_ {
     
     [self expr_]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchArg:)];
 }
 
-- (void)arg_ {
-    [self parseRule:@selector(__arg) withMemo:_arg_memo];
-}
-
-- (void)__expr {
+- (void)expr_ {
     
     [self orExpr_]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchExpr:)];
 }
 
-- (void)expr_ {
-    [self parseRule:@selector(__expr) withMemo:_expr_memo];
-}
-
-- (void)__or {
+- (void)or_ {
     
     [self match:XP_TOKEN_KIND_OR discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchOr:)];
 }
 
-- (void)or_ {
-    [self parseRule:@selector(__or) withMemo:_or_memo];
-}
-
-- (void)__orExpr {
+- (void)orExpr_ {
     
     [self andExpr_]; 
     while ([self speculate:^{ [self or_]; [self andExpr_]; }]) {
@@ -1492,22 +997,14 @@
     [self fireDelegateSelector:@selector(parser:didMatchOrExpr:)];
 }
 
-- (void)orExpr_ {
-    [self parseRule:@selector(__orExpr) withMemo:_orExpr_memo];
-}
-
-- (void)__and {
+- (void)and_ {
     
     [self match:XP_TOKEN_KIND_AND discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchAnd:)];
 }
 
-- (void)and_ {
-    [self parseRule:@selector(__and) withMemo:_and_memo];
-}
-
-- (void)__andExpr {
+- (void)andExpr_ {
     
     [self equalityExpr_]; 
     while ([self speculate:^{ [self and_]; [self equalityExpr_]; }]) {
@@ -1528,44 +1025,28 @@
     [self fireDelegateSelector:@selector(parser:didMatchAndExpr:)];
 }
 
-- (void)andExpr_ {
-    [self parseRule:@selector(__andExpr) withMemo:_andExpr_memo];
-}
-
-- (void)__eq {
+- (void)eq_ {
     
     [self match:XP_TOKEN_KIND_EQ discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchEq:)];
 }
 
-- (void)eq_ {
-    [self parseRule:@selector(__eq) withMemo:_eq_memo];
-}
-
-- (void)__ne {
+- (void)ne_ {
     
     [self match:XP_TOKEN_KIND_NE discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchNe:)];
 }
 
-- (void)ne_ {
-    [self parseRule:@selector(__ne) withMemo:_ne_memo];
-}
-
-- (void)__is {
+- (void)is_ {
     
     [self match:XP_TOKEN_KIND_IS discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchIs:)];
 }
 
-- (void)is_ {
-    [self parseRule:@selector(__is) withMemo:_is_memo];
-}
-
-- (void)__equalityExpr {
+- (void)equalityExpr_ {
     
     [self relationalExpr_]; 
     while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_EQ, 0]) {[self eq_]; } else if ([self predicts:XP_TOKEN_KIND_NE, 0]) {[self ne_]; } else if ([self predicts:XP_TOKEN_KIND_IS, 0]) {[self is_]; } else {[self raise:@"No viable alternative found in rule 'equalityExpr'."];}[self relationalExpr_]; }]) {
@@ -1594,55 +1075,35 @@
     [self fireDelegateSelector:@selector(parser:didMatchEqualityExpr:)];
 }
 
-- (void)equalityExpr_ {
-    [self parseRule:@selector(__equalityExpr) withMemo:_equalityExpr_memo];
-}
-
-- (void)__lt {
+- (void)lt_ {
     
     [self match:XP_TOKEN_KIND_LT discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchLt:)];
 }
 
-- (void)lt_ {
-    [self parseRule:@selector(__lt) withMemo:_lt_memo];
-}
-
-- (void)__gt {
+- (void)gt_ {
     
     [self match:XP_TOKEN_KIND_GT discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchGt:)];
 }
 
-- (void)gt_ {
-    [self parseRule:@selector(__gt) withMemo:_gt_memo];
-}
-
-- (void)__le {
+- (void)le_ {
     
     [self match:XP_TOKEN_KIND_LE discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchLe:)];
 }
 
-- (void)le_ {
-    [self parseRule:@selector(__le) withMemo:_le_memo];
-}
-
-- (void)__ge {
+- (void)ge_ {
     
     [self match:XP_TOKEN_KIND_GE discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchGe:)];
 }
 
-- (void)ge_ {
-    [self parseRule:@selector(__ge) withMemo:_ge_memo];
-}
-
-- (void)__relationalExpr {
+- (void)relationalExpr_ {
     
     [self additiveExpr_]; 
     while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_LT, 0]) {[self lt_]; } else if ([self predicts:XP_TOKEN_KIND_GT, 0]) {[self gt_]; } else if ([self predicts:XP_TOKEN_KIND_LE, 0]) {[self le_]; } else if ([self predicts:XP_TOKEN_KIND_GE, 0]) {[self ge_]; } else {[self raise:@"No viable alternative found in rule 'relationalExpr'."];}[self additiveExpr_]; }]) {
@@ -1673,33 +1134,21 @@
     [self fireDelegateSelector:@selector(parser:didMatchRelationalExpr:)];
 }
 
-- (void)relationalExpr_ {
-    [self parseRule:@selector(__relationalExpr) withMemo:_relationalExpr_memo];
-}
-
-- (void)__plus {
+- (void)plus_ {
     
     [self match:XP_TOKEN_KIND_PLUS discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchPlus:)];
 }
 
-- (void)plus_ {
-    [self parseRule:@selector(__plus) withMemo:_plus_memo];
-}
-
-- (void)__minus {
+- (void)minus_ {
     
     [self match:XP_TOKEN_KIND_MINUS discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchMinus:)];
 }
 
-- (void)minus_ {
-    [self parseRule:@selector(__minus) withMemo:_minus_memo];
-}
-
-- (void)__additiveExpr {
+- (void)additiveExpr_ {
     
     [self multiplicativeExpr_]; 
     while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_PLUS, 0]) {[self plus_]; } else if ([self predicts:XP_TOKEN_KIND_MINUS, 0]) {[self minus_]; } else {[self raise:@"No viable alternative found in rule 'additiveExpr'."];}[self multiplicativeExpr_]; }]) {
@@ -1726,44 +1175,28 @@
     [self fireDelegateSelector:@selector(parser:didMatchAdditiveExpr:)];
 }
 
-- (void)additiveExpr_ {
-    [self parseRule:@selector(__additiveExpr) withMemo:_additiveExpr_memo];
-}
-
-- (void)__times {
+- (void)times_ {
     
     [self match:XP_TOKEN_KIND_TIMES discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchTimes:)];
 }
 
-- (void)times_ {
-    [self parseRule:@selector(__times) withMemo:_times_memo];
-}
-
-- (void)__div {
+- (void)div_ {
     
     [self match:XP_TOKEN_KIND_DIV discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchDiv:)];
 }
 
-- (void)div_ {
-    [self parseRule:@selector(__div) withMemo:_div_memo];
-}
-
-- (void)__mod {
+- (void)mod_ {
     
     [self match:XP_TOKEN_KIND_MOD discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchMod:)];
 }
 
-- (void)mod_ {
-    [self parseRule:@selector(__mod) withMemo:_mod_memo];
-}
-
-- (void)__multiplicativeExpr {
+- (void)multiplicativeExpr_ {
     
     [self bitExpr_]; 
     while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_TIMES, 0]) {[self times_]; } else if ([self predicts:XP_TOKEN_KIND_DIV, 0]) {[self div_]; } else if ([self predicts:XP_TOKEN_KIND_MOD, 0]) {[self mod_]; } else {[self raise:@"No viable alternative found in rule 'multiplicativeExpr'."];}[self bitExpr_]; }]) {
@@ -1792,44 +1225,28 @@
     [self fireDelegateSelector:@selector(parser:didMatchMultiplicativeExpr:)];
 }
 
-- (void)multiplicativeExpr_ {
-    [self parseRule:@selector(__multiplicativeExpr) withMemo:_multiplicativeExpr_memo];
-}
-
-- (void)__bitAnd {
+- (void)bitAnd_ {
     
     [self match:XP_TOKEN_KIND_BITAND discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchBitAnd:)];
 }
 
-- (void)bitAnd_ {
-    [self parseRule:@selector(__bitAnd) withMemo:_bitAnd_memo];
-}
-
-- (void)__bitOr {
+- (void)bitOr_ {
     
     [self match:XP_TOKEN_KIND_BITOR discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchBitOr:)];
 }
 
-- (void)bitOr_ {
-    [self parseRule:@selector(__bitOr) withMemo:_bitOr_memo];
-}
-
-- (void)__bitXor {
+- (void)bitXor_ {
     
     [self match:XP_TOKEN_KIND_BITXOR discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchBitXor:)];
 }
 
-- (void)bitXor_ {
-    [self parseRule:@selector(__bitXor) withMemo:_bitXor_memo];
-}
-
-- (void)__bitExpr {
+- (void)bitExpr_ {
     
     [self concatExpr_]; 
     while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_BITAND, 0]) {[self bitAnd_]; } else if ([self predicts:XP_TOKEN_KIND_BITOR, 0]) {[self bitOr_]; } else if ([self predicts:XP_TOKEN_KIND_BITXOR, 0]) {[self bitXor_]; } else {[self raise:@"No viable alternative found in rule 'bitExpr'."];}[self concatExpr_]; }]) {
@@ -1858,22 +1275,14 @@
     [self fireDelegateSelector:@selector(parser:didMatchBitExpr:)];
 }
 
-- (void)bitExpr_ {
-    [self parseRule:@selector(__bitExpr) withMemo:_bitExpr_memo];
-}
-
-- (void)__cat {
+- (void)cat_ {
     
     [self match:XP_TOKEN_KIND_CAT discard:NO]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchCat:)];
 }
 
-- (void)cat_ {
-    [self parseRule:@selector(__cat) withMemo:_cat_memo];
-}
-
-- (void)__concatExpr {
+- (void)concatExpr_ {
     
     [self unaryExpr_]; 
     while ([self speculate:^{ [self cat_]; [self unaryExpr_]; }]) {
@@ -1894,11 +1303,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchConcatExpr:)];
 }
 
-- (void)concatExpr_ {
-    [self parseRule:@selector(__concatExpr) withMemo:_concatExpr_memo];
-}
-
-- (void)__unaryExpr {
+- (void)unaryExpr_ {
     
     if ([self predicts:XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_NOT, 0]) {
         [self negatedUnary_]; 
@@ -1911,11 +1316,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchUnaryExpr:)];
 }
 
-- (void)unaryExpr_ {
-    [self parseRule:@selector(__unaryExpr) withMemo:_unaryExpr_memo];
-}
-
-- (void)__negatedUnary {
+- (void)negatedUnary_ {
     
     [self execute:^{
      _negation = NO; 
@@ -1950,11 +1351,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchNegatedUnary:)];
 }
 
-- (void)negatedUnary_ {
-    [self parseRule:@selector(__negatedUnary) withMemo:_negatedUnary_memo];
-}
-
-- (void)__unary {
+- (void)unary_ {
     
     if ([self predicts:XP_TOKEN_KIND_MINUS, 0]) {
         [self signedPrimaryExpr_]; 
@@ -1967,11 +1364,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchUnary:)];
 }
 
-- (void)unary_ {
-    [self parseRule:@selector(__unary) withMemo:_unary_memo];
-}
-
-- (void)__signedPrimaryExpr {
+- (void)signedPrimaryExpr_ {
     
     [self execute:^{
     
@@ -1998,11 +1391,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchSignedPrimaryExpr:)];
 }
 
-- (void)signedPrimaryExpr_ {
-    [self parseRule:@selector(__signedPrimaryExpr) withMemo:_signedPrimaryExpr_memo];
-}
-
-- (void)__primaryExpr {
+- (void)primaryExpr_ {
     
     if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
         [self atom_]; 
@@ -2015,11 +1404,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchPrimaryExpr:)];
 }
 
-- (void)primaryExpr_ {
-    [self parseRule:@selector(__primaryExpr) withMemo:_primaryExpr_memo];
-}
-
-- (void)__subExpr {
+- (void)subExpr_ {
     
     [self match:XP_TOKEN_KIND_OPEN_PAREN discard:NO]; 
     [self expr_]; 
@@ -2035,11 +1420,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchSubExpr:)];
 }
 
-- (void)subExpr_ {
-    [self parseRule:@selector(__subExpr) withMemo:_subExpr_memo];
-}
-
-- (void)__atom {
+- (void)atom_ {
     
     if ([self speculate:^{ [self scalar_]; }]) {
         [self scalar_]; 
@@ -2062,20 +1443,16 @@
     [self fireDelegateSelector:@selector(parser:didMatchAtom:)];
 }
 
-- (void)atom_ {
-    [self parseRule:@selector(__atom) withMemo:_atom_memo];
-}
-
-- (void)__subscriptLoad {
+- (void)subscriptLoad_ {
     
     [self qid_]; 
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:NO]; 
     [self expr_]; 
-    if ([self speculate:^{ if ([self speculate:^{ [self match:XP_TOKEN_KIND_COLON discard:YES]; [self expr_]; }]) {[self match:XP_TOKEN_KIND_COLON discard:YES]; [self expr_]; }[self match:XP_TOKEN_KIND_COLON discard:YES]; [self expr_]; }]) {
-        if ([self speculate:^{ [self match:XP_TOKEN_KIND_COLON discard:YES]; [self expr_]; }]) {
-            [self match:XP_TOKEN_KIND_COLON discard:YES]; 
-            [self expr_]; 
-        }
+    if ([self speculate:^{ [self match:XP_TOKEN_KIND_COLON discard:YES]; [self expr_]; }]) {
+        [self match:XP_TOKEN_KIND_COLON discard:YES]; 
+        [self expr_]; 
+    }
+    if ([self speculate:^{ [self match:XP_TOKEN_KIND_COLON discard:YES]; [self expr_]; }]) {
         [self match:XP_TOKEN_KIND_COLON discard:YES]; 
         [self expr_]; 
     }
@@ -2111,11 +1488,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchSubscriptLoad:)];
 }
 
-- (void)subscriptLoad_ {
-    [self parseRule:@selector(__subscriptLoad) withMemo:_subscriptLoad_memo];
-}
-
-- (void)__varRef {
+- (void)varRef_ {
     
     [self qid_]; 
     [self execute:^{
@@ -2130,11 +1503,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchVarRef:)];
 }
 
-- (void)varRef_ {
-    [self parseRule:@selector(__varRef) withMemo:_varRef_memo];
-}
-
-- (void)__arrayLiteral {
+- (void)arrayLiteral_ {
     
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:NO]; 
     if ([self speculate:^{ [self elemList_]; }]) {
@@ -2154,11 +1523,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchArrayLiteral:)];
 }
 
-- (void)arrayLiteral_ {
-    [self parseRule:@selector(__arrayLiteral) withMemo:_arrayLiteral_memo];
-}
-
-- (void)__elemList {
+- (void)elemList_ {
     
     [self expr_]; 
     while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self expr_]; }]) {
@@ -2169,11 +1534,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchElemList:)];
 }
 
-- (void)elemList_ {
-    [self parseRule:@selector(__elemList) withMemo:_elemList_memo];
-}
-
-- (void)__dictLiteral {
+- (void)dictLiteral_ {
     
     [self match:XP_TOKEN_KIND_OPEN_CURLY discard:NO]; 
     if ([self speculate:^{ [self pairList_]; }]) {
@@ -2193,11 +1554,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchDictLiteral:)];
 }
 
-- (void)dictLiteral_ {
-    [self parseRule:@selector(__dictLiteral) withMemo:_dictLiteral_memo];
-}
-
-- (void)__pairList {
+- (void)pairList_ {
     
     [self pair_]; 
     while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self pair_]; }]) {
@@ -2208,11 +1565,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchPairList:)];
 }
 
-- (void)pairList_ {
-    [self parseRule:@selector(__pairList) withMemo:_pairList_memo];
-}
-
-- (void)__pair {
+- (void)pair_ {
     
     [self expr_]; 
     [self match:XP_TOKEN_KIND_COLON discard:NO]; 
@@ -2232,11 +1585,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchPair:)];
 }
 
-- (void)pair_ {
-    [self parseRule:@selector(__pair) withMemo:_pair_memo];
-}
-
-- (void)__scalar {
+- (void)scalar_ {
     
     if ([self predicts:XP_TOKEN_KIND_NULL, 0]) {
         [self null_]; 
@@ -2255,11 +1604,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchScalar:)];
 }
 
-- (void)scalar_ {
-    [self parseRule:@selector(__scalar) withMemo:_scalar_memo];
-}
-
-- (void)__null {
+- (void)null_ {
     
     [self match:XP_TOKEN_KIND_NULL discard:NO]; 
     [self execute:^{
@@ -2271,11 +1616,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchNull:)];
 }
 
-- (void)null_ {
-    [self parseRule:@selector(__null) withMemo:_null_memo];
-}
-
-- (void)__nan {
+- (void)nan_ {
     
     [self match:XP_TOKEN_KIND_NAN discard:NO]; 
     [self execute:^{
@@ -2287,11 +1628,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchNan:)];
 }
 
-- (void)nan_ {
-    [self parseRule:@selector(__nan) withMemo:_nan_memo];
-}
-
-- (void)__bool {
+- (void)bool_ {
     
     if ([self predicts:XP_TOKEN_KIND_TRUE, 0]) {
         [self match:XP_TOKEN_KIND_TRUE discard:NO]; 
@@ -2309,11 +1646,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchBool:)];
 }
 
-- (void)bool_ {
-    [self parseRule:@selector(__bool) withMemo:_bool_memo];
-}
-
-- (void)__num {
+- (void)num_ {
     
     [self matchNumber:NO]; 
     [self execute:^{
@@ -2325,11 +1658,7 @@
     [self fireDelegateSelector:@selector(parser:didMatchNum:)];
 }
 
-- (void)num_ {
-    [self parseRule:@selector(__num) withMemo:_num_memo];
-}
-
-- (void)__str {
+- (void)str_ {
     
     [self matchQuotedString:NO]; 
     [self execute:^{
@@ -2343,10 +1672,6 @@
     }];
 
     [self fireDelegateSelector:@selector(parser:didMatchStr:)];
-}
-
-- (void)str_ {
-    [self parseRule:@selector(__str) withMemo:_str_memo];
 }
 
 @end

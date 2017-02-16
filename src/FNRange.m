@@ -70,7 +70,7 @@
     // build array
     XPObject *arrObj = nil;
     {
-        NSMutableArray *v = [NSMutableArray arrayWithCapacity:stop-start];
+        NSMutableArray *v = [NSMutableArray arrayWithCapacity:labs(stop-start)];
         
         for (NSInteger i = start; i <= stop; i = start+i*step) {
             XPObject *obj = [XPNumberClass instanceWithValue:@(i)];

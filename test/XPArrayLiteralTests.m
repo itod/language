@@ -84,4 +84,9 @@
     TDEqualObjects(@"c", [self stringForName:@"b"]);
 }
 
+- (void)testSlice {
+    [self eval:@"var v=[1,2,3,4,5];var res=v[1:2];"];
+    TDEqualObjects(@"[1,2]", [self stringForName:@"res"]);
+}
+
 @end
