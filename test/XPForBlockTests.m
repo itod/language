@@ -76,6 +76,16 @@
     TDEquals(47.0, [self doubleForName:@"x"]);
 }
 
+- (void)testGlobalVarFromClosure2 {
+    [self eval:[self stringForSelector:_cmd]];
+    TDEquals(47.0, [self doubleForName:@"x"]);
+}
+
+- (void)testGlobalVarFromClosure3 {
+    [self eval:[self stringForSelector:_cmd]];
+    TDEquals(47.0, [self doubleForName:@"x"]);
+}
+
 - (void)testClosuresLoopWithGlobalVar {
     [self eval:[self stringForSelector:_cmd]];
     TDEquals(3.0, [self doubleForName:@"x"]);
@@ -86,9 +96,9 @@
     TDEquals(3.0, [self doubleForName:@"x"]);
 }
 
-- (void)testDoubleNestedClosure {
-    [self eval:[self stringForSelector:_cmd]];
-    TDEquals(3.0, [self doubleForName:@"x"]);
-}
+//- (void)testDoubleNestedClosure {
+//    [self eval:[self stringForSelector:_cmd]];
+//    TDEquals(3.0, [self doubleForName:@"x"]);
+//}
 
 @end

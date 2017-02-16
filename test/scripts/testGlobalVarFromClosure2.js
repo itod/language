@@ -1,11 +1,13 @@
+var i = 47;
 var x = 0;
 var foo = null;
 {
-    var i = 47;
     foo = sub() {
-        log('should be 47:');
+        log('i should be 47: i');
         log(i);
         x = i;
     };
 }
 foo();
+log('x should be 47: x');
+log(x);
