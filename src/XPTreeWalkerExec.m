@@ -659,6 +659,15 @@
 }
 
 
+- (id)bitNot:(XPNode *)node {
+    double lhs = [[self walk:[node childAtIndex:0]] doubleValue];
+    
+    NSInteger res = lrint(lhs);
+    res = ~res;
+    return [XPNumberClass instanceWithValue:@(res)];
+}
+
+
 - (id)bitAnd:(XPNode *)node {
     double lhs = [[self walk:[node childAtIndex:0]] doubleValue];
     double rhs = [[self walk:[node childAtIndex:1]] doubleValue];

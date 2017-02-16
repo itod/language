@@ -111,6 +111,7 @@
 @property (nonatomic, retain) NSMutableDictionary *concatExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *unaryExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *negatedUnary_memo;
+@property (nonatomic, retain) NSMutableDictionary *bitNot_memo;
 @property (nonatomic, retain) NSMutableDictionary *unary_memo;
 @property (nonatomic, retain) NSMutableDictionary *signedPrimaryExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *primaryExpr_memo;
@@ -217,7 +218,7 @@
         self.tokenKindTab[@"if"] = @(XP_TOKEN_KIND_IF);
         self.tokenKindTab[@"else"] = @(XP_TOKEN_KIND_ELSE);
         self.tokenKindTab[@"!"] = @(XP_TOKEN_KIND_BANG);
-        self.tokenKindTab[@"~"] = @(XP_TOKEN_KIND_TILDE);
+        self.tokenKindTab[@"~"] = @(XP_TOKEN_KIND_BITNOT);
         self.tokenKindTab[@"continue"] = @(XP_TOKEN_KIND_CONTINUE);
         self.tokenKindTab[@":"] = @(XP_TOKEN_KIND_COLON);
         self.tokenKindTab[@"true"] = @(XP_TOKEN_KIND_TRUE);
@@ -269,7 +270,7 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_IF] = @"if";
         self.tokenKindNameTab[XP_TOKEN_KIND_ELSE] = @"else";
         self.tokenKindNameTab[XP_TOKEN_KIND_BANG] = @"!";
-        self.tokenKindNameTab[XP_TOKEN_KIND_TILDE] = @"~";
+        self.tokenKindNameTab[XP_TOKEN_KIND_BITNOT] = @"~";
         self.tokenKindNameTab[XP_TOKEN_KIND_CONTINUE] = @"continue";
         self.tokenKindNameTab[XP_TOKEN_KIND_COLON] = @":";
         self.tokenKindNameTab[XP_TOKEN_KIND_TRUE] = @"true";
@@ -375,6 +376,7 @@
         self.concatExpr_memo = [NSMutableDictionary dictionary];
         self.unaryExpr_memo = [NSMutableDictionary dictionary];
         self.negatedUnary_memo = [NSMutableDictionary dictionary];
+        self.bitNot_memo = [NSMutableDictionary dictionary];
         self.unary_memo = [NSMutableDictionary dictionary];
         self.signedPrimaryExpr_memo = [NSMutableDictionary dictionary];
         self.primaryExpr_memo = [NSMutableDictionary dictionary];
@@ -491,6 +493,7 @@
     self.concatExpr_memo = nil;
     self.unaryExpr_memo = nil;
     self.negatedUnary_memo = nil;
+    self.bitNot_memo = nil;
     self.unary_memo = nil;
     self.signedPrimaryExpr_memo = nil;
     self.primaryExpr_memo = nil;
@@ -583,6 +586,7 @@
     [_concatExpr_memo removeAllObjects];
     [_unaryExpr_memo removeAllObjects];
     [_negatedUnary_memo removeAllObjects];
+    [_bitNot_memo removeAllObjects];
     [_unary_memo removeAllObjects];
     [_signedPrimaryExpr_memo removeAllObjects];
     [_primaryExpr_memo removeAllObjects];
@@ -1977,7 +1981,7 @@
     
     if ([self predicts:XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_NOT, 0]) {
         [self negatedUnary_]; 
-    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TILDE, XP_TOKEN_KIND_TRUE, 0]) {
+    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
         [self unary_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'unaryExpr'."];
@@ -2029,9 +2033,20 @@
     [self parseRule:@selector(__negatedUnary) withMemo:_negatedUnary_memo];
 }
 
+- (void)__bitNot {
+    
+    [self match:XP_TOKEN_KIND_BITNOT discard:NO]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchBitNot:)];
+}
+
+- (void)bitNot_ {
+    [self parseRule:@selector(__bitNot) withMemo:_bitNot_memo];
+}
+
 - (void)__unary {
     
-    if ([self predicts:XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_TILDE, 0]) {
+    if ([self predicts:XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_MINUS, 0]) {
         [self signedPrimaryExpr_]; 
     } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
         [self primaryExpr_]; 
@@ -2057,17 +2072,17 @@
         do {
             [self match:XP_TOKEN_KIND_MINUS discard:YES]; 
             [self execute:^{
-             self.unaryTok=_negTok; _negative = !_negative; 
+             self.unaryTok = _negTok; _negative = !_negative; 
             }];
         } while ([self predicts:XP_TOKEN_KIND_MINUS, 0]);
         [self primaryExpr_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_TILDE, 0]) {
+    } else if ([self predicts:XP_TOKEN_KIND_BITNOT, 0]) {
         do {
-            [self match:XP_TOKEN_KIND_TILDE discard:NO]; 
+            [self bitNot_]; 
             [self execute:^{
              self.unaryTok = POP(); _negative = !_negative; 
             }];
-        } while ([self predicts:XP_TOKEN_KIND_TILDE, 0]);
+        } while ([self predicts:XP_TOKEN_KIND_BITNOT, 0]);
         [self primaryExpr_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'signedPrimaryExpr'."];

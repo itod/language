@@ -149,6 +149,7 @@
 // UNARY EXPR
         case XP_TOKEN_KIND_NOT:             res = [self not:node]; break;
         case XP_TOKEN_KIND_NEG:             res = [self neg:node]; break;
+        case XP_TOKEN_KIND_BITNOT:          res = [self bitNot:node]; break;
             
 // BINARY EXPR
         case XP_TOKEN_KIND_AND:             res = [self and:node]; break;
@@ -271,6 +272,7 @@
 - (id)bitAnd:(XPNode *)node {return nil;}
 - (id)bitOr:(XPNode *)node {return nil;}
 - (id)bitXor:(XPNode *)node {return nil;}
+- (id)bitNot:(XPNode *)node {return nil;}
 
 - (id)shiftLeft:(XPNode *)node {return nil;}
 - (id)shiftRight:(XPNode *)node {return nil;}

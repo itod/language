@@ -591,6 +591,7 @@ negatedUnary
 	= (('not'! | '!'!) { _negation = !_negation; })+ unary {
 };
 
+bitNot = '~';
 unary = signedPrimaryExpr | primaryExpr;
 signedPrimaryExpr
 @before {
@@ -603,8 +604,8 @@ signedPrimaryExpr
 		PUSH(negNode);
     }
 }
-    = ('-'! { self.unaryTok=_negTok; _negative = !_negative; })+ primaryExpr
-    | ('~'  { self.unaryTok = POP(); _negative = !_negative; })+ primaryExpr
+    = ('-'! { self.unaryTok = _negTok; _negative = !_negative; })+ primaryExpr
+    | (bitNot { self.unaryTok = POP(); _negative = !_negative; })+ primaryExpr
     ;
 
 primaryExpr = atom | subExpr;
