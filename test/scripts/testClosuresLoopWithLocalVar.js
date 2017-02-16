@@ -1,10 +1,10 @@
-var funcs = [];
 var x = 0;
+var funcs = [];
 
 for i in range(3) {
     funcs[] = sub () {
         x = i;
-        log(i);
+        log(i); // should log 3
     };
 }
 
@@ -14,3 +14,5 @@ for i in range(3) {
         func();
     }
 }
+
+// x == 3

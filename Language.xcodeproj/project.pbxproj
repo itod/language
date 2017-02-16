@@ -53,7 +53,8 @@
 		D3166E391E54E4CE00DEE3A0 /* FNFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E371E54E4CE00DEE3A0 /* FNFilter.m */; };
 		D3166E3C1E54EBA200DEE3A0 /* XPReturnException.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166E3A1E54EBA200DEE3A0 /* XPReturnException.h */; };
 		D3166E3D1E54EBA200DEE3A0 /* XPReturnException.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E3B1E54EBA200DEE3A0 /* XPReturnException.m */; };
-		D3166E441E55F8EC00DEE3A0 /* testClosuresLoopWithSurroundingVar.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166E431E55F8EC00DEE3A0 /* testClosuresLoopWithSurroundingVar.js */; };
+		D3166E441E55F8EC00DEE3A0 /* testClosuresLoopWithLocalVar.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166E431E55F8EC00DEE3A0 /* testClosuresLoopWithLocalVar.js */; };
+		D3166E471E55FE6D00DEE3A0 /* testClosuresLoopWithGlobalVar.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166E461E55FE6D00DEE3A0 /* testClosuresLoopWithGlobalVar.js */; };
 		D32E70BE1E5365F700728D80 /* XPFunctionBody.h in Headers */ = {isa = PBXBuildFile; fileRef = D32E70BC1E5365F700728D80 /* XPFunctionBody.h */; };
 		D32E70BF1E5365F700728D80 /* XPFunctionBody.m in Sources */ = {isa = PBXBuildFile; fileRef = D32E70BD1E5365F700728D80 /* XPFunctionBody.m */; };
 		D32E70C21E5367A900728D80 /* FNRange.h in Headers */ = {isa = PBXBuildFile; fileRef = D32E70C01E5367A900728D80 /* FNRange.h */; };
@@ -191,7 +192,8 @@
 		D3166E371E54E4CE00DEE3A0 /* FNFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNFilter.m; path = src/FNFilter.m; sourceTree = SOURCE_ROOT; };
 		D3166E3A1E54EBA200DEE3A0 /* XPReturnException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPReturnException.h; path = src/XPReturnException.h; sourceTree = SOURCE_ROOT; };
 		D3166E3B1E54EBA200DEE3A0 /* XPReturnException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPReturnException.m; path = src/XPReturnException.m; sourceTree = SOURCE_ROOT; };
-		D3166E431E55F8EC00DEE3A0 /* testClosuresLoopWithSurroundingVar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testClosuresLoopWithSurroundingVar.js; path = test/scripts/testClosuresLoopWithSurroundingVar.js; sourceTree = SOURCE_ROOT; };
+		D3166E431E55F8EC00DEE3A0 /* testClosuresLoopWithLocalVar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testClosuresLoopWithLocalVar.js; path = test/scripts/testClosuresLoopWithLocalVar.js; sourceTree = SOURCE_ROOT; };
+		D3166E461E55FE6D00DEE3A0 /* testClosuresLoopWithGlobalVar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testClosuresLoopWithGlobalVar.js; path = test/scripts/testClosuresLoopWithGlobalVar.js; sourceTree = SOURCE_ROOT; };
 		D32E70BC1E5365F700728D80 /* XPFunctionBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPFunctionBody.h; path = src/XPFunctionBody.h; sourceTree = SOURCE_ROOT; };
 		D32E70BD1E5365F700728D80 /* XPFunctionBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFunctionBody.m; path = src/XPFunctionBody.m; sourceTree = SOURCE_ROOT; };
 		D32E70C01E5367A900728D80 /* FNRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNRange.h; path = src/FNRange.h; sourceTree = SOURCE_ROOT; };
@@ -435,7 +437,8 @@
 		D3166E421E55F88C00DEE3A0 /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				D3166E431E55F8EC00DEE3A0 /* testClosuresLoopWithSurroundingVar.js */,
+				D3166E461E55FE6D00DEE3A0 /* testClosuresLoopWithGlobalVar.js */,
+				D3166E431E55F8EC00DEE3A0 /* testClosuresLoopWithLocalVar.js */,
 			);
 			name = Scripts;
 			sourceTree = "<group>";
@@ -748,7 +751,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3166E441E55F8EC00DEE3A0 /* testClosuresLoopWithSurroundingVar.js in Resources */,
+				D3166E471E55FE6D00DEE3A0 /* testClosuresLoopWithGlobalVar.js in Resources */,
+				D3166E441E55F8EC00DEE3A0 /* testClosuresLoopWithLocalVar.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

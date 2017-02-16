@@ -66,10 +66,14 @@
     [self eval:@"var funcs=[];for i in range(3){funcs[]=sub(){log(i);};}for func in funcs {func();}"];
 }
 
-- (void)testClosuresLoopWithSurroundingVar {
-    NSString *input = [self stringForSelector:_cmd];
-    [self eval:input];
-    TDEquals(47.0, [self doubleForName:@"x"]);
+- (void)testClosuresLoopWithGlobalVar {
+    [self eval:[self stringForSelector:_cmd]];
+    TDEquals(3.0, [self doubleForName:@"x"]);
+}
+
+- (void)testClosuresLoopWithLocalVar {
+    [self eval:[self stringForSelector:_cmd]];
+    TDEquals(3.0, [self doubleForName:@"x"]);
 }
 
 @end
