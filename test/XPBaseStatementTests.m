@@ -54,7 +54,7 @@
 - (void)eval:(NSString *)input {
     NSError *err = nil;
     [self.interp interpretString:input error:&err];
-//    TDNil(err);
+    TDNil(err);
     self.error = err;
 }
 
@@ -85,6 +85,21 @@
 - (XPObject *)valueForName:(NSString *)name {
     XPObject *obj = [self.interp.globals objectForName:name];
     return obj;
+}
+
+
+- (NSString *)stringForSelector:(SEL)sel {
+    return [self stringFromFileNamed:NSStringFromSelector(sel)];
+}
+
+
+- (NSString *)stringFromFileNamed:(NSString *)filename {
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:filename ofType:@"js"];
+    //NSString *path = [[NSString stringWithFormat:@"%s/test/scripts/%@.js", getenv("PWD"), filename] stringByExpandingTildeInPath];
+    TDNotNil(path);
+    NSString *str = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    TDNotNil(str);
+    return str;
 }
 
 @end

@@ -24,6 +24,9 @@
 - (NSString *)stringForName:(NSString *)name;
 - (XPObject *)valueForName:(NSString *)name;
 
+- (NSString *)stringForSelector:(SEL)sel;
+- (NSString *)stringFromFileNamed:(NSString *)filename;
+
 @property (nonatomic, retain) XPNode *stat;
 @property (nonatomic, retain) XPInterpreter *interp;
 @property (nonatomic, retain) NSError *error;

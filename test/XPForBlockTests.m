@@ -64,7 +64,12 @@
 
 - (void)testClosuresLoop {
     [self eval:@"var funcs=[];for i in range(3){funcs[]=sub(){log(i);};}for func in funcs {func();}"];
-    TDNil(self.error);
+}
+
+- (void)testClosuresLoopWithSurroundingVar {
+    NSString *input = [self stringForSelector:_cmd];
+    [self eval:input];
+    TDEquals(47.0, [self doubleForName:@"x"]);
 }
 
 @end
