@@ -55,26 +55,26 @@
 
 
 - (XPMemorySpace *)spaceWithSymbolNamed:(NSString *)name {
-    XPMemorySpace *space = nil;
+    XPMemorySpace *res = nil;
     
     // check local or func
     TDAssert(_currentSpace);
     if ([_currentSpace objectForName:name]) {
-        space = _currentSpace;
+        res = _currentSpace;
     }
     
     // if in local, check func too
     TDAssert(_stack);
-    if (!space && [_stack count] && [_stack lastObject] != _currentSpace && [[_stack lastObject] objectForName:name]) {
-        space = [_stack lastObject];
+    if (!res && [_stack count] && [_stack lastObject] != _currentSpace && [[_stack lastObject] objectForName:name]) {
+        res = [_stack lastObject];
     }
     
     // if not currently in global space, check globals
-    if (!space && _globals != _currentSpace && [_globals objectForName:name]) {
-        space = _globals;
+    if (!res && _globals != _currentSpace && [_globals objectForName:name]) {
+        res = _globals;
     }
     
-    return space;
+    return res;
 }
 
 
