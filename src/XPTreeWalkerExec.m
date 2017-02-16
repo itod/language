@@ -423,11 +423,7 @@
         TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
     }
 
-    // PUSH MEMORY SPACE
     XPFunctionSpace *funcSpace = [XPFunctionSpace functionSpaceWithSymbol:funcSym];
-    XPMemorySpace *saveSpace = self.currentSpace;
-    TDAssert(saveSpace);
-    self.currentSpace = funcSpace;
 
     // APPLY DEFAULT PARAMS
     {
@@ -467,6 +463,11 @@
             ++i;
         }
     }
+
+    // PUSH MEMORY SPACE
+    XPMemorySpace *saveSpace = self.currentSpace;
+    TDAssert(saveSpace);
+    self.currentSpace = funcSpace;
 
     // CALL
     XPObject *result = nil;

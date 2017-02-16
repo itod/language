@@ -53,7 +53,12 @@
 }
 
 - (void)testNestedLoops {
-    [self eval:@"var x=0;for i in range(3) {for j in range(3){x=x+i;log(i);}}"];
+    [self eval:@"var x=0;for i in range(3) {for j in range(3){log(x);x=x+i;}}"];
+    TDEquals(18.0, [self doubleForName:@"x"]);
+}
+
+- (void)testNestedLoops2 {
+    [self eval:@"var x=0;for i in range(3) {for j in range(3){log(i);x=x+i;}}"];
     TDEquals(18.0, [self doubleForName:@"x"]);
 }
 

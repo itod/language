@@ -59,18 +59,24 @@
     
     // check local or func
     TDAssert(_currentSpace);
-    if ([_currentSpace objectForName:name]) {
-        res = _currentSpace;
-    }
+    XPMemorySpace *space = _currentSpace;
+    do {
+        if ([space containsObjectForName:name]) {
+            res = space;
+            break;
+        } else {
+            space = space.enclosingSpace;
+        }
+    } while (space);
     
     // if in local, check func too
     TDAssert(_stack);
-    if (!res && [_stack count] && [_stack lastObject] != _currentSpace && [[_stack lastObject] objectForName:name]) {
+    if (!res && [_stack count] && [_stack lastObject] != _currentSpace && [[_stack lastObject] containsObjectForName:name]) {
         res = [_stack lastObject];
     }
     
     // if not currently in global space, check globals
-    if (!res && _globals != _currentSpace && [_globals objectForName:name]) {
+    if (!res && _globals != _currentSpace && [_globals containsObjectForName:name]) {
         res = _globals;
     }
     
@@ -189,7 +195,7 @@
 
     if (_currentSpace) {
         // func or local
-        self.currentSpace = [[[XPMemorySpace alloc] initWithName:@"LOCAL" enclosingSpace:nil] autorelease];
+        self.currentSpace = [[[XPMemorySpace alloc] initWithName:@"LOCAL" enclosingSpace:savedSpace] autorelease];
     } else {
         // top-level
         self.currentSpace = _globals;
