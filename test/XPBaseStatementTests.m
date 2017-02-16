@@ -55,6 +55,7 @@
     NSError *err = nil;
     [self.interp interpretString:input error:&err];
 //    TDNil(err);
+    self.error = err;
 }
 
 
