@@ -540,13 +540,24 @@ multiplicativeExpr = bitExpr ((times | div | mod) bitExpr {
 bitAnd  = '&';
 bitOr   = '|';
 bitXor  = '^';
-bitExpr = concatExpr ((bitAnd | bitOr | bitXor) concatExpr {
+bitExpr = shiftExpr ((bitAnd | bitOr | bitXor) shiftExpr {
     XPNode *rhs = POP();
     XPNode *bitNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
     [bitNode addChild:lhs];
     [bitNode addChild:rhs];
     PUSH(bitNode);
+})*;
+
+shiftLeft = '<<';
+shiftRight = '>>';
+shiftExpr = concatExpr ((shiftLeft | shiftRight) concatExpr{
+    XPNode *rhs = POP();
+    XPNode *shiftNode = [XPNode nodeWithToken:POP()];
+    XPNode *lhs = POP();
+    [shiftNode addChild:lhs];
+    [shiftNode addChild:rhs];
+    PUSH(shiftNode);
 })*;
 
 cat    = '||';

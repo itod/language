@@ -103,6 +103,9 @@
 @property (nonatomic, retain) NSMutableDictionary *bitOr_memo;
 @property (nonatomic, retain) NSMutableDictionary *bitXor_memo;
 @property (nonatomic, retain) NSMutableDictionary *bitExpr_memo;
+@property (nonatomic, retain) NSMutableDictionary *shiftLeft_memo;
+@property (nonatomic, retain) NSMutableDictionary *shiftRight_memo;
+@property (nonatomic, retain) NSMutableDictionary *shiftExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *cat_memo;
 @property (nonatomic, retain) NSMutableDictionary *concatExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *unaryExpr_memo;
@@ -205,12 +208,13 @@
         self.tokenKindTab[@"for"] = @(XP_TOKEN_KIND_FOR);
         self.tokenKindTab[@"return"] = @(XP_TOKEN_KIND_RETURN);
         self.tokenKindTab[@"}"] = @(XP_TOKEN_KIND_CLOSE_CURLY);
-        self.tokenKindTab[@"true"] = @(XP_TOKEN_KIND_TRUE);
+        self.tokenKindTab[@">>"] = @(XP_TOKEN_KIND_SHIFTRIGHT);
         self.tokenKindTab[@"+="] = @(XP_TOKEN_KIND_PLUSEQ);
         self.tokenKindTab[@"!="] = @(XP_TOKEN_KIND_NE);
         self.tokenKindTab[@"if"] = @(XP_TOKEN_KIND_IF);
         self.tokenKindTab[@"else"] = @(XP_TOKEN_KIND_ELSE);
         self.tokenKindTab[@"!"] = @(XP_TOKEN_KIND_BANG);
+        self.tokenKindTab[@"true"] = @(XP_TOKEN_KIND_TRUE);
         self.tokenKindTab[@"continue"] = @(XP_TOKEN_KIND_CONTINUE);
         self.tokenKindTab[@":"] = @(XP_TOKEN_KIND_COLON);
         self.tokenKindTab[@";"] = @(XP_TOKEN_KIND_SEMI_COLON);
@@ -238,6 +242,7 @@
         self.tokenKindTab[@"in"] = @(XP_TOKEN_KIND_IN);
         self.tokenKindTab[@"]"] = @(XP_TOKEN_KIND_CLOSE_BRACKET);
         self.tokenKindTab[@"NaN"] = @(XP_TOKEN_KIND_NAN);
+        self.tokenKindTab[@"<<"] = @(XP_TOKEN_KIND_SHIFTLEFT);
         self.tokenKindTab[@"^"] = @(XP_TOKEN_KIND_BITXOR);
         self.tokenKindTab[@"/"] = @(XP_TOKEN_KIND_DIV);
         self.tokenKindTab[@"false"] = @(XP_TOKEN_KIND_FALSE);
@@ -254,12 +259,13 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_FOR] = @"for";
         self.tokenKindNameTab[XP_TOKEN_KIND_RETURN] = @"return";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_CURLY] = @"}";
-        self.tokenKindNameTab[XP_TOKEN_KIND_TRUE] = @"true";
+        self.tokenKindNameTab[XP_TOKEN_KIND_SHIFTRIGHT] = @">>";
         self.tokenKindNameTab[XP_TOKEN_KIND_PLUSEQ] = @"+=";
         self.tokenKindNameTab[XP_TOKEN_KIND_NE] = @"!=";
         self.tokenKindNameTab[XP_TOKEN_KIND_IF] = @"if";
         self.tokenKindNameTab[XP_TOKEN_KIND_ELSE] = @"else";
         self.tokenKindNameTab[XP_TOKEN_KIND_BANG] = @"!";
+        self.tokenKindNameTab[XP_TOKEN_KIND_TRUE] = @"true";
         self.tokenKindNameTab[XP_TOKEN_KIND_CONTINUE] = @"continue";
         self.tokenKindNameTab[XP_TOKEN_KIND_COLON] = @":";
         self.tokenKindNameTab[XP_TOKEN_KIND_SEMI_COLON] = @";";
@@ -287,6 +293,7 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_IN] = @"in";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_BRACKET] = @"]";
         self.tokenKindNameTab[XP_TOKEN_KIND_NAN] = @"NaN";
+        self.tokenKindNameTab[XP_TOKEN_KIND_SHIFTLEFT] = @"<<";
         self.tokenKindNameTab[XP_TOKEN_KIND_BITXOR] = @"^";
         self.tokenKindNameTab[XP_TOKEN_KIND_DIV] = @"/";
         self.tokenKindNameTab[XP_TOKEN_KIND_FALSE] = @"false";
@@ -356,6 +363,9 @@
         self.bitOr_memo = [NSMutableDictionary dictionary];
         self.bitXor_memo = [NSMutableDictionary dictionary];
         self.bitExpr_memo = [NSMutableDictionary dictionary];
+        self.shiftLeft_memo = [NSMutableDictionary dictionary];
+        self.shiftRight_memo = [NSMutableDictionary dictionary];
+        self.shiftExpr_memo = [NSMutableDictionary dictionary];
         self.cat_memo = [NSMutableDictionary dictionary];
         self.concatExpr_memo = [NSMutableDictionary dictionary];
         self.unaryExpr_memo = [NSMutableDictionary dictionary];
@@ -468,6 +478,9 @@
     self.bitOr_memo = nil;
     self.bitXor_memo = nil;
     self.bitExpr_memo = nil;
+    self.shiftLeft_memo = nil;
+    self.shiftRight_memo = nil;
+    self.shiftExpr_memo = nil;
     self.cat_memo = nil;
     self.concatExpr_memo = nil;
     self.unaryExpr_memo = nil;
@@ -557,6 +570,9 @@
     [_bitOr_memo removeAllObjects];
     [_bitXor_memo removeAllObjects];
     [_bitExpr_memo removeAllObjects];
+    [_shiftLeft_memo removeAllObjects];
+    [_shiftRight_memo removeAllObjects];
+    [_shiftExpr_memo removeAllObjects];
     [_cat_memo removeAllObjects];
     [_concatExpr_memo removeAllObjects];
     [_unaryExpr_memo removeAllObjects];
@@ -1831,8 +1847,8 @@
 
 - (void)__bitExpr {
     
-    [self concatExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_BITAND, 0]) {[self bitAnd_]; } else if ([self predicts:XP_TOKEN_KIND_BITOR, 0]) {[self bitOr_]; } else if ([self predicts:XP_TOKEN_KIND_BITXOR, 0]) {[self bitXor_]; } else {[self raise:@"No viable alternative found in rule 'bitExpr'."];}[self concatExpr_]; }]) {
+    [self shiftExpr_]; 
+    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_BITAND, 0]) {[self bitAnd_]; } else if ([self predicts:XP_TOKEN_KIND_BITOR, 0]) {[self bitOr_]; } else if ([self predicts:XP_TOKEN_KIND_BITXOR, 0]) {[self bitXor_]; } else {[self raise:@"No viable alternative found in rule 'bitExpr'."];}[self shiftExpr_]; }]) {
         if ([self predicts:XP_TOKEN_KIND_BITAND, 0]) {
             [self bitAnd_]; 
         } else if ([self predicts:XP_TOKEN_KIND_BITOR, 0]) {
@@ -1842,7 +1858,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'bitExpr'."];
         }
-        [self concatExpr_]; 
+        [self shiftExpr_]; 
         [self execute:^{
         
     XPNode *rhs = POP();
@@ -1860,6 +1876,59 @@
 
 - (void)bitExpr_ {
     [self parseRule:@selector(__bitExpr) withMemo:_bitExpr_memo];
+}
+
+- (void)__shiftLeft {
+    
+    [self match:XP_TOKEN_KIND_SHIFTLEFT discard:NO]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchShiftLeft:)];
+}
+
+- (void)shiftLeft_ {
+    [self parseRule:@selector(__shiftLeft) withMemo:_shiftLeft_memo];
+}
+
+- (void)__shiftRight {
+    
+    [self match:XP_TOKEN_KIND_SHIFTRIGHT discard:NO]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchShiftRight:)];
+}
+
+- (void)shiftRight_ {
+    [self parseRule:@selector(__shiftRight) withMemo:_shiftRight_memo];
+}
+
+- (void)__shiftExpr {
+    
+    [self concatExpr_]; 
+    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_SHIFTLEFT, 0]) {[self shiftLeft_]; } else if ([self predicts:XP_TOKEN_KIND_SHIFTRIGHT, 0]) {[self shiftRight_]; } else {[self raise:@"No viable alternative found in rule 'shiftExpr'."];}[self concatExpr_]; }]) {
+        if ([self predicts:XP_TOKEN_KIND_SHIFTLEFT, 0]) {
+            [self shiftLeft_]; 
+        } else if ([self predicts:XP_TOKEN_KIND_SHIFTRIGHT, 0]) {
+            [self shiftRight_]; 
+        } else {
+            [self raise:@"No viable alternative found in rule 'shiftExpr'."];
+        }
+        [self concatExpr_]; 
+        [self execute:^{
+        
+    XPNode *rhs = POP();
+    XPNode *shiftNode = [XPNode nodeWithToken:POP()];
+    XPNode *lhs = POP();
+    [shiftNode addChild:lhs];
+    [shiftNode addChild:rhs];
+    PUSH(shiftNode);
+
+        }];
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchShiftExpr:)];
+}
+
+- (void)shiftExpr_ {
+    [self parseRule:@selector(__shiftExpr) withMemo:_shiftExpr_memo];
 }
 
 - (void)__cat {
