@@ -778,24 +778,22 @@
 
 - (void)__stat {
     
-    if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self assignAppend_]; }]) {[self assignAppend_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else if ([self speculate:^{ [self break_]; }]) {[self break_]; } else if ([self speculate:^{ [self continue_]; }]) {[self continue_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {
-        if ([self speculate:^{ [self varDecl_]; }]) {
-            [self varDecl_]; 
-        } else if ([self speculate:^{ [self assign_]; }]) {
-            [self assign_]; 
-        } else if ([self speculate:^{ [self assignIndex_]; }]) {
-            [self assignIndex_]; 
-        } else if ([self speculate:^{ [self assignAppend_]; }]) {
-            [self assignAppend_]; 
-        } else if ([self speculate:^{ [self expr_]; }]) {
-            [self expr_]; 
-        } else if ([self speculate:^{ [self break_]; }]) {
-            [self break_]; 
-        } else if ([self speculate:^{ [self continue_]; }]) {
-            [self continue_]; 
-        } else {
-            [self raise:@"No viable alternative found in rule 'stat'."];
-        }
+    if ([self speculate:^{ [self varDecl_]; }]) {
+        [self varDecl_]; 
+    } else if ([self speculate:^{ [self assign_]; }]) {
+        [self assign_]; 
+    } else if ([self speculate:^{ [self assignIndex_]; }]) {
+        [self assignIndex_]; 
+    } else if ([self speculate:^{ [self assignAppend_]; }]) {
+        [self assignAppend_]; 
+    } else if ([self speculate:^{ [self expr_]; }]) {
+        [self expr_]; 
+    } else if ([self speculate:^{ [self break_]; }]) {
+        [self break_]; 
+    } else if ([self speculate:^{ [self continue_]; }]) {
+        [self continue_]; 
+    } else {
+        [self raise:@"No viable alternative found in rule 'stat'."];
     }
     [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
 

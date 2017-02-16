@@ -207,7 +207,7 @@ stat        =
             | expr
             | break
             | continue
-            )?
+            )
             ';'!
             ;
 
