@@ -12,11 +12,12 @@
 
 @interface XPMemorySpace : NSObject
 
-- (instancetype)initWithName:(NSString *)name;
+- (instancetype)initWithName:(NSString *)name enclosingSpace:(XPMemorySpace *)space;
 
 - (XPObject *)objectForName:(NSString *)name;
 - (void)setObject:(XPObject *)obj forName:(NSString *)name;
 
 @property (nonatomic, copy, readonly) NSString *name;
+@property (nonatomic, retain, readonly) XPMemorySpace *enclosingSpace;
 @property (nonatomic, retain, readonly) NSMutableDictionary<NSString *, XPObject *> *members;
 @end

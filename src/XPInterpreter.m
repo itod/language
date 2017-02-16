@@ -72,7 +72,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
 
 - (void)interpretString:(NSString *)input error:(NSError **)outErr {
     self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
-    self.globals = [[[XPMemorySpace alloc] initWithName:@"globals"] autorelease];       // global memory;
+    self.globals = [[[XPMemorySpace alloc] initWithName:@"globals" enclosingSpace:nil] autorelease];       // global memory;
     
     // DECLARE NATIVE FUNCS
     {

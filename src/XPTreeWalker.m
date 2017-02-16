@@ -189,7 +189,7 @@
 
     if (_currentSpace) {
         // func or local
-        self.currentSpace = [[[XPMemorySpace alloc] initWithName:@"LOCAL"] autorelease];
+        self.currentSpace = [[[XPMemorySpace alloc] initWithName:@"LOCAL" enclosingSpace:nil] autorelease];
     } else {
         // top-level
         self.currentSpace = _globals;

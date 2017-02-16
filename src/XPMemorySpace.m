@@ -10,6 +10,7 @@
 
 @interface XPMemorySpace ()
 @property (nonatomic, copy, readwrite) NSString *name;
+@property (nonatomic, retain, readwrite) XPMemorySpace *enclosingSpace;
 @property (nonatomic, retain, readwrite) NSMutableDictionary<NSString *, XPObject *> *members;
 @end
 
@@ -17,15 +18,16 @@
 
 - (instancetype)init {
     TDAssert(0);
-    self = [self initWithName:nil];
+    self = [self initWithName:nil enclosingSpace:nil];
     return self;
 }
 
 
-- (instancetype)initWithName:(NSString *)name {
+- (instancetype)initWithName:(NSString *)name enclosingSpace:(XPMemorySpace *)space {
     self = [super init];
     if (self) {
         self.name = name;
+        self.enclosingSpace = space;
         self.members = [NSMutableDictionary dictionary];
     }
     return self;
@@ -44,7 +46,13 @@
     TDAssert([name length]);
     TDAssert(_members);
     
-    return [_members objectForKey:name];
+    XPObject *obj = [_members objectForKey:name];
+    
+    if (!obj) {
+        obj = [_enclosingSpace objectForName:name];
+    }
+    
+    return obj;
 }
 
 

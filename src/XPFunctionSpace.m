@@ -17,7 +17,7 @@
 
 
 - (instancetype)initWithSymbol:(XPSymbol *)sym {
-    self = [super initWithName:sym.name];
+    self = [super initWithName:sym.name enclosingSpace:nil];
     if (self) {
         
     }
