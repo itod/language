@@ -34,6 +34,7 @@
 @property (nonatomic, retain) PKToken *equalsTok;
 @property (nonatomic, retain) PKToken *notTok;
 @property (nonatomic, retain) PKToken *negTok;
+@property (nonatomic, retain) PKToken *unaryTok;
 @property (nonatomic, retain) PKToken *commaTok;
 @property (nonatomic, retain) PKToken *arrayTok;
 @property (nonatomic, retain) PKToken *dictTok;
@@ -146,7 +147,7 @@
     [t.symbolState add:@"||"];
     [t.symbolState add:@"<<"];
     [t.symbolState add:@">>"];
-
+    
     [t setTokenizerState:t.symbolState from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'\'' to:'\''];
@@ -216,9 +217,10 @@
         self.tokenKindTab[@"if"] = @(XP_TOKEN_KIND_IF);
         self.tokenKindTab[@"else"] = @(XP_TOKEN_KIND_ELSE);
         self.tokenKindTab[@"!"] = @(XP_TOKEN_KIND_BANG);
-        self.tokenKindTab[@"true"] = @(XP_TOKEN_KIND_TRUE);
+        self.tokenKindTab[@"~"] = @(XP_TOKEN_KIND_TILDE);
         self.tokenKindTab[@"continue"] = @(XP_TOKEN_KIND_CONTINUE);
         self.tokenKindTab[@":"] = @(XP_TOKEN_KIND_COLON);
+        self.tokenKindTab[@"true"] = @(XP_TOKEN_KIND_TRUE);
         self.tokenKindTab[@";"] = @(XP_TOKEN_KIND_SEMI_COLON);
         self.tokenKindTab[@"<"] = @(XP_TOKEN_KIND_LT);
         self.tokenKindTab[@"-="] = @(XP_TOKEN_KIND_MINUSEQ);
@@ -267,9 +269,10 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_IF] = @"if";
         self.tokenKindNameTab[XP_TOKEN_KIND_ELSE] = @"else";
         self.tokenKindNameTab[XP_TOKEN_KIND_BANG] = @"!";
-        self.tokenKindNameTab[XP_TOKEN_KIND_TRUE] = @"true";
+        self.tokenKindNameTab[XP_TOKEN_KIND_TILDE] = @"~";
         self.tokenKindNameTab[XP_TOKEN_KIND_CONTINUE] = @"continue";
         self.tokenKindNameTab[XP_TOKEN_KIND_COLON] = @":";
+        self.tokenKindNameTab[XP_TOKEN_KIND_TRUE] = @"true";
         self.tokenKindNameTab[XP_TOKEN_KIND_SEMI_COLON] = @";";
         self.tokenKindNameTab[XP_TOKEN_KIND_LT] = @"<";
         self.tokenKindNameTab[XP_TOKEN_KIND_MINUSEQ] = @"-=";
@@ -414,6 +417,7 @@
     self.equalsTok = nil;
     self.notTok = nil;
     self.negTok = nil;
+    self.unaryTok = nil;
     self.commaTok = nil;
     self.arrayTok = nil;
     self.dictTok = nil;
@@ -1973,7 +1977,7 @@
     
     if ([self predicts:XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_NOT, 0]) {
         [self negatedUnary_]; 
-    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
+    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TILDE, XP_TOKEN_KIND_TRUE, 0]) {
         [self unary_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'unaryExpr'."];
@@ -2027,7 +2031,7 @@
 
 - (void)__unary {
     
-    if ([self predicts:XP_TOKEN_KIND_MINUS, 0]) {
+    if ([self predicts:XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_TILDE, 0]) {
         [self signedPrimaryExpr_]; 
     } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
         [self primaryExpr_]; 
@@ -2049,17 +2053,29 @@
     _negative = NO; 
 
     }];
-    do {
-        [self match:XP_TOKEN_KIND_MINUS discard:YES]; 
-        [self execute:^{
-         _negative = !_negative; 
-        }];
-    } while ([self predicts:XP_TOKEN_KIND_MINUS, 0]);
-    [self primaryExpr_]; 
+    if ([self predicts:XP_TOKEN_KIND_MINUS, 0]) {
+        do {
+            [self match:XP_TOKEN_KIND_MINUS discard:YES]; 
+            [self execute:^{
+             self.unaryTok=_negTok; _negative = !_negative; 
+            }];
+        } while ([self predicts:XP_TOKEN_KIND_MINUS, 0]);
+        [self primaryExpr_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_TILDE, 0]) {
+        do {
+            [self match:XP_TOKEN_KIND_TILDE discard:NO]; 
+            [self execute:^{
+             self.unaryTok = POP(); _negative = !_negative; 
+            }];
+        } while ([self predicts:XP_TOKEN_KIND_TILDE, 0]);
+        [self primaryExpr_]; 
+    } else {
+        [self raise:@"No viable alternative found in rule 'signedPrimaryExpr'."];
+    }
     [self execute:^{
     
     if (_negative) {
-        XPNode *negNode = [XPNode nodeWithToken:_negTok];
+        XPNode *negNode = [XPNode nodeWithToken:_unaryTok];
         [negNode addChild:POP()];
 		PUSH(negNode);
     }

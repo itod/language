@@ -59,6 +59,7 @@
 @property (nonatomic, retain) PKToken *equalsTok;
 @property (nonatomic, retain) PKToken *notTok;
 @property (nonatomic, retain) PKToken *negTok;
+@property (nonatomic, retain) PKToken *unaryTok;
 @property (nonatomic, retain) PKToken *commaTok;
 @property (nonatomic, retain) PKToken *arrayTok;
 @property (nonatomic, retain) PKToken *dictTok;
@@ -154,6 +155,7 @@
     self.equalsTok = nil;
     self.notTok = nil;
     self.negTok = nil;
+    self.unaryTok = nil;
     self.commaTok = nil;
     self.arrayTok = nil;
     self.dictTok = nil;
@@ -596,12 +598,14 @@ signedPrimaryExpr
 }
 @after {
     if (_negative) {
-        XPNode *negNode = [XPNode nodeWithToken:_negTok];
+        XPNode *negNode = [XPNode nodeWithToken:_unaryTok];
         [negNode addChild:POP()];
 		PUSH(negNode);
     }
 }
-    = ('-'! { _negative = !_negative; })+ primaryExpr;
+    = ('-'! { self.unaryTok=_negTok; _negative = !_negative; })+ primaryExpr
+    | ('~'  { self.unaryTok = POP(); _negative = !_negative; })+ primaryExpr
+    ;
 
 primaryExpr = atom | subExpr;
 
