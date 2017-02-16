@@ -151,9 +151,13 @@
         case XP_TOKEN_KIND_NEG:             res = [self neg:node]; break;
             
 // BINARY EXPR
-        case XP_TOKEN_KIND_OR:              res = [self or:node]; break;
         case XP_TOKEN_KIND_AND:             res = [self and:node]; break;
-            
+        case XP_TOKEN_KIND_OR:              res = [self or:node]; break;
+
+        case XP_TOKEN_KIND_BITAND:          res = [self bitAnd:node]; break;
+        case XP_TOKEN_KIND_BITOR:           res = [self bitOr:node]; break;
+        case XP_TOKEN_KIND_BITXOR:          res = [self bitXor:node]; break;
+
         case XP_TOKEN_KIND_EQ:              res = [self eq:node]; break;
         case XP_TOKEN_KIND_NE:              res = [self ne:node]; break;
         case XP_TOKEN_KIND_IS:              res = [self is:node]; break;
@@ -258,8 +262,12 @@
 - (void)breakNode:(XPNode *)node {}
 - (void)continueNode:(XPNode *)node {}
 
-- (id)or:(XPNode *)node {return nil;}
 - (id)and:(XPNode *)node {return nil;}
+- (id)or:(XPNode *)node {return nil;}
+
+- (id)bitAnd:(XPNode *)node {return nil;}
+- (id)bitOr:(XPNode *)node {return nil;}
+- (id)bitXor:(XPNode *)node {return nil;}
 
 - (id)eq:(XPNode *)node {return nil;}
 - (id)ne:(XPNode *)node {return nil;}

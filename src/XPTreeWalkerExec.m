@@ -616,6 +616,15 @@
 #pragma mark -
 #pragma mark Binary Expr
 
+- (id)and:(XPNode *)node {
+    BOOL lhs = [[self walk:[node childAtIndex:0]] boolValue];
+    BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
+    
+    BOOL res = lhs && rhs;
+    return [XPObject boolean:res];
+}
+
+
 - (id)or:(XPNode *)node {
     BOOL lhs = [[self walk:[node childAtIndex:0]] boolValue];
     BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
@@ -625,12 +634,30 @@
 }
 
 
-- (id)and:(XPNode *)node {
-    BOOL lhs = [[self walk:[node childAtIndex:0]] boolValue];
-    BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
+- (id)bitAnd:(XPNode *)node {
+    double lhs = [[self walk:[node childAtIndex:0]] doubleValue];
+    double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
     
-    BOOL res = lhs && rhs;
-    return [XPObject boolean:res];
+    double res = lrint(lhs) & lrint(rhs);
+    return [XPNumberClass instanceWithValue:@(res)];
+}
+
+
+- (id)bitOr:(XPNode *)node {
+    double lhs = [[self walk:[node childAtIndex:0]] doubleValue];
+    double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
+    
+    double res = lrint(lhs) | lrint(rhs);
+    return [XPNumberClass instanceWithValue:@(res)];
+}
+
+
+- (id)bitXor:(XPNode *)node {
+    double lhs = [[self walk:[node childAtIndex:0]] doubleValue];
+    double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
+    
+    double res = lrint(lhs) ^ lrint(rhs);
+    return [XPNumberClass instanceWithValue:@(res)];
 }
 
 

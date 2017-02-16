@@ -36,4 +36,19 @@
     TDEquals(2.0, [self doubleForName:@"n"]);
 }
 
+- (void)testBitAnd {
+    [self eval:@"var n=$10 & $1;"];
+    TDEquals(0.0, [self doubleForName:@"n"]);
+}
+
+- (void)testBitOr {
+    [self eval:@"var n=$10 | $1;"];
+    TDEquals(3.0, [self doubleForName:@"n"]);
+}
+
+- (void)testBitXOr {
+    [self eval:@"var n=$010 ^ $101;"];
+    TDEquals(7.0, [self doubleForName:@"n"]);
+}
+
 @end

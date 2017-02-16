@@ -99,6 +99,10 @@
 @property (nonatomic, retain) NSMutableDictionary *div_memo;
 @property (nonatomic, retain) NSMutableDictionary *mod_memo;
 @property (nonatomic, retain) NSMutableDictionary *multiplicativeExpr_memo;
+@property (nonatomic, retain) NSMutableDictionary *bitAnd_memo;
+@property (nonatomic, retain) NSMutableDictionary *bitOr_memo;
+@property (nonatomic, retain) NSMutableDictionary *bitXor_memo;
+@property (nonatomic, retain) NSMutableDictionary *bitExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *cat_memo;
 @property (nonatomic, retain) NSMutableDictionary *concatExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *unaryExpr_memo;
@@ -194,6 +198,7 @@
         self.startRuleName = @"program";
         self.tokenKindTab[@"{"] = @(XP_TOKEN_KIND_OPEN_CURLY);
         self.tokenKindTab[@">="] = @(XP_TOKEN_KIND_GE);
+        self.tokenKindTab[@"|"] = @(XP_TOKEN_KIND_BITOR);
         self.tokenKindTab[@"*="] = @(XP_TOKEN_KIND_TIMESEQ);
         self.tokenKindTab[@"is"] = @(XP_TOKEN_KIND_IS);
         self.tokenKindTab[@"break"] = @(XP_TOKEN_KIND_BREAK);
@@ -213,6 +218,7 @@
         self.tokenKindTab[@"-="] = @(XP_TOKEN_KIND_MINUSEQ);
         self.tokenKindTab[@"%"] = @(XP_TOKEN_KIND_MOD);
         self.tokenKindTab[@"="] = @(XP_TOKEN_KIND_EQUALS);
+        self.tokenKindTab[@"&"] = @(XP_TOKEN_KIND_BITAND);
         self.tokenKindTab[@">"] = @(XP_TOKEN_KIND_GT);
         self.tokenKindTab[@"("] = @(XP_TOKEN_KIND_OPEN_PAREN);
         self.tokenKindTab[@"while"] = @(XP_TOKEN_KIND_WHILE);
@@ -232,6 +238,7 @@
         self.tokenKindTab[@"in"] = @(XP_TOKEN_KIND_IN);
         self.tokenKindTab[@"]"] = @(XP_TOKEN_KIND_CLOSE_BRACKET);
         self.tokenKindTab[@"NaN"] = @(XP_TOKEN_KIND_NAN);
+        self.tokenKindTab[@"^"] = @(XP_TOKEN_KIND_BITXOR);
         self.tokenKindTab[@"/"] = @(XP_TOKEN_KIND_DIV);
         self.tokenKindTab[@"false"] = @(XP_TOKEN_KIND_FALSE);
         self.tokenKindTab[@"sub"] = @(XP_TOKEN_KIND_SUB);
@@ -240,6 +247,7 @@
 
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_CURLY] = @"{";
         self.tokenKindNameTab[XP_TOKEN_KIND_GE] = @">=";
+        self.tokenKindNameTab[XP_TOKEN_KIND_BITOR] = @"|";
         self.tokenKindNameTab[XP_TOKEN_KIND_TIMESEQ] = @"*=";
         self.tokenKindNameTab[XP_TOKEN_KIND_IS] = @"is";
         self.tokenKindNameTab[XP_TOKEN_KIND_BREAK] = @"break";
@@ -259,6 +267,7 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_MINUSEQ] = @"-=";
         self.tokenKindNameTab[XP_TOKEN_KIND_MOD] = @"%";
         self.tokenKindNameTab[XP_TOKEN_KIND_EQUALS] = @"=";
+        self.tokenKindNameTab[XP_TOKEN_KIND_BITAND] = @"&";
         self.tokenKindNameTab[XP_TOKEN_KIND_GT] = @">";
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_PAREN] = @"(";
         self.tokenKindNameTab[XP_TOKEN_KIND_WHILE] = @"while";
@@ -278,6 +287,7 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_IN] = @"in";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_BRACKET] = @"]";
         self.tokenKindNameTab[XP_TOKEN_KIND_NAN] = @"NaN";
+        self.tokenKindNameTab[XP_TOKEN_KIND_BITXOR] = @"^";
         self.tokenKindNameTab[XP_TOKEN_KIND_DIV] = @"/";
         self.tokenKindNameTab[XP_TOKEN_KIND_FALSE] = @"false";
         self.tokenKindNameTab[XP_TOKEN_KIND_SUB] = @"sub";
@@ -342,6 +352,10 @@
         self.div_memo = [NSMutableDictionary dictionary];
         self.mod_memo = [NSMutableDictionary dictionary];
         self.multiplicativeExpr_memo = [NSMutableDictionary dictionary];
+        self.bitAnd_memo = [NSMutableDictionary dictionary];
+        self.bitOr_memo = [NSMutableDictionary dictionary];
+        self.bitXor_memo = [NSMutableDictionary dictionary];
+        self.bitExpr_memo = [NSMutableDictionary dictionary];
         self.cat_memo = [NSMutableDictionary dictionary];
         self.concatExpr_memo = [NSMutableDictionary dictionary];
         self.unaryExpr_memo = [NSMutableDictionary dictionary];
@@ -450,6 +464,10 @@
     self.div_memo = nil;
     self.mod_memo = nil;
     self.multiplicativeExpr_memo = nil;
+    self.bitAnd_memo = nil;
+    self.bitOr_memo = nil;
+    self.bitXor_memo = nil;
+    self.bitExpr_memo = nil;
     self.cat_memo = nil;
     self.concatExpr_memo = nil;
     self.unaryExpr_memo = nil;
@@ -535,6 +553,10 @@
     [_div_memo removeAllObjects];
     [_mod_memo removeAllObjects];
     [_multiplicativeExpr_memo removeAllObjects];
+    [_bitAnd_memo removeAllObjects];
+    [_bitOr_memo removeAllObjects];
+    [_bitXor_memo removeAllObjects];
+    [_bitExpr_memo removeAllObjects];
     [_cat_memo removeAllObjects];
     [_concatExpr_memo removeAllObjects];
     [_unaryExpr_memo removeAllObjects];
@@ -1745,8 +1767,8 @@
 
 - (void)__multiplicativeExpr {
     
-    [self concatExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_TIMES, 0]) {[self times_]; } else if ([self predicts:XP_TOKEN_KIND_DIV, 0]) {[self div_]; } else if ([self predicts:XP_TOKEN_KIND_MOD, 0]) {[self mod_]; } else {[self raise:@"No viable alternative found in rule 'multiplicativeExpr'."];}[self concatExpr_]; }]) {
+    [self bitExpr_]; 
+    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_TIMES, 0]) {[self times_]; } else if ([self predicts:XP_TOKEN_KIND_DIV, 0]) {[self div_]; } else if ([self predicts:XP_TOKEN_KIND_MOD, 0]) {[self mod_]; } else {[self raise:@"No viable alternative found in rule 'multiplicativeExpr'."];}[self bitExpr_]; }]) {
         if ([self predicts:XP_TOKEN_KIND_TIMES, 0]) {
             [self times_]; 
         } else if ([self predicts:XP_TOKEN_KIND_DIV, 0]) {
@@ -1756,7 +1778,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'multiplicativeExpr'."];
         }
-        [self concatExpr_]; 
+        [self bitExpr_]; 
         [self execute:^{
         
     XPNode *rhs = POP();
@@ -1774,6 +1796,72 @@
 
 - (void)multiplicativeExpr_ {
     [self parseRule:@selector(__multiplicativeExpr) withMemo:_multiplicativeExpr_memo];
+}
+
+- (void)__bitAnd {
+    
+    [self match:XP_TOKEN_KIND_BITAND discard:NO]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchBitAnd:)];
+}
+
+- (void)bitAnd_ {
+    [self parseRule:@selector(__bitAnd) withMemo:_bitAnd_memo];
+}
+
+- (void)__bitOr {
+    
+    [self match:XP_TOKEN_KIND_BITOR discard:NO]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchBitOr:)];
+}
+
+- (void)bitOr_ {
+    [self parseRule:@selector(__bitOr) withMemo:_bitOr_memo];
+}
+
+- (void)__bitXor {
+    
+    [self match:XP_TOKEN_KIND_BITXOR discard:NO]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchBitXor:)];
+}
+
+- (void)bitXor_ {
+    [self parseRule:@selector(__bitXor) withMemo:_bitXor_memo];
+}
+
+- (void)__bitExpr {
+    
+    [self concatExpr_]; 
+    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_BITAND, 0]) {[self bitAnd_]; } else if ([self predicts:XP_TOKEN_KIND_BITOR, 0]) {[self bitOr_]; } else if ([self predicts:XP_TOKEN_KIND_BITXOR, 0]) {[self bitXor_]; } else {[self raise:@"No viable alternative found in rule 'bitExpr'."];}[self concatExpr_]; }]) {
+        if ([self predicts:XP_TOKEN_KIND_BITAND, 0]) {
+            [self bitAnd_]; 
+        } else if ([self predicts:XP_TOKEN_KIND_BITOR, 0]) {
+            [self bitOr_]; 
+        } else if ([self predicts:XP_TOKEN_KIND_BITXOR, 0]) {
+            [self bitXor_]; 
+        } else {
+            [self raise:@"No viable alternative found in rule 'bitExpr'."];
+        }
+        [self concatExpr_]; 
+        [self execute:^{
+        
+    XPNode *rhs = POP();
+    XPNode *bitNode = [XPNode nodeWithToken:POP()];
+    XPNode *lhs = POP();
+    [bitNode addChild:lhs];
+    [bitNode addChild:rhs];
+    PUSH(bitNode);
+
+        }];
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchBitExpr:)];
+}
+
+- (void)bitExpr_ {
+    [self parseRule:@selector(__bitExpr) withMemo:_bitExpr_memo];
 }
 
 - (void)__cat {

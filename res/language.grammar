@@ -528,13 +528,25 @@ additiveExpr = multiplicativeExpr ((plus | minus) multiplicativeExpr {
 times   = '*';
 div     = '/';
 mod     = '%';
-multiplicativeExpr = concatExpr ((times | div | mod) concatExpr {
+multiplicativeExpr = bitExpr ((times | div | mod) bitExpr {
     XPNode *rhs = POP();
     XPNode *multNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
     [multNode addChild:lhs];
     [multNode addChild:rhs];
     PUSH(multNode);
+})*;
+
+bitAnd  = '&';
+bitOr   = '|';
+bitXor  = '^';
+bitExpr = concatExpr ((bitAnd | bitOr | bitXor) concatExpr {
+    XPNode *rhs = POP();
+    XPNode *bitNode = [XPNode nodeWithToken:POP()];
+    XPNode *lhs = POP();
+    [bitNode addChild:lhs];
+    [bitNode addChild:rhs];
+    PUSH(bitNode);
 })*;
 
 cat    = '||';
