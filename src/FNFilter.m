@@ -39,7 +39,8 @@
 }
 
 
-- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(XPTreeWalker *)walker {
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker {
+    XPMemorySpace *space = walker.currentSpace;
     TDAssert(space);
     
     XPObject *coll = [space objectForName:@"collection"];
@@ -73,8 +74,8 @@
         // CALL
         XPObject *yn = nil;
         {
-            TDAssert(walker.stack);
-            [walker.stack addObject:funcSpace];
+            TDAssert(walker.callStack);
+            [walker.callStack addObject:funcSpace];
             
             TDAssert(funcSym.blockNode);
             @try {
@@ -83,7 +84,7 @@
                 yn = ex.value;
             }
             
-            [walker.stack removeLastObject];
+            [walker.callStack removeLastObject];
         }
         
         if ([yn boolValue]) {

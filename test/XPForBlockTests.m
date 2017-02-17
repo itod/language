@@ -67,37 +67,37 @@
 }
 
 - (void)testGlobalVarFromClosure {
-    [self eval:[self stringForSelector:_cmd]];
+    [self eval:[self sourceForSelector:_cmd]];
     TDEquals(47.0, [self doubleForName:@"x"]);
 }
 
 - (void)testGlobalVarFromClosure2 {
-    [self eval:[self stringForSelector:_cmd]];
+    [self eval:[self sourceForSelector:_cmd]];
     TDEquals(47.0, [self doubleForName:@"x"]);
 }
 
 - (void)testGlobalVarFromClosure3 {
-    [self eval:[self stringForSelector:_cmd]];
+    [self eval:[self sourceForSelector:_cmd]];
     TDEquals(47.0, [self doubleForName:@"x"]);
 }
 
 - (void)testLocalVarFromClosure {
-    [self eval:[self stringForSelector:_cmd]];
+    [self eval:[self sourceForSelector:_cmd]];
     TDEquals(47.0, [self doubleForName:@"x"]);
 }
 
 - (void)testClosuresLoopWithGlobalVar {
-    [self eval:[self stringForSelector:_cmd]];
+    [self eval:[self sourceForSelector:_cmd]];
     TDEquals(3.0, [self doubleForName:@"x"]);
 }
 
 - (void)testClosuresLoopWithLocalVar {
-    [self eval:[self stringForSelector:_cmd]];
+    [self eval:[self sourceForSelector:_cmd]];
     TDEquals(3.0, [self doubleForName:@"x"]);
 }
 
 - (void)testDoubleNestedClosure {
-    [self eval:[self stringForSelector:_cmd]];
+    [self eval:[self sourceForSelector:_cmd]];
     TDEquals(3.0, [self doubleForName:@"x"]);
 }
 

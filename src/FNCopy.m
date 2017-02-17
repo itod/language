@@ -10,6 +10,7 @@
 #import "XPObject.h"
 #import "XPBooleanClass.h"
 #import "XPFunctionSymbol.h"
+#import "XPTreeWalker.h"
 #import "XPMemorySpace.h"
 
 @implementation FNCopy
@@ -37,14 +38,15 @@
 }
 
 
-- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(id)walker {
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker {
+    XPMemorySpace *space = walker.currentSpace;
     TDAssert(space);
     
     XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
     
     XPObject *res = [obj callInstanceMethodNamed:@"copy"];
-    TDAssert([obj isKindOfClass:[XPObject class]]);
+    TDAssert([res isKindOfClass:[XPObject class]]);
     
     return res;
 }

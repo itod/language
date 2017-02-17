@@ -88,7 +88,7 @@
 }
 
 
-- (NSString *)stringForSelector:(SEL)sel {
+- (NSString *)sourceForSelector:(SEL)sel {
     return [self stringFromFileNamed:NSStringFromSelector(sel)];
 }
 

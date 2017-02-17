@@ -40,4 +40,10 @@
     TDEqualObjects(@"[0,2,4]", [self stringForName:@"res"]);
 }
 
+- (void)testLocals {
+    [self eval:[self sourceForSelector:_cmd]];
+    TDEquals(42.0, [self doubleForName:@"x"]);
+    TDEquals(47.0, [self doubleForName:@"y"]);
+}
+
 @end

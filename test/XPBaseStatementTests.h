@@ -24,7 +24,7 @@
 - (NSString *)stringForName:(NSString *)name;
 - (XPObject *)valueForName:(NSString *)name;
 
-- (NSString *)stringForSelector:(SEL)sel;
+- (NSString *)sourceForSelector:(SEL)sel;
 - (NSString *)stringFromFileNamed:(NSString *)filename;
 
 @property (nonatomic, retain) XPNode *stat;

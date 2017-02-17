@@ -568,6 +568,8 @@
     // PUSH MEMORY SPACE
     XPMemorySpace *savedCurrentSpace = self.currentSpace;
     TDAssert(savedCurrentSpace);
+    [self.contextStack addObject:savedCurrentSpace];
+    
     self.currentSpace = funcSpace;
     XPMemorySpace *savedClosureSpace = self.closureSpace;
     self.closureSpace = funcSym.closureSpace;
@@ -575,8 +577,8 @@
     // CALL
     XPObject *result = nil;
     {
-        TDAssert(self.stack);
-        [self.stack addObject:funcSpace];
+        TDAssert(self.callStack);
+        [self.callStack addObject:funcSpace];
         
         // user-defined function
         if (funcSym.blockNode) {
@@ -591,15 +593,16 @@
         // native function
         else {
             TDAssert(funcSym.nativeBody);
-            result = [funcSym.nativeBody callInSpace:self.currentSpace walker:self];
+            result = [funcSym.nativeBody callWithWalker:self];
         }
         
-        [self.stack removeLastObject];
+        [self.callStack removeLastObject];
     }
 
     // POP MEMORY SPACE
     self.closureSpace = savedClosureSpace;
     self.currentSpace = savedCurrentSpace;
+    [self.contextStack removeLastObject];
     
     if (!result) {
         result = [XPObject nullObject];

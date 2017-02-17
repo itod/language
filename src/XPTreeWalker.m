@@ -18,7 +18,8 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.stack = [NSMutableArray array];
+        self.callStack = [NSMutableArray array];
+        self.contextStack = [NSMutableArray array];
     }
     return self;
 }
@@ -29,7 +30,8 @@
     self.globals = nil;
     self.currentSpace = nil;
     self.closureSpace = nil;
-    self.stack = nil;
+    self.callStack = nil;
+    self.contextStack = nil;
     
     [super dealloc];
 }
@@ -71,9 +73,9 @@
     } while (space);
     
     // if in local, check func too
-    TDAssert(_stack);
-    if (!res && [_stack count] && [_stack lastObject] != _currentSpace && [[_stack lastObject] containsObjectForName:name]) {
-        res = [_stack lastObject];
+    TDAssert(_callStack);
+    if (!res && [_callStack count] && [_callStack lastObject] != _currentSpace && [[_callStack lastObject] containsObjectForName:name]) {
+        res = [_callStack lastObject];
     }
     
     // if present, check closure space

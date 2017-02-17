@@ -10,6 +10,7 @@
 #import "XPObject.h"
 #import "XPNumberClass.h"
 #import "XPFunctionSymbol.h"
+#import "XPTreeWalker.h"
 #import "XPMemorySpace.h"
 
 @implementation FNPosition
@@ -39,7 +40,8 @@
 }
 
 
-- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(id)walker {
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker {
+    XPMemorySpace *space = walker.currentSpace;
     TDAssert(space);
     
     XPObject *seq = [space objectForName:@"sequence"];

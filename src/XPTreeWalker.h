@@ -29,5 +29,6 @@
 @property (nonatomic, retain) XPMemorySpace *currentSpace;
 @property (nonatomic, retain) XPMemorySpace *closureSpace;
 
-@property (nonatomic, retain) NSMutableArray<XPMemorySpace *> *stack;
+@property (nonatomic, retain) NSMutableArray<XPMemorySpace *> *callStack;
+@property (nonatomic, retain) NSMutableArray<XPMemorySpace *> *contextStack;
 @end

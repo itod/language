@@ -10,10 +10,10 @@
 
 @class XPObject;
 @class XPFunctionSymbol;
-@class XPMemorySpace;
+@class XPTreeWalker;
 
 @interface XPFunctionBody : NSObject
 + (NSString *)name;
 - (XPFunctionSymbol *)symbol;
-- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(id)walker;
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker;
 @end

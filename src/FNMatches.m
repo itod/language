@@ -10,6 +10,7 @@
 #import "XPObject.h"
 #import "XPStringClass.h"
 #import "XPFunctionSymbol.h"
+#import "XPTreeWalker.h"
 #import "XPMemorySpace.h"
 #import "XPException.h"
 
@@ -69,7 +70,8 @@
 }
 
 
-- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(id)walker {
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker {
+    XPMemorySpace *space = walker.currentSpace;
     TDAssert(space);
     
     BOOL res = NO;

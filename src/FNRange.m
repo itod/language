@@ -11,6 +11,7 @@
 #import "XPNumberClass.h"
 #import "XPArrayClass.h"
 #import "XPFunctionSymbol.h"
+#import "XPTreeWalker.h"
 #import "XPMemorySpace.h"
 
 @implementation FNRange
@@ -40,7 +41,8 @@
 }
 
 
-- (XPObject *)callInSpace:(XPMemorySpace *)space walker:(id)walker {
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker {
+    XPMemorySpace *space = walker.currentSpace;
     TDAssert(space);
     
     // calc start, stop, step
