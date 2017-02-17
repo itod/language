@@ -34,6 +34,7 @@
 #import "FNMap.h"
 #import "FNFilter.h"
 #import "FNLocals.h"
+#import "FNGlobals.h"
 
 #import "FNTrim.h"
 #import "FNLowercase.h"
@@ -96,6 +97,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
         [self declareNativeFunction:[FNMap class]];
         [self declareNativeFunction:[FNFilter class]];
         [self declareNativeFunction:[FNLocals class]];
+        [self declareNativeFunction:[FNGlobals class]];
 
         // str
         [self declareNativeFunction:[FNTrim class]];
