@@ -1,16 +1,16 @@
-var i = 47;
-var x = 0;
-var funcs = [];
+var i = 47
+var x = 0
+var funcs = []
 
 for i in range(3) {
     funcs[] = sub () {
-        x = i;
-        log('i should be 3, i:' || i);
-    };
+        x = i
+        log('i should be 3, i:' || i)
+    }
 }
 
 for func in funcs {
-    func();
+    func()
 }
 
 // x == 3

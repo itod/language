@@ -84,6 +84,7 @@
     [t.symbolState add:@"<<"];
     [t.symbolState add:@">>"];
     
+    [t setTokenizerState:t.symbolState from:'\n' to:'\n'];
     [t setTokenizerState:t.symbolState from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'\'' to:'\''];
@@ -211,8 +212,8 @@ stat        =
             | expr
             | break
             | continue
-            )
-            ';'!
+            )?
+            ('\n'!|';'!)
             ;
 
 varDecl     = 'var' qid '='! expr {

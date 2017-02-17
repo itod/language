@@ -149,6 +149,7 @@
     [t.symbolState add:@"<<"];
     [t.symbolState add:@">>"];
     
+    [t setTokenizerState:t.symbolState from:'\n' to:'\n'];
     [t setTokenizerState:t.symbolState from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'\'' to:'\''];
@@ -229,6 +230,7 @@
         self.tokenKindTab[@"="] = @(XP_TOKEN_KIND_EQUALS);
         self.tokenKindTab[@"&"] = @(XP_TOKEN_KIND_BITAND);
         self.tokenKindTab[@">"] = @(XP_TOKEN_KIND_GT);
+        self.tokenKindTab[@"\n"] = @(XP_TOKEN_KIND__N);
         self.tokenKindTab[@"("] = @(XP_TOKEN_KIND_OPEN_PAREN);
         self.tokenKindTab[@"while"] = @(XP_TOKEN_KIND_WHILE);
         self.tokenKindTab[@"var"] = @(XP_TOKEN_KIND_VAR);
@@ -281,6 +283,7 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_EQUALS] = @"=";
         self.tokenKindNameTab[XP_TOKEN_KIND_BITAND] = @"&";
         self.tokenKindNameTab[XP_TOKEN_KIND_GT] = @">";
+        self.tokenKindNameTab[XP_TOKEN_KIND__N] = @"\n";
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_PAREN] = @"(";
         self.tokenKindNameTab[XP_TOKEN_KIND_WHILE] = @"while";
         self.tokenKindNameTab[XP_TOKEN_KIND_VAR] = @"var";
@@ -804,24 +807,32 @@
 
 - (void)__stat {
     
-    if ([self speculate:^{ [self varDecl_]; }]) {
-        [self varDecl_]; 
-    } else if ([self speculate:^{ [self assign_]; }]) {
-        [self assign_]; 
-    } else if ([self speculate:^{ [self assignIndex_]; }]) {
-        [self assignIndex_]; 
-    } else if ([self speculate:^{ [self assignAppend_]; }]) {
-        [self assignAppend_]; 
-    } else if ([self speculate:^{ [self expr_]; }]) {
-        [self expr_]; 
-    } else if ([self speculate:^{ [self break_]; }]) {
-        [self break_]; 
-    } else if ([self speculate:^{ [self continue_]; }]) {
-        [self continue_]; 
+    if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self assignAppend_]; }]) {[self assignAppend_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else if ([self speculate:^{ [self break_]; }]) {[self break_]; } else if ([self speculate:^{ [self continue_]; }]) {[self continue_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {
+        if ([self speculate:^{ [self varDecl_]; }]) {
+            [self varDecl_]; 
+        } else if ([self speculate:^{ [self assign_]; }]) {
+            [self assign_]; 
+        } else if ([self speculate:^{ [self assignIndex_]; }]) {
+            [self assignIndex_]; 
+        } else if ([self speculate:^{ [self assignAppend_]; }]) {
+            [self assignAppend_]; 
+        } else if ([self speculate:^{ [self expr_]; }]) {
+            [self expr_]; 
+        } else if ([self speculate:^{ [self break_]; }]) {
+            [self break_]; 
+        } else if ([self speculate:^{ [self continue_]; }]) {
+            [self continue_]; 
+        } else {
+            [self raise:@"No viable alternative found in rule 'stat'."];
+        }
+    }
+    if ([self predicts:XP_TOKEN_KIND__N, 0]) {
+        [self match:XP_TOKEN_KIND__N discard:YES]; 
+    } else if ([self predicts:XP_TOKEN_KIND_SEMI_COLON, 0]) {
+        [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
     } else {
         [self raise:@"No viable alternative found in rule 'stat'."];
     }
-    [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchStat:)];
 }
