@@ -57,7 +57,7 @@
 
 
 - (NSString *)name {
-    return @"number";
+    return @"Number";
 }
 
 

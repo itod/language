@@ -42,7 +42,7 @@
 
 
 - (NSString *)name {
-    return @"null";
+    return @"Null";
 }
 
 

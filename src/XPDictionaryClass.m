@@ -23,7 +23,7 @@
 
 
 - (NSString *)name {
-    return @"table";
+    return @"Dictionary";
 }
 
 

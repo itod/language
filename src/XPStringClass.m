@@ -23,7 +23,7 @@
 
 
 - (NSString *)name {
-    return @"string";
+    return @"String";
 }
 
 
@@ -38,6 +38,10 @@
         sel = @selector(set:::);
     } else if ([methName isEqualToString:@"append"]) {
         sel = @selector(append::);
+
+//    } else if ([methName isEqualToString:@"indexOf"]) {
+//        sel = @selector(indexOf::);
+
     }
     TDAssert(sel);
     

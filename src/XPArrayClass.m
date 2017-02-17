@@ -23,7 +23,7 @@
 
 
 - (NSString *)name {
-    return @"array";
+    return @"Array";
 }
 
 
@@ -40,6 +40,10 @@
         sel = @selector(append::);
     } else if ([methName isEqualToString:@"slice"]) {
         sel = @selector(slice::::);
+    
+//    } else if ([methName isEqualToString:@"indexOf"]) {
+//        sel = @selector(indexOf::);
+
     }
     TDAssert(sel);
 

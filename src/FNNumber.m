@@ -14,7 +14,7 @@
 @implementation FNNumber
 
 + (NSString *)name {
-    return @"number";
+    return @"Number";
 }
 
 

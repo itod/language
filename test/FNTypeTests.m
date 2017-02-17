@@ -25,42 +25,42 @@
 }
 
 - (void)testTypeNull {
-    [self eval:@"var b=type(null)=='null';"];
+    [self eval:@"var b=type(null)=='Null';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testTypeTrue {
-    [self eval:@"var b=type(true)=='boolean';"];
+    [self eval:@"var b=type(true)=='Boolean';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testTypeFalse {
-    [self eval:@"var b=type(false)=='boolean';"];
+    [self eval:@"var b=type(false)=='Boolean';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testType1 {
-    [self eval:@"var b=type(1)=='number';"];
+    [self eval:@"var b=type(1)=='Number';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testTypeNeg1 {
-    [self eval:@"var b=type(-1)=='number';"];
+    [self eval:@"var b=type(-1)=='Number';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testType0 {
-    [self eval:@"var b=type(0)=='number';"];
+    [self eval:@"var b=type(0)=='Number';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testTypeNaN {
-    [self eval:@"var b=type(NaN)=='number';"];
+    [self eval:@"var b=type(NaN)=='Number';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testTypeString {
-    [self eval:@"var b=type('foo')=='string';"];
+    [self eval:@"var b=type('foo')=='String';"];
     TDTrue([self boolForName:@"b"]);
 }
 
@@ -75,7 +75,7 @@
 }
 
 - (void)testNumber1EqNumberTrue {
-    [self eval:@"var b=number('1')==number(true);"];
+    [self eval:@"var b=Number('1')==Number(true);"];
     TDTrue([self boolForName:@"b"]);
 }
 

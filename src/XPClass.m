@@ -55,12 +55,18 @@
 - (SEL)selectorForMethodNamed:(NSString *)methName {
     SEL sel = NULL;
     
-    if ([methName isEqualToString:@"stringValue"]) {
-        sel = @selector(stringValue:);
-    } if ([methName isEqualToString:@"doubleValue"]) {
-        sel = @selector(doubleValue:);
-    } if ([methName isEqualToString:@"boolValue"]) {
-        sel = @selector(boolValue:);
+    if ([methName isEqualToString:@"asString"]) {
+        sel = @selector(asString:);
+    } if ([methName isEqualToString:@"asNumber"]) {
+        sel = @selector(asNumber:);
+    } if ([methName isEqualToString:@"asBoolean"]) {
+        sel = @selector(asBoolean:);
+
+//    } if ([methName isEqualToString:@"copy"]) {
+//        sel = @selector(copy:);
+//    } if ([methName isEqualToString:@"type"]) {
+//        sel = @selector(type:);
+
     }
     
     return sel;
@@ -69,6 +75,21 @@
 
 - (XPEnumeration *)enumeration:(XPObject *)this {
     return nil;
+}
+
+
+- (XPObject *)asString:(XPObject *)this {
+    return [this asStringObject];
+}
+
+
+- (XPObject *)asNumber:(XPObject *)this {
+    return [this asNumberObject];
+}
+
+
+- (XPObject *)asBoolean:(XPObject *)this {
+    return [this asBooleanObject];
 }
 
 

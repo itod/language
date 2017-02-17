@@ -45,7 +45,7 @@
 
 
 - (NSString *)name {
-    return @"boolean";
+    return @"Boolean";
 }
 
 

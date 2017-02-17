@@ -14,7 +14,7 @@
 @implementation FNBoolean
 
 + (NSString *)name {
-    return @"boolean";
+    return @"Boolean";
 }
 
 
