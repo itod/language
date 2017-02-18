@@ -34,14 +34,7 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker {
-    XPMemorySpace *space = walker.currentSpace;
-    TDAssert(space);
-    
-    XPObject *obj = [space objectForName:@"object"];
-    TDAssert(obj);
-
-    XPObject *res = [obj asBooleanObject];
-    return res;
+    return [[walker.currentSpace objectForName:@"object"] asBooleanObject];
 }
 
 @end
