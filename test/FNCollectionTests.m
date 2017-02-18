@@ -46,7 +46,14 @@
     TDEquals(47.0, [self doubleForName:@"y"]);
 }
 
-- (void)testLocalsInFunction {
+- (void)testLocalsInFunctionDecl {
+    [self eval:[self sourceForSelector:_cmd]];
+    TDEqualObjects(@"argX", [self stringForName:@"a"]);
+    TDEqualObjects(@"localY", [self stringForName:@"b"]);
+    TDEqualObjects([XPObject nullObject], [self valueForName:@"c"]);
+}
+
+- (void)testLocalsInFunctionLiteral {
     [self eval:[self sourceForSelector:_cmd]];
     TDEqualObjects(@"argX", [self stringForName:@"a"]);
     TDEqualObjects(@"localY", [self stringForName:@"b"]);
