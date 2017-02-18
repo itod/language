@@ -2,7 +2,7 @@ var a = 'globalX'
 var b = null
 var c = null
 
-foo('argX');
+foo('argX')
 
 sub foo(x) {
     var y = 'localY'
