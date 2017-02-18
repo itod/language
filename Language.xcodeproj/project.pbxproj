@@ -63,10 +63,11 @@
 		D3166E661E56595D00DEE3A0 /* XPNumberExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E651E56595D00DEE3A0 /* XPNumberExpressionTests.m */; };
 		D3166E691E579FDE00DEE3A0 /* FNLocals.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166E671E579FDE00DEE3A0 /* FNLocals.h */; };
 		D3166E6A1E579FDE00DEE3A0 /* FNLocals.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E681E579FDE00DEE3A0 /* FNLocals.m */; };
-		D3166E6C1E57A11400DEE3A0 /* testLocals.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166E6B1E57A11400DEE3A0 /* testLocals.js */; };
+		D3166E6C1E57A11400DEE3A0 /* testLocalsInLocalBlock.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166E6B1E57A11400DEE3A0 /* testLocalsInLocalBlock.js */; };
 		D3166E701E57A69500DEE3A0 /* FNGlobals.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166E6E1E57A69500DEE3A0 /* FNGlobals.h */; };
 		D3166E711E57A69500DEE3A0 /* FNGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E6F1E57A69500DEE3A0 /* FNGlobals.m */; };
 		D3166E731E57A6C100DEE3A0 /* testGlobals.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166E721E57A6C100DEE3A0 /* testGlobals.js */; };
+		D3166ED91E57EDE400DEE3A0 /* testLocalsInFunction.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166ED81E57EDE400DEE3A0 /* testLocalsInFunction.js */; };
 		D32E70BE1E5365F700728D80 /* XPFunctionBody.h in Headers */ = {isa = PBXBuildFile; fileRef = D32E70BC1E5365F700728D80 /* XPFunctionBody.h */; };
 		D32E70BF1E5365F700728D80 /* XPFunctionBody.m in Sources */ = {isa = PBXBuildFile; fileRef = D32E70BD1E5365F700728D80 /* XPFunctionBody.m */; };
 		D32E70C21E5367A900728D80 /* FNRange.h in Headers */ = {isa = PBXBuildFile; fileRef = D32E70C01E5367A900728D80 /* FNRange.h */; };
@@ -214,10 +215,11 @@
 		D3166E651E56595D00DEE3A0 /* XPNumberExpressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPNumberExpressionTests.m; path = test/XPNumberExpressionTests.m; sourceTree = SOURCE_ROOT; };
 		D3166E671E579FDE00DEE3A0 /* FNLocals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNLocals.h; path = src/FNLocals.h; sourceTree = SOURCE_ROOT; };
 		D3166E681E579FDE00DEE3A0 /* FNLocals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNLocals.m; path = src/FNLocals.m; sourceTree = SOURCE_ROOT; };
-		D3166E6B1E57A11400DEE3A0 /* testLocals.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testLocals.js; path = test/scripts/testLocals.js; sourceTree = SOURCE_ROOT; };
+		D3166E6B1E57A11400DEE3A0 /* testLocalsInLocalBlock.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testLocalsInLocalBlock.js; path = test/scripts/testLocalsInLocalBlock.js; sourceTree = SOURCE_ROOT; };
 		D3166E6E1E57A69500DEE3A0 /* FNGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNGlobals.h; path = src/FNGlobals.h; sourceTree = SOURCE_ROOT; };
 		D3166E6F1E57A69500DEE3A0 /* FNGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNGlobals.m; path = src/FNGlobals.m; sourceTree = SOURCE_ROOT; };
 		D3166E721E57A6C100DEE3A0 /* testGlobals.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testGlobals.js; path = test/scripts/testGlobals.js; sourceTree = SOURCE_ROOT; };
+		D3166ED81E57EDE400DEE3A0 /* testLocalsInFunction.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testLocalsInFunction.js; path = test/scripts/testLocalsInFunction.js; sourceTree = SOURCE_ROOT; };
 		D32E70BC1E5365F700728D80 /* XPFunctionBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPFunctionBody.h; path = src/XPFunctionBody.h; sourceTree = SOURCE_ROOT; };
 		D32E70BD1E5365F700728D80 /* XPFunctionBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFunctionBody.m; path = src/XPFunctionBody.m; sourceTree = SOURCE_ROOT; };
 		D32E70C01E5367A900728D80 /* FNRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNRange.h; path = src/FNRange.h; sourceTree = SOURCE_ROOT; };
@@ -468,7 +470,8 @@
 				D3166E611E5611F800DEE3A0 /* testGlobalVarFromClosure2.js */,
 				D3166E631E56121700DEE3A0 /* testGlobalVarFromClosure3.js */,
 				D3166E4A1E56046E00DEE3A0 /* testLocalVarFromClosure.js */,
-				D3166E6B1E57A11400DEE3A0 /* testLocals.js */,
+				D3166E6B1E57A11400DEE3A0 /* testLocalsInLocalBlock.js */,
+				D3166ED81E57EDE400DEE3A0 /* testLocalsInFunction.js */,
 				D3166E721E57A6C100DEE3A0 /* testGlobals.js */,
 			);
 			name = Scripts;
@@ -800,10 +803,11 @@
 				D3166E471E55FE6D00DEE3A0 /* testClosuresLoopWithGlobalVar.js in Resources */,
 				D3166E491E5603D200DEE3A0 /* testDoubleNestedClosure.js in Resources */,
 				D3166E621E5611F800DEE3A0 /* testGlobalVarFromClosure2.js in Resources */,
+				D3166ED91E57EDE400DEE3A0 /* testLocalsInFunction.js in Resources */,
 				D3166E4B1E56046E00DEE3A0 /* testLocalVarFromClosure.js in Resources */,
 				D3166E641E56121700DEE3A0 /* testGlobalVarFromClosure3.js in Resources */,
 				D3166E441E55F8EC00DEE3A0 /* testClosuresLoopWithLocalVar.js in Resources */,
-				D3166E6C1E57A11400DEE3A0 /* testLocals.js in Resources */,
+				D3166E6C1E57A11400DEE3A0 /* testLocalsInLocalBlock.js in Resources */,
 				D3166E4D1E5604D600DEE3A0 /* testGlobalVarFromClosure.js in Resources */,
 				D3166E731E57A6C100DEE3A0 /* testGlobals.js in Resources */,
 			);

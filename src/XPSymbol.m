@@ -85,6 +85,8 @@ static NSSet *sReserved = nil;
                      @"lowercase",
                      @"range",
                      @"isNaN",
+                     @"globals",
+                     @"locals",
                      
                      nil];
     }

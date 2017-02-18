@@ -40,10 +40,16 @@
     TDEqualObjects(@"[0,2,4]", [self stringForName:@"res"]);
 }
 
-- (void)testLocals {
+- (void)testLocalsInLocalBlock {
     [self eval:[self sourceForSelector:_cmd]];
     TDEquals(42.0, [self doubleForName:@"x"]);
     TDEquals(47.0, [self doubleForName:@"y"]);
+}
+
+- (void)testLocalsInFunction {
+    [self eval:[self sourceForSelector:_cmd]];
+    TDEqualObjects(@"argX", [self stringForName:@"a"]);
+    TDEqualObjects(@"localY", [self stringForName:@"b"]);
 }
 
 - (void)testGlobals {
