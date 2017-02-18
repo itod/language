@@ -25,7 +25,7 @@
 }
 
 - (void)testTypeNull {
-    [self eval:@"var b=type(null)=='Null';"];
+    [self eval:@"var b=type(null)=='Object';"];
     TDTrue([self boolForName:@"b"]);
 }
 

@@ -41,9 +41,9 @@
 }
 
 
-- (NSString *)name {
-    return @"Null";
-}
+//- (NSString *)name {
+//    return @"Object";
+//}
 
 
 - (SEL)selectorForMethodNamed:(NSString *)methName {
@@ -54,7 +54,7 @@
 
 
 - (id)stringValue:(XPObject *)this {
-    return @"(null)";
+    return @"null";
 }
 
 

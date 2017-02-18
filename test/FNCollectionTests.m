@@ -50,6 +50,7 @@
     [self eval:[self sourceForSelector:_cmd]];
     TDEqualObjects(@"argX", [self stringForName:@"a"]);
     TDEqualObjects(@"localY", [self stringForName:@"b"]);
+    TDEqualObjects([XPObject nullObject], [self valueForName:@"c"]);
 }
 
 - (void)testGlobals {

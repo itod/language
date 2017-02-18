@@ -65,7 +65,12 @@
 
 - (XPObject *)get:(XPObject *)this :(XPObject *)key {
     NSMutableDictionary *tab = this.value;
-    id res = [tab objectForKey:key];
+    XPObject *res = [tab objectForKey:key];
+    
+    if (!res) {
+        res = [XPObject nullObject];
+    }
+    
     return res;
 }
 
