@@ -19,7 +19,7 @@ extern NSString * const XPErrorLineNumberKey;
 
 @interface XPInterpreter : NSObject
 
-- (void)interpretString:(NSString *)input error:(NSError **)outErr;
+- (BOOL)interpretString:(NSString *)input error:(NSError **)outErr;
 
 @property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, retain) XPMemorySpace *globals;

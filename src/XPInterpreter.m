@@ -72,7 +72,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
 
 
 
-- (void)interpretString:(NSString *)input error:(NSError **)outErr {
+- (BOOL)interpretString:(NSString *)input error:(NSError **)outErr {
     self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
     self.globals = [[[XPMemorySpace alloc] initWithName:@"globals" enclosingSpace:nil] autorelease];       // global memory;
     
@@ -123,7 +123,7 @@ NSString * const XPErrorLineNumberKey = @"line number";
         if (err) {
             NSLog(@"%@", err);
             *outErr = [self errorFromPEGKitError:err];
-            return;
+            return NO;
         }
         TDAssert(!(*outErr));
         
@@ -131,17 +131,20 @@ NSString * const XPErrorLineNumberKey = @"line number";
         
         if (!_root) {
             *outErr = err;
-            return;
+            return NO;
         }
     }
     
     // EVAL WALK
+    BOOL success = YES;
+    
     {
         @try {
             XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] init] autorelease];
             walker.globals = _globals;
             [walker walk:_root];
         } @catch (XPException *ex) {
+            success = NO;
             if (outErr) {
                 NSString *domain = XPErrorDomain;
                 NSString *name = [ex name];
@@ -154,6 +157,8 @@ NSString * const XPErrorLineNumberKey = @"line number";
             }
         }
     }
+    
+    return success;
 }
 
 
