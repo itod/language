@@ -47,8 +47,8 @@
 
 @implementation XPTreeWalkerExec
 
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithDelegate:(id <XPTreeWalkerDelegate>)d {
+    self = [super initWithDelegate:d];
     if (self) {
         self.returnException = [[[XPReturnExpception alloc] initWithName:@"return" reason:nil userInfo:nil] autorelease];
         self.breakException = [[[XPBreakException alloc] initWithName:@"break" reason:nil userInfo:nil] autorelease];

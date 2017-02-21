@@ -51,6 +51,10 @@ NSString * const XPErrorDomain = @"XPErrorDomain";
 NSString * const XPErrorRangeKey = @"range";
 NSString * const XPErrorLineNumberKey = @"line number";
 
+@interface XPInterpreter ()
+@property (nonatomic, retain) XPTreeWalker *treeWalker;
+@end
+
 @implementation XPInterpreter
 
 - (instancetype)init {
@@ -66,7 +70,11 @@ NSString * const XPErrorLineNumberKey = @"line number";
     self.globalScope = nil;
     self.root = nil;
     self.parser = nil;
-
+    self.breakpointCollection = nil;
+    self.debugDelegate = nil;
+    
+    self.treeWalker = nil;
+    
     [super dealloc];
 }
 
@@ -133,6 +141,8 @@ NSString * const XPErrorLineNumberKey = @"line number";
             *outErr = err;
             return NO;
         }
+        
+        self.parser = nil;
     }
     
     // EVAL WALK
@@ -140,9 +150,14 @@ NSString * const XPErrorLineNumberKey = @"line number";
     
     {
         @try {
-            XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] init] autorelease];
-            walker.globals = _globals;
-            [walker walk:_root];
+            self.treeWalker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
+            _treeWalker.globals = _globals;
+            _treeWalker.debug = _debug;
+            [_treeWalker walk:_root];
+            
+            if (_debug) {
+                [self.debugDelegate interpreter:self didFinish:nil];
+            }
         } @catch (XPException *ex) {
             success = NO;
             if (outErr) {
@@ -155,6 +170,13 @@ NSString * const XPErrorLineNumberKey = @"line number";
             } else {
                 [ex raise];
             }
+            
+            if (_debug) {
+                [self.debugDelegate interpreter:self didFail:nil];
+            }
+
+        } @finally {
+            self.treeWalker = nil;
         }
     }
     
@@ -214,6 +236,72 @@ NSString * const XPErrorLineNumberKey = @"line number";
     XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
     TDAssert(_globals);
     [_globals setObject:obj forName:name];
+}
+
+
+#pragma mark -
+#pragma mark XPTreeWalkerDelegate
+
+- (void)treeWalker:(XPTreeWalker *)w didPause:(NSDictionary *)debugInfo {
+    [self.debugDelegate interpreter:self didPause:debugInfo];
+}
+
+
+#pragma mark -
+#pragma mark DEBUG
+
+- (void)pause {
+    TDAssertMainThread();
+    TDAssert(_debug);
+    TDAssert(_treeWalker);
+    TDAssert(_debugDelegate);
+    
+    
+}
+
+
+- (void)resume {
+    TDAssertMainThread();
+    TDAssert(_debug);
+    TDAssert(_treeWalker);
+    TDAssert(_debugDelegate);
+
+}
+
+
+- (void)stepOver {
+    TDAssertMainThread();
+    TDAssert(_debug);
+    TDAssert(_treeWalker);
+    TDAssert(_debugDelegate);
+
+}
+
+
+- (void)stepIn {
+    TDAssertMainThread();
+    TDAssert(_debug);
+    TDAssert(_treeWalker);
+    TDAssert(_debugDelegate);
+    
+}
+
+
+- (void)cont {
+    TDAssertMainThread();
+    TDAssert(_debug);
+    TDAssert(_treeWalker);
+    TDAssert(_debugDelegate);
+    
+}
+
+
+- (void)finish {
+    TDAssertMainThread();
+    TDAssert(_debug);
+    TDAssert(_treeWalker);
+    TDAssert(_debugDelegate);
+    
 }
 
 @end

@@ -12,8 +12,15 @@
 @class XPObject;
 @class XPGlobalScope;
 @class XPMemorySpace;
+@class XPTreeWalker;
+
+@protocol XPTreeWalkerDelegate <NSObject>
+- (void)treeWalker:(XPTreeWalker *)w didPause:(NSDictionary *)debugInfo;
+@end
 
 @interface XPTreeWalker : NSObject
+
+- (instancetype)initWithDelegate:(id <XPTreeWalkerDelegate>)d;
 
 - (id)walk:(XPNode *)root;
 - (XPObject *)loadVariableReference:(XPNode *)node;
@@ -31,4 +38,7 @@
 
 @property (nonatomic, retain) NSMutableArray<XPMemorySpace *> *callStack;
 @property (nonatomic, retain) NSMutableArray<XPMemorySpace *> *contextStack;
+
+@property (nonatomic, assign) id <XPTreeWalkerDelegate>delegate; // weakref
+@property (nonatomic, assign) BOOL debug;
 @end

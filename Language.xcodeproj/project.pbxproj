@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D30562961E3BD929008BEC9A /* Language.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D305628C1E3BD929008BEC9A /* Language.framework */; };
 		D305629D1E3BD929008BEC9A /* Language.h in Headers */ = {isa = PBXBuildFile; fileRef = D305628F1E3BD929008BEC9A /* Language.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D309BCD31E5CF841002B3199 /* XPTreeWalker.h in Headers */ = {isa = PBXBuildFile; fileRef = D309BCD21E5CF841002B3199 /* XPTreeWalker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D30C5C5F1E4508F1001A6F5D /* XPFuncLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D30C5C5D1E4508DC001A6F5D /* XPFuncLiteralTests.m */; };
 		D3166DD81E53989300DEE3A0 /* FNCount.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166DD61E53989300DEE3A0 /* FNCount.h */; };
 		D3166DD91E53989300DEE3A0 /* FNCount.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166DD71E53989300DEE3A0 /* FNCount.m */; };
@@ -106,7 +107,6 @@
 		D37316D01E3EC4E50034798E /* XPLocalScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316CE1E3EC4E50034798E /* XPLocalScope.m */; };
 		D37316D31E3EC5430034798E /* XPMemorySpace.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316D11E3EC5430034798E /* XPMemorySpace.h */; };
 		D37316D41E3EC5430034798E /* XPMemorySpace.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316D21E3EC5430034798E /* XPMemorySpace.m */; };
-		D37316DC1E3FA9980034798E /* XPTreeWalker.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316DA1E3FA9980034798E /* XPTreeWalker.h */; };
 		D37316DD1E3FA9980034798E /* XPTreeWalker.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316DB1E3FA9980034798E /* XPTreeWalker.m */; };
 		D37316E51E3FAB140034798E /* XPTreeWalkerExec.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316E31E3FAB140034798E /* XPTreeWalkerExec.h */; };
 		D37316E61E3FAB140034798E /* XPTreeWalkerExec.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316E41E3FAB140034798E /* XPTreeWalkerExec.m */; };
@@ -162,6 +162,7 @@
 		D30562901E3BD929008BEC9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = src/Info.plist; sourceTree = SOURCE_ROOT; };
 		D30562951E3BD929008BEC9A /* LanguageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LanguageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D305629C1E3BD929008BEC9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = test/Info.plist; sourceTree = SOURCE_ROOT; };
+		D309BCD21E5CF841002B3199 /* XPTreeWalker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPTreeWalker.h; path = include/Language/XPTreeWalker.h; sourceTree = SOURCE_ROOT; };
 		D30C5C5D1E4508DC001A6F5D /* XPFuncLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFuncLiteralTests.m; path = test/XPFuncLiteralTests.m; sourceTree = SOURCE_ROOT; };
 		D3166DD61E53989300DEE3A0 /* FNCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNCount.h; path = src/FNCount.h; sourceTree = SOURCE_ROOT; };
 		D3166DD71E53989300DEE3A0 /* FNCount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNCount.m; path = src/FNCount.m; sourceTree = SOURCE_ROOT; };
@@ -263,7 +264,6 @@
 		D37316CE1E3EC4E50034798E /* XPLocalScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPLocalScope.m; path = src/XPLocalScope.m; sourceTree = SOURCE_ROOT; };
 		D37316D11E3EC5430034798E /* XPMemorySpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPMemorySpace.h; path = src/XPMemorySpace.h; sourceTree = SOURCE_ROOT; };
 		D37316D21E3EC5430034798E /* XPMemorySpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPMemorySpace.m; path = src/XPMemorySpace.m; sourceTree = SOURCE_ROOT; };
-		D37316DA1E3FA9980034798E /* XPTreeWalker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPTreeWalker.h; path = src/XPTreeWalker.h; sourceTree = SOURCE_ROOT; };
 		D37316DB1E3FA9980034798E /* XPTreeWalker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPTreeWalker.m; path = src/XPTreeWalker.m; sourceTree = SOURCE_ROOT; };
 		D37316E31E3FAB140034798E /* XPTreeWalkerExec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPTreeWalkerExec.h; path = src/XPTreeWalkerExec.h; sourceTree = SOURCE_ROOT; };
 		D37316E41E3FAB140034798E /* XPTreeWalkerExec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPTreeWalkerExec.m; path = src/XPTreeWalkerExec.m; sourceTree = SOURCE_ROOT; };
@@ -611,7 +611,7 @@
 				D37316EB1E4121110034798E /* XPException.m */,
 				D3166E3A1E54EBA200DEE3A0 /* XPReturnException.h */,
 				D3166E3B1E54EBA200DEE3A0 /* XPReturnException.m */,
-				D37316DA1E3FA9980034798E /* XPTreeWalker.h */,
+				D309BCD21E5CF841002B3199 /* XPTreeWalker.h */,
 				D37316DB1E3FA9980034798E /* XPTreeWalker.m */,
 				D37316E31E3FAB140034798E /* XPTreeWalkerExec.h */,
 				D37316E41E3FAB140034798E /* XPTreeWalkerExec.m */,
@@ -680,11 +680,11 @@
 				D3166DD81E53989300DEE3A0 /* FNCount.h in Headers */,
 				D3166E181E54BD4F00DEE3A0 /* FNReplace.h in Headers */,
 				D3166DE71E53B16F00DEE3A0 /* FNNumber.h in Headers */,
-				D37316DC1E3FA9980034798E /* XPTreeWalker.h in Headers */,
 				D32E70C21E5367A900728D80 /* FNRange.h in Headers */,
 				D37316D31E3EC5430034798E /* XPMemorySpace.h in Headers */,
 				D3166E071E53F6DB00DEE3A0 /* FNLowercase.h in Headers */,
 				D3166E691E579FDE00DEE3A0 /* FNLocals.h in Headers */,
+				D309BCD31E5CF841002B3199 /* XPTreeWalker.h in Headers */,
 				D305629D1E3BD929008BEC9A /* Language.h in Headers */,
 				D37316E51E3FAB140034798E /* XPTreeWalkerExec.h in Headers */,
 				D37CE4AE1E4CE4500008945E /* XPClass.h in Headers */,
@@ -947,6 +947,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = "src/Language-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -994,6 +995,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "src/Language-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1018,7 +1020,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "src/Language-Prefix.pch";
 				INFOPLIST_FILE = src/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
@@ -1038,7 +1039,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "src/Language-Prefix.pch";
 				INFOPLIST_FILE = src/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
@@ -1053,6 +1053,10 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"TEST=1",
+				);
 				INFOPLIST_FILE = test/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.celestialteapot.LanguageTests;
@@ -1065,6 +1069,7 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "TEST=1";
 				INFOPLIST_FILE = test/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.celestialteapot.LanguageTests;

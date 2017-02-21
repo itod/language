@@ -6,7 +6,7 @@
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <Language/XPTreeWalker.h>
 
 extern NSString * const XPErrorDomain;
 extern NSString * const XPErrorRangeKey;
@@ -17,7 +17,17 @@ extern NSString * const XPErrorLineNumberKey;
 @class XPNode;
 @class XPParser;
 
-@interface XPInterpreter : NSObject
+@class OKBreakpointCollection;
+
+@class XPInterpreter;
+
+@protocol XPInterpreterDebugDelegate <NSObject>
+- (void)interpreter:(XPInterpreter *)i didPause:(NSDictionary *)debugInfo;
+- (void)interpreter:(XPInterpreter *)i didFinish:(NSDictionary *)debugInfo;
+- (void)interpreter:(XPInterpreter *)i didFail:(NSDictionary *)debugInfo;
+@end
+
+@interface XPInterpreter : NSObject <XPTreeWalkerDelegate>
 
 - (BOOL)interpretString:(NSString *)input error:(NSError **)outErr;
 
@@ -25,4 +35,15 @@ extern NSString * const XPErrorLineNumberKey;
 @property (nonatomic, retain) XPMemorySpace *globals;
 @property (nonatomic, retain) XPNode *root;               // the AST represents our code memory
 @property (nonatomic, retain) XPParser *parser;
+
+// debug
+@property (nonatomic, assign) BOOL debug;
+@property (nonatomic, retain) OKBreakpointCollection *breakpointCollection;
+@property (nonatomic, assign) id <XPInterpreterDebugDelegate>debugDelegate; // weakref
+
+- (void)stepOver; // next
+- (void)stepIn; // step
+- (void)cont; // continue
+- (void)finish; // return
+
 @end

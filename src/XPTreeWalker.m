@@ -16,8 +16,15 @@
 @implementation XPTreeWalker
 
 - (instancetype)init {
+    self = [self initWithDelegate:nil];
+    return self;
+}
+
+
+- (instancetype)initWithDelegate:(id <XPTreeWalkerDelegate>)d {
     self = [super init];
     if (self) {
+        self.delegate = d;
         self.callStack = [NSMutableArray array];
         self.contextStack = [NSMutableArray array];
     }
@@ -26,6 +33,7 @@
 
 
 - (void)dealloc {
+    self.delegate = nil;
     self.globalScope = nil;
     self.globals = nil;
     self.currentSpace = nil;
@@ -232,6 +240,10 @@
     
     for (XPNode *stat in node.children) {
         [self walk:stat];
+        
+        if (_debug) {
+            [self.delegate treeWalker:self didPause:nil];
+        }
     }
     
     self.currentSpace = savedSpace;
@@ -243,9 +255,15 @@
     TDAssert([_currentSpace isKindOfClass:[XPFunctionSpace class]]);
     for (XPNode *stat in node.children) {
         [self walk:stat];
+        
+        if (_debug) {
+            [self.delegate treeWalker:self didPause:nil];
+        }
     }
 }
 
+
+- (void)stat:(XPNode *)node {}
 
 - (void)varDecl:(XPNode *)node {}
 - (void)funcDecl:(XPNode *)node {}
