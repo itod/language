@@ -158,7 +158,7 @@ NSString * const XPDebugInfoFrameStackKey = @"frameStack";
             [_treeWalker walk:_root];
             
             if (_debug) {
-                [self.debugDelegate interpreter:self didFinish:nil];
+                [self.debugDelegate interpreter:self didFinish:@{}];
             }
         } @catch (XPException *ex) {
             success = NO;
@@ -174,7 +174,7 @@ NSString * const XPDebugInfoFrameStackKey = @"frameStack";
             }
             
             if (_debug) {
-                [self.debugDelegate interpreter:self didFail:nil];
+                [self.debugDelegate interpreter:self didFail:@{}];
             }
 
         } @finally {

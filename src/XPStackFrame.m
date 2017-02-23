@@ -17,4 +17,9 @@
     [super dealloc];
 }
 
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@ %@:%@ %ld>", [self class], self.filename, self.functionName, [self.locals count]];
+}
+
 @end

@@ -110,7 +110,6 @@
     
     NSMutableDictionary *info = [NSMutableDictionary dictionary];
     
-    TDAssert([self.callStack count] == [self.lexicalStack count]); // ??
     NSUInteger c = [self.callStack count];
     
     NSMutableArray *frameStack = [NSMutableArray arrayWithCapacity:c];
@@ -120,8 +119,20 @@
         XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
         frame.filename = @"<FIXME.js>";
         frame.functionName = space.name;
+        frame.locals = [[space.members copy] autorelease];
         
         [frameStack addObject:frame];
+    }
+    
+    // add global space manually
+    {
+        XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
+        frame.filename = @"<FIXME.js>";
+        frame.functionName = @"<global>";
+        frame.locals = [[self.globals.members copy] autorelease];
+        
+        [frameStack addObject:frame];
+
     }
     
     return info;
