@@ -120,7 +120,7 @@ static NSSet *sReserved = nil;
 
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@.%@>", self.scope.scopeName, self.name];
+    return [NSString stringWithFormat:@"%@.%@", self.scope.scopeName, self.name];
 }
 
 @end

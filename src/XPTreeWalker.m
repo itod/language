@@ -12,6 +12,8 @@
 #import "XPException.h"
 #import "XPObject.h"
 #import "XPFunctionSpace.h"
+#import "XPInterpreter.h"
+#import "XPStackFrame.h"
 
 @implementation XPTreeWalker
 
@@ -26,7 +28,7 @@
     if (self) {
         self.delegate = d;
         self.callStack = [NSMutableArray array];
-        self.contextStack = [NSMutableArray array];
+        self.lexicalStack = [NSMutableArray array];
     }
     return self;
 }
@@ -39,7 +41,7 @@
     self.currentSpace = nil;
     self.closureSpace = nil;
     self.callStack = nil;
-    self.contextStack = nil;
+    self.lexicalStack = nil;
     
     [super dealloc];
 }
@@ -97,6 +99,32 @@
     }
     
     return res;
+}
+
+
+#pragma mark -
+#pragma mark Debug Info
+
+- (NSDictionary *)currentDebugInfo {
+    TDAssert(_debug);
+    
+    NSMutableDictionary *info = [NSMutableDictionary dictionary];
+    
+    TDAssert([self.callStack count] == [self.lexicalStack count]); // ??
+    NSUInteger c = [self.callStack count];
+    
+    NSMutableArray *frameStack = [NSMutableArray arrayWithCapacity:c];
+    [info setObject:frameStack forKey:XPDebugInfoFrameStackKey];
+    
+    for (XPMemorySpace *space in self.callStack) {
+        XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
+        frame.filename = @"<FIXME.js>";
+        frame.functionName = space.name;
+        
+        [frameStack addObject:frame];
+    }
+    
+    return info;
 }
 
 
@@ -242,7 +270,7 @@
         [self walk:stat];
         
         if (_debug) {
-            [self.delegate treeWalker:self didPause:nil];
+            [self.delegate treeWalker:self didPause:[self currentDebugInfo]];
         }
     }
     
@@ -257,7 +285,7 @@
         [self walk:stat];
         
         if (_debug) {
-            [self.delegate treeWalker:self didPause:nil];
+            [self.delegate treeWalker:self didPause:[self currentDebugInfo]];
         }
     }
 }

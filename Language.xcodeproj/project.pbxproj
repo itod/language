@@ -10,6 +10,9 @@
 		D30562961E3BD929008BEC9A /* Language.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D305628C1E3BD929008BEC9A /* Language.framework */; };
 		D305629D1E3BD929008BEC9A /* Language.h in Headers */ = {isa = PBXBuildFile; fileRef = D305628F1E3BD929008BEC9A /* Language.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D309BCD31E5CF841002B3199 /* XPTreeWalker.h in Headers */ = {isa = PBXBuildFile; fileRef = D309BCD21E5CF841002B3199 /* XPTreeWalker.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D309BCD71E5FA0EE002B3199 /* XPStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = D309BCD51E5FA0EE002B3199 /* XPStackFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D309BCDA1E5FA104002B3199 /* XPStackFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = D309BCD91E5FA104002B3199 /* XPStackFrame.m */; };
+		D309BCDC1E5FA17B002B3199 /* XPObject.h in Headers */ = {isa = PBXBuildFile; fileRef = D309BCDB1E5FA17B002B3199 /* XPObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D30C5C5F1E4508F1001A6F5D /* XPFuncLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D30C5C5D1E4508DC001A6F5D /* XPFuncLiteralTests.m */; };
 		D3166DD81E53989300DEE3A0 /* FNCount.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166DD61E53989300DEE3A0 /* FNCount.h */; };
 		D3166DD91E53989300DEE3A0 /* FNCount.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166DD71E53989300DEE3A0 /* FNCount.m */; };
@@ -112,7 +115,6 @@
 		D37316E61E3FAB140034798E /* XPTreeWalkerExec.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316E41E3FAB140034798E /* XPTreeWalkerExec.m */; };
 		D37316E91E3FB6B10034798E /* XPAssignTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316E71E3FB6AD0034798E /* XPAssignTests.m */; };
 		D37316ED1E4121110034798E /* XPException.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316EB1E4121110034798E /* XPException.m */; };
-		D37CE4AA1E4CE4470008945E /* XPObject.h in Headers */ = {isa = PBXBuildFile; fileRef = D37CE4A81E4CE4470008945E /* XPObject.h */; };
 		D37CE4AB1E4CE4470008945E /* XPObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D37CE4A91E4CE4470008945E /* XPObject.m */; };
 		D37CE4AE1E4CE4500008945E /* XPClass.h in Headers */ = {isa = PBXBuildFile; fileRef = D37CE4AC1E4CE4500008945E /* XPClass.h */; };
 		D37CE4AF1E4CE4500008945E /* XPClass.m in Sources */ = {isa = PBXBuildFile; fileRef = D37CE4AD1E4CE4500008945E /* XPClass.m */; };
@@ -163,6 +165,9 @@
 		D30562951E3BD929008BEC9A /* LanguageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LanguageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D305629C1E3BD929008BEC9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = test/Info.plist; sourceTree = SOURCE_ROOT; };
 		D309BCD21E5CF841002B3199 /* XPTreeWalker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPTreeWalker.h; path = include/Language/XPTreeWalker.h; sourceTree = SOURCE_ROOT; };
+		D309BCD51E5FA0EE002B3199 /* XPStackFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPStackFrame.h; path = include/Language/XPStackFrame.h; sourceTree = SOURCE_ROOT; };
+		D309BCD91E5FA104002B3199 /* XPStackFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPStackFrame.m; path = src/XPStackFrame.m; sourceTree = SOURCE_ROOT; };
+		D309BCDB1E5FA17B002B3199 /* XPObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPObject.h; path = include/Language/XPObject.h; sourceTree = SOURCE_ROOT; };
 		D30C5C5D1E4508DC001A6F5D /* XPFuncLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFuncLiteralTests.m; path = test/XPFuncLiteralTests.m; sourceTree = SOURCE_ROOT; };
 		D3166DD61E53989300DEE3A0 /* FNCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNCount.h; path = src/FNCount.h; sourceTree = SOURCE_ROOT; };
 		D3166DD71E53989300DEE3A0 /* FNCount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNCount.m; path = src/FNCount.m; sourceTree = SOURCE_ROOT; };
@@ -269,7 +274,6 @@
 		D37316E41E3FAB140034798E /* XPTreeWalkerExec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPTreeWalkerExec.m; path = src/XPTreeWalkerExec.m; sourceTree = SOURCE_ROOT; };
 		D37316E71E3FB6AD0034798E /* XPAssignTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPAssignTests.m; path = test/XPAssignTests.m; sourceTree = SOURCE_ROOT; };
 		D37316EB1E4121110034798E /* XPException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPException.m; path = src/XPException.m; sourceTree = SOURCE_ROOT; };
-		D37CE4A81E4CE4470008945E /* XPObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPObject.h; path = src/XPObject.h; sourceTree = SOURCE_ROOT; };
 		D37CE4A91E4CE4470008945E /* XPObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPObject.m; path = src/XPObject.m; sourceTree = SOURCE_ROOT; };
 		D37CE4AC1E4CE4500008945E /* XPClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPClass.h; path = src/XPClass.h; sourceTree = SOURCE_ROOT; };
 		D37CE4AD1E4CE4500008945E /* XPClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPClass.m; path = src/XPClass.m; sourceTree = SOURCE_ROOT; };
@@ -353,6 +357,8 @@
 				D368A0071E3BE383005783BB /* XPParser.m */,
 				D37316AD1E3EBDE20034798E /* XPInterpreter.h */,
 				D37316AA1E3EBDD20034798E /* XPInterpreter.m */,
+				D309BCD51E5FA0EE002B3199 /* XPStackFrame.h */,
+				D309BCD91E5FA104002B3199 /* XPStackFrame.m */,
 				D37CE4B41E4CF2730008945E /* Object */,
 				D32E70BB1E5365CF00728D80 /* Functions */,
 				D37316DE1E3FA9A10034798E /* Tree */,
@@ -631,7 +637,7 @@
 		D37CE4B41E4CF2730008945E /* Object */ = {
 			isa = PBXGroup;
 			children = (
-				D37CE4A81E4CE4470008945E /* XPObject.h */,
+				D309BCDB1E5FA17B002B3199 /* XPObject.h */,
 				D37CE4A91E4CE4470008945E /* XPObject.m */,
 				D37CE4AC1E4CE4500008945E /* XPClass.h */,
 				D37CE4AD1E4CE4500008945E /* XPClass.m */,
@@ -689,6 +695,7 @@
 				D37316E51E3FAB140034798E /* XPTreeWalkerExec.h in Headers */,
 				D37CE4AE1E4CE4500008945E /* XPClass.h in Headers */,
 				D3166E0B1E53F71800DEE3A0 /* FNUppercase.h in Headers */,
+				D309BCDC1E5FA17B002B3199 /* XPObject.h in Headers */,
 				D37316BF1E3EBFEB0034798E /* XPScope.h in Headers */,
 				D3166E311E54E2ED00DEE3A0 /* FNMap.h in Headers */,
 				D3166E381E54E4CE00DEE3A0 /* FNFilter.h in Headers */,
@@ -703,9 +710,9 @@
 				D32E70BE1E5365F700728D80 /* XPFunctionBody.h in Headers */,
 				D37316BA1E3EBF980034798E /* XPVariableSymbol.h in Headers */,
 				D37316CF1E3EC4E50034798E /* XPLocalScope.h in Headers */,
+				D309BCD71E5FA0EE002B3199 /* XPStackFrame.h in Headers */,
 				D3A7F2851E4D7A8A00C7099B /* XPStringClass.h in Headers */,
 				D3A7F2901E511E3200C7099B /* XPNullClass.h in Headers */,
-				D37CE4AA1E4CE4470008945E /* XPObject.h in Headers */,
 				D3166E271E54CB6000DEE3A0 /* FNTrim.h in Headers */,
 				D3A7F27D1E4D71CC00C7099B /* XPBooleanClass.h in Headers */,
 				D3DF58BA1E429C6F006CAA07 /* XPScopedSymbol.h in Headers */,
@@ -847,6 +854,7 @@
 				D3A7F27E1E4D71CC00C7099B /* XPBooleanClass.m in Sources */,
 				D3A7F2951E51219900C7099B /* XPEnumeration.m in Sources */,
 				D3166E321E54E2ED00DEE3A0 /* FNMap.m in Sources */,
+				D309BCDA1E5FA104002B3199 /* XPStackFrame.m in Sources */,
 				D3A7F2821E4D79FB00C7099B /* XPNumberClass.m in Sources */,
 				D3166DE81E53B16F00DEE3A0 /* FNNumber.m in Sources */,
 				D3166DEC1E53B18000DEE3A0 /* FNString.m in Sources */,

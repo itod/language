@@ -51,6 +51,8 @@ NSString * const XPErrorDomain = @"XPErrorDomain";
 NSString * const XPErrorRangeKey = @"range";
 NSString * const XPErrorLineNumberKey = @"line number";
 
+NSString * const XPDebugInfoFrameStackKey = @"frameStack";
+
 @interface XPInterpreter ()
 @property (nonatomic, retain) XPTreeWalker *treeWalker;
 @end
@@ -243,7 +245,12 @@ NSString * const XPErrorLineNumberKey = @"line number";
 #pragma mark XPTreeWalkerDelegate
 
 - (void)treeWalker:(XPTreeWalker *)w didPause:(NSDictionary *)debugInfo {
-    [self.debugDelegate interpreter:self didPause:debugInfo];
+    TDAssertMainThread();
+    TDAssert(_debug);
+    TDAssert(w == _treeWalker);
+
+    TDAssert(_debugDelegate);
+    [_debugDelegate interpreter:self didPause:debugInfo];
 }
 
 

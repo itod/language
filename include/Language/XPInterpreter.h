@@ -12,6 +12,8 @@ extern NSString * const XPErrorDomain;
 extern NSString * const XPErrorRangeKey;
 extern NSString * const XPErrorLineNumberKey;
 
+extern NSString * const XPDebugInfoFrameStackKey;
+
 @class XPGlobalScope;
 @class XPMemorySpace;
 @class XPNode;

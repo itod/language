@@ -30,7 +30,7 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker {
-    TDAssert([walker.contextStack count]);
+    TDAssert([walker.lexicalStack count]);
     XPMemorySpace *space = walker.globals;
     TDAssert([space isKindOfClass:[XPMemorySpace class]]);
     

@@ -568,7 +568,7 @@
     // PUSH MEMORY SPACE
     XPMemorySpace *savedCurrentSpace = self.currentSpace;
     TDAssert(savedCurrentSpace);
-    [self.contextStack addObject:savedCurrentSpace];
+    [self.lexicalStack addObject:savedCurrentSpace];
     
     self.currentSpace = funcSpace;
     XPMemorySpace *savedClosureSpace = self.closureSpace;
@@ -602,7 +602,7 @@
     // POP MEMORY SPACE
     self.closureSpace = savedClosureSpace;
     self.currentSpace = savedCurrentSpace;
-    [self.contextStack removeLastObject];
+    [self.lexicalStack removeLastObject];
     
     if (!result) {
         result = [XPObject nullObject];

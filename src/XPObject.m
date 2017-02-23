@@ -96,7 +96,7 @@
 
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@ %@>", [_objectClass class], _value];
+    return [NSString stringWithFormat:@"<%@ %@>", [_objectClass name], _value];
 }
 
 

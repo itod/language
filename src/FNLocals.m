@@ -30,8 +30,8 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker {
-    TDAssert([walker.contextStack count]);
-    XPMemorySpace *space = [walker.contextStack lastObject];
+    TDAssert([walker.lexicalStack count]);
+    XPMemorySpace *space = [walker.lexicalStack lastObject];
     TDAssert([space isKindOfClass:[XPMemorySpace class]]);
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:[space.members count]];
