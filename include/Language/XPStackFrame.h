@@ -11,7 +11,11 @@
 @class XPObject;
 
 @interface XPStackFrame : NSObject
+
+- (void)setMembers:(NSDictionary *)members;
+
 @property (nonatomic, copy) NSString *filename;
 @property (nonatomic, copy) NSString *functionName;
-@property (nonatomic, retain) NSDictionary <NSString *, XPObject *>*locals;
+@property (nonatomic, retain) NSArray *sortedLocalNames;
+@property (nonatomic, retain) NSArray *sortedLocalValues;
 @end

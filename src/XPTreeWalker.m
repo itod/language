@@ -115,11 +115,11 @@
     NSMutableArray *frameStack = [NSMutableArray arrayWithCapacity:c];
     [info setObject:frameStack forKey:XPDebugInfoFrameStackKey];
     
-    for (XPMemorySpace *space in self.callStack) {
+    for (XPMemorySpace *space in [self.callStack reverseObjectEnumerator]) {
         XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
         frame.filename = @"<FIXME.js>";
         frame.functionName = space.name;
-        frame.locals = [[space.members copy] autorelease];
+        [frame setMembers:space.members];
         
         [frameStack addObject:frame];
     }
@@ -129,7 +129,7 @@
         XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
         frame.filename = @"<FIXME.js>";
         frame.functionName = @"<global>";
-        frame.locals = [[self.globals.members copy] autorelease];
+        [frame setMembers:self.globals.members];
         
         [frameStack addObject:frame];
 
