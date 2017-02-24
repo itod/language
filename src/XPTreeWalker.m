@@ -110,35 +110,44 @@
 #pragma mark -
 #pragma mark Debug Info
 
-- (NSDictionary *)currentDebugInfo {
+- (NSMutableDictionary *)currentDebugInfo {
     TDAssert(_debug);
     TDAssert(_currentFilePath);
     
     NSMutableDictionary *info = [NSMutableDictionary dictionary];
-    
-    NSUInteger c = [self.callStack count];
-    
-    NSMutableArray *frameStack = [NSMutableArray arrayWithCapacity:c];
-    [info setObject:frameStack forKey:XPDebugInfoFrameStackKey];
-    
-    for (XPMemorySpace *space in [self.callStack reverseObjectEnumerator]) {
-        XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
-        frame.filename = _currentFilePath;
-        frame.functionName = space.name;
-        [frame setMembers:space.members];
-        
-        [frameStack addObject:frame];
-    }
-    
-    // add global space manually
-    {
-        XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
-        frame.filename = _currentFilePath;
-        frame.functionName = @"<global>";
-        [frame setMembers:self.globals.members];
-        
-        [frameStack addObject:frame];
 
+    // file path
+    {
+        TDAssert(_currentFilePath);
+        info[XPDebugInfoFilePathKey] = _currentFilePath;
+        
+    }
+
+    // frame stack
+    {
+        NSUInteger c = [self.callStack count];
+        
+        NSMutableArray *frameStack = [NSMutableArray arrayWithCapacity:c];
+        [info setObject:frameStack forKey:XPDebugInfoFrameStackKey];
+        
+        for (XPMemorySpace *space in [self.callStack reverseObjectEnumerator]) {
+            XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
+            frame.filename = _currentFilePath;
+            frame.functionName = space.name;
+            [frame setMembers:space.members];
+            
+            [frameStack addObject:frame];
+        }
+        
+        // add global space manually
+        {
+            XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
+            frame.filename = _currentFilePath;
+            frame.functionName = @"<global>";
+            [frame setMembers:self.globals.members];
+            
+            [frameStack addObject:frame];
+        }
     }
     
     return info;
@@ -157,7 +166,7 @@
     va_end(vargs);
 
     XPException *ex = [[[XPException alloc] initWithName:name reason:reason userInfo:nil] autorelease];
-    ex.lineNumber = node.token.lineNumber;
+    ex.lineNumber = node.lineNumber;
     ex.range = NSMakeRange(node.token.offset, [node.token.stringValue length]);
     [ex raise];
 }
@@ -293,24 +302,24 @@
 // no new mem space is necessary for func blocks. it's already been created and filled with args
 - (void)funcBlock:(XPNode *)node {
     TDAssert([_currentSpace isKindOfClass:[XPFunctionSpace class]]);
-    for (XPNode *stat in node.children) {
-        [self walk:stat];
-        
-        if (_debug) {
-            [self.delegate treeWalker:self didPause:[self currentDebugInfo]];
-        }
-    }
+    [self doWalkStats:node];
 }
 
 
 - (void)doWalkStats:(XPNode *)node {
     for (XPNode *stat in node.children) {
         if (_debug) {
-            NSUInteger lineNum = stat.token.lineNumber;
-            BOOL shouldPause = [self shouldPauseAtLineNumber:lineNum];
+            BOOL shouldPause = self.currentSpace.wantsPause;
+            NSUInteger lineNum = stat.lineNumber; // checks recursively
+            
+            if (!shouldPause) {
+                shouldPause = [self shouldPauseAtLineNumber:lineNum];
+            }
             
             if (shouldPause) {
-                [self.delegate treeWalker:self didPause:[self currentDebugInfo]];
+                NSMutableDictionary *info = [self currentDebugInfo];
+                info[XPDebugInfoLineNumberKey] = @(lineNum);
+                [self.delegate treeWalker:self didPause:info];
             }
         }
 

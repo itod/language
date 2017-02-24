@@ -23,6 +23,7 @@
 - (NSUInteger)childCount;
 
 - (BOOL)isNil;
+- (NSUInteger)lineNumber;
 
 @property (nonatomic, assign, readonly) NSUInteger type;
 @property (nonatomic, retain, readonly) NSString *name;

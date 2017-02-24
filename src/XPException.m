@@ -13,6 +13,7 @@ NSString * const XPExceptionSyntaxError = @"Syntax Error";
 NSString * const XPExceptionReservedWord = @"Reserved Word";
 
 // runtime
+NSString * const XPExceptionUserKill = @"User Killed Execution";
 NSString * const XPExceptionRuntimeError = @"Runtime Error";
 NSString * const XPExceptionRegexError = @"Regular Expression Error";
 NSString * const XPExceptionUndeclaredSymbol = @"Undeclared Symbol";

@@ -21,4 +21,7 @@
 @property (nonatomic, copy, readonly) NSString *name;
 @property (nonatomic, retain, readonly) XPMemorySpace *enclosingSpace;
 @property (nonatomic, retain, readonly) NSMutableDictionary<NSString *, XPObject *> *members;
+
+// DEBUG
+@property (nonatomic, assign) BOOL wantsPause;
 @end

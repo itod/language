@@ -110,6 +110,20 @@
 }
 
 
+- (NSUInteger)lineNumber {
+    NSUInteger lineNum = _token.lineNumber;
+    
+    if (NSNotFound == lineNum) {
+        for (XPNode *node in _kids) {
+            lineNum = [node lineNumber];
+            if (NSNotFound != lineNum) break;
+        }
+    }
+    
+    return lineNum;
+}
+
+
 #pragma mark -
 #pragma mark Child Access
 

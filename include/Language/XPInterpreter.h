@@ -13,6 +13,8 @@ extern NSString * const XPErrorRangeKey;
 extern NSString * const XPErrorLineNumberKey;
 
 extern NSString * const XPDebugInfoFrameStackKey;
+extern NSString * const XPDebugInfoFilePathKey;
+extern NSString * const XPDebugInfoLineNumberKey;
 
 @class XPGlobalScope;
 @class XPMemorySpace;

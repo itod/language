@@ -49,9 +49,11 @@
 
 NSString * const XPErrorDomain = @"XPErrorDomain";
 NSString * const XPErrorRangeKey = @"range";
-NSString * const XPErrorLineNumberKey = @"line number";
+NSString * const XPErrorLineNumberKey = @"lineNumber";
 
 NSString * const XPDebugInfoFrameStackKey = @"frameStack";
+NSString * const XPDebugInfoFilePathKey = @"filePath";
+NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 @interface XPInterpreter ()
 @property (nonatomic, retain) XPTreeWalker *treeWalker;
@@ -296,6 +298,8 @@ NSString * const XPDebugInfoFrameStackKey = @"frameStack";
     TDAssert(_treeWalker);
     TDAssert(_debugDelegate);
 
+    self.treeWalker.currentSpace.wantsPause = YES;
+    [self resume];
 }
 
 
@@ -305,6 +309,13 @@ NSString * const XPDebugInfoFrameStackKey = @"frameStack";
     TDAssert(_treeWalker);
     TDAssert(_debugDelegate);
     
+    self.treeWalker.currentSpace.wantsPause = NO;
+    
+    // TODO. must set wants pause on next called stack frame
+    TDAssert(0);
+    
+    
+    [self resume];
 }
 
 
@@ -314,6 +325,8 @@ NSString * const XPDebugInfoFrameStackKey = @"frameStack";
     TDAssert(_treeWalker);
     TDAssert(_debugDelegate);
     
+    self.treeWalker.currentSpace.wantsPause = NO;
+    [self resume];
 }
 
 

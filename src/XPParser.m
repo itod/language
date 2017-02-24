@@ -854,7 +854,7 @@
     [self match:XP_TOKEN_KIND_LINEFEED discard:YES]; 
     [self execute:^{
     
-    self.tokenizer.lineNumber++;
+    //self.tokenizer.lineNumber++;
 
     }];
 
