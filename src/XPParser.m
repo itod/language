@@ -12,10 +12,6 @@
 #import <Language/XPObject.h>
 #import <Language/XPFunctionClass.h>
 
-@interface PKTokenizer ()
-@property (nonatomic, readwrite) NSUInteger lineNumber;
-@end
-
 @interface PKParser ()
 - (void)raiseInRange:(NSRange)r lineNumber:(NSUInteger)lineNum name:(NSString *)name format:(NSString *)fmt, ...;
 @end
@@ -56,7 +52,6 @@
 @property (nonatomic, retain) NSMutableDictionary *funcItem_memo;
 @property (nonatomic, retain) NSMutableDictionary *localBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *stat_memo;
-@property (nonatomic, retain) NSMutableDictionary *lineFeed_memo;
 @property (nonatomic, retain) NSMutableDictionary *varDecl_memo;
 @property (nonatomic, retain) NSMutableDictionary *qid_memo;
 @property (nonatomic, retain) NSMutableDictionary *plusEq_memo;
@@ -235,7 +230,7 @@
         self.tokenKindTab[@"="] = @(XP_TOKEN_KIND_EQUALS);
         self.tokenKindTab[@"&"] = @(XP_TOKEN_KIND_BITAND);
         self.tokenKindTab[@">"] = @(XP_TOKEN_KIND_GT);
-        self.tokenKindTab[@"\n"] = @(XP_TOKEN_KIND_LINEFEED);
+        self.tokenKindTab[@"\n"] = @(XP_TOKEN_KIND__N);
         self.tokenKindTab[@"("] = @(XP_TOKEN_KIND_OPEN_PAREN);
         self.tokenKindTab[@"while"] = @(XP_TOKEN_KIND_WHILE);
         self.tokenKindTab[@"var"] = @(XP_TOKEN_KIND_VAR);
@@ -288,7 +283,7 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_EQUALS] = @"=";
         self.tokenKindNameTab[XP_TOKEN_KIND_BITAND] = @"&";
         self.tokenKindNameTab[XP_TOKEN_KIND_GT] = @">";
-        self.tokenKindNameTab[XP_TOKEN_KIND_LINEFEED] = @"\n";
+        self.tokenKindNameTab[XP_TOKEN_KIND__N] = @"\n";
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_PAREN] = @"(";
         self.tokenKindNameTab[XP_TOKEN_KIND_WHILE] = @"while";
         self.tokenKindNameTab[XP_TOKEN_KIND_VAR] = @"var";
@@ -325,7 +320,6 @@
         self.funcItem_memo = [NSMutableDictionary dictionary];
         self.localBlock_memo = [NSMutableDictionary dictionary];
         self.stat_memo = [NSMutableDictionary dictionary];
-        self.lineFeed_memo = [NSMutableDictionary dictionary];
         self.varDecl_memo = [NSMutableDictionary dictionary];
         self.qid_memo = [NSMutableDictionary dictionary];
         self.plusEq_memo = [NSMutableDictionary dictionary];
@@ -443,7 +437,6 @@
     self.funcItem_memo = nil;
     self.localBlock_memo = nil;
     self.stat_memo = nil;
-    self.lineFeed_memo = nil;
     self.varDecl_memo = nil;
     self.qid_memo = nil;
     self.plusEq_memo = nil;
@@ -537,7 +530,6 @@
     [_funcItem_memo removeAllObjects];
     [_localBlock_memo removeAllObjects];
     [_stat_memo removeAllObjects];
-    [_lineFeed_memo removeAllObjects];
     [_varDecl_memo removeAllObjects];
     [_qid_memo removeAllObjects];
     [_plusEq_memo removeAllObjects];
@@ -834,8 +826,8 @@
             [self raise:@"No viable alternative found in rule 'stat'."];
         }
     }
-    if ([self predicts:XP_TOKEN_KIND_LINEFEED, 0]) {
-        [self lineFeed_]; 
+    if ([self predicts:XP_TOKEN_KIND__N, 0]) {
+        [self match:XP_TOKEN_KIND__N discard:YES]; 
     } else if ([self predicts:XP_TOKEN_KIND_SEMI_COLON, 0]) {
         [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
     } else {
@@ -847,22 +839,6 @@
 
 - (void)stat_ {
     [self parseRule:@selector(__stat) withMemo:_stat_memo];
-}
-
-- (void)__lineFeed {
-    
-    [self match:XP_TOKEN_KIND_LINEFEED discard:YES]; 
-    [self execute:^{
-    
-    self.tokenizer.lineNumber++;
-
-    }];
-
-    [self fireDelegateSelector:@selector(parser:didMatchLineFeed:)];
-}
-
-- (void)lineFeed_ {
-    [self parseRule:@selector(__lineFeed) withMemo:_lineFeed_memo];
 }
 
 - (void)__varDecl {
