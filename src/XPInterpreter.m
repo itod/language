@@ -244,7 +244,7 @@ NSString * const XPDebugInfoFrameStackKey = @"frameStack";
 #pragma mark -
 #pragma mark XPTreeWalkerDelegate
 
-- (void)treeWalker:(XPTreeWalker *)w didPause:(NSDictionary *)debugInfo {
+- (void)treeWalker:(XPTreeWalker *)w didPause:(NSMutableDictionary *)debugInfo {
     TDAssertMainThread();
     TDAssert(_debug);
     TDAssert(w == _treeWalker);
