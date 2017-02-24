@@ -20,6 +20,7 @@
 @interface XPObject ()
 @property (nonatomic, retain, readwrite) XPClass *objectClass;
 @property (nonatomic, retain, readwrite) id value;
+@property (nonatomic, assign, readwrite) BOOL isNative;
 @end
 
 @implementation XPObject

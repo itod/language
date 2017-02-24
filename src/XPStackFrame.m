@@ -7,6 +7,7 @@
 //
 
 #import "XPStackFrame.h"
+#import "XPObject.h"
 
 @implementation XPStackFrame
 
@@ -27,15 +28,20 @@
 - (void)setMembers:(NSDictionary *)members {
     NSUInteger c = [members count];
 
+    NSMutableArray *allNames = [NSMutableArray arrayWithCapacity:c];
+    [allNames addObjectsFromArray:[members allKeys]];
+    [allNames sortUsingSelector:@selector(caseInsensitiveCompare:)];
+
     NSMutableArray *names = [NSMutableArray arrayWithCapacity:c];
-    [names addObjectsFromArray:[members allKeys]];
-    [names sortUsingSelector:@selector(caseInsensitiveCompare:)];
-    
     NSMutableArray *vals = [NSMutableArray arrayWithCapacity:c];
-    for (NSString *name in names) {
-        id val = members[name];
+    for (NSString *name in allNames) {
+        XPObject *val = members[name];
         TDAssert(val);
-        [vals addObject:val];
+        
+        if (!val.isNative) {
+            [names addObject:name];
+            [vals addObject:val];
+        }
     }
     
     self.sortedLocalNames = names;

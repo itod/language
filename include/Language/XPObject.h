@@ -49,4 +49,5 @@
 
 @property (nonatomic, retain, readonly) XPClass *objectClass;
 @property (nonatomic, retain, readonly) id value;
+@property (nonatomic, assign, readonly) BOOL isNative;
 @end

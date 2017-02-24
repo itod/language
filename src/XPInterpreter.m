@@ -16,6 +16,7 @@
 #import "XPTreeWalkerExec.h"
 #import "XPException.h"
 
+#import "XPObject.h"
 #import "XPFunctionClass.h"
 #import "XPFunctionSymbol.h"
 
@@ -54,6 +55,10 @@ NSString * const XPErrorLineNumberKey = @"lineNumber";
 NSString * const XPDebugInfoFrameStackKey = @"frameStack";
 NSString * const XPDebugInfoFilePathKey = @"filePath";
 NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
+
+@interface XPObject ()
+@property (nonatomic, assign, readwrite) BOOL isNative;
+@end
 
 @interface XPInterpreter ()
 @property (nonatomic, retain) XPTreeWalker *treeWalker;
@@ -252,6 +257,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     
     // define in memory
     XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
+    obj.isNative = YES;
+    
     TDAssert(_globals);
     [_globals setObject:obj forName:name];
 }
