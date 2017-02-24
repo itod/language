@@ -13,6 +13,7 @@
 @class XPGlobalScope;
 @class XPMemorySpace;
 @class XPTreeWalker;
+@class XPBreakpointCollection;
 
 @protocol XPTreeWalkerDelegate <NSObject>
 - (void)treeWalker:(XPTreeWalker *)w didPause:(NSDictionary *)debugInfo;
@@ -41,4 +42,6 @@
 
 @property (nonatomic, assign) id <XPTreeWalkerDelegate>delegate; // weakref
 @property (nonatomic, assign) BOOL debug;
+@property (nonatomic, retain) XPBreakpointCollection *breakpointCollection;
+@property (nonatomic, copy) NSString *currentFilePath;
 @end

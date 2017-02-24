@@ -81,8 +81,21 @@ NSString * const XPDebugInfoFrameStackKey = @"frameStack";
 }
 
 
+- (BOOL)interpretFileAtPath:(NSString *)path error:(NSError **)outErr {
+    TDAssert([path length]);
+    
+    NSError *err = nil;
+    NSString *src = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
+    if (!src) {
+        if (outErr) *outErr = err;
+        return NO;
+    }
+    
+    return [self interpretString:src filePath:path error:outErr];
+}
 
-- (BOOL)interpretString:(NSString *)input error:(NSError **)outErr {
+
+- (BOOL)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr {
     self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
     self.globals = [[[XPMemorySpace alloc] initWithName:@"globals" enclosingSpace:nil] autorelease];       // global memory;
     
@@ -155,10 +168,11 @@ NSString * const XPDebugInfoFrameStackKey = @"frameStack";
             self.treeWalker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
             _treeWalker.globals = _globals;
             _treeWalker.debug = _debug;
+            _treeWalker.currentFilePath = path ? path : @"<main>";
             [_treeWalker walk:_root];
             
             if (_debug) {
-                [self.debugDelegate interpreter:self didFinish:@{}];
+                [self.debugDelegate interpreter:self didFinish:[[@{} mutableCopy] autorelease]];
             }
         } @catch (XPException *ex) {
             success = NO;
@@ -174,7 +188,7 @@ NSString * const XPDebugInfoFrameStackKey = @"frameStack";
             }
             
             if (_debug) {
-                [self.debugDelegate interpreter:self didFail:@{}];
+                [self.debugDelegate interpreter:self didFail:[[@{} mutableCopy] autorelease]];
             }
 
         } @finally {

@@ -13,6 +13,10 @@
 		D309BCD71E5FA0EE002B3199 /* XPStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = D309BCD51E5FA0EE002B3199 /* XPStackFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D309BCDA1E5FA104002B3199 /* XPStackFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = D309BCD91E5FA104002B3199 /* XPStackFrame.m */; };
 		D309BCDC1E5FA17B002B3199 /* XPObject.h in Headers */ = {isa = PBXBuildFile; fileRef = D309BCDB1E5FA17B002B3199 /* XPObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D309BCE01E60AABB002B3199 /* XPBreakpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = D309BCDE1E60AABB002B3199 /* XPBreakpoint.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D309BCE11E60AABB002B3199 /* XPBreakpointCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = D309BCDF1E60AABB002B3199 /* XPBreakpointCollection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D309BCE41E60AAD5002B3199 /* XPBreakpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = D309BCE21E60AAD5002B3199 /* XPBreakpoint.m */; };
+		D309BCE51E60AAD5002B3199 /* XPBreakpointCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = D309BCE31E60AAD5002B3199 /* XPBreakpointCollection.m */; };
 		D30C5C5F1E4508F1001A6F5D /* XPFuncLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D30C5C5D1E4508DC001A6F5D /* XPFuncLiteralTests.m */; };
 		D3166DD81E53989300DEE3A0 /* FNCount.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166DD61E53989300DEE3A0 /* FNCount.h */; };
 		D3166DD91E53989300DEE3A0 /* FNCount.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166DD71E53989300DEE3A0 /* FNCount.m */; };
@@ -168,6 +172,10 @@
 		D309BCD51E5FA0EE002B3199 /* XPStackFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPStackFrame.h; path = include/Language/XPStackFrame.h; sourceTree = SOURCE_ROOT; };
 		D309BCD91E5FA104002B3199 /* XPStackFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPStackFrame.m; path = src/XPStackFrame.m; sourceTree = SOURCE_ROOT; };
 		D309BCDB1E5FA17B002B3199 /* XPObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPObject.h; path = include/Language/XPObject.h; sourceTree = SOURCE_ROOT; };
+		D309BCDE1E60AABB002B3199 /* XPBreakpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPBreakpoint.h; path = include/Language/XPBreakpoint.h; sourceTree = SOURCE_ROOT; };
+		D309BCDF1E60AABB002B3199 /* XPBreakpointCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPBreakpointCollection.h; path = include/Language/XPBreakpointCollection.h; sourceTree = SOURCE_ROOT; };
+		D309BCE21E60AAD5002B3199 /* XPBreakpoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPBreakpoint.m; path = src/XPBreakpoint.m; sourceTree = SOURCE_ROOT; };
+		D309BCE31E60AAD5002B3199 /* XPBreakpointCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPBreakpointCollection.m; path = src/XPBreakpointCollection.m; sourceTree = SOURCE_ROOT; };
 		D30C5C5D1E4508DC001A6F5D /* XPFuncLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFuncLiteralTests.m; path = test/XPFuncLiteralTests.m; sourceTree = SOURCE_ROOT; };
 		D3166DD61E53989300DEE3A0 /* FNCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNCount.h; path = src/FNCount.h; sourceTree = SOURCE_ROOT; };
 		D3166DD71E53989300DEE3A0 /* FNCount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNCount.m; path = src/FNCount.m; sourceTree = SOURCE_ROOT; };
@@ -357,8 +365,7 @@
 				D368A0071E3BE383005783BB /* XPParser.m */,
 				D37316AD1E3EBDE20034798E /* XPInterpreter.h */,
 				D37316AA1E3EBDD20034798E /* XPInterpreter.m */,
-				D309BCD51E5FA0EE002B3199 /* XPStackFrame.h */,
-				D309BCD91E5FA104002B3199 /* XPStackFrame.m */,
+				D309BCE61E60AB42002B3199 /* Debug */,
 				D37CE4B41E4CF2730008945E /* Object */,
 				D32E70BB1E5365CF00728D80 /* Functions */,
 				D37316DE1E3FA9A10034798E /* Tree */,
@@ -385,6 +392,19 @@
 			);
 			name = Tests;
 			path = LanguageTests;
+			sourceTree = "<group>";
+		};
+		D309BCE61E60AB42002B3199 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				D309BCD51E5FA0EE002B3199 /* XPStackFrame.h */,
+				D309BCD91E5FA104002B3199 /* XPStackFrame.m */,
+				D309BCDE1E60AABB002B3199 /* XPBreakpoint.h */,
+				D309BCE21E60AAD5002B3199 /* XPBreakpoint.m */,
+				D309BCDF1E60AABB002B3199 /* XPBreakpointCollection.h */,
+				D309BCE31E60AAD5002B3199 /* XPBreakpointCollection.m */,
+			);
+			name = Debug;
 			sourceTree = "<group>";
 		};
 		D3166DDC1E53997700DEE3A0 /* Func */ = {
@@ -691,6 +711,7 @@
 				D3166E071E53F6DB00DEE3A0 /* FNLowercase.h in Headers */,
 				D3166E691E579FDE00DEE3A0 /* FNLocals.h in Headers */,
 				D309BCD31E5CF841002B3199 /* XPTreeWalker.h in Headers */,
+				D309BCE01E60AABB002B3199 /* XPBreakpoint.h in Headers */,
 				D305629D1E3BD929008BEC9A /* Language.h in Headers */,
 				D37316E51E3FAB140034798E /* XPTreeWalkerExec.h in Headers */,
 				D37CE4AE1E4CE4500008945E /* XPClass.h in Headers */,
@@ -714,6 +735,7 @@
 				D3A7F2851E4D7A8A00C7099B /* XPStringClass.h in Headers */,
 				D3A7F2901E511E3200C7099B /* XPNullClass.h in Headers */,
 				D3166E271E54CB6000DEE3A0 /* FNTrim.h in Headers */,
+				D309BCE11E60AABB002B3199 /* XPBreakpointCollection.h in Headers */,
 				D3A7F27D1E4D71CC00C7099B /* XPBooleanClass.h in Headers */,
 				D3DF58BA1E429C6F006CAA07 /* XPScopedSymbol.h in Headers */,
 				D3166E201E54C76200DEE3A0 /* FNIsNan.h in Headers */,
@@ -838,6 +860,7 @@
 				D3A7F2861E4D7A8A00C7099B /* XPStringClass.m in Sources */,
 				D3166E391E54E4CE00DEE3A0 /* FNFilter.m in Sources */,
 				D368A0091E3BE383005783BB /* XPParser.m in Sources */,
+				D309BCE51E60AAD5002B3199 /* XPBreakpointCollection.m in Sources */,
 				D37CE4AB1E4CE4470008945E /* XPObject.m in Sources */,
 				D37316AC1E3EBDD20034798E /* XPInterpreter.m in Sources */,
 				D37316BB1E3EBF980034798E /* XPVariableSymbol.m in Sources */,
@@ -863,6 +886,7 @@
 				D3166E191E54BD4F00DEE3A0 /* FNReplace.m in Sources */,
 				D3A7F29B1E512E6D00C7099B /* XPDictionaryClass.m in Sources */,
 				D3166E281E54CBB200DEE3A0 /* FNTrim.m in Sources */,
+				D309BCE41E60AAD5002B3199 /* XPBreakpoint.m in Sources */,
 				D3166DF21E53B23500DEE3A0 /* FNType.m in Sources */,
 				D37CE4B31E4CE6940008945E /* XPArrayClass.m in Sources */,
 				D37316D01E3EC4E50034798E /* XPLocalScope.m in Sources */,

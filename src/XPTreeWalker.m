@@ -15,6 +15,9 @@
 #import "XPInterpreter.h"
 #import "XPStackFrame.h"
 
+#import <Language/XPBreakpoint.h>
+#import <Language/XPBreakpointCollection.h>
+
 @implementation XPTreeWalker
 
 - (instancetype)init {
@@ -35,13 +38,15 @@
 
 
 - (void)dealloc {
-    self.delegate = nil;
     self.globalScope = nil;
     self.globals = nil;
     self.currentSpace = nil;
     self.closureSpace = nil;
     self.callStack = nil;
     self.lexicalStack = nil;
+    self.delegate = nil;
+    self.breakpointCollection = nil;
+    self.currentFilePath = nil;
     
     [super dealloc];
 }
@@ -107,6 +112,7 @@
 
 - (NSDictionary *)currentDebugInfo {
     TDAssert(_debug);
+    TDAssert(_currentFilePath);
     
     NSMutableDictionary *info = [NSMutableDictionary dictionary];
     
@@ -117,7 +123,7 @@
     
     for (XPMemorySpace *space in [self.callStack reverseObjectEnumerator]) {
         XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
-        frame.filename = @"<FIXME.js>";
+        frame.filename = _currentFilePath;
         frame.functionName = space.name;
         [frame setMembers:space.members];
         
@@ -127,7 +133,7 @@
     // add global space manually
     {
         XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
-        frame.filename = @"<FIXME.js>";
+        frame.filename = _currentFilePath;
         frame.functionName = @"<global>";
         [frame setMembers:self.globals.members];
         
@@ -277,13 +283,8 @@
         [_currentSpace setObject:obj forName:name];
     }
     
-    for (XPNode *stat in node.children) {
-        [self walk:stat];
-        
-        if (_debug) {
-            [self.delegate treeWalker:self didPause:[self currentDebugInfo]];
-        }
-    }
+    
+    [self doWalkStats:node];
     
     self.currentSpace = savedSpace;
 }
@@ -299,6 +300,40 @@
             [self.delegate treeWalker:self didPause:[self currentDebugInfo]];
         }
     }
+}
+
+
+- (void)doWalkStats:(XPNode *)node {
+    for (XPNode *stat in node.children) {
+        if (_debug) {
+            NSUInteger lineNum = stat.token.lineNumber;
+            BOOL shouldPause = [self shouldPauseAtLineNumber:lineNum];
+            
+            if (shouldPause) {
+                [self.delegate treeWalker:self didPause:[self currentDebugInfo]];
+            }
+        }
+
+        [self walk:stat];
+    }
+}
+
+
+- (BOOL)shouldPauseAtLineNumber:(NSUInteger)lineNum {
+    TDAssert(_debug);
+    
+    BOOL res = NO;
+    
+    TDAssert(_currentFilePath);
+    for (XPBreakpoint *bp in [_breakpointCollection breakpointsForFile:_currentFilePath]) {
+        if (lineNum == bp.lineNumber) {
+            res = YES;
+            break;
+        }
+    }
+    
+    return YES; // TODO
+    return res;
 }
 
 

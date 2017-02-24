@@ -53,7 +53,7 @@
 
 - (void)eval:(NSString *)input {
     NSError *err = nil;
-    [self.interp interpretString:input error:&err];
+    [self.interp interpretString:input filePath:nil error:&err];
     TDNil(err);
     self.error = err;
 }
@@ -61,7 +61,7 @@
 
 - (void)fail:(NSString *)input {
     NSError *err = nil;
-    [self.interp interpretString:input error:&err];
+    [self.interp interpretString:input filePath:nil error:&err];
     TDNotNil(err);
     self.error = err;
 }

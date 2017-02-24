@@ -19,19 +19,20 @@ extern NSString * const XPDebugInfoFrameStackKey;
 @class XPNode;
 @class XPParser;
 
-@class OKBreakpointCollection;
+@class XPBreakpointCollection;
 
 @class XPInterpreter;
 
 @protocol XPInterpreterDebugDelegate <NSObject>
-- (void)interpreter:(XPInterpreter *)i didPause:(NSDictionary *)debugInfo;
-- (void)interpreter:(XPInterpreter *)i didFinish:(NSDictionary *)debugInfo;
-- (void)interpreter:(XPInterpreter *)i didFail:(NSDictionary *)debugInfo;
+- (void)interpreter:(XPInterpreter *)i didPause:(NSMutableDictionary *)debugInfo;
+- (void)interpreter:(XPInterpreter *)i didFinish:(NSMutableDictionary *)debugInfo;
+- (void)interpreter:(XPInterpreter *)i didFail:(NSMutableDictionary *)debugInfo;
 @end
 
 @interface XPInterpreter : NSObject <XPTreeWalkerDelegate>
 
-- (BOOL)interpretString:(NSString *)input error:(NSError **)outErr;
+- (BOOL)interpretFileAtPath:(NSString *)path error:(NSError **)outErr;
+- (BOOL)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr;
 
 @property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, retain) XPMemorySpace *globals;
@@ -40,7 +41,7 @@ extern NSString * const XPDebugInfoFrameStackKey;
 
 // debug
 @property (nonatomic, assign) BOOL debug;
-@property (nonatomic, retain) OKBreakpointCollection *breakpointCollection;
+@property (nonatomic, retain) XPBreakpointCollection *breakpointCollection;
 @property (nonatomic, assign) id <XPInterpreterDebugDelegate>debugDelegate; // weakref
 
 - (void)stepOver; // next
