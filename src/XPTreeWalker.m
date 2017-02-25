@@ -334,6 +334,7 @@
     BOOL res = NO;
     
     TDAssert(_currentFilePath);
+    TDAssert(_breakpointCollection)
     for (XPBreakpoint *bp in [_breakpointCollection breakpointsForFile:_currentFilePath]) {
         if (lineNum == bp.lineNumber) {
             res = YES;
@@ -341,7 +342,6 @@
         }
     }
     
-    return YES; // TODO
     return res;
 }
 

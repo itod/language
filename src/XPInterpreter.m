@@ -52,6 +52,8 @@ NSString * const XPErrorDomain = @"XPErrorDomain";
 NSString * const XPErrorRangeKey = @"range";
 NSString * const XPErrorLineNumberKey = @"lineNumber";
 
+NSString * const XPDebugInfoErrorKey = @"error";
+NSString * const XPDebugInfoReturnCodeKey = @"returnCode";
 NSString * const XPDebugInfoFrameStackKey = @"frameStack";
 NSString * const XPDebugInfoFilePathKey = @"filePath";
 NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
@@ -175,11 +177,13 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             self.treeWalker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
             _treeWalker.globals = _globals;
             _treeWalker.debug = _debug;
+            _treeWalker.breakpointCollection = _breakpointCollection;
             _treeWalker.currentFilePath = path ? path : @"<main>";
             [_treeWalker walk:_root];
             
             if (_debug) {
-                [self.debugDelegate interpreter:self didFinish:[[@{} mutableCopy] autorelease]];
+                NSMutableDictionary *info = [NSMutableDictionary dictionaryWithObjectsAndKeys:@0, XPDebugInfoReturnCodeKey, nil];
+                [self.debugDelegate interpreter:self didFinish:info];
             }
         } @catch (XPException *ex) {
             success = NO;
@@ -195,7 +199,12 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             }
             
             if (_debug) {
-                [self.debugDelegate interpreter:self didFail:[[@{} mutableCopy] autorelease]];
+                NSMutableDictionary *info = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                             @1, XPDebugInfoReturnCodeKey,
+                                             *outErr, XPDebugInfoErrorKey,
+                                             nil];
+
+                [self.debugDelegate interpreter:self didFail:info];
             }
 
         } @finally {
@@ -305,6 +314,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     TDAssert(_treeWalker);
     TDAssert(_debugDelegate);
 
+    self.treeWalker.wantsPauseOnCall = NO;
     self.treeWalker.currentSpace.wantsPause = YES;
     [self resume];
 }
@@ -316,7 +326,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     TDAssert(_treeWalker);
     TDAssert(_debugDelegate);
     
-    self.treeWalker.currentSpace.wantsPause = NO;
+    self.treeWalker.wantsPauseOnCall = YES;
+    self.treeWalker.currentSpace.wantsPause = YES;
     
     // TODO. must set wants pause on next called stack frame
     TDAssert(0);
@@ -332,6 +343,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     TDAssert(_treeWalker);
     TDAssert(_debugDelegate);
     
+    self.treeWalker.wantsPauseOnCall = NO;
     self.treeWalker.currentSpace.wantsPause = NO;
     [self resume];
 }

@@ -12,6 +12,7 @@ extern NSString * const XPErrorDomain;
 extern NSString * const XPErrorRangeKey;
 extern NSString * const XPErrorLineNumberKey;
 
+extern NSString * const XPDebugInfoReturnCodeKey;
 extern NSString * const XPDebugInfoFrameStackKey;
 extern NSString * const XPDebugInfoFilePathKey;
 extern NSString * const XPDebugInfoLineNumberKey;
@@ -42,8 +43,8 @@ extern NSString * const XPDebugInfoLineNumberKey;
 @property (nonatomic, retain) XPParser *parser;
 
 // debug
-@property (nonatomic, assign) BOOL debug;
-@property (nonatomic, retain) XPBreakpointCollection *breakpointCollection;
+@property (assign) BOOL debug;
+@property (retain) XPBreakpointCollection *breakpointCollection;
 @property (nonatomic, assign) id <XPInterpreterDebugDelegate>debugDelegate; // weakref
 
 - (void)stepOver; // next

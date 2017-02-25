@@ -525,6 +525,7 @@
     }
 
     XPFunctionSpace *funcSpace = [XPFunctionSpace functionSpaceWithSymbol:funcSym];
+    funcSpace.wantsPause = self.wantsPauseOnCall;
 
     // APPLY DEFAULT PARAMS
     {

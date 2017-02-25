@@ -42,6 +42,7 @@
 
 @property (nonatomic, assign) id <XPTreeWalkerDelegate>delegate; // weakref
 @property (nonatomic, assign) BOOL debug;
+@property (nonatomic, assign) BOOL wantsPauseOnCall;
 @property (nonatomic, retain) XPBreakpointCollection *breakpointCollection;
 @property (nonatomic, copy) NSString *currentFilePath;
 @end
