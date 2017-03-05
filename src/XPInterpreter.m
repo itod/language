@@ -361,4 +361,14 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     
 }
 
+
+- (void)print:(NSString *)exprStr {
+    TDAssertMainThread();
+    TDAssert(_debug);
+    TDAssert(_treeWalker);
+    TDAssert(_debugDelegate);
+    
+    TDAssert(0);
+}
+
 @end

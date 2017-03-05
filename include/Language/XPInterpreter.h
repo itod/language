@@ -54,5 +54,6 @@ extern NSString * const XPDebugInfoLineNumberKey;
 - (void)stepIn; // step
 - (void)cont; // continue
 - (void)finish; // return
+- (void)print:(NSString *)exprStr;
 
 @end
