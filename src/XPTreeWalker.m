@@ -42,6 +42,8 @@
     self.globals = nil;
     self.currentSpace = nil;
     self.closureSpace = nil;
+    self.stdOut = nil;
+    self.stdErr = nil;
     self.callStack = nil;
     self.lexicalStack = nil;
     self.delegate = nil;
@@ -336,7 +338,7 @@
     TDAssert(_currentFilePath);
     TDAssert(_breakpointCollection)
     for (XPBreakpoint *bp in [_breakpointCollection breakpointsForFile:_currentFilePath]) {
-        if (lineNum == bp.lineNumber) {
+        if (bp.enabled && lineNum == bp.lineNumber) {
             res = YES;
             break;
         }

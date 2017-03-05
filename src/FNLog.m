@@ -1,18 +1,19 @@
 //
-//  FNPrint.m
+//  FNLog.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "FNPrint.h"
+#import "FNLog.h"
 #import "XPObject.h"
 #import "XPFunctionSymbol.h"
 #import "XPTreeWalker.h"
 #import "XPMemorySpace.h"
+#import "XPException.h"
 
-@implementation FNPrint
+@implementation FNLog
 
 + (NSString *)name {
     return @"log";
@@ -41,6 +42,8 @@
     TDAssert(obj);
     
     NSString *str = [obj stringValue];
+    [walker.stdOut writeData:[[NSString stringWithFormat:@"%@\n", str] dataUsingEncoding:NSUTF8StringEncoding]];
+    
     NSLog(@"%@", str);
     return nil;
 }

@@ -26,7 +26,7 @@
 #import "FNType.h"
 
 #import "FNAssert.h"
-#import "FNPrint.h"
+#import "FNLog.h"
 
 #import "FNCount.h"
 #import "FNPosition.h"
@@ -83,6 +83,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     self.parser = nil;
     self.breakpointCollection = nil;
     self.debugDelegate = nil;
+    self.stdOut = nil;
+    self.stdErr = nil;
     
     self.treeWalker = nil;
     
@@ -118,7 +120,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
         // util
         [self declareNativeFunction:[FNAssert class]];
-        [self declareNativeFunction:[FNPrint class]];
+        [self declareNativeFunction:[FNLog class]];
         
         // seq
         [self declareNativeFunction:[FNCount class]];
@@ -176,6 +178,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         @try {
             self.treeWalker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
             _treeWalker.globals = _globals;
+            _treeWalker.stdOut = _stdOut;
+            _treeWalker.stdErr = _stdErr;
             _treeWalker.debug = _debug;
             _treeWalker.breakpointCollection = _breakpointCollection;
             _treeWalker.currentFilePath = path ? path : @"<main>";

@@ -1,5 +1,5 @@
 //
-//  FNPrint.h
+//  FNLog.h
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
@@ -8,6 +8,6 @@
 
 #import "XPFunctionBody.h"
 
-@interface FNPrint : XPFunctionBody
+@interface FNLog : XPFunctionBody
 
 @end

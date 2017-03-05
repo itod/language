@@ -42,6 +42,9 @@ extern NSString * const XPDebugInfoLineNumberKey;
 @property (nonatomic, retain) XPNode *root;               // the AST represents our code memory
 @property (nonatomic, retain) XPParser *parser;
 
+@property (nonatomic, retain) NSFileHandle *stdOut;
+@property (nonatomic, retain) NSFileHandle *stdErr;
+
 // debug
 @property (assign) BOOL debug;
 @property (retain) XPBreakpointCollection *breakpointCollection;

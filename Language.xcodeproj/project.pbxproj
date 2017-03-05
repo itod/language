@@ -20,8 +20,8 @@
 		D30C5C5F1E4508F1001A6F5D /* XPFuncLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D30C5C5D1E4508DC001A6F5D /* XPFuncLiteralTests.m */; };
 		D3166DD81E53989300DEE3A0 /* FNCount.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166DD61E53989300DEE3A0 /* FNCount.h */; };
 		D3166DD91E53989300DEE3A0 /* FNCount.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166DD71E53989300DEE3A0 /* FNCount.m */; };
-		D3166DDF1E53B03300DEE3A0 /* FNPrint.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166DDD1E53B03300DEE3A0 /* FNPrint.h */; };
-		D3166DE01E53B03300DEE3A0 /* FNPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166DDE1E53B03300DEE3A0 /* FNPrint.m */; };
+		D3166DDF1E53B03300DEE3A0 /* FNLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166DDD1E53B03300DEE3A0 /* FNLog.h */; };
+		D3166DE01E53B03300DEE3A0 /* FNLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166DDE1E53B03300DEE3A0 /* FNLog.m */; };
 		D3166DE31E53B0C400DEE3A0 /* FNBoolean.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166DE11E53B0C400DEE3A0 /* FNBoolean.h */; };
 		D3166DE41E53B0C400DEE3A0 /* FNBoolean.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166DE21E53B0C400DEE3A0 /* FNBoolean.m */; };
 		D3166DE71E53B16F00DEE3A0 /* FNNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166DE51E53B16F00DEE3A0 /* FNNumber.h */; };
@@ -180,8 +180,8 @@
 		D3166DD61E53989300DEE3A0 /* FNCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNCount.h; path = src/FNCount.h; sourceTree = SOURCE_ROOT; };
 		D3166DD71E53989300DEE3A0 /* FNCount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNCount.m; path = src/FNCount.m; sourceTree = SOURCE_ROOT; };
 		D3166DDA1E53997100DEE3A0 /* FNSequenceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNSequenceTests.m; path = test/FNSequenceTests.m; sourceTree = SOURCE_ROOT; };
-		D3166DDD1E53B03300DEE3A0 /* FNPrint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNPrint.h; path = src/FNPrint.h; sourceTree = SOURCE_ROOT; };
-		D3166DDE1E53B03300DEE3A0 /* FNPrint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNPrint.m; path = src/FNPrint.m; sourceTree = SOURCE_ROOT; };
+		D3166DDD1E53B03300DEE3A0 /* FNLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNLog.h; path = src/FNLog.h; sourceTree = SOURCE_ROOT; };
+		D3166DDE1E53B03300DEE3A0 /* FNLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNLog.m; path = src/FNLog.m; sourceTree = SOURCE_ROOT; };
 		D3166DE11E53B0C400DEE3A0 /* FNBoolean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNBoolean.h; path = src/FNBoolean.h; sourceTree = SOURCE_ROOT; };
 		D3166DE21E53B0C400DEE3A0 /* FNBoolean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNBoolean.m; path = src/FNBoolean.m; sourceTree = SOURCE_ROOT; };
 		D3166DE51E53B16F00DEE3A0 /* FNNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNNumber.h; path = src/FNNumber.h; sourceTree = SOURCE_ROOT; };
@@ -478,8 +478,8 @@
 		D3166E2E1E54E13700DEE3A0 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				D3166DDD1E53B03300DEE3A0 /* FNPrint.h */,
-				D3166DDE1E53B03300DEE3A0 /* FNPrint.m */,
+				D3166DDD1E53B03300DEE3A0 /* FNLog.h */,
+				D3166DDE1E53B03300DEE3A0 /* FNLog.m */,
 				D3166DF71E53B7D000DEE3A0 /* FNAssert.h */,
 				D3166DF81E53B7D000DEE3A0 /* FNAssert.m */,
 				D3166DFD1E53B9A900DEE3A0 /* FNCopy.h */,
@@ -688,7 +688,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3166DDF1E53B03300DEE3A0 /* FNPrint.h in Headers */,
+				D3166DDF1E53B03300DEE3A0 /* FNLog.h in Headers */,
 				D3166DF11E53B23500DEE3A0 /* FNType.h in Headers */,
 				D3DF58C61E42F346006CAA07 /* XPFunctionSpace.h in Headers */,
 				D37316AE1E3EBDE20034798E /* XPInterpreter.h in Headers */,
@@ -899,7 +899,7 @@
 				D37316E61E3FAB140034798E /* XPTreeWalkerExec.m in Sources */,
 				D3DF58BF1E429E45006CAA07 /* XPFunctionSymbol.m in Sources */,
 				D3166DE41E53B0C400DEE3A0 /* FNBoolean.m in Sources */,
-				D3166DE01E53B03300DEE3A0 /* FNPrint.m in Sources */,
+				D3166DE01E53B03300DEE3A0 /* FNLog.m in Sources */,
 				D37316A21E3EBD4B0034798E /* XPNode.m in Sources */,
 				D3166DD91E53989300DEE3A0 /* FNCount.m in Sources */,
 				D3DF58BB1E429C6F006CAA07 /* XPScopedSymbol.m in Sources */,
