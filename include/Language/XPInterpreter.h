@@ -28,8 +28,8 @@ extern NSString * const XPDebugInfoLineNumberKey;
 
 @protocol XPInterpreterDebugDelegate <NSObject>
 - (void)interpreter:(XPInterpreter *)i didPause:(NSMutableDictionary *)debugInfo;
-- (void)interpreter:(XPInterpreter *)i didFinish:(NSMutableDictionary *)debugInfo;
-- (void)interpreter:(XPInterpreter *)i didFail:(NSMutableDictionary *)debugInfo;
+//- (void)interpreter:(XPInterpreter *)i didFinish:(NSMutableDictionary *)debugInfo;
+//- (void)interpreter:(XPInterpreter *)i didFail:(NSMutableDictionary *)debugInfo;
 @end
 
 @interface XPInterpreter : NSObject <XPTreeWalkerDelegate>

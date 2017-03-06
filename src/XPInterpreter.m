@@ -27,6 +27,7 @@
 
 #import "FNAssert.h"
 #import "FNLog.h"
+#import "FNCopy.h"
 
 #import "FNCount.h"
 #import "FNPosition.h"
@@ -125,6 +126,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         // util
         [self declareNativeFunction:[FNAssert class]];
         [self declareNativeFunction:[FNLog class]];
+        [self declareNativeFunction:[FNCopy class]];
         
         // seq
         [self declareNativeFunction:[FNCount class]];
@@ -189,10 +191,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             _treeWalker.currentFilePath = path ? path : @"<main>";
             [_treeWalker walk:_root];
             
-            if (_debug) {
-                NSMutableDictionary *info = [NSMutableDictionary dictionaryWithObjectsAndKeys:@0, XPDebugInfoReturnCodeKey, nil];
-                [self.debugDelegate interpreter:self didFinish:info];
-            }
+//            NSMutableDictionary *info = [NSMutableDictionary dictionaryWithObjectsAndKeys:@0, XPDebugInfoReturnCodeKey, nil];
+//            [self.debugDelegate interpreter:self didFinish:info];
         } @catch (XPException *ex) {
             success = NO;
             if (outErr) {
@@ -206,14 +206,12 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
                 [ex raise];
             }
             
-            if (_debug) {
-                NSMutableDictionary *info = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                             @1, XPDebugInfoReturnCodeKey,
-                                             *outErr, XPDebugInfoErrorKey,
-                                             nil];
-
-                [self.debugDelegate interpreter:self didFail:info];
-            }
+//            NSMutableDictionary *info = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+//                                         @1, XPDebugInfoReturnCodeKey,
+//                                         *outErr, XPDebugInfoErrorKey,
+//                                         nil];
+//
+//            [self.debugDelegate interpreter:self didFail:info];
 
         } @finally {
             self.treeWalker = nil;
@@ -337,10 +335,6 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     self.treeWalker.wantsPauseOnCall = YES;
     self.treeWalker.currentSpace.wantsPause = YES;
     
-    // TODO. must set wants pause on next called stack frame
-    TDAssert(0);
-    
-    
     [self resume];
 }
 
@@ -396,7 +390,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     }
     
     XPObject *obj = [interp.globals objectForName:DEBUG_VAR_NAME];
-    NSString *res = [NSString stringWithFormat:@"\n%@", [obj stringValue]];
+    NSString *res = [NSString stringWithFormat:@"\n%@\n", [obj stringValue]];
     
     TDAssert(_stdOut);
     [_stdOut writeData:[res dataUsingEncoding:NSUTF8StringEncoding]];
