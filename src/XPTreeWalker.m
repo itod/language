@@ -134,7 +134,7 @@
         
         for (XPMemorySpace *space in [self.callStack reverseObjectEnumerator]) {
             XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
-            frame.filename = _currentFilePath;
+            frame.filePath = _currentFilePath;
             frame.functionName = space.name;
             [frame setMembers:space.members];
             
@@ -144,7 +144,7 @@
         // add global space manually
         {
             XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
-            frame.filename = _currentFilePath;
+            frame.filePath = _currentFilePath;
             frame.functionName = @"<global>";
             [frame setMembers:self.globals.members];
             

@@ -14,7 +14,7 @@
 
 - (void)setMembers:(NSDictionary *)members;
 
-@property (nonatomic, copy) NSString *filename;
+@property (nonatomic, copy) NSString *filePath;
 @property (nonatomic, copy) NSString *functionName;
 @property (nonatomic, retain) NSArray *sortedLocalNames;
 @property (nonatomic, retain) NSArray *sortedLocalValues;

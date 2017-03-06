@@ -12,7 +12,7 @@
 @implementation XPStackFrame
 
 - (void)dealloc {
-    self.filename = nil;
+    self.filePath = nil;
     self.functionName = nil;
     self.sortedLocalNames = nil;
     self.sortedLocalValues = nil;
@@ -21,7 +21,7 @@
 
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@ %@:%@ %ld>", [self class], self.filename, self.functionName, [self.sortedLocalNames count]];
+    return [NSString stringWithFormat:@"<%@ %@:%@ %ld>", [self class], [self.filePath lastPathComponent], self.functionName, [self.sortedLocalNames count]];
 }
 
 
