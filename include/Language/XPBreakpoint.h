@@ -16,7 +16,7 @@
 
 + (instancetype)fromPlist:(NSDictionary *)plist;
 - (instancetype)initFromPlist:(NSDictionary *)plist;
-- (NSDictionary *)asPlist;
+- (NSMutableDictionary *)asPlist;
 
 - (NSString *)displayString;
 

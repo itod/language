@@ -59,15 +59,16 @@
 }
 
 
-- (NSDictionary *)asPlist {
+- (NSMutableDictionary *)asPlist {
     TDAssert(_file);
     TDAssert(_name);
-    return @{@"type": @(_type),
-             @"file": _file,
-             @"name": _name,
-             @"lineNumber": @(_lineNumber),
-             @"enabled": @(_enabled),
-             };
+    return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            @(_type), @"type",
+            _file, @"file",
+            _name, @"name",
+            @(_lineNumber), @"lineNumber",
+            @(_enabled), @"enabled",
+            nil];
 }
 
 
