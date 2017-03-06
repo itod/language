@@ -18,6 +18,8 @@
 - (XPObject *)objectForName:(NSString *)name;
 - (void)setObject:(XPObject *)obj forName:(NSString *)name;
 
+- (void)addMembers:(NSMutableDictionary<NSString *, XPObject *> *)members;
+
 @property (nonatomic, copy, readonly) NSString *name;
 @property (nonatomic, retain, readonly) XPMemorySpace *enclosingSpace;
 @property (nonatomic, retain, readonly) NSMutableDictionary<NSString *, XPObject *> *members;

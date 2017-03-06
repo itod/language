@@ -75,6 +75,18 @@
 }
 
 
+- (void)addMembers:(NSMutableDictionary<NSString *, XPObject *> *)members {
+    TDAssertMainThread();
+    TDAssert(members);
+    TDAssert(_members);
+    
+    for (NSString *name in members) {
+        XPObject *obj = members[name];
+        [_members setObject:obj forKey:name];
+    }
+}
+
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@ : %@>", _name, _members];
 }

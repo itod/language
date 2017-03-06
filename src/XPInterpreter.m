@@ -64,10 +64,6 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 @property (nonatomic, assign, readwrite) BOOL isNative;
 @end
 
-@interface XPMemorySpace ()
-@property (nonatomic, retain, readwrite) NSMutableDictionary<NSString *, XPObject *> *members;
-@end
-
 @interface XPInterpreter ()
 @property (nonatomic, retain) XPTreeWalker *treeWalker;
 @end
@@ -383,10 +379,14 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     NSMutableDictionary<NSString *, XPObject *> *mems = [[[_globals members] mutableCopy] autorelease];
     [mems addEntriesFromDictionary:self.treeWalker.currentSpace.members];
     
-    XPMemorySpace *globals = [[[XPMemorySpace alloc] initWithName:@"globals" enclosingSpace:nil] autorelease];
-    globals.members = mems;
+    XPMemorySpace *monoSpace = [[[XPMemorySpace alloc] initWithName:@"globals" enclosingSpace:nil] autorelease];
+    [monoSpace addMembers:_globals.members];
     
-    interp.globals = globals;
+    for (XPMemorySpace *space in [self.treeWalker.callStack reverseObjectEnumerator]) {
+        [monoSpace addMembers:space.members];
+    }
+    
+    interp.globals = monoSpace;
     
     NSError *err = nil;
     if (![interp interpretString:exprStr filePath:nil error:&err]) {
@@ -396,8 +396,10 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     }
     
     XPObject *obj = [interp.globals objectForName:DEBUG_VAR_NAME];
-    NSString *res = [obj stringValue];
-    [self.stdOut writeData:[res dataUsingEncoding:NSUTF8StringEncoding]];
+    NSString *res = [NSString stringWithFormat:@"\n%@", [obj stringValue]];
+    
+    TDAssert(_stdOut);
+    [_stdOut writeData:[res dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
 @end
