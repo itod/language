@@ -48,6 +48,8 @@
 
 #import <PEGKit/PKAssembly.h>
 
+#define DEBUG_VAR_NAME @"XPDEBUG"
+
 NSString * const XPErrorDomain = @"XPErrorDomain";
 NSString * const XPErrorRangeKey = @"range";
 NSString * const XPErrorLineNumberKey = @"lineNumber";
@@ -60,6 +62,10 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 @interface XPObject ()
 @property (nonatomic, assign, readwrite) BOOL isNative;
+@end
+
+@interface XPMemorySpace ()
+@property (nonatomic, retain, readwrite) NSMutableDictionary<NSString *, XPObject *> *members;
 @end
 
 @interface XPInterpreter ()
@@ -108,7 +114,9 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 - (BOOL)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr {
     self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
-    self.globals = [[[XPMemorySpace alloc] initWithName:@"globals" enclosingSpace:nil] autorelease];       // global memory;
+    if (!_globals) {
+        self.globals = [[[XPMemorySpace alloc] initWithName:@"globals" enclosingSpace:nil] autorelease];       // global memory;
+    }
     
     // DECLARE NATIVE FUNCS
     {
@@ -368,7 +376,28 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     TDAssert(_treeWalker);
     TDAssert(_debugDelegate);
     
-    TDAssert(0);
+    exprStr = [NSString stringWithFormat:@"var %@=%@;", DEBUG_VAR_NAME, exprStr];
+    
+    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
+    
+    NSMutableDictionary<NSString *, XPObject *> *mems = [[[_globals members] mutableCopy] autorelease];
+    [mems addEntriesFromDictionary:self.treeWalker.currentSpace.members];
+    
+    XPMemorySpace *globals = [[[XPMemorySpace alloc] initWithName:@"globals" enclosingSpace:nil] autorelease];
+    globals.members = mems;
+    
+    interp.globals = globals;
+    
+    NSError *err = nil;
+    if (![interp interpretString:exprStr filePath:nil error:&err]) {
+        TDAssert(err);
+        NSLog(@"%@", err);
+        return;
+    }
+    
+    XPObject *obj = [interp.globals objectForName:DEBUG_VAR_NAME];
+    NSString *res = [obj stringValue];
+    [self.stdOut writeData:[res dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
 @end
