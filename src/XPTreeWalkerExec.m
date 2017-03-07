@@ -606,6 +606,10 @@
     self.currentSpace = savedCurrentSpace;
     [self.lexicalStack removeLastObject];
     
+    if (self.wantsPauseOnReturn) {
+        self.currentSpace.wantsPause = YES;
+    }
+    
     if (!result) {
         result = [XPObject nullObject];
     }

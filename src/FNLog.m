@@ -44,7 +44,7 @@
     NSString *str = [obj stringValue];
     [walker.stdOut writeData:[[NSString stringWithFormat:@"%@\n", str] dataUsingEncoding:NSUTF8StringEncoding]];
     
-    NSLog(@"%@", str);
+    //NSLog(@"%@", str);
     return nil;
 }
 

@@ -50,6 +50,8 @@ extern NSString * const XPDebugInfoLineNumberKey;
 @property (retain) XPBreakpointCollection *breakpointCollection;
 @property (nonatomic, assign) id <XPInterpreterDebugDelegate>debugDelegate; // weakref
 
+- (void)updateBreakpoints:(XPBreakpointCollection *)bpColl;
+
 - (void)stepOver; // next
 - (void)stepIn; // step
 - (void)cont; // continue
