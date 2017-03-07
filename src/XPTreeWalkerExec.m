@@ -569,6 +569,7 @@
     // PUSH MEMORY SPACE
     XPMemorySpace *savedCurrentSpace = self.currentSpace;
     TDAssert(savedCurrentSpace);
+    savedCurrentSpace.lineNumber = node.lineNumber;
     [self.lexicalStack addObject:savedCurrentSpace];
     
     self.currentSpace = funcSpace;

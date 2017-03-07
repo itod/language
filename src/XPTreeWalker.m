@@ -112,7 +112,7 @@
 #pragma mark -
 #pragma mark Debug Info
 
-- (NSMutableDictionary *)currentDebugInfo {
+- (NSMutableDictionary *)currentDebugInfo:(NSUInteger)lineNum {
     TDAssert(_debug);
     TDAssert(_currentFilePath);
     
@@ -134,6 +134,7 @@
         
         for (XPMemorySpace *space in [self.callStack reverseObjectEnumerator]) {
             XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
+            frame.lineNumber = space.lineNumber;
             frame.filePath = _currentFilePath;
             frame.functionName = space.name;
             [frame setMembers:space.members];
@@ -141,9 +142,12 @@
             [frameStack addObject:frame];
         }
         
+        [[frameStack firstObject] setLineNumber:lineNum];
+        
         // add global space manually
         {
             XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
+            frame.lineNumber = self.globals.lineNumber;
             frame.filePath = _currentFilePath;
             frame.functionName = @"<global>";
             [frame setMembers:self.globals.members];
@@ -319,7 +323,7 @@
             }
             
             if (shouldPause) {
-                NSMutableDictionary *info = [self currentDebugInfo];
+                NSMutableDictionary *info = [self currentDebugInfo:lineNum];
                 info[XPDebugInfoLineNumberKey] = @(lineNum);
                 [self.delegate treeWalker:self didPause:info];
             }

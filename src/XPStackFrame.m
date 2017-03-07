@@ -21,7 +21,7 @@
 
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@ %@:%@ %ld>", [self class], [self.filePath lastPathComponent], self.functionName, [self.sortedLocalNames count]];
+    return [NSString stringWithFormat:@"<%@ %@:%ld:%@ %ld>", [self class], [self.filePath lastPathComponent], self.lineNumber, self.functionName, [self.sortedLocalNames count]];
 }
 
 

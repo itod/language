@@ -26,4 +26,5 @@
 
 // DEBUG
 @property (nonatomic, assign) BOOL wantsPause;
+@property (nonatomic, assign) NSUInteger lineNumber;
 @end

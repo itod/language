@@ -14,6 +14,7 @@
 
 - (void)setMembers:(NSDictionary *)members;
 
+@property (nonatomic, assign) NSUInteger lineNumber;
 @property (nonatomic, copy) NSString *filePath;
 @property (nonatomic, copy) NSString *functionName;
 @property (nonatomic, retain) NSArray *sortedLocalNames;
