@@ -50,6 +50,8 @@
 @property (nonatomic, retain) NSMutableDictionary *funcBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *funcList_memo;
 @property (nonatomic, retain) NSMutableDictionary *localBlock_memo;
+@property (nonatomic, retain) NSMutableDictionary *terminator_memo;
+@property (nonatomic, retain) NSMutableDictionary *stats_memo;
 @property (nonatomic, retain) NSMutableDictionary *stat_memo;
 @property (nonatomic, retain) NSMutableDictionary *varDecl_memo;
 @property (nonatomic, retain) NSMutableDictionary *qid_memo;
@@ -317,6 +319,8 @@
         self.funcBlock_memo = [NSMutableDictionary dictionary];
         self.funcList_memo = [NSMutableDictionary dictionary];
         self.localBlock_memo = [NSMutableDictionary dictionary];
+        self.terminator_memo = [NSMutableDictionary dictionary];
+        self.stats_memo = [NSMutableDictionary dictionary];
         self.stat_memo = [NSMutableDictionary dictionary];
         self.varDecl_memo = [NSMutableDictionary dictionary];
         self.qid_memo = [NSMutableDictionary dictionary];
@@ -433,6 +437,8 @@
     self.funcBlock_memo = nil;
     self.funcList_memo = nil;
     self.localBlock_memo = nil;
+    self.terminator_memo = nil;
+    self.stats_memo = nil;
     self.stat_memo = nil;
     self.varDecl_memo = nil;
     self.qid_memo = nil;
@@ -525,6 +531,8 @@
     [_funcBlock_memo removeAllObjects];
     [_funcList_memo removeAllObjects];
     [_localBlock_memo removeAllObjects];
+    [_terminator_memo removeAllObjects];
+    [_stats_memo removeAllObjects];
     [_stat_memo removeAllObjects];
     [_varDecl_memo removeAllObjects];
     [_qid_memo removeAllObjects];
@@ -652,8 +660,8 @@
 
 - (void)__globalItem {
     
-    if ([self speculate:^{ [self stat_]; }]) {
-        [self stat_]; 
+    if ([self speculate:^{ [self stats_]; }]) {
+        [self stats_]; 
     } else if ([self speculate:^{ [self ifBlock_]; }]) {
         [self ifBlock_]; 
     } else if ([self speculate:^{ [self whileBlock_]; }]) {
@@ -699,8 +707,8 @@
 
 - (void)__localItem {
     
-    if ([self speculate:^{ [self stat_]; }]) {
-        [self stat_]; 
+    if ([self speculate:^{ [self stats_]; }]) {
+        [self stats_]; 
     } else if ([self speculate:^{ [self ifBlock_]; }]) {
         [self ifBlock_]; 
     } else if ([self speculate:^{ [self whileBlock_]; }]) {
@@ -709,8 +717,6 @@
         [self forBlock_]; 
     } else if ([self speculate:^{ [self localBlock_]; }]) {
         [self localBlock_]; 
-    } else if ([self speculate:^{ [self returnStat_]; }]) {
-        [self returnStat_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'localItem'."];
     }
@@ -776,31 +782,58 @@
     [self parseRule:@selector(__localBlock) withMemo:_localBlock_memo];
 }
 
-- (void)__stat {
+- (void)__terminator {
     
-    if ([self speculate:^{ if ([self speculate:^{ [self varDecl_]; }]) {[self varDecl_]; } else if ([self speculate:^{ [self assign_]; }]) {[self assign_]; } else if ([self speculate:^{ [self assignIndex_]; }]) {[self assignIndex_]; } else if ([self speculate:^{ [self assignAppend_]; }]) {[self assignAppend_]; } else if ([self speculate:^{ [self expr_]; }]) {[self expr_]; } else if ([self speculate:^{ [self break_]; }]) {[self break_]; } else if ([self speculate:^{ [self continue_]; }]) {[self continue_]; } else {[self raise:@"No viable alternative found in rule 'stat'."];}}]) {
-        if ([self speculate:^{ [self varDecl_]; }]) {
-            [self varDecl_]; 
-        } else if ([self speculate:^{ [self assign_]; }]) {
-            [self assign_]; 
-        } else if ([self speculate:^{ [self assignIndex_]; }]) {
-            [self assignIndex_]; 
-        } else if ([self speculate:^{ [self assignAppend_]; }]) {
-            [self assignAppend_]; 
-        } else if ([self speculate:^{ [self expr_]; }]) {
-            [self expr_]; 
-        } else if ([self speculate:^{ [self break_]; }]) {
-            [self break_]; 
-        } else if ([self speculate:^{ [self continue_]; }]) {
-            [self continue_]; 
-        } else {
-            [self raise:@"No viable alternative found in rule 'stat'."];
-        }
-    }
     if ([self predicts:XP_TOKEN_KIND__N, 0]) {
         [self match:XP_TOKEN_KIND__N discard:YES]; 
     } else if ([self predicts:XP_TOKEN_KIND_SEMI_COLON, 0]) {
         [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
+    } else {
+        [self raise:@"No viable alternative found in rule 'terminator'."];
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchTerminator:)];
+}
+
+- (void)terminator_ {
+    [self parseRule:@selector(__terminator) withMemo:_terminator_memo];
+}
+
+- (void)__stats {
+    
+    [self stat_]; 
+    while ([self speculate:^{ [self terminator_]; [self stat_]; }]) {
+        [self terminator_]; 
+        [self stat_]; 
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchStats:)];
+}
+
+- (void)stats_ {
+    [self parseRule:@selector(__stats) withMemo:_stats_memo];
+}
+
+- (void)__stat {
+    
+    if ([self speculate:^{ [self terminator_]; }]) {
+        [self terminator_]; 
+    } else if ([self speculate:^{ [self varDecl_]; }]) {
+        [self varDecl_]; 
+    } else if ([self speculate:^{ [self assign_]; }]) {
+        [self assign_]; 
+    } else if ([self speculate:^{ [self assignIndex_]; }]) {
+        [self assignIndex_]; 
+    } else if ([self speculate:^{ [self assignAppend_]; }]) {
+        [self assignAppend_]; 
+    } else if ([self speculate:^{ [self expr_]; }]) {
+        [self expr_]; 
+    } else if ([self speculate:^{ [self break_]; }]) {
+        [self break_]; 
+    } else if ([self speculate:^{ [self continue_]; }]) {
+        [self continue_]; 
+    } else if ([self speculate:^{ [self returnStat_]; }]) {
+        [self returnStat_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'stat'."];
     }
@@ -1170,7 +1203,6 @@
     
     [self match:XP_TOKEN_KIND_RETURN discard:NO]; 
     [self expr_]; 
-    [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
     [self execute:^{
     
     XPNode *expr = POP();

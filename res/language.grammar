@@ -175,7 +175,7 @@ globalList  = globalItem+ {
     [block addChildren:items];
     PUSH(block);
 };
-globalItem  = stat | ifBlock | whileBlock | forBlock | localBlock | funcDecl;
+globalItem  = stats | ifBlock | whileBlock | forBlock | localBlock | funcDecl;
 
 // LOCAL
 localList   = localItem* {
@@ -185,7 +185,7 @@ localList   = localItem* {
     [block addChildren:stats];
     PUSH(block);
 };
-localItem   = stat | ifBlock | whileBlock | forBlock | localBlock | returnStat;
+localItem   = stats | ifBlock | whileBlock | forBlock | localBlock;
 
 // FUNC
 funcBlock   = '{' funcList '}'!;
@@ -203,16 +203,17 @@ localBlock
             = '{' localList '}'!;
 
 // STATEMENTS
-stat        = 
-            ( varDecl
+terminator = ('\n'!|';'!);
+stats = stat (terminator stat)*;
+stat        = terminator
+            | varDecl
             | assign
             | assignIndex
             | assignAppend
             | expr
             | break
             | continue
-            )?
-            ('\n'!|';'!)
+            | returnStat
             ;
             
 varDecl     = 'var' qid '='! expr {
@@ -334,7 +335,7 @@ elseBlock   = 'else' localBlock {
 };
 
 // FUNCTION DECL
-returnStat  = 'return' expr ';'! {
+returnStat  = 'return' expr {
     XPNode *expr = POP();
     XPNode *ret = [XPNode nodeWithToken:POP()];
     [ret addChild:expr];
