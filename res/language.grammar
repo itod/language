@@ -189,14 +189,13 @@ localItem   = stat | ifBlock | whileBlock | forBlock | localBlock | returnStat;
 
 // FUNC
 funcBlock   = '{' funcList '}'!;
-funcList    = funcItem* {
+funcList    = localItem* {
     NSArray *stats = REV(ABOVE(_openCurlyTok));
     POP(); // 'curly'
     XPNode *block = [XPNode nodeWithToken:_blockTok];
     [block addChildren:stats];
     PUSH(block);
 };
-funcItem    = stat | ifBlock | whileBlock | forBlock | localBlock | returnStat;
 
 localBlock
 @before { self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope]; }

@@ -49,7 +49,6 @@
 @property (nonatomic, retain) NSMutableDictionary *localItem_memo;
 @property (nonatomic, retain) NSMutableDictionary *funcBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *funcList_memo;
-@property (nonatomic, retain) NSMutableDictionary *funcItem_memo;
 @property (nonatomic, retain) NSMutableDictionary *localBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *stat_memo;
 @property (nonatomic, retain) NSMutableDictionary *varDecl_memo;
@@ -317,7 +316,6 @@
         self.localItem_memo = [NSMutableDictionary dictionary];
         self.funcBlock_memo = [NSMutableDictionary dictionary];
         self.funcList_memo = [NSMutableDictionary dictionary];
-        self.funcItem_memo = [NSMutableDictionary dictionary];
         self.localBlock_memo = [NSMutableDictionary dictionary];
         self.stat_memo = [NSMutableDictionary dictionary];
         self.varDecl_memo = [NSMutableDictionary dictionary];
@@ -434,7 +432,6 @@
     self.localItem_memo = nil;
     self.funcBlock_memo = nil;
     self.funcList_memo = nil;
-    self.funcItem_memo = nil;
     self.localBlock_memo = nil;
     self.stat_memo = nil;
     self.varDecl_memo = nil;
@@ -527,7 +524,6 @@
     [_localItem_memo removeAllObjects];
     [_funcBlock_memo removeAllObjects];
     [_funcList_memo removeAllObjects];
-    [_funcItem_memo removeAllObjects];
     [_localBlock_memo removeAllObjects];
     [_stat_memo removeAllObjects];
     [_varDecl_memo removeAllObjects];
@@ -741,8 +737,8 @@
 
 - (void)__funcList {
     
-    while ([self speculate:^{ [self funcItem_]; }]) {
-        [self funcItem_]; 
+    while ([self speculate:^{ [self localItem_]; }]) {
+        [self localItem_]; 
     }
     [self execute:^{
     
@@ -759,31 +755,6 @@
 
 - (void)funcList_ {
     [self parseRule:@selector(__funcList) withMemo:_funcList_memo];
-}
-
-- (void)__funcItem {
-    
-    if ([self speculate:^{ [self stat_]; }]) {
-        [self stat_]; 
-    } else if ([self speculate:^{ [self ifBlock_]; }]) {
-        [self ifBlock_]; 
-    } else if ([self speculate:^{ [self whileBlock_]; }]) {
-        [self whileBlock_]; 
-    } else if ([self speculate:^{ [self forBlock_]; }]) {
-        [self forBlock_]; 
-    } else if ([self speculate:^{ [self localBlock_]; }]) {
-        [self localBlock_]; 
-    } else if ([self speculate:^{ [self returnStat_]; }]) {
-        [self returnStat_]; 
-    } else {
-        [self raise:@"No viable alternative found in rule 'funcItem'."];
-    }
-
-    [self fireDelegateSelector:@selector(parser:didMatchFuncItem:)];
-}
-
-- (void)funcItem_ {
-    [self parseRule:@selector(__funcItem) withMemo:_funcItem_memo];
 }
 
 - (void)__localBlock {
