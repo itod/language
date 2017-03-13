@@ -295,6 +295,12 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 #pragma mark -
 #pragma mark DEBUG
 
+- (void)updateBreakpoints:(XPBreakpointCollection *)bpColl {
+    self.breakpointCollection = bpColl;
+    _treeWalker.breakpointCollection = bpColl;
+}
+
+
 - (void)pause {
     TDAssertMainThread();
     TDAssert(_debug);
@@ -321,6 +327,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     TDAssert(_debugDelegate);
 
     self.treeWalker.wantsPauseOnCall = NO;
+    self.treeWalker.wantsPauseOnReturn = YES;
     self.treeWalker.currentSpace.wantsPause = YES;
     [self resume];
 }
@@ -333,8 +340,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     TDAssert(_debugDelegate);
     
     self.treeWalker.wantsPauseOnCall = YES;
+    self.treeWalker.wantsPauseOnReturn = YES;
     self.treeWalker.currentSpace.wantsPause = YES;
-    
     [self resume];
 }
 
@@ -346,6 +353,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     TDAssert(_debugDelegate);
     
     self.treeWalker.wantsPauseOnCall = NO;
+    self.treeWalker.wantsPauseOnReturn = NO;
     self.treeWalker.currentSpace.wantsPause = NO;
     [self resume];
 }
@@ -357,6 +365,10 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     TDAssert(_treeWalker);
     TDAssert(_debugDelegate);
     
+    self.treeWalker.wantsPauseOnCall = NO;
+    self.treeWalker.wantsPauseOnReturn = YES;
+    self.treeWalker.currentSpace.wantsPause = NO;
+    [self resume];
 }
 
 

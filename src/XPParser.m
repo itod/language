@@ -1415,6 +1415,7 @@
     
     // def func
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:_anonTok.stringValue enclosingScope:_currentScope];
+    funcSym.scope = _currentScope;
     // don't define fyncSym here
     id subTok = POP();
     XPNode *funcNode = [XPNode nodeWithToken:_anonTok];

@@ -120,6 +120,7 @@ static NSSet *sReserved = nil;
 
 
 - (NSString *)description {
+    TDAssert(self.scope.scopeName);
     return [NSString stringWithFormat:@"%@.%@", self.scope.scopeName, self.name];
 }
 

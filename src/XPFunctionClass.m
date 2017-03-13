@@ -22,7 +22,7 @@
 
 
 - (NSString *)name {
-    return @"Function";
+    return @"Subroutine";
 }
 
 
