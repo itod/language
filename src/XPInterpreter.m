@@ -295,18 +295,14 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 #pragma mark -
 #pragma mark DEBUG
 
-- (XPMemorySpace *)currentMemorySpace {
-    TDAssertMainThread();
-    TDAssert(_debug);
-    TDAssert(_treeWalker);
-    
-    return _treeWalker.currentSpace;
-}
-
-
 - (void)updateBreakpoints:(XPBreakpointCollection *)bpColl {
     self.breakpointCollection = bpColl;
     _treeWalker.breakpointCollection = bpColl;
+}
+
+
+- (NSArray *)completionsForPrefix:(NSString *)prefix inRange:(NSRange)range {
+    return nil;
 }
 
 

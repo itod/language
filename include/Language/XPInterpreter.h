@@ -28,8 +28,6 @@ extern NSString * const XPDebugInfoLineNumberKey;
 
 @protocol XPInterpreterDebugDelegate <NSObject>
 - (void)interpreter:(XPInterpreter *)i didPause:(NSMutableDictionary *)debugInfo;
-//- (void)interpreter:(XPInterpreter *)i didFinish:(NSMutableDictionary *)debugInfo;
-//- (void)interpreter:(XPInterpreter *)i didFail:(NSMutableDictionary *)debugInfo;
 @end
 
 @interface XPInterpreter : NSObject <XPTreeWalkerDelegate>
@@ -49,9 +47,10 @@ extern NSString * const XPDebugInfoLineNumberKey;
 @property (assign) BOOL debug;
 @property (retain) XPBreakpointCollection *breakpointCollection;
 @property (nonatomic, assign) id <XPInterpreterDebugDelegate>debugDelegate; // weakref
-@property (nonatomic, retain, readonly) XPMemorySpace *currentMemorySpace;
 
 - (void)updateBreakpoints:(XPBreakpointCollection *)bpColl;
+
+- (NSArray *)completionsForPrefix:(NSString *)prefix inRange:(NSRange)range;
 
 - (void)stepOver; // next
 - (void)stepIn; // step
