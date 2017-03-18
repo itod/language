@@ -24,5 +24,7 @@ FOUNDATION_EXPORT const unsigned char LanguageVersionString[];
 
 // DEBUG
 #import <Language/XPStackFrame.h>
+#import <Language/XPMemorySpace.h>
+#import <Language/XPSymbol.h>
 #import <Language/XPBreakpoint.h>
 #import <Language/XPBreakpointCollection.h>

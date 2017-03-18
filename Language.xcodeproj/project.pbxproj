@@ -77,6 +77,8 @@
 		D3166E731E57A6C100DEE3A0 /* testGlobals.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166E721E57A6C100DEE3A0 /* testGlobals.js */; };
 		D3166EDB1E57F82700DEE3A0 /* testLocalsInFunctionLiteral.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166EDA1E57F82700DEE3A0 /* testLocalsInFunctionLiteral.js */; };
 		D3166EDD1E57F82B00DEE3A0 /* testLocalsInFunctionDecl.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166EDC1E57F82B00DEE3A0 /* testLocalsInFunctionDecl.js */; };
+		D31E2CA41E7DD1EF0023E924 /* XPMemorySpace.h in Headers */ = {isa = PBXBuildFile; fileRef = D31E2CA31E7DD1EF0023E924 /* XPMemorySpace.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D31E2CA61E7DD31A0023E924 /* XPSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = D31E2CA51E7DD31A0023E924 /* XPSymbol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D32E70BE1E5365F700728D80 /* XPFunctionBody.h in Headers */ = {isa = PBXBuildFile; fileRef = D32E70BC1E5365F700728D80 /* XPFunctionBody.h */; };
 		D32E70BF1E5365F700728D80 /* XPFunctionBody.m in Sources */ = {isa = PBXBuildFile; fileRef = D32E70BD1E5365F700728D80 /* XPFunctionBody.m */; };
 		D32E70C21E5367A900728D80 /* FNRange.h in Headers */ = {isa = PBXBuildFile; fileRef = D32E70C01E5367A900728D80 /* FNRange.h */; };
@@ -101,7 +103,6 @@
 		D37316A41E3EBD5C0034798E /* XPNode.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316A31E3EBD5C0034798E /* XPNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D37316AC1E3EBDD20034798E /* XPInterpreter.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316AA1E3EBDD20034798E /* XPInterpreter.m */; };
 		D37316AE1E3EBDE20034798E /* XPInterpreter.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316AD1E3EBDE20034798E /* XPInterpreter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D37316B61E3EBF800034798E /* XPSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316B41E3EBF800034798E /* XPSymbol.h */; };
 		D37316B71E3EBF800034798E /* XPSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316B51E3EBF800034798E /* XPSymbol.m */; };
 		D37316BA1E3EBF980034798E /* XPVariableSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316B81E3EBF980034798E /* XPVariableSymbol.h */; };
 		D37316BB1E3EBF980034798E /* XPVariableSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316B91E3EBF980034798E /* XPVariableSymbol.m */; };
@@ -112,7 +113,6 @@
 		D37316CC1E3EC49C0034798E /* XPGlobalScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316CA1E3EC49C0034798E /* XPGlobalScope.m */; };
 		D37316CF1E3EC4E50034798E /* XPLocalScope.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316CD1E3EC4E50034798E /* XPLocalScope.h */; };
 		D37316D01E3EC4E50034798E /* XPLocalScope.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316CE1E3EC4E50034798E /* XPLocalScope.m */; };
-		D37316D31E3EC5430034798E /* XPMemorySpace.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316D11E3EC5430034798E /* XPMemorySpace.h */; };
 		D37316D41E3EC5430034798E /* XPMemorySpace.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316D21E3EC5430034798E /* XPMemorySpace.m */; };
 		D37316DD1E3FA9980034798E /* XPTreeWalker.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316DB1E3FA9980034798E /* XPTreeWalker.m */; };
 		D37316E51E3FAB140034798E /* XPTreeWalkerExec.h in Headers */ = {isa = PBXBuildFile; fileRef = D37316E31E3FAB140034798E /* XPTreeWalkerExec.h */; };
@@ -236,6 +236,8 @@
 		D3166E721E57A6C100DEE3A0 /* testGlobals.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testGlobals.js; path = test/scripts/testGlobals.js; sourceTree = SOURCE_ROOT; };
 		D3166EDA1E57F82700DEE3A0 /* testLocalsInFunctionLiteral.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testLocalsInFunctionLiteral.js; path = test/scripts/testLocalsInFunctionLiteral.js; sourceTree = SOURCE_ROOT; };
 		D3166EDC1E57F82B00DEE3A0 /* testLocalsInFunctionDecl.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testLocalsInFunctionDecl.js; path = test/scripts/testLocalsInFunctionDecl.js; sourceTree = SOURCE_ROOT; };
+		D31E2CA31E7DD1EF0023E924 /* XPMemorySpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPMemorySpace.h; path = include/Language/XPMemorySpace.h; sourceTree = SOURCE_ROOT; };
+		D31E2CA51E7DD31A0023E924 /* XPSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPSymbol.h; path = include/Language/XPSymbol.h; sourceTree = SOURCE_ROOT; };
 		D32E70BC1E5365F700728D80 /* XPFunctionBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPFunctionBody.h; path = src/XPFunctionBody.h; sourceTree = SOURCE_ROOT; };
 		D32E70BD1E5365F700728D80 /* XPFunctionBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFunctionBody.m; path = src/XPFunctionBody.m; sourceTree = SOURCE_ROOT; };
 		D32E70C01E5367A900728D80 /* FNRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNRange.h; path = src/FNRange.h; sourceTree = SOURCE_ROOT; };
@@ -264,7 +266,6 @@
 		D37316A31E3EBD5C0034798E /* XPNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPNode.h; path = include/Language/XPNode.h; sourceTree = SOURCE_ROOT; };
 		D37316AA1E3EBDD20034798E /* XPInterpreter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPInterpreter.m; path = src/XPInterpreter.m; sourceTree = SOURCE_ROOT; };
 		D37316AD1E3EBDE20034798E /* XPInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPInterpreter.h; path = include/Language/XPInterpreter.h; sourceTree = SOURCE_ROOT; };
-		D37316B41E3EBF800034798E /* XPSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPSymbol.h; path = src/XPSymbol.h; sourceTree = SOURCE_ROOT; };
 		D37316B51E3EBF800034798E /* XPSymbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPSymbol.m; path = src/XPSymbol.m; sourceTree = SOURCE_ROOT; };
 		D37316B81E3EBF980034798E /* XPVariableSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPVariableSymbol.h; path = src/XPVariableSymbol.h; sourceTree = SOURCE_ROOT; };
 		D37316B91E3EBF980034798E /* XPVariableSymbol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPVariableSymbol.m; path = src/XPVariableSymbol.m; sourceTree = SOURCE_ROOT; };
@@ -275,7 +276,6 @@
 		D37316CA1E3EC49C0034798E /* XPGlobalScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPGlobalScope.m; path = src/XPGlobalScope.m; sourceTree = SOURCE_ROOT; };
 		D37316CD1E3EC4E50034798E /* XPLocalScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPLocalScope.h; path = src/XPLocalScope.h; sourceTree = SOURCE_ROOT; };
 		D37316CE1E3EC4E50034798E /* XPLocalScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPLocalScope.m; path = src/XPLocalScope.m; sourceTree = SOURCE_ROOT; };
-		D37316D11E3EC5430034798E /* XPMemorySpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPMemorySpace.h; path = src/XPMemorySpace.h; sourceTree = SOURCE_ROOT; };
 		D37316D21E3EC5430034798E /* XPMemorySpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPMemorySpace.m; path = src/XPMemorySpace.m; sourceTree = SOURCE_ROOT; };
 		D37316DB1E3FA9980034798E /* XPTreeWalker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPTreeWalker.m; path = src/XPTreeWalker.m; sourceTree = SOURCE_ROOT; };
 		D37316E31E3FAB140034798E /* XPTreeWalkerExec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPTreeWalkerExec.h; path = src/XPTreeWalkerExec.h; sourceTree = SOURCE_ROOT; };
@@ -591,7 +591,7 @@
 		D37316B31E3EBF690034798E /* Sym */ = {
 			isa = PBXGroup;
 			children = (
-				D37316B41E3EBF800034798E /* XPSymbol.h */,
+				D31E2CA51E7DD31A0023E924 /* XPSymbol.h */,
 				D37316B51E3EBF800034798E /* XPSymbol.m */,
 				D37316B81E3EBF980034798E /* XPVariableSymbol.h */,
 				D37316B91E3EBF980034798E /* XPVariableSymbol.m */,
@@ -620,7 +620,7 @@
 		D37316D51E3EC6B80034798E /* MemSpace */ = {
 			isa = PBXGroup;
 			children = (
-				D37316D11E3EC5430034798E /* XPMemorySpace.h */,
+				D31E2CA31E7DD1EF0023E924 /* XPMemorySpace.h */,
 				D37316D21E3EC5430034798E /* XPMemorySpace.m */,
 				D3DF58C41E42F346006CAA07 /* XPFunctionSpace.h */,
 				D3DF58C51E42F346006CAA07 /* XPFunctionSpace.m */,
@@ -707,9 +707,9 @@
 				D3166E181E54BD4F00DEE3A0 /* FNReplace.h in Headers */,
 				D3166DE71E53B16F00DEE3A0 /* FNNumber.h in Headers */,
 				D32E70C21E5367A900728D80 /* FNRange.h in Headers */,
-				D37316D31E3EC5430034798E /* XPMemorySpace.h in Headers */,
 				D3166E071E53F6DB00DEE3A0 /* FNLowercase.h in Headers */,
 				D3166E691E579FDE00DEE3A0 /* FNLocals.h in Headers */,
+				D31E2CA41E7DD1EF0023E924 /* XPMemorySpace.h in Headers */,
 				D309BCD31E5CF841002B3199 /* XPTreeWalker.h in Headers */,
 				D309BCE01E60AABB002B3199 /* XPBreakpoint.h in Headers */,
 				D305629D1E3BD929008BEC9A /* Language.h in Headers */,
@@ -718,13 +718,13 @@
 				D3166E0B1E53F71800DEE3A0 /* FNUppercase.h in Headers */,
 				D309BCDC1E5FA17B002B3199 /* XPObject.h in Headers */,
 				D37316BF1E3EBFEB0034798E /* XPScope.h in Headers */,
+				D31E2CA61E7DD31A0023E924 /* XPSymbol.h in Headers */,
 				D3166E311E54E2ED00DEE3A0 /* FNMap.h in Headers */,
 				D3166E381E54E4CE00DEE3A0 /* FNFilter.h in Headers */,
 				D3166E2B1E54DD4600DEE3A0 /* FNPosition.h in Headers */,
 				D3A7F2811E4D79FB00C7099B /* XPNumberClass.h in Headers */,
 				D37316CB1E3EC49C0034798E /* XPGlobalScope.h in Headers */,
 				D3166E3C1E54EBA200DEE3A0 /* XPReturnException.h in Headers */,
-				D37316B61E3EBF800034798E /* XPSymbol.h in Headers */,
 				D3A7F2941E51219900C7099B /* XPEnumeration.h in Headers */,
 				D3166DE31E53B0C400DEE3A0 /* FNBoolean.h in Headers */,
 				D3166E701E57A69500DEE3A0 /* FNGlobals.h in Headers */,
