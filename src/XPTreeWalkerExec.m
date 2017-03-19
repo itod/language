@@ -538,8 +538,8 @@
     }
     
     // EVAL ARGS
+    NSUInteger argCount = [node childCount]-OFFSET;                         TDAssert(NSNotFound != argCount);
     {
-        NSUInteger argCount = [node childCount]-OFFSET;                     TDAssert(NSNotFound != argCount);
         NSUInteger paramCount = [funcSym.params count];                     TDAssert(NSNotFound != paramCount);
         NSUInteger defaultParamCount = [funcSym.defaultParamObjects count]; TDAssert(NSNotFound != defaultParamCount);
         
@@ -595,7 +595,7 @@
         // native function
         else {
             TDAssert(funcSym.nativeBody);
-            result = [funcSym.nativeBody callWithWalker:self];
+            result = [funcSym.nativeBody callWithWalker:self argc:argCount];
         }
         
         [self.callStack removeLastObject];

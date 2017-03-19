@@ -8,8 +8,8 @@
 
 #import "FNIsNan.h"
 #import <Language/XPObject.h>
-#import "XPFunctionSymbol.h"
 #import <Language/XPTreeWalker.h>
+#import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 
 @implementation FNIsNan
@@ -33,14 +33,14 @@
 }
 
 
-- (XPObject *)callWithWalker:(XPTreeWalker *)walker {
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc {
     XPMemorySpace *space = walker.currentSpace;
     TDAssert(space);
     
     XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
     
-    BOOL res = [obj isNumericObject] && isnan([obj.value doubleValue]);
+    BOOL res = isnan([obj.value doubleValue]);
     return [XPObject boolean:res];
 }
 

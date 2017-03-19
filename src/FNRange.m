@@ -10,8 +10,8 @@
 #import <Language/XPObject.h>
 #import "XPNumberClass.h"
 #import "XPArrayClass.h"
-#import "XPFunctionSymbol.h"
 #import <Language/XPTreeWalker.h>
+#import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 
 @implementation FNRange
@@ -41,7 +41,7 @@
 }
 
 
-- (XPObject *)callWithWalker:(XPTreeWalker *)walker {
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc {
     XPMemorySpace *space = walker.currentSpace;
     TDAssert(space);
     

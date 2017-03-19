@@ -1,22 +1,21 @@
 //
-//  FNUppercase.m
+//  FNSqrt.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "FNUppercase.h"
+#import "FNSqrt.h"
 #import <Language/XPObject.h>
-#import "XPStringClass.h"
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 
-@implementation FNUppercase
+@implementation FNSqrt
 
 + (NSString *)name {
-    return @"uppercase";
+    return @"sqrt";
 }
 
 
@@ -24,10 +23,10 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *str = [XPSymbol symbolWithName:@"str"];
-    funcSym.orderedParams = [NSMutableArray arrayWithObjects:str, nil];
+    XPSymbol *obj = [XPSymbol symbolWithName:@"object"];
+    funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      str, @"str",
+                      obj, @"object",
                       nil];
     
     return funcSym;
@@ -38,13 +37,11 @@
     XPMemorySpace *space = walker.currentSpace;
     TDAssert(space);
     
-    XPObject *str = [space objectForName:@"str"];
-    TDAssert(str);
+    XPObject *obj = [space objectForName:@"object"];
+    TDAssert(obj);
     
-    NSString *v = [str.value uppercaseString];
-    
-    XPObject *res = [XPObject string:v];
-    return res;
+    double res = sqrt(obj.doubleValue);
+    return [XPObject number:res];
 }
 
 @end

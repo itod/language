@@ -22,7 +22,7 @@
 }
 
 
-- (XPObject *)callWithWalker:(XPTreeWalker *)walker {
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc {
     NSAssert2(0, @"%s is an abstract method and must be implemented in %@", __PRETTY_FUNCTION__, [self class]);
     return nil;
 }

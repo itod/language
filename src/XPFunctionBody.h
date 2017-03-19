@@ -15,5 +15,5 @@
 @interface XPFunctionBody : NSObject
 + (NSString *)name;
 - (XPFunctionSymbol *)symbol;
-- (XPObject *)callWithWalker:(XPTreeWalker *)walker;
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc;
 @end

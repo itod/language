@@ -8,8 +8,8 @@
 
 #import "FNNumber.h"
 #import <Language/XPObject.h>
-#import "XPFunctionSymbol.h"
 #import <Language/XPTreeWalker.h>
+#import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 
 @implementation FNNumber
@@ -33,7 +33,7 @@
 }
 
 
-- (XPObject *)callWithWalker:(XPTreeWalker *)walker {
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc {
     return [[walker.currentSpace objectForName:@"object"] asNumberObject];
 }
 

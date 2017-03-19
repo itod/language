@@ -46,6 +46,13 @@
 #import "FNCompare.h"
 
 #import "FNIsNan.h"
+#import "FNAbs.h"
+#import "FNRound.h"
+#import "FNFloor.h"
+#import "FNCeil.h"
+#import "FNSqrt.h"
+#import "FNMax.h"
+#import "FNMin.h"
 
 #import <PEGKit/PKAssembly.h>
 
@@ -150,6 +157,13 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         
         // num
         [self declareNativeFunction:[FNIsNan class]];
+        [self declareNativeFunction:[FNAbs class]];
+        [self declareNativeFunction:[FNRound class]];
+        [self declareNativeFunction:[FNFloor class]];
+        [self declareNativeFunction:[FNCeil class]];
+        [self declareNativeFunction:[FNSqrt class]];
+        [self declareNativeFunction:[FNMax class]];
+        [self declareNativeFunction:[FNMin class]];
         
         if ([_delegate respondsToSelector:@selector(interpreterDidDeclareNativeFunctions:)]) {
             [_delegate interpreterDidDeclareNativeFunctions:self];

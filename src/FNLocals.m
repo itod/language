@@ -10,8 +10,8 @@
 #import <Language/XPObject.h>
 #import "XPDictionaryClass.h"
 #import "XPStringClass.h"
-#import "XPFunctionSymbol.h"
 #import <Language/XPTreeWalker.h>
+#import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 
 @implementation FNLocals
@@ -29,7 +29,7 @@
 }
 
 
-- (XPObject *)callWithWalker:(XPTreeWalker *)walker {
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc {
     TDAssert([walker.lexicalStack count]);
     XPMemorySpace *space = [walker.lexicalStack lastObject];
     TDAssert([space isKindOfClass:[XPMemorySpace class]]);
