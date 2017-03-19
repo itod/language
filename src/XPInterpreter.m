@@ -16,7 +16,7 @@
 #import "XPTreeWalkerExec.h"
 #import "XPException.h"
 
-#import "XPObject.h"
+#import <Language/XPObject.h>
 #import "XPFunctionClass.h"
 #import "XPFunctionSymbol.h"
 
@@ -85,6 +85,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     self.root = nil;
     self.parser = nil;
     self.breakpointCollection = nil;
+    self.delegate = nil;
     self.debugDelegate = nil;
     self.stdOut = nil;
     self.stdErr = nil;
@@ -149,6 +150,10 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         
         // num
         [self declareNativeFunction:[FNIsNan class]];
+        
+        if ([_delegate respondsToSelector:@selector(interpreterDidDeclareNativeFunctions:)]) {
+            [_delegate interpreterDidDeclareNativeFunctions:self];
+        }
     }
     
     // PARSE
@@ -276,6 +281,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     
     TDAssert(_globals);
     [_globals setObject:obj forName:name];
+    
+    [XPSymbol addReservedWord:name];
 }
 
 

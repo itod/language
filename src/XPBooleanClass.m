@@ -7,7 +7,7 @@
 //
 
 #import "XPBooleanClass.h"
-#import "XPObject.h"
+#import <Language/XPObject.h>
 
 @interface XPObject ()
 - (instancetype)initWithClass:(XPClass *)cls value:(id)val;

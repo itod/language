@@ -7,10 +7,10 @@
 //
 
 #import "FNCompare.h"
-#import "XPObject.h"
+#import <Language/XPObject.h>
 #import "XPNumberClass.h"
 #import "XPFunctionSymbol.h"
-#import "XPTreeWalker.h"
+#import <Language/XPTreeWalker.h>
 #import "XPMemorySpace.h"
 
 @implementation FNCompare

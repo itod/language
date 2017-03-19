@@ -12,6 +12,7 @@
 
 @interface XPSymbol : NSObject
 + (NSSet *)reservedWords;
++ (void)addReservedWord:(NSString *)s;
 
 + (instancetype)symbolWithName:(NSString *)name;
 - (instancetype)initWithName:(NSString *)name;

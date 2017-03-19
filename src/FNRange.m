@@ -7,11 +7,11 @@
 //
 
 #import "FNRange.h"
-#import "XPObject.h"
+#import <Language/XPObject.h>
 #import "XPNumberClass.h"
 #import "XPArrayClass.h"
 #import "XPFunctionSymbol.h"
-#import "XPTreeWalker.h"
+#import <Language/XPTreeWalker.h>
 #import "XPMemorySpace.h"
 
 @implementation FNRange

@@ -26,6 +26,11 @@ extern NSString * const XPDebugInfoLineNumberKey;
 
 @class XPInterpreter;
 
+@protocol XPInterpreterDelegate <NSObject>
+@optional
+- (void)interpreterDidDeclareNativeFunctions:(XPInterpreter *)i;
+@end
+
 @protocol XPInterpreterDebugDelegate <NSObject>
 - (void)interpreter:(XPInterpreter *)i didPause:(NSMutableDictionary *)debugInfo;
 @end
@@ -42,6 +47,9 @@ extern NSString * const XPDebugInfoLineNumberKey;
 
 @property (nonatomic, retain) NSFileHandle *stdOut;
 @property (nonatomic, retain) NSFileHandle *stdErr;
+
+- (void)declareNativeFunction:(Class)cls;
+@property (nonatomic, assign) id <XPInterpreterDelegate>delegate; // weakref
 
 // debug
 @property (assign) BOOL debug;

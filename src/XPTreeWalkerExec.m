@@ -20,7 +20,7 @@
 
 #import "XPParser.h"
 
-#import "XPObject.h"
+#import <Language/XPObject.h>
 #import "XPBooleanClass.h"
 #import "XPNumberClass.h"
 #import "XPStringClass.h"

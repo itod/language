@@ -9,13 +9,13 @@
 #import "XPSymbol.h"
 #import "XPScope.h"
 
-static NSSet *sReserved = nil;
+static NSMutableSet *sReserved = nil;
 
 @implementation XPSymbol
 
 + (void)initialize {
     if ([XPSymbol class] == self) {
-        sReserved = [[NSSet alloc] initWithObjects:
+        sReserved = [[NSMutableSet alloc] initWithObjects:
                      @"synchronized",
                      @"await",
                      @"import",
@@ -63,30 +63,12 @@ static NSSet *sReserved = nil;
                      @"finally",
                      
                      @"Object",
-                     @"Boolean",
-                     @"Number",
-                     @"String",
+//                     @"Boolean",
+//                     @"Number",
+//                     @"String",
                      @"Array",
                      @"Dictionary",
                      @"void",
-                     
-                     @"assert",
-                     @"log",
-                     @"map",
-                     @"filter",
-                     @"copy",
-                     @"count",
-                     @"matches",
-                     @"replace",
-                     @"compare",
-                     @"position",
-                     @"trim",
-                     @"uppercase",
-                     @"lowercase",
-                     @"range",
-                     @"isNaN",
-                     @"globals",
-                     @"locals",
                      
                      nil];
     }
@@ -95,6 +77,12 @@ static NSSet *sReserved = nil;
 
 + (NSSet *)reservedWords {
     return sReserved;
+}
+
+
++ (void)addReservedWord:(NSString *)s {
+    TDAssert(![sReserved containsObject:s])
+    [sReserved addObject:s];
 }
 
 

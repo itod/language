@@ -7,7 +7,7 @@
 //
 
 #import "XPFunctionClass.h"
-#import "XPObject.h"
+#import <Language/XPObject.h>
 
 @implementation XPFunctionClass
 

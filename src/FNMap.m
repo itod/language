@@ -7,14 +7,14 @@
 //
 
 #import "FNMap.h"
-#import "XPObject.h"
+#import <Language/XPObject.h>
 #import "XPFunctionClass.h"
 #import "XPArrayClass.h"
 #import "XPFunctionSymbol.h"
 #import "XPFunctionSpace.h"
 #import "XPException.h"
 #import "XPReturnException.h"
-#import "XPTreeWalker.h"
+#import <Language/XPTreeWalker.h>
 
 @implementation FNMap
 

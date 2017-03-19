@@ -8,7 +8,7 @@
 
 #import "XPBaseTests.h"
 #import "XPNode.h"
-#import "XPObject.h"
+#import <Language/XPObject.h>
 #import "XPMemorySpace.h"
 #import "XPInterpreter.h"
 

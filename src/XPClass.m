@@ -7,7 +7,7 @@
 //
 
 #import "XPClass.h"
-#import "XPObject.h"
+#import <Language/XPObject.h>
 
 @implementation XPClass
 

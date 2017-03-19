@@ -7,7 +7,7 @@
 //
 
 #import "XPStringClass.h"
-#import "XPObject.h"
+#import <Language/XPObject.h>
 #import "XPEnumeration.h"
 
 @implementation XPStringClass

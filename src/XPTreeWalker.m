@@ -6,11 +6,11 @@
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "XPTreeWalker.h"
+#import <Language/XPTreeWalker.h>
 #import "XPParser.h"
 #import "XPNode.h"
 #import "XPException.h"
-#import "XPObject.h"
+#import <Language/XPObject.h>
 #import "XPFunctionSpace.h"
 #import "XPInterpreter.h"
 #import "XPStackFrame.h"
