@@ -62,7 +62,7 @@
     NSMutableArray *v = [NSMutableArray arrayWithCapacity:c];
     
     for (NSUInteger i = 0; i < c; ++i) {
-        [v addObject:[XPStringClass instanceWithValue:[NSString stringWithFormat:@"%C", [s characterAtIndex:i]]]];
+        [v addObject:[XPObject string:[NSString stringWithFormat:@"%C", [s characterAtIndex:i]]]];
     }
     
     XPEnumeration *e = [XPEnumeration enumerationWithValues:v];
@@ -88,7 +88,7 @@
     NSMutableString *s = this.value;
     idx = [self nativeIndexForIndex:idx inString:s];
     unichar res = [s characterAtIndex:idx];
-    return [XPStringClass instanceWithValue:[NSString stringWithFormat:@"%C", res]];
+    return [XPObject string:[NSString stringWithFormat:@"%C", res]];
 }
 
 

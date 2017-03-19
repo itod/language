@@ -17,7 +17,9 @@
 + (instancetype)nanObject;
 + (instancetype)trueObject;
 + (instancetype)falseObject;
-+ (instancetype)boolean:(BOOL)yn;
++ (instancetype)boolean:(BOOL)b;
++ (instancetype)number:(double)n;
++ (instancetype)string:(NSString *)s;
 + (instancetype)objectWithClass:(XPClass *)cls value:(id)val;
 
 - (id)callInstanceMethodNamed:(NSString *)name; // convenience

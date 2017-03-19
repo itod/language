@@ -42,7 +42,7 @@
     TDAssert(obj);
 
     NSString *name = [obj.objectClass name];
-    XPObject *res = [XPStringClass instanceWithValue:name];
+    XPObject *res = [XPObject string:name];
     return res;
 }
 

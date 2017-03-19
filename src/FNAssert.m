@@ -33,7 +33,7 @@
                       msg, @"message",
                       nil];
     
-    [funcSym setDefaultObject:[XPStringClass instanceWithValue:@""] forParamNamed:@"message"];
+    [funcSym setDefaultObject:[XPObject string:@""] forParamNamed:@"message"];
     
     return funcSym;
 }

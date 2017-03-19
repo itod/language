@@ -65,7 +65,7 @@
     
     double res = NSNotFound == idx ? 0 : idx+1;
     
-    return [XPNumberClass instanceWithValue:@(res)];
+    return [XPObject number:res];
 }
 
 @end

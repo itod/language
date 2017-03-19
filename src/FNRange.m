@@ -36,7 +36,7 @@
                       nil];
     
     [funcSym setDefaultObject:[XPObject nanObject] forParamNamed:@"b"];
-    [funcSym setDefaultObject:[XPNumberClass instanceWithValue:@1] forParamNamed:@"step"];
+    [funcSym setDefaultObject:[XPObject number:1] forParamNamed:@"step"];
     return funcSym;
 }
 
@@ -76,7 +76,7 @@
         
 //        for (NSInteger i = start; i <= stop; i = start+i*step) {
         for (NSInteger i = start; i > 0 && i <= stop; i += step) {
-            XPObject *obj = [XPNumberClass instanceWithValue:@(i)];
+            XPObject *obj = [XPObject number:i];
             [v addObject:obj];
         }
         

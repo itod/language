@@ -49,8 +49,18 @@
 }
 
 
-+ (instancetype)boolean:(BOOL)yn {
-    return yn ? [self trueObject] : [self falseObject];
++ (instancetype)boolean:(BOOL)b {
+    return b ? [self trueObject] : [self falseObject];
+}
+
+
++ (instancetype)number:(double)n {
+    return [XPNumberClass instanceWithValue:@(n)];
+}
+
+
++ (instancetype)string:(NSString *)s {
+    return [XPStringClass instanceWithValue:s];
 }
 
 
@@ -208,12 +218,12 @@
 
 
 - (XPObject *)asNumberObject {
-    return [XPNumberClass instanceWithValue:@([self doubleValue])];
+    return [XPObject number:[self doubleValue]];
 }
 
 
 - (XPObject *)asStringObject {
-    return [XPStringClass instanceWithValue:[self stringValue]];
+    return [XPObject string:[self stringValue]];
 }
 
 

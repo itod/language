@@ -50,7 +50,7 @@
     
     double res = [lhsStr compare:rhsStr];
     
-    return [XPNumberClass instanceWithValue:@(res)];
+    return [XPObject number:res];
 }
 
 @end

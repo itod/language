@@ -43,7 +43,7 @@
     
     NSString *v = [str.value uppercaseString];
     
-    XPObject *res = [XPStringClass instanceWithValue:v];
+    XPObject *res = [XPObject string:v];
     return res;
 }
 

@@ -40,7 +40,7 @@
         TDAssert([key isKindOfClass:[NSString class]]);
         XPObject *valObj = space.members[key];
         TDAssert([valObj isKindOfClass:[XPObject class]]);
-        XPObject *keyObj = [XPStringClass instanceWithValue:key];
+        XPObject *keyObj = [XPObject string:key];
         dict[keyObj] = valObj;
     }
 

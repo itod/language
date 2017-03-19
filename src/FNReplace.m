@@ -38,7 +38,7 @@
                       flags, @"flags",
                       nil];
     
-    [funcSym setDefaultObject:[XPStringClass instanceWithValue:@""] forParamNamed:@"flags"];
+    [funcSym setDefaultObject:[XPObject string:@""] forParamNamed:@"flags"];
     
     return funcSym;
 }
@@ -74,7 +74,7 @@
         }
     }
     
-    return [XPStringClass instanceWithValue:res];
+    return [XPObject string:res];
 }
 
 @end

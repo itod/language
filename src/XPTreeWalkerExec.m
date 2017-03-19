@@ -172,7 +172,7 @@
             break;
     }
 
-    XPObject *valObj = [XPNumberClass instanceWithValue:@(res)];
+    XPObject *valObj = [XPObject number:res];
     [space setObject:valObj forName:name];
 }
 
@@ -229,7 +229,7 @@
             break;
     }
     
-    return [XPNumberClass instanceWithValue:@(res)];
+    return [XPObject number:res];
 }
 
 
@@ -642,7 +642,7 @@
     XPNode *expr = [node childAtIndex:0];
     XPObject *obj = [self walk:expr];
     double n = [obj doubleValue];
-    XPObject *res = [XPNumberClass instanceWithValue:@(-n)];
+    XPObject *res = [XPObject number:-n];
     return res;
 }
 
@@ -673,7 +673,7 @@
     
     NSInteger res = lrint(lhs);
     res = ~res;
-    return [XPNumberClass instanceWithValue:@(res)];
+    return [XPObject number:res];
 }
 
 
@@ -682,7 +682,7 @@
     double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
     
     double res = lrint(lhs) & lrint(rhs);
-    return [XPNumberClass instanceWithValue:@(res)];
+    return [XPObject number:res];
 }
 
 
@@ -691,7 +691,7 @@
     double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
     
     double res = lrint(lhs) | lrint(rhs);
-    return [XPNumberClass instanceWithValue:@(res)];
+    return [XPObject number:res];
 }
 
 
@@ -700,7 +700,7 @@
     double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
     
     double res = lrint(lhs) ^ lrint(rhs);
-    return [XPNumberClass instanceWithValue:@(res)];
+    return [XPObject number:res];
 }
 
 
@@ -709,7 +709,7 @@
     double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
     
     double res = lrint(lhs) << lrint(rhs);
-    return [XPNumberClass instanceWithValue:@(res)];
+    return [XPObject number:res];
 }
 
 
@@ -718,7 +718,7 @@
     double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
     
     double res = lrint(lhs) >> lrint(rhs);
-    return [XPNumberClass instanceWithValue:@(res)];
+    return [XPObject number:res];
 }
 
 
@@ -768,7 +768,7 @@
             break;
     }
 
-    return [XPNumberClass instanceWithValue:@(res)];
+    return [XPObject number:res];
 }
 
 - (id)plus:(XPNode *)node   { return [self math:node op:XP_TOKEN_KIND_PLUS]; }
@@ -782,7 +782,7 @@
     NSString *lhs = [[self walk:[node childAtIndex:0]] stringValue];
     NSString *rhs = [[self walk:[node childAtIndex:1]] stringValue];
     NSString *res = [NSString stringWithFormat:@"%@%@", lhs, rhs];
-    return [XPStringClass instanceWithValue:res];
+    return [XPObject string:res];
 }
 
 
@@ -810,13 +810,13 @@
 
 
 - (id)number:(XPNode *)node {
-    XPObject *obj = [XPNumberClass instanceWithValue:@(node.token.doubleValue)];
+    XPObject *obj = [XPObject number:node.token.doubleValue];
     return obj;
 }
 
 
 - (id)string:(XPNode *)node {
-    XPObject *obj = [XPStringClass instanceWithValue:node.token.stringValue];
+    XPObject *obj = [XPObject string:node.token.stringValue];
     return obj;
 }
 

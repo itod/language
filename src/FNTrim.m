@@ -44,7 +44,7 @@
     NSMutableString *v = [[str.value mutableCopy] autorelease];
     CFStringTrimWhitespace((CFMutableStringRef)v);
     
-    XPObject *res = [XPStringClass instanceWithValue:v];
+    XPObject *res = [XPObject string:v];
     return res;
 }
 

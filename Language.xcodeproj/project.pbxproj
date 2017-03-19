@@ -83,6 +83,8 @@
 		D32E70C31E5367A900728D80 /* FNRange.m in Sources */ = {isa = PBXBuildFile; fileRef = D32E70C11E5367A900728D80 /* FNRange.m */; };
 		D34A55DD1E7DD5AA0064DF65 /* XPMemorySpace.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A55DB1E7DD5AA0064DF65 /* XPMemorySpace.h */; };
 		D34A55DE1E7DD5AA0064DF65 /* XPSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A55DC1E7DD5AA0064DF65 /* XPSymbol.h */; };
+		D34A560A1E7F04F20064DF65 /* FNAbs.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A56081E7F04F20064DF65 /* FNAbs.h */; };
+		D34A560B1E7F04F20064DF65 /* FNAbs.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56091E7F04F20064DF65 /* FNAbs.m */; };
 		D34B7CE01E52A3C80094D2EC /* XPStringLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */; };
 		D35167E11E515BE4004C43CC /* XPDictionaryLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F29C1E5130C200C7099B /* XPDictionaryLiteralTests.m */; };
 		D3689FA41E3BDB57005783BB /* PEGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA21E3BDB57005783BB /* PEGKit.framework */; };
@@ -242,6 +244,8 @@
 		D32E70C11E5367A900728D80 /* FNRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNRange.m; path = src/FNRange.m; sourceTree = SOURCE_ROOT; };
 		D34A55DB1E7DD5AA0064DF65 /* XPMemorySpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPMemorySpace.h; path = src/XPMemorySpace.h; sourceTree = SOURCE_ROOT; };
 		D34A55DC1E7DD5AA0064DF65 /* XPSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPSymbol.h; path = src/XPSymbol.h; sourceTree = SOURCE_ROOT; };
+		D34A56081E7F04F20064DF65 /* FNAbs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNAbs.h; path = src/FNAbs.h; sourceTree = SOURCE_ROOT; };
+		D34A56091E7F04F20064DF65 /* FNAbs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNAbs.m; path = src/FNAbs.m; sourceTree = SOURCE_ROOT; };
 		D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPStringLiteralTests.m; path = test/XPStringLiteralTests.m; sourceTree = SOURCE_ROOT; };
 		D3689FA21E3BDB57005783BB /* PEGKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PEGKit.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/PEGKit.framework"; sourceTree = "<group>"; };
 		D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TDTemplateEngine.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/TDTemplateEngine.framework"; sourceTree = "<group>"; };
@@ -458,6 +462,8 @@
 			children = (
 				D3166E1E1E54C76200DEE3A0 /* FNIsNan.h */,
 				D3166E1F1E54C76200DEE3A0 /* FNIsNan.m */,
+				D34A56081E7F04F20064DF65 /* FNAbs.h */,
+				D34A56091E7F04F20064DF65 /* FNAbs.m */,
 			);
 			name = Number;
 			sourceTree = "<group>";
@@ -733,6 +739,7 @@
 				D37316CF1E3EC4E50034798E /* XPLocalScope.h in Headers */,
 				D309BCD71E5FA0EE002B3199 /* XPStackFrame.h in Headers */,
 				D3A7F2851E4D7A8A00C7099B /* XPStringClass.h in Headers */,
+				D34A560A1E7F04F20064DF65 /* FNAbs.h in Headers */,
 				D3A7F2901E511E3200C7099B /* XPNullClass.h in Headers */,
 				D3166E271E54CB6000DEE3A0 /* FNTrim.h in Headers */,
 				D309BCE11E60AABB002B3199 /* XPBreakpointCollection.h in Headers */,
@@ -873,6 +880,7 @@
 				D3166E001E53B9A900DEE3A0 /* FNCopy.m in Sources */,
 				D32E70BF1E5365F700728D80 /* XPFunctionBody.m in Sources */,
 				D3166E151E54BAFE00DEE3A0 /* FNMatches.m in Sources */,
+				D34A560B1E7F04F20064DF65 /* FNAbs.m in Sources */,
 				D37316B71E3EBF800034798E /* XPSymbol.m in Sources */,
 				D3A7F27E1E4D71CC00C7099B /* XPBooleanClass.m in Sources */,
 				D3A7F2951E51219900C7099B /* XPEnumeration.m in Sources */,
