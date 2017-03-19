@@ -54,6 +54,16 @@
 #import "FNMax.h"
 #import "FNMin.h"
 
+#import "FNAcos.h"
+#import "FNAsin.h"
+#import "FNATan.h"
+#import "FNAtan2.h"
+#import "FNCos.h"
+#import "FNDegrees.h"
+#import "FNRadians.h"
+#import "FNSin.h"
+#import "FNTan.h"
+
 #import <PEGKit/PKAssembly.h>
 
 #define DEBUG_VAR_NAME @"XPDEBUG"
@@ -164,7 +174,18 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         [self declareNativeFunction:[FNSqrt class]];
         [self declareNativeFunction:[FNMax class]];
         [self declareNativeFunction:[FNMin class]];
-        
+
+        // trig
+        [self declareNativeFunction:[FNAcos class]];
+        [self declareNativeFunction:[FNAsin class]];
+        [self declareNativeFunction:[FNAtan class]];
+        [self declareNativeFunction:[FNAtan2 class]];
+        [self declareNativeFunction:[FNCos class]];
+        [self declareNativeFunction:[FNDegrees class]];
+        [self declareNativeFunction:[FNRadians class]];
+        [self declareNativeFunction:[FNSin class]];
+        [self declareNativeFunction:[FNTan class]];
+
         if ([_delegate respondsToSelector:@selector(interpreterDidDeclareNativeFunctions:)]) {
             [_delegate interpreterDidDeclareNativeFunctions:self];
         }

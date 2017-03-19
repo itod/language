@@ -102,6 +102,24 @@
 		D34A562A1E7F36780064DF65 /* FNPow.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56281E7F36780064DF65 /* FNPow.m */; };
 		D34A562D1E7F37480064DF65 /* FNLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A562B1E7F37480064DF65 /* FNLog.h */; };
 		D34A562E1E7F37480064DF65 /* FNLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A562C1E7F37480064DF65 /* FNLog.m */; };
+		D34A56311E7F37EF0064DF65 /* FNAcos.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A562F1E7F37EE0064DF65 /* FNAcos.h */; };
+		D34A56321E7F37EF0064DF65 /* FNAcos.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56301E7F37EF0064DF65 /* FNAcos.m */; };
+		D34A56351E7F381D0064DF65 /* FNAtan.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A56331E7F381D0064DF65 /* FNAtan.h */; };
+		D34A56361E7F381D0064DF65 /* FNAtan.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56341E7F381D0064DF65 /* FNAtan.m */; };
+		D34A56391E7F38410064DF65 /* FNAsin.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A56371E7F38410064DF65 /* FNAsin.h */; };
+		D34A563A1E7F38410064DF65 /* FNAsin.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56381E7F38410064DF65 /* FNAsin.m */; };
+		D34A563D1E7F38710064DF65 /* FNAtan2.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A563B1E7F38710064DF65 /* FNAtan2.h */; };
+		D34A563E1E7F38710064DF65 /* FNAtan2.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A563C1E7F38710064DF65 /* FNAtan2.m */; };
+		D34A56411E7F38990064DF65 /* FNCos.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A563F1E7F38990064DF65 /* FNCos.h */; };
+		D34A56421E7F38990064DF65 /* FNCos.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56401E7F38990064DF65 /* FNCos.m */; };
+		D34A56451E7F38BF0064DF65 /* FNSin.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A56431E7F38BF0064DF65 /* FNSin.h */; };
+		D34A56461E7F38BF0064DF65 /* FNSin.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56441E7F38BF0064DF65 /* FNSin.m */; };
+		D34A56491E7F38DF0064DF65 /* FNTan.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A56471E7F38DF0064DF65 /* FNTan.h */; };
+		D34A564A1E7F38DF0064DF65 /* FNTan.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56481E7F38DF0064DF65 /* FNTan.m */; };
+		D34A564D1E7F39040064DF65 /* FNDegrees.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A564B1E7F39040064DF65 /* FNDegrees.h */; };
+		D34A564E1E7F39040064DF65 /* FNDegrees.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A564C1E7F39040064DF65 /* FNDegrees.m */; };
+		D34A56511E7F39770064DF65 /* FNRadians.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A564F1E7F39770064DF65 /* FNRadians.h */; };
+		D34A56521E7F39770064DF65 /* FNRadians.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56501E7F39770064DF65 /* FNRadians.m */; };
 		D34B7CE01E52A3C80094D2EC /* XPStringLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */; };
 		D35167E11E515BE4004C43CC /* XPDictionaryLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F29C1E5130C200C7099B /* XPDictionaryLiteralTests.m */; };
 		D3689FA41E3BDB57005783BB /* PEGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA21E3BDB57005783BB /* PEGKit.framework */; };
@@ -280,6 +298,24 @@
 		D34A56281E7F36780064DF65 /* FNPow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNPow.m; path = src/FNPow.m; sourceTree = SOURCE_ROOT; };
 		D34A562B1E7F37480064DF65 /* FNLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNLog.h; path = src/FNLog.h; sourceTree = SOURCE_ROOT; };
 		D34A562C1E7F37480064DF65 /* FNLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNLog.m; path = src/FNLog.m; sourceTree = SOURCE_ROOT; };
+		D34A562F1E7F37EE0064DF65 /* FNAcos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNAcos.h; path = src/FNAcos.h; sourceTree = SOURCE_ROOT; };
+		D34A56301E7F37EF0064DF65 /* FNAcos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNAcos.m; path = src/FNAcos.m; sourceTree = SOURCE_ROOT; };
+		D34A56331E7F381D0064DF65 /* FNAtan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNAtan.h; path = src/FNAtan.h; sourceTree = SOURCE_ROOT; };
+		D34A56341E7F381D0064DF65 /* FNAtan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNAtan.m; path = src/FNAtan.m; sourceTree = SOURCE_ROOT; };
+		D34A56371E7F38410064DF65 /* FNAsin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNAsin.h; path = src/FNAsin.h; sourceTree = SOURCE_ROOT; };
+		D34A56381E7F38410064DF65 /* FNAsin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNAsin.m; path = src/FNAsin.m; sourceTree = SOURCE_ROOT; };
+		D34A563B1E7F38710064DF65 /* FNAtan2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNAtan2.h; path = src/FNAtan2.h; sourceTree = SOURCE_ROOT; };
+		D34A563C1E7F38710064DF65 /* FNAtan2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNAtan2.m; path = src/FNAtan2.m; sourceTree = SOURCE_ROOT; };
+		D34A563F1E7F38990064DF65 /* FNCos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNCos.h; path = src/FNCos.h; sourceTree = SOURCE_ROOT; };
+		D34A56401E7F38990064DF65 /* FNCos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNCos.m; path = src/FNCos.m; sourceTree = SOURCE_ROOT; };
+		D34A56431E7F38BF0064DF65 /* FNSin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNSin.h; path = src/FNSin.h; sourceTree = SOURCE_ROOT; };
+		D34A56441E7F38BF0064DF65 /* FNSin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNSin.m; path = src/FNSin.m; sourceTree = SOURCE_ROOT; };
+		D34A56471E7F38DF0064DF65 /* FNTan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNTan.h; path = src/FNTan.h; sourceTree = SOURCE_ROOT; };
+		D34A56481E7F38DF0064DF65 /* FNTan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNTan.m; path = src/FNTan.m; sourceTree = SOURCE_ROOT; };
+		D34A564B1E7F39040064DF65 /* FNDegrees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNDegrees.h; path = src/FNDegrees.h; sourceTree = SOURCE_ROOT; };
+		D34A564C1E7F39040064DF65 /* FNDegrees.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNDegrees.m; path = src/FNDegrees.m; sourceTree = SOURCE_ROOT; };
+		D34A564F1E7F39770064DF65 /* FNRadians.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNRadians.h; path = src/FNRadians.h; sourceTree = SOURCE_ROOT; };
+		D34A56501E7F39770064DF65 /* FNRadians.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNRadians.m; path = src/FNRadians.m; sourceTree = SOURCE_ROOT; };
 		D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPStringLiteralTests.m; path = test/XPStringLiteralTests.m; sourceTree = SOURCE_ROOT; };
 		D3689FA21E3BDB57005783BB /* PEGKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PEGKit.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/PEGKit.framework"; sourceTree = "<group>"; };
 		D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TDTemplateEngine.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/TDTemplateEngine.framework"; sourceTree = "<group>"; };
@@ -515,6 +551,24 @@
 				D34A56241E7F35E70064DF65 /* FNMin.m */,
 				D34A562B1E7F37480064DF65 /* FNLog.h */,
 				D34A562C1E7F37480064DF65 /* FNLog.m */,
+				D34A562F1E7F37EE0064DF65 /* FNAcos.h */,
+				D34A56301E7F37EF0064DF65 /* FNAcos.m */,
+				D34A56371E7F38410064DF65 /* FNAsin.h */,
+				D34A56381E7F38410064DF65 /* FNAsin.m */,
+				D34A56331E7F381D0064DF65 /* FNAtan.h */,
+				D34A56341E7F381D0064DF65 /* FNAtan.m */,
+				D34A563B1E7F38710064DF65 /* FNAtan2.h */,
+				D34A563C1E7F38710064DF65 /* FNAtan2.m */,
+				D34A563F1E7F38990064DF65 /* FNCos.h */,
+				D34A56401E7F38990064DF65 /* FNCos.m */,
+				D34A56431E7F38BF0064DF65 /* FNSin.h */,
+				D34A56441E7F38BF0064DF65 /* FNSin.m */,
+				D34A56471E7F38DF0064DF65 /* FNTan.h */,
+				D34A56481E7F38DF0064DF65 /* FNTan.m */,
+				D34A564B1E7F39040064DF65 /* FNDegrees.h */,
+				D34A564C1E7F39040064DF65 /* FNDegrees.m */,
+				D34A564F1E7F39770064DF65 /* FNRadians.h */,
+				D34A56501E7F39770064DF65 /* FNRadians.m */,
 			);
 			name = Number;
 			sourceTree = "<group>";
@@ -750,10 +804,12 @@
 				D3DF58C61E42F346006CAA07 /* XPFunctionSpace.h in Headers */,
 				D37316AE1E3EBDE20034798E /* XPInterpreter.h in Headers */,
 				D3166E141E54BAFE00DEE3A0 /* FNMatches.h in Headers */,
+				D34A563D1E7F38710064DF65 /* FNAtan2.h in Headers */,
 				D3166DFF1E53B9A900DEE3A0 /* FNCopy.h in Headers */,
 				D3166DEB1E53B18000DEE3A0 /* FNString.h in Headers */,
 				D3BB83651E454B8F007AC9DD /* XPException.h in Headers */,
 				D3166E241E54C8BD00DEE3A0 /* FNCompare.h in Headers */,
+				D34A56511E7F39770064DF65 /* FNRadians.h in Headers */,
 				D37316A41E3EBD5C0034798E /* XPNode.h in Headers */,
 				D3DF58BE1E429E45006CAA07 /* XPFunctionSymbol.h in Headers */,
 				D3A7F29A1E512E6D00C7099B /* XPDictionaryClass.h in Headers */,
@@ -761,11 +817,13 @@
 				D34A56121E7F31430064DF65 /* FNFloor.h in Headers */,
 				D3166DF91E53B7D000DEE3A0 /* FNAssert.h in Headers */,
 				D37316C31E3EC1470034798E /* XPBaseScope.h in Headers */,
+				D34A56391E7F38410064DF65 /* FNAsin.h in Headers */,
 				D3166DD81E53989300DEE3A0 /* FNCount.h in Headers */,
 				D3166E181E54BD4F00DEE3A0 /* FNReplace.h in Headers */,
 				D3166DE71E53B16F00DEE3A0 /* FNNumber.h in Headers */,
 				D32E70C21E5367A900728D80 /* FNRange.h in Headers */,
 				D3166E071E53F6DB00DEE3A0 /* FNLowercase.h in Headers */,
+				D34A56311E7F37EF0064DF65 /* FNAcos.h in Headers */,
 				D34A562D1E7F37480064DF65 /* FNLog.h in Headers */,
 				D34A56251E7F35E70064DF65 /* FNMin.h in Headers */,
 				D3166E691E579FDE00DEE3A0 /* FNLocals.h in Headers */,
@@ -777,6 +835,8 @@
 				D305629D1E3BD929008BEC9A /* Language.h in Headers */,
 				D37316E51E3FAB140034798E /* XPTreeWalkerExec.h in Headers */,
 				D34A560E1E7F06720064DF65 /* FNRound.h in Headers */,
+				D34A56451E7F38BF0064DF65 /* FNSin.h in Headers */,
+				D34A56411E7F38990064DF65 /* FNCos.h in Headers */,
 				D37CE4AE1E4CE4500008945E /* XPClass.h in Headers */,
 				D3166E0B1E53F71800DEE3A0 /* FNUppercase.h in Headers */,
 				D309BCDC1E5FA17B002B3199 /* XPObject.h in Headers */,
@@ -797,7 +857,9 @@
 				D309BCD71E5FA0EE002B3199 /* XPStackFrame.h in Headers */,
 				D3A7F2851E4D7A8A00C7099B /* XPStringClass.h in Headers */,
 				D34A560A1E7F04F20064DF65 /* FNAbs.h in Headers */,
+				D34A56491E7F38DF0064DF65 /* FNTan.h in Headers */,
 				D34A56291E7F36780064DF65 /* FNPow.h in Headers */,
+				D34A56351E7F381D0064DF65 /* FNAtan.h in Headers */,
 				D3A7F2901E511E3200C7099B /* XPNullClass.h in Headers */,
 				D3166E271E54CB6000DEE3A0 /* FNTrim.h in Headers */,
 				D309BCE11E60AABB002B3199 /* XPBreakpointCollection.h in Headers */,
@@ -806,6 +868,7 @@
 				D3166E201E54C76200DEE3A0 /* FNIsNan.h in Headers */,
 				D37CE4B21E4CE6940008945E /* XPArrayClass.h in Headers */,
 				D34A561A1E7F31F60064DF65 /* FNSqrt.h in Headers */,
+				D34A564D1E7F39040064DF65 /* FNDegrees.h in Headers */,
 				D3A7F28C1E4E5D1700C7099B /* XPFunctionClass.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -919,12 +982,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D34A56461E7F38BF0064DF65 /* FNSin.m in Sources */,
 				D3166E081E53F6DB00DEE3A0 /* FNLowerCase.m in Sources */,
 				D37316D41E3EC5430034798E /* XPMemorySpace.m in Sources */,
 				D3166DFA1E53B7D000DEE3A0 /* FNAssert.m in Sources */,
 				D3A7F2911E511E3200C7099B /* XPNullClass.m in Sources */,
 				D3A7F2861E4D7A8A00C7099B /* XPStringClass.m in Sources */,
+				D34A56321E7F37EF0064DF65 /* FNAcos.m in Sources */,
 				D3166E391E54E4CE00DEE3A0 /* FNFilter.m in Sources */,
+				D34A56361E7F381D0064DF65 /* FNAtan.m in Sources */,
 				D368A0091E3BE383005783BB /* XPParser.m in Sources */,
 				D309BCE51E60AAD5002B3199 /* XPBreakpointCollection.m in Sources */,
 				D34A56131E7F31430064DF65 /* FNFloor.m in Sources */,
@@ -935,7 +1001,9 @@
 				D37316AC1E3EBDD20034798E /* XPInterpreter.m in Sources */,
 				D37316BB1E3EBF980034798E /* XPVariableSymbol.m in Sources */,
 				D3166E2C1E54DD4600DEE3A0 /* FNPosition.m in Sources */,
+				D34A56521E7F39770064DF65 /* FNRadians.m in Sources */,
 				D3166E251E54C8BD00DEE3A0 /* FNCompare.m in Sources */,
+				D34A564A1E7F38DF0064DF65 /* FNTan.m in Sources */,
 				D37CE4AF1E4CE4500008945E /* XPClass.m in Sources */,
 				D32E70C31E5367A900728D80 /* FNRange.m in Sources */,
 				D3166E711E57A69500DEE3A0 /* FNGlobals.m in Sources */,
@@ -952,6 +1020,7 @@
 				D3166E321E54E2ED00DEE3A0 /* FNMap.m in Sources */,
 				D309BCDA1E5FA104002B3199 /* XPStackFrame.m in Sources */,
 				D3A7F2821E4D79FB00C7099B /* XPNumberClass.m in Sources */,
+				D34A564E1E7F39040064DF65 /* FNDegrees.m in Sources */,
 				D3166DE81E53B16F00DEE3A0 /* FNNumber.m in Sources */,
 				D3166DEC1E53B18000DEE3A0 /* FNString.m in Sources */,
 				D3166E0C1E53F71800DEE3A0 /* FNUppercase.m in Sources */,
@@ -963,14 +1032,17 @@
 				D309BCE41E60AAD5002B3199 /* XPBreakpoint.m in Sources */,
 				D3166DF21E53B23500DEE3A0 /* FNType.m in Sources */,
 				D37CE4B31E4CE6940008945E /* XPArrayClass.m in Sources */,
+				D34A563E1E7F38710064DF65 /* FNAtan2.m in Sources */,
 				D37316D01E3EC4E50034798E /* XPLocalScope.m in Sources */,
 				D34A561F1E7F32430064DF65 /* FNMax.m in Sources */,
 				D3DF58C71E42F346006CAA07 /* XPFunctionSpace.m in Sources */,
 				D3166E211E54C76200DEE3A0 /* FNIsNan.m in Sources */,
 				D37316ED1E4121110034798E /* XPException.m in Sources */,
 				D3166E3D1E54EBA200DEE3A0 /* XPReturnException.m in Sources */,
+				D34A56421E7F38990064DF65 /* FNCos.m in Sources */,
 				D3A7F28D1E4E5D1700C7099B /* XPFunctionClass.m in Sources */,
 				D37316DD1E3FA9980034798E /* XPTreeWalker.m in Sources */,
+				D34A563A1E7F38410064DF65 /* FNAsin.m in Sources */,
 				D37316E61E3FAB140034798E /* XPTreeWalkerExec.m in Sources */,
 				D3DF58BF1E429E45006CAA07 /* XPFunctionSymbol.m in Sources */,
 				D3166DE41E53B0C400DEE3A0 /* FNBoolean.m in Sources */,
