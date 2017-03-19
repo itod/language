@@ -4,7 +4,7 @@ var funcs = []
 for i in range(3) {
     funcs[] = sub () {
         x = i
-        log('should be 3, i:' || i)
+        print('should be 3, i:' || i)
     }
 }
 
@@ -14,7 +14,7 @@ for i in range(3) {
         for func in funcs {
             func()
         }
-        log('should be 47, i:' || i)
+        print('should be 47, i:' || i)
     }
     foo()
 }

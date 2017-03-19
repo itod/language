@@ -53,17 +53,17 @@
 }
 
 - (void)testNestedLoops {
-    [self eval:@"var x=0;for i in range(3) {for j in range(3){log(x);x=x+i;}}"];
+    [self eval:@"var x=0;for i in range(3) {for j in range(3){print(x);x=x+i;}}"];
     TDEquals(18.0, [self doubleForName:@"x"]);
 }
 
 - (void)testNestedLoops2 {
-    [self eval:@"var x=0;for i in range(3) {for j in range(3){log(i);x=x+i;}}"];
+    [self eval:@"var x=0;for i in range(3) {for j in range(3){print(i);x=x+i;}}"];
     TDEquals(18.0, [self doubleForName:@"x"]);
 }
 
 - (void)testClosuresLoop {
-    [self eval:@"var funcs=[];for i in range(3){funcs[]=sub(){log(i);};}for func in funcs {func();}"];
+    [self eval:@"var funcs=[];for i in range(3){funcs[]=sub(){print(i);};}for func in funcs {func();}"];
 }
 
 - (void)testGlobalVarFromClosure {

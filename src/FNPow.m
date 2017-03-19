@@ -1,21 +1,21 @@
 //
-//  FNLog.m
+//  FNPow.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "FNLog.h"
+#import "FNPow.h"
 #import <Language/XPObject.h>
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 
-@implementation FNLog
+@implementation FNPow
 
 + (NSString *)name {
-    return @"log";
+    return @"pow";
 }
 
 
@@ -24,9 +24,11 @@
     funcSym.nativeBody = self;
     
     XPSymbol *n = [XPSymbol symbolWithName:@"n"];
-    funcSym.orderedParams = [NSMutableArray arrayWithObjects:n, nil];
+    XPSymbol *e = [XPSymbol symbolWithName:@"e"];
+    funcSym.orderedParams = [NSMutableArray arrayWithObjects:n, e, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                       n, @"n",
+                      e, @"e",
                       nil];
     
     return funcSym;
@@ -37,10 +39,10 @@
     XPMemorySpace *space = walker.currentSpace;
     TDAssert(space);
     
-    XPObject *n = [space objectForName:@"n"];
-    TDAssert(n);
+    XPObject *n = [space objectForName:@"n"]; TDAssert(n);
+    XPObject *e = [space objectForName:@"e"]; TDAssert(e);
     
-    double res = log(n.doubleValue);
+    double res = pow(n.doubleValue, e.doubleValue);
     return [XPObject number:res];
 }
 

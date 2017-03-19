@@ -1,21 +1,22 @@
 //
-//  FNLog.m
+//  FNPrint.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "FNLog.h"
+#import "FNPrint.h"
 #import <Language/XPObject.h>
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
+#import "XPException.h"
 
-@implementation FNLog
+@implementation FNPrint
 
 + (NSString *)name {
-    return @"log";
+    return @"print";
 }
 
 
@@ -23,10 +24,10 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *n = [XPSymbol symbolWithName:@"n"];
-    funcSym.orderedParams = [NSMutableArray arrayWithObjects:n, nil];
+    XPSymbol *obj = [XPSymbol symbolWithName:@"object"];
+    funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      n, @"n",
+                      obj, @"object",
                       nil];
     
     return funcSym;
@@ -37,11 +38,14 @@
     XPMemorySpace *space = walker.currentSpace;
     TDAssert(space);
     
-    XPObject *n = [space objectForName:@"n"];
-    TDAssert(n);
+    XPObject *obj = [space objectForName:@"object"];
+    TDAssert(obj);
     
-    double res = log(n.doubleValue);
-    return [XPObject number:res];
+    NSString *str = [obj stringValue];
+    [walker.stdOut writeData:[[NSString stringWithFormat:@"%@\n", str] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    //NSLog(@"%@", str);
+    return nil;
 }
 
 @end

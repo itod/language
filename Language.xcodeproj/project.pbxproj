@@ -20,8 +20,8 @@
 		D30C5C5F1E4508F1001A6F5D /* XPFuncLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D30C5C5D1E4508DC001A6F5D /* XPFuncLiteralTests.m */; };
 		D3166DD81E53989300DEE3A0 /* FNCount.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166DD61E53989300DEE3A0 /* FNCount.h */; };
 		D3166DD91E53989300DEE3A0 /* FNCount.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166DD71E53989300DEE3A0 /* FNCount.m */; };
-		D3166DDF1E53B03300DEE3A0 /* FNLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166DDD1E53B03300DEE3A0 /* FNLog.h */; };
-		D3166DE01E53B03300DEE3A0 /* FNLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166DDE1E53B03300DEE3A0 /* FNLog.m */; };
+		D3166DDF1E53B03300DEE3A0 /* FNPrint.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166DDD1E53B03300DEE3A0 /* FNPrint.h */; };
+		D3166DE01E53B03300DEE3A0 /* FNPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166DDE1E53B03300DEE3A0 /* FNPrint.m */; };
 		D3166DE31E53B0C400DEE3A0 /* FNBoolean.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166DE11E53B0C400DEE3A0 /* FNBoolean.h */; };
 		D3166DE41E53B0C400DEE3A0 /* FNBoolean.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166DE21E53B0C400DEE3A0 /* FNBoolean.m */; };
 		D3166DE71E53B16F00DEE3A0 /* FNNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166DE51E53B16F00DEE3A0 /* FNNumber.h */; };
@@ -98,6 +98,10 @@
 		D34A56221E7F350A0064DF65 /* FNNumberTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56201E7F34C80064DF65 /* FNNumberTests.m */; };
 		D34A56251E7F35E70064DF65 /* FNMin.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A56231E7F35E70064DF65 /* FNMin.h */; };
 		D34A56261E7F35E70064DF65 /* FNMin.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56241E7F35E70064DF65 /* FNMin.m */; };
+		D34A56291E7F36780064DF65 /* FNPow.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A56271E7F36780064DF65 /* FNPow.h */; };
+		D34A562A1E7F36780064DF65 /* FNPow.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56281E7F36780064DF65 /* FNPow.m */; };
+		D34A562D1E7F37480064DF65 /* FNLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A562B1E7F37480064DF65 /* FNLog.h */; };
+		D34A562E1E7F37480064DF65 /* FNLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A562C1E7F37480064DF65 /* FNLog.m */; };
 		D34B7CE01E52A3C80094D2EC /* XPStringLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */; };
 		D35167E11E515BE4004C43CC /* XPDictionaryLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F29C1E5130C200C7099B /* XPDictionaryLiteralTests.m */; };
 		D3689FA41E3BDB57005783BB /* PEGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA21E3BDB57005783BB /* PEGKit.framework */; };
@@ -195,8 +199,8 @@
 		D3166DD61E53989300DEE3A0 /* FNCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNCount.h; path = src/FNCount.h; sourceTree = SOURCE_ROOT; };
 		D3166DD71E53989300DEE3A0 /* FNCount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNCount.m; path = src/FNCount.m; sourceTree = SOURCE_ROOT; };
 		D3166DDA1E53997100DEE3A0 /* FNSequenceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNSequenceTests.m; path = test/FNSequenceTests.m; sourceTree = SOURCE_ROOT; };
-		D3166DDD1E53B03300DEE3A0 /* FNLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNLog.h; path = src/FNLog.h; sourceTree = SOURCE_ROOT; };
-		D3166DDE1E53B03300DEE3A0 /* FNLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNLog.m; path = src/FNLog.m; sourceTree = SOURCE_ROOT; };
+		D3166DDD1E53B03300DEE3A0 /* FNPrint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNPrint.h; path = src/FNPrint.h; sourceTree = SOURCE_ROOT; };
+		D3166DDE1E53B03300DEE3A0 /* FNPrint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNPrint.m; path = src/FNPrint.m; sourceTree = SOURCE_ROOT; };
 		D3166DE11E53B0C400DEE3A0 /* FNBoolean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNBoolean.h; path = src/FNBoolean.h; sourceTree = SOURCE_ROOT; };
 		D3166DE21E53B0C400DEE3A0 /* FNBoolean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNBoolean.m; path = src/FNBoolean.m; sourceTree = SOURCE_ROOT; };
 		D3166DE51E53B16F00DEE3A0 /* FNNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNNumber.h; path = src/FNNumber.h; sourceTree = SOURCE_ROOT; };
@@ -272,6 +276,10 @@
 		D34A56201E7F34C80064DF65 /* FNNumberTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNNumberTests.m; path = test/FNNumberTests.m; sourceTree = SOURCE_ROOT; };
 		D34A56231E7F35E70064DF65 /* FNMin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNMin.h; path = src/FNMin.h; sourceTree = SOURCE_ROOT; };
 		D34A56241E7F35E70064DF65 /* FNMin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNMin.m; path = src/FNMin.m; sourceTree = SOURCE_ROOT; };
+		D34A56271E7F36780064DF65 /* FNPow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNPow.h; path = src/FNPow.h; sourceTree = SOURCE_ROOT; };
+		D34A56281E7F36780064DF65 /* FNPow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNPow.m; path = src/FNPow.m; sourceTree = SOURCE_ROOT; };
+		D34A562B1E7F37480064DF65 /* FNLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNLog.h; path = src/FNLog.h; sourceTree = SOURCE_ROOT; };
+		D34A562C1E7F37480064DF65 /* FNLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNLog.m; path = src/FNLog.m; sourceTree = SOURCE_ROOT; };
 		D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPStringLiteralTests.m; path = test/XPStringLiteralTests.m; sourceTree = SOURCE_ROOT; };
 		D3689FA21E3BDB57005783BB /* PEGKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PEGKit.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/PEGKit.framework"; sourceTree = "<group>"; };
 		D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TDTemplateEngine.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/TDTemplateEngine.framework"; sourceTree = "<group>"; };
@@ -499,10 +507,14 @@
 				D34A56151E7F31680064DF65 /* FNCeil.m */,
 				D34A56181E7F31F60064DF65 /* FNSqrt.h */,
 				D34A56191E7F31F60064DF65 /* FNSqrt.m */,
+				D34A56271E7F36780064DF65 /* FNPow.h */,
+				D34A56281E7F36780064DF65 /* FNPow.m */,
 				D34A561C1E7F32430064DF65 /* FNMax.h */,
 				D34A561D1E7F32430064DF65 /* FNMax.m */,
 				D34A56231E7F35E70064DF65 /* FNMin.h */,
 				D34A56241E7F35E70064DF65 /* FNMin.m */,
+				D34A562B1E7F37480064DF65 /* FNLog.h */,
+				D34A562C1E7F37480064DF65 /* FNLog.m */,
 			);
 			name = Number;
 			sourceTree = "<group>";
@@ -523,8 +535,8 @@
 		D3166E2E1E54E13700DEE3A0 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				D3166DDD1E53B03300DEE3A0 /* FNLog.h */,
-				D3166DDE1E53B03300DEE3A0 /* FNLog.m */,
+				D3166DDD1E53B03300DEE3A0 /* FNPrint.h */,
+				D3166DDE1E53B03300DEE3A0 /* FNPrint.m */,
 				D3166DF71E53B7D000DEE3A0 /* FNAssert.h */,
 				D3166DF81E53B7D000DEE3A0 /* FNAssert.m */,
 				D3166DFD1E53B9A900DEE3A0 /* FNCopy.h */,
@@ -733,7 +745,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3166DDF1E53B03300DEE3A0 /* FNLog.h in Headers */,
+				D3166DDF1E53B03300DEE3A0 /* FNPrint.h in Headers */,
 				D3166DF11E53B23500DEE3A0 /* FNType.h in Headers */,
 				D3DF58C61E42F346006CAA07 /* XPFunctionSpace.h in Headers */,
 				D37316AE1E3EBDE20034798E /* XPInterpreter.h in Headers */,
@@ -754,6 +766,7 @@
 				D3166DE71E53B16F00DEE3A0 /* FNNumber.h in Headers */,
 				D32E70C21E5367A900728D80 /* FNRange.h in Headers */,
 				D3166E071E53F6DB00DEE3A0 /* FNLowercase.h in Headers */,
+				D34A562D1E7F37480064DF65 /* FNLog.h in Headers */,
 				D34A56251E7F35E70064DF65 /* FNMin.h in Headers */,
 				D3166E691E579FDE00DEE3A0 /* FNLocals.h in Headers */,
 				D34A55DD1E7DD5AA0064DF65 /* XPMemorySpace.h in Headers */,
@@ -784,6 +797,7 @@
 				D309BCD71E5FA0EE002B3199 /* XPStackFrame.h in Headers */,
 				D3A7F2851E4D7A8A00C7099B /* XPStringClass.h in Headers */,
 				D34A560A1E7F04F20064DF65 /* FNAbs.h in Headers */,
+				D34A56291E7F36780064DF65 /* FNPow.h in Headers */,
 				D3A7F2901E511E3200C7099B /* XPNullClass.h in Headers */,
 				D3166E271E54CB6000DEE3A0 /* FNTrim.h in Headers */,
 				D309BCE11E60AABB002B3199 /* XPBreakpointCollection.h in Headers */,
@@ -917,6 +931,7 @@
 				D34A560F1E7F06720064DF65 /* FNRound.m in Sources */,
 				D34A56171E7F31680064DF65 /* FNCeil.m in Sources */,
 				D37CE4AB1E4CE4470008945E /* XPObject.m in Sources */,
+				D34A562E1E7F37480064DF65 /* FNLog.m in Sources */,
 				D37316AC1E3EBDD20034798E /* XPInterpreter.m in Sources */,
 				D37316BB1E3EBF980034798E /* XPVariableSymbol.m in Sources */,
 				D3166E2C1E54DD4600DEE3A0 /* FNPosition.m in Sources */,
@@ -928,6 +943,7 @@
 				D34A56261E7F35E70064DF65 /* FNMin.m in Sources */,
 				D3166E001E53B9A900DEE3A0 /* FNCopy.m in Sources */,
 				D32E70BF1E5365F700728D80 /* XPFunctionBody.m in Sources */,
+				D34A562A1E7F36780064DF65 /* FNPow.m in Sources */,
 				D3166E151E54BAFE00DEE3A0 /* FNMatches.m in Sources */,
 				D34A560B1E7F04F20064DF65 /* FNAbs.m in Sources */,
 				D37316B71E3EBF800034798E /* XPSymbol.m in Sources */,
@@ -958,7 +974,7 @@
 				D37316E61E3FAB140034798E /* XPTreeWalkerExec.m in Sources */,
 				D3DF58BF1E429E45006CAA07 /* XPFunctionSymbol.m in Sources */,
 				D3166DE41E53B0C400DEE3A0 /* FNBoolean.m in Sources */,
-				D3166DE01E53B03300DEE3A0 /* FNLog.m in Sources */,
+				D3166DE01E53B03300DEE3A0 /* FNPrint.m in Sources */,
 				D37316A21E3EBD4B0034798E /* XPNode.m in Sources */,
 				D3166DD91E53989300DEE3A0 /* FNCount.m in Sources */,
 				D3DF58BB1E429C6F006CAA07 /* XPScopedSymbol.m in Sources */,
