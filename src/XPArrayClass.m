@@ -31,7 +31,7 @@
     SEL sel = [super selectorForMethodNamed:methName];
 
     if ([methName isEqualToString:@"count"]) {
-        sel = @selector(length:);
+        sel = @selector(count:);
     } else if ([methName isEqualToString:@"get"]) {
         sel = @selector(get::);
     } else if ([methName isEqualToString:@"set"]) {
@@ -57,7 +57,7 @@
 }
 
 
-- (id)length:(XPObject *)this {
+- (id)count:(XPObject *)this {
     NSMutableArray *v = this.value;
     NSInteger c = [v count];
     return @(c);

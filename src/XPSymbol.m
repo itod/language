@@ -81,7 +81,7 @@ static NSMutableSet *sReserved = nil;
 
 
 + (void)addReservedWord:(NSString *)s {
-    TDAssert(![sReserved containsObject:s])
+    //TDAssert(![sReserved containsObject:s])
     [sReserved addObject:s];
 }
 
