@@ -35,7 +35,7 @@
 }
 
 - (void)testReservedString {
-    [self fail:@"var string = 1;"];
+    [self fail:@"var String = 1;"];
     TDEqualObjects(XPExceptionReservedWord, self.error.localizedDescription);
 }
 

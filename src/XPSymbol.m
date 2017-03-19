@@ -62,12 +62,12 @@ static NSSet *sReserved = nil;
                      @"catch",
                      @"finally",
                      
-                     @"object",
-                     @"boolean",
-                     @"number",
-                     @"string",
-                     @"array",
-                     @"dictionary",
+                     @"Object",
+                     @"Boolean",
+                     @"Number",
+                     @"String",
+                     @"Array",
+                     @"Dictionary",
                      @"void",
                      
                      @"assert",
