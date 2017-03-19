@@ -231,8 +231,6 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             _treeWalker.currentFilePath = path ? path : @"<main>";
             [_treeWalker walk:_root];
             
-//            NSMutableDictionary *info = [NSMutableDictionary dictionaryWithObjectsAndKeys:@0, XPDebugInfoReturnCodeKey, nil];
-//            [self.debugDelegate interpreter:self didFinish:info];
         } @catch (XPException *ex) {
             success = NO;
             if (outErr) {
@@ -245,14 +243,6 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             } else {
                 [ex raise];
             }
-            
-//            NSMutableDictionary *info = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                                         @1, XPDebugInfoReturnCodeKey,
-//                                         *outErr, XPDebugInfoErrorKey,
-//                                         nil];
-//
-//            [self.debugDelegate interpreter:self didFail:info];
-
         } @finally {
             self.treeWalker = nil;
         }
