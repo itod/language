@@ -85,6 +85,8 @@
 		D34A55DE1E7DD5AA0064DF65 /* XPSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A55DC1E7DD5AA0064DF65 /* XPSymbol.h */; };
 		D34A560A1E7F04F20064DF65 /* FNAbs.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A56081E7F04F20064DF65 /* FNAbs.h */; };
 		D34A560B1E7F04F20064DF65 /* FNAbs.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56091E7F04F20064DF65 /* FNAbs.m */; };
+		D34A560E1E7F06720064DF65 /* FNRound.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A560C1E7F06720064DF65 /* FNRound.h */; };
+		D34A560F1E7F06720064DF65 /* FNRound.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A560D1E7F06720064DF65 /* FNRound.m */; };
 		D34B7CE01E52A3C80094D2EC /* XPStringLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */; };
 		D35167E11E515BE4004C43CC /* XPDictionaryLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F29C1E5130C200C7099B /* XPDictionaryLiteralTests.m */; };
 		D3689FA41E3BDB57005783BB /* PEGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA21E3BDB57005783BB /* PEGKit.framework */; };
@@ -246,6 +248,8 @@
 		D34A55DC1E7DD5AA0064DF65 /* XPSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPSymbol.h; path = src/XPSymbol.h; sourceTree = SOURCE_ROOT; };
 		D34A56081E7F04F20064DF65 /* FNAbs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNAbs.h; path = src/FNAbs.h; sourceTree = SOURCE_ROOT; };
 		D34A56091E7F04F20064DF65 /* FNAbs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNAbs.m; path = src/FNAbs.m; sourceTree = SOURCE_ROOT; };
+		D34A560C1E7F06720064DF65 /* FNRound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNRound.h; path = src/FNRound.h; sourceTree = SOURCE_ROOT; };
+		D34A560D1E7F06720064DF65 /* FNRound.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNRound.m; path = src/FNRound.m; sourceTree = SOURCE_ROOT; };
 		D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPStringLiteralTests.m; path = test/XPStringLiteralTests.m; sourceTree = SOURCE_ROOT; };
 		D3689FA21E3BDB57005783BB /* PEGKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PEGKit.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/PEGKit.framework"; sourceTree = "<group>"; };
 		D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TDTemplateEngine.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/TDTemplateEngine.framework"; sourceTree = "<group>"; };
@@ -464,6 +468,8 @@
 				D3166E1F1E54C76200DEE3A0 /* FNIsNan.m */,
 				D34A56081E7F04F20064DF65 /* FNAbs.h */,
 				D34A56091E7F04F20064DF65 /* FNAbs.m */,
+				D34A560C1E7F06720064DF65 /* FNRound.h */,
+				D34A560D1E7F06720064DF65 /* FNRound.m */,
 			);
 			name = Number;
 			sourceTree = "<group>";
@@ -720,6 +726,7 @@
 				D309BCE01E60AABB002B3199 /* XPBreakpoint.h in Headers */,
 				D305629D1E3BD929008BEC9A /* Language.h in Headers */,
 				D37316E51E3FAB140034798E /* XPTreeWalkerExec.h in Headers */,
+				D34A560E1E7F06720064DF65 /* FNRound.h in Headers */,
 				D37CE4AE1E4CE4500008945E /* XPClass.h in Headers */,
 				D3166E0B1E53F71800DEE3A0 /* FNUppercase.h in Headers */,
 				D309BCDC1E5FA17B002B3199 /* XPObject.h in Headers */,
@@ -868,6 +875,7 @@
 				D3166E391E54E4CE00DEE3A0 /* FNFilter.m in Sources */,
 				D368A0091E3BE383005783BB /* XPParser.m in Sources */,
 				D309BCE51E60AAD5002B3199 /* XPBreakpointCollection.m in Sources */,
+				D34A560F1E7F06720064DF65 /* FNRound.m in Sources */,
 				D37CE4AB1E4CE4470008945E /* XPObject.m in Sources */,
 				D37316AC1E3EBDD20034798E /* XPInterpreter.m in Sources */,
 				D37316BB1E3EBF980034798E /* XPVariableSymbol.m in Sources */,
