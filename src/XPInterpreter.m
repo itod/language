@@ -50,9 +50,11 @@
 #import "FNRound.h"
 #import "FNFloor.h"
 #import "FNCeil.h"
-#import "FNSqrt.h"
 #import "FNMax.h"
 #import "FNMin.h"
+#import "FNSqrt.h"
+#import "FNPow.h"
+#import "FNLog.h"
 
 #import "FNAcos.h"
 #import "FNAsin.h"
@@ -171,9 +173,11 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         [self declareNativeFunction:[FNRound class]];
         [self declareNativeFunction:[FNFloor class]];
         [self declareNativeFunction:[FNCeil class]];
-        [self declareNativeFunction:[FNSqrt class]];
         [self declareNativeFunction:[FNMax class]];
         [self declareNativeFunction:[FNMin class]];
+        [self declareNativeFunction:[FNSqrt class]];
+        [self declareNativeFunction:[FNPow class]];
+        [self declareNativeFunction:[FNLog class]];
 
         // trig
         [self declareNativeFunction:[FNAcos class]];
