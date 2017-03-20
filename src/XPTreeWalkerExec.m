@@ -108,7 +108,7 @@
     TDAssert(self.currentSpace);
     [self.currentSpace setObject:obj forName:name];
 
-    [self evalDefaultParams:(id)funcSym];
+    //[self evalDefaultParams:(id)funcSym];
 }
 
 

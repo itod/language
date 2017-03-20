@@ -43,6 +43,11 @@
     TDEquals(33.0, [self doubleForName:@"baz"]);
 }
 
+- (void)testFwdFuncValRefIdentity {
+    [self eval:@"var bar=foo;var baz=bar is foo;sub foo(){}"];
+    TDEquals(YES, [self boolForName:@"baz"]);
+}
+
 - (void)testFuncDeclRef {
     [self eval:@"sub foo(){return 33;}var bar=foo;var baz=bar();"];
     TDEquals(33.0, [self doubleForName:@"baz"]);
