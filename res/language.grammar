@@ -189,14 +189,7 @@ localList   = localItem* {
 localItem   = stats | ifBlock | whileBlock | forBlock | localBlock;
 
 // FUNC
-funcBlock   = '{' funcList '}'!;
-funcList    = localItem* {
-    NSArray *stats = REV(ABOVE(_openCurlyTok));
-    POP(); // 'curly'
-    XPNode *block = [XPNode nodeWithToken:_blockTok];
-    [block addChildren:stats];
-    PUSH(block);
-};
+funcBlock   = '{' localList '}'!;
 
 localBlock
 @before { self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope]; }
@@ -363,7 +356,7 @@ funcDecl    = 'sub' qid {
     NSString *name = [[[funcNode childAtIndex:0] token] stringValue];
     TDAssert(funcNode.scope);
         
-    XPSymbol *funcSym = [funcNode.scope resolveSymbolNamed:name];
+    XPFunctionSymbol *funcSym = (id)[funcNode.scope resolveSymbolNamed:name];
     TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
     
     XPObject *obj = [XPObject function:funcSym];
