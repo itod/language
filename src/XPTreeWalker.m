@@ -12,6 +12,8 @@
 #import "XPException.h"
 #import <Language/XPObject.h>
 #import "XPFunctionSpace.h"
+#import "XPFunctionSymbol.h"
+#import "XPFunctionClass.h"
 #import "XPInterpreter.h"
 #import "XPStackFrame.h"
 
@@ -61,10 +63,22 @@
     XPObject *res = [self _loadVariableReference:node];
     
     if (!res) {
-        XPFunctionSymbol *funcSym = self.globalScope resolve
+        NSString *name = node.token.stringValue;
         
-        res =
+        if (node.scope) {
+            XPSymbol *funcSym = [node.scope resolveSymbolNamed:name];
+            
+            if (funcSym) {
+                TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
+                
+                res = [XPFunctionClass instanceWithValue:funcSym];
+                
+                TDAssert(self.currentSpace);
+                [self.currentSpace setObject:res forName:name];
+            }
+        }
     }
+
     if (!res) {
         [self raise:XPExceptionUndeclaredSymbol node:node format:@"unknown var reference: `%@`", node.token.stringValue];
     }
