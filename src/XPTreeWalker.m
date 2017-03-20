@@ -59,6 +59,12 @@
 
 - (XPObject *)loadVariableReference:(XPNode *)node {
     XPObject *res = [self _loadVariableReference:node];
+    
+    if (!res) {
+        XPFunctionSymbol *funcSym = self.globalScope resolve
+        
+        res =
+    }
     if (!res) {
         [self raise:XPExceptionUndeclaredSymbol node:node format:@"unknown var reference: `%@`", node.token.stringValue];
     }

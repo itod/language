@@ -99,18 +99,7 @@
         return;
     }
     
-//    XPFunctionSymbol *funcSym = nil;
-//    {
-//        XPObject *var = [self _loadVariableReference:nameNode];
-//        TDAssert([var isKindOfClass:[XPObject class]]);
-//        funcSym = var.value;
-//        TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-//    }
-
-
-//    NSString *name = [[[node childAtIndex:0] token] stringValue];
     TDAssert(node.scope);
-        
     XPSymbol *funcSym = [node.scope resolveSymbolNamed:name];
     TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
     
