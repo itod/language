@@ -24,6 +24,11 @@
     [super tearDown];
 }
 
+- (void)testTerminator {
+    [self fail:@"var foo = 1 var bar = 2"];
+    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+}
+
 - (void)testFooEq1 {
     [self eval:@"var foo = 1;"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
