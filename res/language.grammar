@@ -89,6 +89,8 @@
     [t.wordState setWordChars:NO from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'\'' to:'\''];
     
+    // dec numbers
+    [t.numberState addGroupingSeparator:'_' forRadix:10];
     // hex numbers
     [t setTokenizerState:t.numberState from:'#' to:'#'];
     [t.numberState addPrefix:@"#" forRadix:16];
