@@ -44,11 +44,9 @@
 
 @property (nonatomic, retain) NSMutableDictionary *program_memo;
 @property (nonatomic, retain) NSMutableDictionary *globalList_memo;
-@property (nonatomic, retain) NSMutableDictionary *globalItem_memo;
+@property (nonatomic, retain) NSMutableDictionary *item_memo;
 @property (nonatomic, retain) NSMutableDictionary *localList_memo;
-@property (nonatomic, retain) NSMutableDictionary *localItem_memo;
 @property (nonatomic, retain) NSMutableDictionary *funcBlock_memo;
-@property (nonatomic, retain) NSMutableDictionary *funcList_memo;
 @property (nonatomic, retain) NSMutableDictionary *localBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *terminator_memo;
 @property (nonatomic, retain) NSMutableDictionary *stats_memo;
@@ -315,11 +313,9 @@
 
         self.program_memo = [NSMutableDictionary dictionary];
         self.globalList_memo = [NSMutableDictionary dictionary];
-        self.globalItem_memo = [NSMutableDictionary dictionary];
+        self.item_memo = [NSMutableDictionary dictionary];
         self.localList_memo = [NSMutableDictionary dictionary];
-        self.localItem_memo = [NSMutableDictionary dictionary];
         self.funcBlock_memo = [NSMutableDictionary dictionary];
-        self.funcList_memo = [NSMutableDictionary dictionary];
         self.localBlock_memo = [NSMutableDictionary dictionary];
         self.terminator_memo = [NSMutableDictionary dictionary];
         self.stats_memo = [NSMutableDictionary dictionary];
@@ -433,11 +429,9 @@
 
     self.program_memo = nil;
     self.globalList_memo = nil;
-    self.globalItem_memo = nil;
+    self.item_memo = nil;
     self.localList_memo = nil;
-    self.localItem_memo = nil;
     self.funcBlock_memo = nil;
-    self.funcList_memo = nil;
     self.localBlock_memo = nil;
     self.terminator_memo = nil;
     self.stats_memo = nil;
@@ -527,11 +521,9 @@
 - (void)clearMemo {
     [_program_memo removeAllObjects];
     [_globalList_memo removeAllObjects];
-    [_globalItem_memo removeAllObjects];
+    [_item_memo removeAllObjects];
     [_localList_memo removeAllObjects];
-    [_localItem_memo removeAllObjects];
     [_funcBlock_memo removeAllObjects];
-    [_funcList_memo removeAllObjects];
     [_localBlock_memo removeAllObjects];
     [_terminator_memo removeAllObjects];
     [_stats_memo removeAllObjects];
@@ -641,9 +633,9 @@
 
 - (void)__globalList {
     
-    do {
-        [self globalItem_]; 
-    } while ([self predicts:TOKEN_KIND_BUILTIN_ANY, 0]);
+    while ([self speculate:^{ [self item_]; }]) {
+        [self item_]; 
+    }
     [self execute:^{
     
     NSArray *items = REV(ABOVE(nil));
@@ -660,7 +652,7 @@
     [self parseRule:@selector(__globalList) withMemo:_globalList_memo];
 }
 
-- (void)__globalItem {
+- (void)__item {
     
     if ([self speculate:^{ [self stats_]; }]) {
         [self stats_]; 
@@ -675,27 +667,27 @@
     } else if ([self speculate:^{ [self funcDecl_]; }]) {
         [self funcDecl_]; 
     } else {
-        [self raise:@"No viable alternative found in rule 'globalItem'."];
+        [self raise:@"No viable alternative found in rule 'item'."];
     }
 
-    [self fireDelegateSelector:@selector(parser:didMatchGlobalItem:)];
+    [self fireDelegateSelector:@selector(parser:didMatchItem:)];
 }
 
-- (void)globalItem_ {
-    [self parseRule:@selector(__globalItem) withMemo:_globalItem_memo];
+- (void)item_ {
+    [self parseRule:@selector(__item) withMemo:_item_memo];
 }
 
 - (void)__localList {
     
-    while ([self speculate:^{ [self localItem_]; }]) {
-        [self localItem_]; 
+    while ([self speculate:^{ [self item_]; }]) {
+        [self item_]; 
     }
     [self execute:^{
     
-    NSArray *stats = REV(ABOVE(_openCurlyTok));
+    NSArray *items = REV(ABOVE(_openCurlyTok));
     POP(); // 'curly'
     XPNode *block = [XPNode nodeWithToken:_blockTok];
-    [block addChildren:stats];
+    [block addChildren:items];
     PUSH(block);
 
     }];
@@ -707,33 +699,10 @@
     [self parseRule:@selector(__localList) withMemo:_localList_memo];
 }
 
-- (void)__localItem {
-    
-    if ([self speculate:^{ [self stats_]; }]) {
-        [self stats_]; 
-    } else if ([self speculate:^{ [self ifBlock_]; }]) {
-        [self ifBlock_]; 
-    } else if ([self speculate:^{ [self whileBlock_]; }]) {
-        [self whileBlock_]; 
-    } else if ([self speculate:^{ [self forBlock_]; }]) {
-        [self forBlock_]; 
-    } else if ([self speculate:^{ [self localBlock_]; }]) {
-        [self localBlock_]; 
-    } else {
-        [self raise:@"No viable alternative found in rule 'localItem'."];
-    }
-
-    [self fireDelegateSelector:@selector(parser:didMatchLocalItem:)];
-}
-
-- (void)localItem_ {
-    [self parseRule:@selector(__localItem) withMemo:_localItem_memo];
-}
-
 - (void)__funcBlock {
     
     [self match:XP_TOKEN_KIND_OPEN_CURLY discard:NO]; 
-    [self funcList_]; 
+    [self localList_]; 
     [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
 
     [self fireDelegateSelector:@selector(parser:didMatchFuncBlock:)];
@@ -741,28 +710,6 @@
 
 - (void)funcBlock_ {
     [self parseRule:@selector(__funcBlock) withMemo:_funcBlock_memo];
-}
-
-- (void)__funcList {
-    
-    while ([self speculate:^{ [self localItem_]; }]) {
-        [self localItem_]; 
-    }
-    [self execute:^{
-    
-    NSArray *stats = REV(ABOVE(_openCurlyTok));
-    POP(); // 'curly'
-    XPNode *block = [XPNode nodeWithToken:_blockTok];
-    [block addChildren:stats];
-    PUSH(block);
-
-    }];
-
-    [self fireDelegateSelector:@selector(parser:didMatchFuncList:)];
-}
-
-- (void)funcList_ {
-    [self parseRule:@selector(__funcList) withMemo:_funcList_memo];
 }
 
 - (void)__localBlock {
@@ -1252,11 +1199,7 @@
         
     XPSymbol *funcSym = [funcNode.scope resolveSymbolNamed:name];
     TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-    
-    XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
-    
-    TDAssert(self.globals);
-    [self.globals setObject:obj forName:name];
+    PUSH(funcNode);
 
     }];
 
@@ -1276,7 +1219,7 @@
     
     XPFunctionSymbol *funcSym = (id)_currentScope;
     NSMutableDictionary *params = POP();
-    [funcSym.members addEntriesFromDictionary:params];
+    [funcSym.params addEntriesFromDictionary:params];
 
     }];
     [self funcBlock_]; 

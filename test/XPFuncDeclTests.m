@@ -119,4 +119,9 @@
     TDTrue([self boolForName:@"foo"]);
 }
 
+- (void)testNestedFunctions {
+    [self eval:[self sourceForSelector:_cmd]];
+    TDEquals(10.0, [self doubleForName:@"x"]);
+}
+
 @end

@@ -171,33 +171,25 @@ program
 }
             = globalList;
 
-globalList  = globalItem+ {
+globalList  = item* {
     NSArray *items = REV(ABOVE(nil));
     XPNode *block = [XPNode nodeWithToken:_blockTok];
     [block addChildren:items];
     PUSH(block);
 };
-globalItem  = stats | ifBlock | whileBlock | forBlock | localBlock | funcDecl;
+item  = stats | ifBlock | whileBlock | forBlock | localBlock | funcDecl;
 
 // LOCAL
-localList   = localItem* {
-    NSArray *stats = REV(ABOVE(_openCurlyTok));
+localList   = item* {
+    NSArray *items = REV(ABOVE(_openCurlyTok));
     POP(); // 'curly'
     XPNode *block = [XPNode nodeWithToken:_blockTok];
-    [block addChildren:stats];
+    [block addChildren:items];
     PUSH(block);
 };
-localItem   = stats | ifBlock | whileBlock | forBlock | localBlock;
 
 // FUNC
-funcBlock   = '{' funcList '}'!;
-funcList    = localItem* {
-    NSArray *stats = REV(ABOVE(_openCurlyTok));
-    POP(); // 'curly'
-    XPNode *block = [XPNode nodeWithToken:_blockTok];
-    [block addChildren:stats];
-    PUSH(block);
-};
+funcBlock   = '{' localList '}'!;
 
 localBlock
 @before { self.currentScope = [XPLocalScope scopeWithEnclosingScope:_currentScope]; }
@@ -366,11 +358,7 @@ funcDecl    = 'sub' qid {
         
     XPSymbol *funcSym = [funcNode.scope resolveSymbolNamed:name];
     TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-    
-    XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
-    
-    TDAssert(self.globals);
-    [self.globals setObject:obj forName:name];
+    PUSH(funcNode);
 };
 
 funcBody
@@ -390,7 +378,7 @@ funcBody
             = '('! paramList ')'! {
     XPFunctionSymbol *funcSym = (id)_currentScope;
     NSMutableDictionary *params = POP();
-    [funcSym.members addEntriesFromDictionary:params];
+    [funcSym.params addEntriesFromDictionary:params];
 }
             funcBlock;
 

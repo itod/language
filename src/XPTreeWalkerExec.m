@@ -99,27 +99,27 @@
         return;
     }
     
-    XPFunctionSymbol *funcSym = nil;
-    {
-        // maybe this was a call on a func literal
-        XPObject *var = [self _loadVariableReference:nameNode];
-        TDAssert([var isKindOfClass:[XPObject class]]);
-        funcSym = var.value;
-        TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-    }
+//    XPFunctionSymbol *funcSym = nil;
+//    {
+//        XPObject *var = [self _loadVariableReference:nameNode];
+//        TDAssert([var isKindOfClass:[XPObject class]]);
+//        funcSym = var.value;
+//        TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
+//    }
 
-    [self evalDefaultParams:funcSym];
 
 //    NSString *name = [[[node childAtIndex:0] token] stringValue];
-//    TDAssert(node.scope);
-//        
-//    XPSymbol *funcSym = [node.scope resolveSymbolNamed:name];
-//    TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-//    
-//    XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
-//    
-//    TDAssert(self.currentSpace);
-//    [self.currentSpace setObject:obj forName:name];
+    TDAssert(node.scope);
+        
+    XPSymbol *funcSym = [node.scope resolveSymbolNamed:name];
+    TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
+    
+    XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
+    
+    TDAssert(self.currentSpace);
+    [self.currentSpace setObject:obj forName:name];
+
+    [self evalDefaultParams:(id)funcSym];
 }
 
 
@@ -510,11 +510,10 @@
             }
         }
         
-        // NOT NEEDED CUZ ALL FUNCS ARE DATA VALUES (for fwd indirect reference)
-//        // or a statically-declared func
-//        if (!funcSym) {
-//            funcSym = (id)[node.scope resolveSymbolNamed:name];
-//        }
+        // or a statically-declared func
+        if (!funcSym) {
+            funcSym = (id)[node.scope resolveSymbolNamed:name];
+        }
         
         if (!funcSym) {
             [self raise:XPExceptionUndeclaredSymbol node:node format:@"call to known subroutine named: `%@`", name];

@@ -23,6 +23,7 @@
     self = [super initWithName:name enclosingScope:scope];
     if (self) {
         self.params = [NSMutableDictionary dictionary];
+        self.members = [NSMutableDictionary dictionary];
         self.orderedParams = [NSMutableArray array];
     }
     return self;
@@ -34,6 +35,7 @@
     self.nativeBody = nil;
     self.closureSpace = nil;
     self.params = nil;
+    self.members = nil;
     self.orderedParams = nil;
     self.defaultParamExpressions = nil;
     self.defaultParamObjects = nil;
@@ -53,9 +55,23 @@
 #pragma mark -
 #pragma mark XPScopedSymbol
 
-- (NSMutableDictionary *)members {
-    TDAssert(_params);
-    return _params;
+- (XPSymbol *)resolveSymbolNamed:(NSString *)name {
+    TDAssertMainThread();
+    TDAssert([name length]);
+    TDAssert(self.params);
+    TDAssert(self.members);
+    
+    XPSymbol *sym = [self.members objectForKey:name];
+    
+    if (!sym) {
+        sym = [self.params objectForKey:name];
+    }
+
+    if (!sym) {
+        sym = [self.parentScope resolveSymbolNamed:name];
+    }
+    
+    return sym;
 }
 
 

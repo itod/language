@@ -120,6 +120,7 @@
 		D34A564E1E7F39040064DF65 /* FNDegrees.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A564C1E7F39040064DF65 /* FNDegrees.m */; };
 		D34A56511E7F39770064DF65 /* FNRadians.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A564F1E7F39770064DF65 /* FNRadians.h */; };
 		D34A56521E7F39770064DF65 /* FNRadians.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56501E7F39770064DF65 /* FNRadians.m */; };
+		D34A56701E7F83E30064DF65 /* testNestedFunctions.js in Resources */ = {isa = PBXBuildFile; fileRef = D34A566E1E7F83E00064DF65 /* testNestedFunctions.js */; };
 		D34B7CE01E52A3C80094D2EC /* XPStringLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */; };
 		D35167E11E515BE4004C43CC /* XPDictionaryLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F29C1E5130C200C7099B /* XPDictionaryLiteralTests.m */; };
 		D3689FA41E3BDB57005783BB /* PEGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA21E3BDB57005783BB /* PEGKit.framework */; };
@@ -316,6 +317,7 @@
 		D34A564C1E7F39040064DF65 /* FNDegrees.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNDegrees.m; path = src/FNDegrees.m; sourceTree = SOURCE_ROOT; };
 		D34A564F1E7F39770064DF65 /* FNRadians.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNRadians.h; path = src/FNRadians.h; sourceTree = SOURCE_ROOT; };
 		D34A56501E7F39770064DF65 /* FNRadians.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNRadians.m; path = src/FNRadians.m; sourceTree = SOURCE_ROOT; };
+		D34A566E1E7F83E00064DF65 /* testNestedFunctions.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testNestedFunctions.js; path = test/scripts/testNestedFunctions.js; sourceTree = SOURCE_ROOT; };
 		D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPStringLiteralTests.m; path = test/XPStringLiteralTests.m; sourceTree = SOURCE_ROOT; };
 		D3689FA21E3BDB57005783BB /* PEGKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PEGKit.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/PEGKit.framework"; sourceTree = "<group>"; };
 		D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TDTemplateEngine.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/TDTemplateEngine.framework"; sourceTree = "<group>"; };
@@ -613,6 +615,7 @@
 				D3166EDC1E57F82B00DEE3A0 /* testLocalsInFunctionDecl.js */,
 				D3166EDA1E57F82700DEE3A0 /* testLocalsInFunctionLiteral.js */,
 				D3166E721E57A6C100DEE3A0 /* testGlobals.js */,
+				D34A566E1E7F83E00064DF65 /* testNestedFunctions.js */,
 			);
 			name = Scripts;
 			sourceTree = "<group>";
@@ -966,6 +969,7 @@
 				D3166E491E5603D200DEE3A0 /* testDoubleNestedClosure.js in Resources */,
 				D3166E621E5611F800DEE3A0 /* testGlobalVarFromClosure2.js in Resources */,
 				D3166E4B1E56046E00DEE3A0 /* testLocalVarFromClosure.js in Resources */,
+				D34A56701E7F83E30064DF65 /* testNestedFunctions.js in Resources */,
 				D3166E641E56121700DEE3A0 /* testGlobalVarFromClosure3.js in Resources */,
 				D3166E441E55F8EC00DEE3A0 /* testClosuresLoopWithLocalVar.js in Resources */,
 				D3166E6C1E57A11400DEE3A0 /* testLocalsInLocalBlock.js in Resources */,
