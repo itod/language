@@ -62,20 +62,14 @@
 - (XPObject *)loadVariableReference:(XPNode *)node {
     XPObject *res = [self _loadVariableReference:node];
     
+    // TODO REALLY??? FWD indirect func refs
     if (!res) {
         NSString *name = node.token.stringValue;
-        
-        if (node.scope) {
-            XPSymbol *funcSym = [node.scope resolveSymbolNamed:name];
-            
-            if (funcSym) {
-                TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-                
-                res = [XPFunctionClass instanceWithValue:funcSym];
-                
-                TDAssert(self.currentSpace);
-                [self.currentSpace setObject:res forName:name];
-            }
+        TDAssert(node.scope);
+
+        XPSymbol *funcSym = [node.scope resolveSymbolNamed:name];
+        if (funcSym) {
+            res = [XPFunctionClass instanceWithValue:funcSym]; // dummy obj
         }
     }
 
