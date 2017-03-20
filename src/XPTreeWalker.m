@@ -69,8 +69,12 @@
         XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
         if (funcSym) {
             TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-            res = [XPObject function:funcSym];
-            funcSym.provisionalObject = res;
+            if (funcSym.provisionalObject) {
+                res = funcSym.provisionalObject;
+            } else {
+                res = [XPObject function:funcSym];
+                funcSym.provisionalObject = res;
+            }
         }
     }
 
