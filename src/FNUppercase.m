@@ -8,7 +8,6 @@
 
 #import "FNUppercase.h"
 #import <Language/XPObject.h>
-#import "XPStringClass.h"
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"

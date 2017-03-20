@@ -8,7 +8,6 @@
 
 #import "FNCopy.h"
 #import <Language/XPObject.h>
-#import "XPBooleanClass.h"
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"

@@ -113,7 +113,7 @@
             [res addObject:obj];
         }
         
-        arrObj = [XPArrayClass instanceWithValue:res];
+        arrObj = [XPObject array:res];
     }
     
     return arrObj;

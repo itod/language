@@ -17,7 +17,6 @@
 #import "XPException.h"
 
 #import <Language/XPObject.h>
-#import "XPFunctionClass.h"
 #import "XPFunctionSymbol.h"
 
 #import "FNBoolean.h"
@@ -305,7 +304,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     [_globalScope defineSymbol:funcSym];
     
     // define in memory
-    XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
+    XPObject *obj = [XPObject function:funcSym];
     obj.isNative = YES;
     
     TDAssert(_globals);

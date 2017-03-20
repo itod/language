@@ -10,7 +10,6 @@
 
 #import <Language/XPMemorySpace.h>
 #import <Language/XPObject.h>
-#import <Language/XPFunctionClass.h>
 
 @interface PKParser ()
 - (void)raiseInRange:(NSRange)r lineNumber:(NSUInteger)lineNum name:(NSString *)name format:(NSString *)fmt, ...;
@@ -1250,10 +1249,10 @@
     NSString *name = [[[funcNode childAtIndex:0] token] stringValue];
     TDAssert(funcNode.scope);
         
-    XPSymbol *funcSym = [funcNode.scope resolveSymbolNamed:name];
+    XPFunctionSymbol *funcSym = (id)[funcNode.scope resolveSymbolNamed:name];
     TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
     
-    XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
+    XPObject *obj = [XPObject function:funcSym];
     
     TDAssert(self.globals);
     [self.globals setObject:obj forName:name];
