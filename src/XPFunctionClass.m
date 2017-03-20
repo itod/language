@@ -39,7 +39,7 @@
 
 
 - (id)doubleValue:(XPObject *)this {
-    return @1;
+    return @1.0;
 }
 
 

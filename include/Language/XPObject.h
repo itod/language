@@ -10,6 +10,7 @@
 
 @class XPClass;
 @class XPEnumeration;
+@class XPFunctionSymbol;
 
 @interface XPObject : NSObject <NSCopying>
 
@@ -20,6 +21,9 @@
 + (instancetype)boolean:(BOOL)b;
 + (instancetype)number:(double)n;
 + (instancetype)string:(NSString *)s;
++ (instancetype)array:(NSArray *)v;
++ (instancetype)dictionary:(NSDictionary *)d;
++ (instancetype)function:(XPFunctionSymbol *)funcSym;
 + (instancetype)objectWithClass:(XPClass *)cls value:(id)val;
 
 - (id)callInstanceMethodNamed:(NSString *)name; // convenience

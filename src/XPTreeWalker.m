@@ -13,7 +13,6 @@
 #import <Language/XPObject.h>
 #import "XPFunctionSpace.h"
 #import "XPFunctionSymbol.h"
-#import "XPFunctionClass.h"
 #import "XPInterpreter.h"
 #import "XPStackFrame.h"
 
@@ -67,9 +66,11 @@
         NSString *name = node.token.stringValue;
         TDAssert(node.scope);
 
-        XPSymbol *funcSym = [node.scope resolveSymbolNamed:name];
+        XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
         if (funcSym) {
-            res = [XPFunctionClass instanceWithValue:funcSym]; // dummy obj
+            TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
+            res = [XPObject function:funcSym];
+            funcSym.provisionalObject = res;
         }
     }
 

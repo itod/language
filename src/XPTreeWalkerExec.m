@@ -14,6 +14,7 @@
 
 #import "XPNode.h"
 
+#import "XPSymbol.h"
 #import "XPVariableSymbol.h"
 #import "XPFunctionSymbol.h"
 #import "XPFunctionBody.h"
@@ -21,14 +22,6 @@
 #import "XPParser.h"
 
 #import <Language/XPObject.h>
-#import "XPBooleanClass.h"
-#import "XPNumberClass.h"
-#import "XPStringClass.h"
-#import "XPArrayClass.h"
-#import "XPDictionaryClass.h"
-#import "XPFunctionClass.h"
-
-#import "XPSymbol.h"
 
 #import "XPEnumeration.h"
 #import "XPReturnException.h"
@@ -100,10 +93,15 @@
     }
     
     TDAssert(node.scope);
-    XPSymbol *funcSym = [node.scope resolveSymbolNamed:name];
+    XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
     TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
     
-    XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
+    XPObject *obj = funcSym.provisionalObject;
+    if (obj) {
+        funcSym.provisionalObject = nil;
+    } else {
+        obj = [XPObject function:funcSym];
+    }
     
     TDAssert(self.currentSpace);
     [self.currentSpace setObject:obj forName:name];
@@ -818,7 +816,7 @@
         [val addObject:obj];
     }
     
-    XPObject *obj = [XPArrayClass instanceWithValue:val];
+    XPObject *obj = [XPObject array:val];
     return obj;
 }
 
@@ -834,7 +832,7 @@
         [val setObject:valObj forKey:keyObj];
     }
     
-    XPObject *obj = [XPDictionaryClass instanceWithValue:val];
+    XPObject *obj = [XPObject dictionary:val];
     return obj;
 }
 
@@ -843,7 +841,7 @@
     // (<ANON> <XPFunctionSymbol 0x100322580 <ANON>> (BLOCK (return 1)))
     XPFunctionSymbol *funcSym = [node childAtIndex:0];
     funcSym.closureSpace = self.currentSpace;
-    XPObject *obj = [XPFunctionClass instanceWithValue:funcSym];
+    XPObject *obj = [XPObject function:funcSym];
     return obj;
 }
 

@@ -64,6 +64,21 @@
 }
 
 
++ (instancetype)array:(NSArray *)v {
+    return [XPArrayClass instanceWithValue:v];
+}
+
+
++ (instancetype)dictionary:(NSDictionary *)d {
+    return [XPDictionaryClass instanceWithValue:d];
+}
+
+
++ (instancetype)function:(XPFunctionSymbol *)funcSym {
+    return [XPFunctionClass instanceWithValue:funcSym];
+}
+
+
 + (instancetype)objectWithClass:(XPClass *)cls value:(id)val {
     TDAssert(cls);
     TDAssert(val);

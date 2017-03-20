@@ -8,8 +8,6 @@
 
 #import "FNRange.h"
 #import <Language/XPObject.h>
-#import "XPNumberClass.h"
-#import "XPArrayClass.h"
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
@@ -80,7 +78,7 @@
             [v addObject:obj];
         }
         
-        arrObj = [XPArrayClass instanceWithValue:v];
+        arrObj = [XPObject array:v];
     }
 
     return arrObj;

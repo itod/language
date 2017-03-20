@@ -31,6 +31,7 @@
 
 
 - (void)dealloc {
+    self.provisionalObject = nil;
     self.blockNode = nil;
     self.nativeBody = nil;
     self.closureSpace = nil;

@@ -8,8 +8,6 @@
 
 #import "FNMap.h"
 #import <Language/XPObject.h>
-#import "XPFunctionClass.h"
-#import "XPArrayClass.h"
 #import "XPFunctionSymbol.h"
 #import "XPFunctionSpace.h"
 #import "XPException.h"
@@ -93,7 +91,7 @@
         walker.currentSpace = space;
     }
     
-    return [XPArrayClass instanceWithValue:new];
+    return [XPObject array:new];
 }
 
 @end
