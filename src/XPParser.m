@@ -687,10 +687,10 @@
     }
     [self execute:^{
     
-    NSArray *stats = REV(ABOVE(_openCurlyTok));
+    NSArray *items = REV(ABOVE(_openCurlyTok));
     POP(); // 'curly'
     XPNode *block = [XPNode nodeWithToken:_blockTok];
-    [block addChildren:stats];
+    [block addChildren:items];
     PUSH(block);
 
     }];
