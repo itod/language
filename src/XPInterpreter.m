@@ -129,6 +129,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 
 - (BOOL)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr {
+    input = [NSString stringWithFormat:@"%@\n", input]; // ensure final terminator
+
     self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
     if (!_globals) {
         self.globals = [[[XPMemorySpace alloc] initWithName:@"globals" enclosingSpace:nil] autorelease];       // global memory;
