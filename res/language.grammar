@@ -170,7 +170,7 @@ program
 }
             = globalList;
 
-globalList  = globalItem+ {
+globalList  = globalItem* {
     NSArray *items = REV(ABOVE(nil));
     XPNode *block = [XPNode nodeWithToken:_blockTok];
     [block addChildren:items];

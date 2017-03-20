@@ -636,9 +636,9 @@
 
 - (void)__globalList {
     
-    do {
+    while ([self predicts:TOKEN_KIND_BUILTIN_ANY, 0]) {
         [self globalItem_]; 
-    } while ([self predicts:TOKEN_KIND_BUILTIN_ANY, 0]);
+    }
     [self execute:^{
     
     NSArray *items = REV(ABOVE(nil));
