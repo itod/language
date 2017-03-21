@@ -24,4 +24,10 @@
 @end
 
 @implementation XPThrownException
+
+- (void)dealloc {
+    self.thrownObject = nil;
+    [super dealloc];
+}
+
 @end

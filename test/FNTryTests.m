@@ -29,6 +29,11 @@
     TDEqualObjects(@"bar", [self stringForName:@"x"]);
 }
 
+- (void)testCatch {
+    [self eval:@"var x='foo';try{throw 'boo'}catch e{x='bar'}finally{}"];
+    TDEqualObjects(@"bar", [self stringForName:@"x"]);
+}
+
 - (void)testCatchFinally {
     [self eval:@"var x='foo';try{x='bar'}catch e{}finally{x='baz'}"];
     TDEqualObjects(@"baz", [self stringForName:@"x"]);

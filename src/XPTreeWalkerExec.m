@@ -37,6 +37,7 @@
 @property (nonatomic, retain) XPReturnExpception *returnException;
 @property (nonatomic, retain) XPBreakException *breakException;
 @property (nonatomic, retain) XPContinueException *continueException;
+@property (nonatomic, retain) XPThrownException *thrownException;
 @end
 
 @implementation XPTreeWalkerExec
@@ -47,6 +48,7 @@
         self.returnException = [[[XPReturnExpception alloc] initWithName:@"return" reason:nil userInfo:nil] autorelease];
         self.breakException = [[[XPBreakException alloc] initWithName:@"break" reason:nil userInfo:nil] autorelease];
         self.continueException = [[[XPContinueException alloc] initWithName:@"continue" reason:nil userInfo:nil] autorelease];
+        self.thrownException = [[[XPThrownException alloc] initWithName:@"throw" reason:nil userInfo:nil] autorelease];
     }
     return self;
 }
@@ -56,6 +58,7 @@
     self.returnException = nil;
     self.breakException = nil;
     self.continueException = nil;
+    self.thrownException = nil;
     [super dealloc];
 }
 
@@ -482,8 +485,9 @@
         if (catchNode) {
             XPNode *idNode = [catchNode childAtIndex:0];
             
-            XPObject *exObj = nil; //[XPObject exception:ex.value];
-            [self.currentSpace setObject:exObj forName:idNode.token.stringValue];
+            XPObject *thrownObj = ex.thrownObject;
+            TDAssert(thrownObj);
+            [self.currentSpace setObject:thrownObj forName:idNode.token.stringValue];
             
             XPNode *catchBlock = [catchNode childAtIndex:1];
             [self walk:catchBlock];
@@ -494,6 +498,16 @@
             [self walk:finallyBlock];
         }
     }
+}
+
+
+- (void)throw:(XPNode *)node {
+    XPNode *expr = [node childAtIndex:0];
+    XPObject *thrownObj = [self walk:expr];
+    
+    TDAssert(_thrownException);
+    _thrownException.thrownObject = thrownObj;
+    @throw _thrownException;
 }
 
 

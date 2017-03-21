@@ -674,7 +674,7 @@
 
 - (void)__globalList {
     
-    while ([self predicts:TOKEN_KIND_BUILTIN_ANY, 0]) {
+    while ([self speculate:^{ [self globalItem_]; }]) {
         [self globalItem_]; 
     }
     [self execute:^{
@@ -1325,7 +1325,7 @@
     [self execute:^{
     
   XPNode *block = POP();
-  XPNode *qid = POP();
+  XPNode *qid = [XPNode nodeWithToken:POP()];
   XPNode *catchNode = [XPNode nodeWithToken:POP()];
   [catchNode addChild:qid];
   [catchNode addChild:block];
@@ -1375,6 +1375,7 @@
     
     XPNode *expr = POP();
     XPNode *throwNode = [XPNode nodeWithToken:POP()];
+    [throwNode addChild:expr];
     PUSH(throwNode);
 
     }];

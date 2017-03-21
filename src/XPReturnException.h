@@ -21,5 +21,6 @@
 @end
 
 @interface XPThrownException : NSException
+@property (nonatomic, retain) XPObject *thrownObject;
 @end
 

@@ -357,7 +357,7 @@ catchBlock
 @before {self.valid=YES;}
           = 'catch' qid localBlock {
   XPNode *block = POP();
-  XPNode *qid = POP();
+  XPNode *qid = [XPNode nodeWithToken:POP()];
   XPNode *catchNode = [XPNode nodeWithToken:POP()];
   [catchNode addChild:qid];
   [catchNode addChild:block];
@@ -379,6 +379,7 @@ finallyBlock
 throwStat   = 'throw' expr {
     XPNode *expr = POP();
     XPNode *throwNode = [XPNode nodeWithToken:POP()];
+    [throwNode addChild:expr];
     PUSH(throwNode);
 };
 

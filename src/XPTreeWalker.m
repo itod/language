@@ -218,6 +218,7 @@
             
 // TRY
         case XP_TOKEN_KIND_TRY:             [self try:node]; break;
+        case XP_TOKEN_KIND_THROW:           [self throw:node]; break;
             
 // UNARY EXPR
         case XP_TOKEN_KIND_NOT:             res = [self not:node]; break;
@@ -379,6 +380,7 @@
 - (void)continueNode:(XPNode *)node {}
 
 - (void)try:(XPNode *)node {}
+- (void)throw:(XPNode *)node {}
 
 - (id)and:(XPNode *)node {return nil;}
 - (id)or:(XPNode *)node {return nil;}
