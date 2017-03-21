@@ -228,6 +228,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     {
         @try {
             self.treeWalker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
+            _treeWalker.globalScope = _globalScope;
             _treeWalker.globals = _globals;
             _treeWalker.stdOut = _stdOut;
             _treeWalker.stdErr = _stdErr;

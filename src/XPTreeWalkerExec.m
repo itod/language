@@ -95,28 +95,15 @@
         [self raise:XPExceptionReservedWord node:node format:@"cannot define subroutine with reserved name `%@`", name];
         return;
     }
+
+    TDAssert(node.scope);
+    XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
+    TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
     
-    XPFunctionSymbol *funcSym = nil;
-    {
-        // maybe this was a call on a func literal
-        XPObject *var = [self _loadVariableReference:nameNode];
-        TDAssert([var isKindOfClass:[XPObject class]]);
-        funcSym = var.value;
-        TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-    }
-
-    [self evalDefaultParams:funcSym];
-
-//    NSString *name = [[[node childAtIndex:0] token] stringValue];
-//    TDAssert(node.scope);
-//        
-//    XPSymbol *funcSym = [node.scope resolveSymbolNamed:name];
-//    TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-//    
-//    XPObject *obj = [XPObject function:funcSym];
-//    
-//    TDAssert(self.currentSpace);
-//    [self.currentSpace setObject:obj forName:name];
+    XPObject *obj = [XPObject function:funcSym];
+    
+    TDAssert(self.currentSpace);
+    [self.currentSpace setObject:obj forName:name];
 }
 
 
@@ -567,11 +554,10 @@
             }
         }
         
-        // NOT NEEDED CUZ ALL FUNCS ARE DATA VALUES (for fwd indirect reference)
-//        // or a statically-declared func
-//        if (!funcSym) {
-//            funcSym = (id)[node.scope resolveSymbolNamed:name];
-//        }
+        // or a statically-declared func
+        if (!funcSym) {
+            funcSym = (id)[node.scope resolveSymbolNamed:name];
+        }
         
         if (!funcSym) {
             [self raise:XPExceptionUndeclaredSymbol node:node format:@"call to known subroutine named: `%@`", name];

@@ -8,9 +8,6 @@
 #import <Language/XPVariableSymbol.h>
 #import <Language/XPFunctionSymbol.h>
 
-#import <Language/XPMemorySpace.h>
-#import <Language/XPObject.h>
-
 @interface PKParser ()
 - (void)raiseInRange:(NSRange)r lineNumber:(NSUInteger)lineNum name:(NSString *)name format:(NSString *)fmt, ...;
 @end
@@ -674,7 +671,7 @@
 
 - (void)__globalList {
     
-    while ([self speculate:^{ [self globalItem_]; }]) {
+    while ([self predicts:TOKEN_KIND_BUILTIN_ANY, 0]) {
         [self globalItem_]; 
     }
     [self execute:^{
@@ -1432,18 +1429,18 @@
     [self execute:^{
     
 
-    XPNode *funcNode = POP();
+/*    XPNode *funcNode = POP();
     NSString *name = [[[funcNode childAtIndex:0] token] stringValue];
     TDAssert(funcNode.scope);
-        
+
     XPFunctionSymbol *funcSym = (id)[funcNode.scope resolveSymbolNamed:name];
     TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-    
+
     XPObject *obj = [XPObject function:funcSym];
-    
+
     TDAssert(self.globals);
     [self.globals setObject:obj forName:name];
-
+*/
     }];
 
     [self fireDelegateSelector:@selector(parser:didMatchFuncDecl:)];

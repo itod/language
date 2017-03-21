@@ -34,9 +34,6 @@
 #import <Language/XPVariableSymbol.h>
 #import <Language/XPFunctionSymbol.h>
 
-#import <Language/XPMemorySpace.h>
-#import <Language/XPObject.h>
-
 @interface PKParser ()
 - (void)raiseInRange:(NSRange)r lineNumber:(NSUInteger)lineNum name:(NSString *)name format:(NSString *)fmt, ...;
 @end
@@ -407,18 +404,18 @@ funcDecl    = 'sub' qid {
     self.currentScope = funcSym;
 }           funcBody {
 
-    XPNode *funcNode = POP();
+/*    XPNode *funcNode = POP();
     NSString *name = [[[funcNode childAtIndex:0] token] stringValue];
     TDAssert(funcNode.scope);
-        
+
     XPFunctionSymbol *funcSym = (id)[funcNode.scope resolveSymbolNamed:name];
     TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-    
+
     XPObject *obj = [XPObject function:funcSym];
-    
+
     TDAssert(self.globals);
     [self.globals setObject:obj forName:name];
-};
+*/};
 
 funcBody
 @after {

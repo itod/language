@@ -7,10 +7,11 @@
 //
 
 #import <Language/XPTreeWalker.h>
+#import <Language/XPObject.h>
 #import "XPParser.h"
+#import "XPScope.h"
 #import "XPNode.h"
 #import "XPException.h"
-#import <Language/XPObject.h>
 #import "XPFunctionSpace.h"
 #import "XPInterpreter.h"
 #import "XPStackFrame.h"
@@ -59,6 +60,19 @@
 
 - (XPObject *)loadVariableReference:(XPNode *)node {
     XPObject *res = [self _loadVariableReference:node];
+    
+    // or a statically-declared func
+    if (!res) {
+        NSString *name = node.token.stringValue;
+        TDAssert(self.globalScope);
+        XPFunctionSymbol *funcSym = (id)[self.globalScope resolveSymbolNamed:name];
+        if (funcSym) {
+            res = [XPObject function:funcSym];
+            TDAssert(self.globals);
+            [self.globals setObject:res forName:name];
+        }
+    }
+
     if (!res) {
         [self raise:XPExceptionUndeclaredSymbol node:node format:@"unknown var reference: `%@`", node.token.stringValue];
     }
