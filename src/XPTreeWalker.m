@@ -68,8 +68,8 @@
         XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
         if (funcSym) {
             res = [XPObject function:funcSym];
-            TDAssert(self.globals);
-            [self.globals setObject:res forName:name];
+            TDAssert(self.currentSpace);
+            [self.currentSpace setObject:res forName:name];
         }
     }
 
