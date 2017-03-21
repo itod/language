@@ -468,15 +468,16 @@
         if ([kid1.token.stringValue isEqualToString:@"catch"]) {
             catchNode = kid1;
         } else {
-            TDAssert([kid1.token.stringValue isEqualToString:@"finally"]);
             finallyNode = kid1;
         }
         
         if (tryNode.childCount > 2) {
             finallyNode = [tryNode childAtIndex:2];
-            TDAssert([finallyNode.token.stringValue isEqualToString:@"finally"]);
         }
     }
+
+    TDAssert(!catchNode || [catchNode.token.stringValue isEqualToString:@"catch"]);
+    TDAssert(!finallyNode || [finallyNode.token.stringValue isEqualToString:@"finally"]);
     
     @try {
         XPNode *tryBlock = [tryNode childAtIndex:0];
