@@ -650,7 +650,7 @@
 
 - (void)__globalList {
     
-    while ([self predicts:TOKEN_KIND_BUILTIN_ANY, 0]) {
+    while ([self speculate:^{ [self globalItem_]; }]) {
         [self globalItem_]; 
     }
     [self execute:^{
@@ -1202,6 +1202,9 @@
 
 - (void)__elifBlock {
     
+    [self execute:^{
+    self.valid=YES;
+    }];
     [self match:XP_TOKEN_KIND_ELSE discard:YES]; 
     [self match:XP_TOKEN_KIND_IF discard:NO]; 
     [self expr_]; 
@@ -1228,6 +1231,9 @@
 
 - (void)__elseBlock {
     
+    [self execute:^{
+    self.valid=YES;
+    }];
     [self match:XP_TOKEN_KIND_ELSE discard:NO]; 
     [self localBlock_]; 
     [self execute:^{

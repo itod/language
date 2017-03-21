@@ -321,7 +321,9 @@ ifBlock     = 'if' expr localBlock {
     PUSH(ifNode);
 }
               elifBlock* elseBlock?;
-elifBlock   = 'else'! 'if' expr localBlock {
+elifBlock   
+@before {self.valid=YES;}
+            = 'else'! 'if' expr localBlock {
     XPNode *block = POP();
     XPNode *expr = POP();
     XPNode *elifNode = [XPNode nodeWithToken:POP()];
@@ -331,7 +333,9 @@ elifBlock   = 'else'! 'if' expr localBlock {
     XPNode *ifNode = PEEK();
     [ifNode addChild:elifNode];
 };
-elseBlock   = 'else' localBlock {
+elseBlock
+@before {self.valid=YES;}
+            = 'else' localBlock {
     XPNode *block = POP();
     XPNode *elseNode = [XPNode nodeWithToken:POP()];
     [elseNode addChild:block];
