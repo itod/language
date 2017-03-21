@@ -191,7 +191,7 @@ localList   = localItem* {
 localItem   = stats | localBlockType;
 localBlockType
 @after {self.valid=YES;}
-            = { _valid }? ifBlock | whileBlock | forBlock | tryBlock | localBlock;
+            = { _valid }? ifBlock | whileBlock | forBlock | localBlock | tryBlock | funcDecl;
 
 // FUNC
 funcBlock   = '{' localList '}'!;
@@ -434,7 +434,7 @@ funcBody
             = '('! paramList ')'! {
     XPFunctionSymbol *funcSym = (id)_currentScope;
     NSMutableDictionary *params = POP();
-    [funcSym.members addEntriesFromDictionary:params];
+    [funcSym.params addEntriesFromDictionary:params];
 }
             funcBlock;
 

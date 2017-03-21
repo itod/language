@@ -788,6 +788,8 @@
         [self tryBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
         [self localBlock_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_SUB, 0]) {
+        [self funcDecl_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'localBlockType'."];
     }
@@ -1459,7 +1461,7 @@
     
     XPFunctionSymbol *funcSym = (id)_currentScope;
     NSMutableDictionary *params = POP();
-    [funcSym.members addEntriesFromDictionary:params];
+    [funcSym.params addEntriesFromDictionary:params];
 
     }];
     [self funcBlock_]; 
