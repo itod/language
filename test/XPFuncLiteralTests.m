@@ -48,4 +48,9 @@
     TDEquals(33.0, [self doubleForName:@"baz"]);
 }
 
+- (void)testFuncLiteralCall {
+    [self eval:@"var baz=(sub(){return 88})()"];
+    TDEquals(88.0, [self doubleForName:@"baz"]);
+}
+
 @end

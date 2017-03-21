@@ -488,12 +488,12 @@ funcLiteral = 'sub' {
     funcBody;
 
 // FUNC CALL
-funcCall    = qid '(' argList? ')'! {
+funcCall    = '(' argList? ')'! {
     NSArray *args = REV(ABOVE(_openParenTok));
     POP(); // '('
     XPNode *callNode = [XPNode nodeWithToken:_callTok];
     callNode.scope = _currentScope;
-    [callNode addChild:[XPNode nodeWithToken:POP()]]; // qid
+    [callNode addChild:POP()]; // call target obj
     [callNode addChildren:args];
     PUSH(callNode);
 };
@@ -648,7 +648,8 @@ subExpr
     PUSH_ALL(REV(objs));
 };
 
-atom = scalar | arrayLiteral | dictLiteral | funcLiteral | funcCall | subscriptLoad | varRef;
+atom = (scalar | arrayLiteral | dictLiteral | funcLiteral | subscriptLoad | varRef) trailer*;
+trailer = funcCall;
 
 subscriptLoad = qid '[' expr (':'! expr)? (':'! expr)? ']'! {
     NSArray *nodes = REV(ABOVE(_openSquareTok));

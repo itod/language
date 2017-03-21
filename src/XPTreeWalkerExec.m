@@ -535,36 +535,18 @@
     XPFunctionSymbol *funcSym = nil;
     NSString *name = nil;
 
-    // FIND FUNC SYM
+    // EVAL TARGET / FUNC SYM
     {
-        XPNode *nameNode = [node childAtIndex:0];
-        name = nameNode.token.stringValue;
+        XPNode *targetNode = [node childAtIndex:0];
+        XPObject *target = [self walk:targetNode];
         
-        // maybe this was a call on a func literal
-        XPObject *var = [self _loadVariableReference:nameNode];
-        
-        if (var) {
-            TDAssert([var isKindOfClass:[XPObject class]]);
-            if ([var isFunctionObject]) {
-                funcSym = var.value;
-                TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-            } else {
-                [self raise:XPExceptionTypeMismatch node:node format:@"illegal call to `%@()`, `%@` is not a subroutine", name, name];
-                return nil;
-            }
-        }
-        
-        // or a statically-declared func
-        if (!funcSym) {
-            funcSym = (id)[node.scope resolveSymbolNamed:name];
-        }
-        
-        if (!funcSym) {
-            [self raise:XPExceptionUndeclaredSymbol node:node format:@"call to known subroutine named: `%@`", name];
+        if ([target isFunctionObject]) {
+            funcSym = target.value;
+            TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
+        } else {
+            [self raise:XPExceptionTypeMismatch node:node format:@"illegal call to `%@()`, `%@` is not a subroutine", name, name];
             return nil;
         }
-        
-        TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
     }
 
     XPFunctionSpace *funcSpace = [XPFunctionSpace functionSpaceWithSymbol:funcSym];
