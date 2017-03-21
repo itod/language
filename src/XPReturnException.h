@@ -20,3 +20,6 @@
 @interface XPContinueException : NSException
 @end
 
+@interface XPThrownException : NSException
+@end
+

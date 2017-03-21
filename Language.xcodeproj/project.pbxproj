@@ -120,6 +120,7 @@
 		D34A564E1E7F39040064DF65 /* FNDegrees.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A564C1E7F39040064DF65 /* FNDegrees.m */; };
 		D34A56511E7F39770064DF65 /* FNRadians.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A564F1E7F39770064DF65 /* FNRadians.h */; };
 		D34A56521E7F39770064DF65 /* FNRadians.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56501E7F39770064DF65 /* FNRadians.m */; };
+		D34A56891E80E2AE0064DF65 /* FNTryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56881E80E2AE0064DF65 /* FNTryTests.m */; };
 		D34B7CE01E52A3C80094D2EC /* XPStringLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */; };
 		D35167E11E515BE4004C43CC /* XPDictionaryLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F29C1E5130C200C7099B /* XPDictionaryLiteralTests.m */; };
 		D3689FA41E3BDB57005783BB /* PEGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA21E3BDB57005783BB /* PEGKit.framework */; };
@@ -316,6 +317,7 @@
 		D34A564C1E7F39040064DF65 /* FNDegrees.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNDegrees.m; path = src/FNDegrees.m; sourceTree = SOURCE_ROOT; };
 		D34A564F1E7F39770064DF65 /* FNRadians.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNRadians.h; path = src/FNRadians.h; sourceTree = SOURCE_ROOT; };
 		D34A56501E7F39770064DF65 /* FNRadians.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNRadians.m; path = src/FNRadians.m; sourceTree = SOURCE_ROOT; };
+		D34A56881E80E2AE0064DF65 /* FNTryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNTryTests.m; path = test/FNTryTests.m; sourceTree = SOURCE_ROOT; };
 		D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPStringLiteralTests.m; path = test/XPStringLiteralTests.m; sourceTree = SOURCE_ROOT; };
 		D3689FA21E3BDB57005783BB /* PEGKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PEGKit.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/PEGKit.framework"; sourceTree = "<group>"; };
 		D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TDTemplateEngine.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/TDTemplateEngine.framework"; sourceTree = "<group>"; };
@@ -484,6 +486,7 @@
 		D3166DDC1E53997700DEE3A0 /* Func */ = {
 			isa = PBXGroup;
 			children = (
+				D34A56881E80E2AE0064DF65 /* FNTryTests.m */,
 				D3166DDA1E53997100DEE3A0 /* FNSequenceTests.m */,
 				D3166E331E54E37F00DEE3A0 /* FNCollectionTests.m */,
 				D3166DED1E53B21700DEE3A0 /* FNTypeTests.m */,
@@ -1067,6 +1070,7 @@
 				D35167E11E515BE4004C43CC /* XPDictionaryLiteralTests.m in Sources */,
 				D368A0181E3BE4F8005783BB /* XPBooleanExpressionTests.m in Sources */,
 				D373169E1E3EBA490034798E /* XPBaseStatementTests.m in Sources */,
+				D34A56891E80E2AE0064DF65 /* FNTryTests.m in Sources */,
 				D3166DF51E53B38A00DEE3A0 /* FNTypeTests.m in Sources */,
 				D3B5F7361E47F50C00740161 /* XPArrayLiteralTests.m in Sources */,
 				D3166E1C1E54BF4200DEE3A0 /* FNStringTests.m in Sources */,

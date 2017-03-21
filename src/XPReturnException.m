@@ -22,3 +22,6 @@
 
 @implementation XPContinueException
 @end
+
+@implementation XPThrownException
+@end

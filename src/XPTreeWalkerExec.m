@@ -448,6 +448,54 @@
 }
 
 
+#pragma mark -
+#pragma mark Try
+
+- (void)try:(XPNode *)tryNode {
+    NSLog(@"%s, %@", __PRETTY_FUNCTION__, tryNode);
+    
+    TDAssert(tryNode.children > 0);
+    XPNode *catchNode = nil;
+    XPNode *finallyNode = nil;
+    
+    if (tryNode.childCount > 1) {
+        XPNode *kid1 = [tryNode childAtIndex:1];
+        TDAssert(kid1.childCount > 0);
+        
+        if ([kid1.token.stringValue isEqualToString:@"catch"]) {
+            catchNode = kid1;
+        } else {
+            TDAssert([kid1.token.stringValue isEqualToString:@"finally"]);
+            finallyNode = kid1;
+        }
+        
+        if (tryNode.childCount > 2) {
+            XPNode *finallyNode = [tryNode childAtIndex:2];
+            TDAssert([finallyNode.token.stringValue isEqualToString:@"finally"]);
+        }
+    }
+    
+    @try {
+        XPNode *tryBlock = [tryNode childAtIndex:0];
+        [self walk:tryBlock];
+    } @catch (XPThrownException *ex) {
+        if (catchNode) {
+            XPNode *idNode = [catchNode childAtIndex:0];
+            
+            XPObject *exObj = nil; //[XPObject exception:ex.value];
+            [self.currentSpace setObject:exObj forName:idNode.token.stringValue];
+            
+            XPNode *catchBlock = [catchNode childAtIndex:1];
+            [self walk:catchBlock];
+        }
+    } @finally {
+        if (finallyNode) {
+            XPNode *finallyBlock = [finallyNode childAtIndex:0];
+            [self walk:finallyBlock];
+        }
+    }
+}
+
 
 #pragma mark -
 #pragma mark If
