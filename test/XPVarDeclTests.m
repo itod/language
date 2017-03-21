@@ -29,8 +29,18 @@
     TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
 }
 
+- (void)testTerminatorExpr {
+    [self fail:@"var foo = 1 print('asdf')"];
+    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+}
+
 - (void)testTerminatorBlock {
     [self fail:@"var foo = 1 {print('foo')}"];
+    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+}
+
+- (void)testTerminatorFunc {
+    [self fail:@"var foo = 1 sub bar() {print('foo')}"];
     TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
 }
 
