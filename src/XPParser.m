@@ -2424,6 +2424,7 @@
     
     XPNode *refNode = [XPNode nodeWithToken:_loadTok];
     XPNode *idNode = [XPNode nodeWithToken:POP()];
+    idNode.scope = _currentScope;
     [refNode addChild:idNode];
     PUSH(refNode);
 

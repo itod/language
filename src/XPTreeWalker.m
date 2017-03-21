@@ -64,8 +64,8 @@
     // or a statically-declared func
     if (!res) {
         NSString *name = node.token.stringValue;
-        TDAssert(self.globalScope);
-        XPFunctionSymbol *funcSym = (id)[self.globalScope resolveSymbolNamed:name];
+        TDAssert(node.scope);
+        XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
         if (funcSym) {
             res = [XPObject function:funcSym];
             TDAssert(self.globals);
