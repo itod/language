@@ -351,7 +351,7 @@ tryBlock    = 'try' localBlock {
     [tryNode addChild:block];
     PUSH(tryNode);
 }
-              catchBlock finallyBlock? | finallyBlock;
+              (catchBlock finallyBlock? | finallyBlock);
 catchBlock   
 @before {self.valid=YES;}
           = 'catch' qid localBlock {

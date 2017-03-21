@@ -715,7 +715,7 @@
         [self forBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
         [self localBlock_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_FINALLY, XP_TOKEN_KIND_TRY, 0]) {
+    } else if ([self predicts:XP_TOKEN_KIND_TRY, 0]) {
         [self tryBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_SUB, 0]) {
         [self funcDecl_]; 
@@ -781,7 +781,7 @@
         [self whileBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_FOR, 0]) {
         [self forBlock_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_FINALLY, XP_TOKEN_KIND_TRY, 0]) {
+    } else if ([self predicts:XP_TOKEN_KIND_TRY, 0]) {
         [self tryBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
         [self localBlock_]; 
@@ -1278,17 +1278,17 @@
 
 - (void)__tryBlock {
     
-    if ([self predicts:XP_TOKEN_KIND_TRY, 0]) {
-        [self match:XP_TOKEN_KIND_TRY discard:NO]; 
-        [self localBlock_]; 
-        [self execute:^{
-        
+    [self match:XP_TOKEN_KIND_TRY discard:NO]; 
+    [self localBlock_]; 
+    [self execute:^{
+    
     XPNode *block = POP();
     XPNode *tryNode = [XPNode nodeWithToken:POP()];
     [tryNode addChild:block];
     PUSH(tryNode);
 
-        }];
+    }];
+    if ([self predicts:XP_TOKEN_KIND_CATCH, 0]) {
         [self catchBlock_]; 
         if ([self speculate:^{ [self finallyBlock_]; }]) {
             [self finallyBlock_]; 
