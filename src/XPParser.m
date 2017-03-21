@@ -849,6 +849,7 @@
     if ([self predicts:XP_TOKEN_KIND_SEMI_COLON, XP_TOKEN_KIND__N, 0]) {
         [self terminator_]; 
     } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_RETURN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+        [self testAndThrow:(id)^{ return _valid; }]; 
         [self realStat_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'stat'."];
@@ -863,8 +864,7 @@
 
 - (void)__realStat {
     
-    if ([self speculate:^{ [self testAndThrow:(id)^{ return _valid; }]; [self varDecl_]; }]) {
-        [self testAndThrow:(id)^{ return _valid; }]; 
+    if ([self speculate:^{ [self varDecl_]; }]) {
         [self varDecl_]; 
     } else if ([self speculate:^{ [self assign_]; }]) {
         [self assign_]; 

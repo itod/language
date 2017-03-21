@@ -209,11 +209,10 @@ terminator
 @after {self.valid=YES;}
             = ('\n'!|';'!);
 stats       = stat (terminator stat)*;
-stat        = terminator | realStat;
+stat        = terminator | { _valid }? realStat;
 realStat    
 @after {self.valid=NO;}
-            = { _valid }? 
-              varDecl
+            = varDecl
             | assign
             | assignIndex
             | assignAppend
