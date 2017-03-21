@@ -24,6 +24,16 @@
     [super tearDown];
 }
 
+- (void)testLiteralSubscript {
+    [self eval:@"var res=[0,1,2][3];"];
+    TDEqualObjects(@"2", [self stringForName:@"res"]);
+}
+
+- (void)testSubExprSubscript {
+    [self eval:@"var res=([0,1,2])[2];"];
+    TDEqualObjects(@"1", [self stringForName:@"res"]);
+}
+
 - (void)testMap {
     [self eval:@"var v=[0,1,2];var res=map(v, sub(n){return n+1});"];
     TDEqualObjects(@"[1,2,3]", [self stringForName:@"res"]);

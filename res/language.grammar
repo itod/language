@@ -641,7 +641,7 @@ signedPrimaryExpr
     ;
 
 primaryExpr = (atom | subExpr) trailer*;
-trailer = funcCall;
+trailer = funcCall | subscriptLoad;
 
 subExpr
     = '(' expr ')'! {
@@ -650,9 +650,9 @@ subExpr
     PUSH_ALL(REV(objs));
 };
 
-atom = scalar | arrayLiteral | dictLiteral | funcLiteral | subscriptLoad | varRef;
+atom = scalar | arrayLiteral | dictLiteral | funcLiteral | varRef;
 
-subscriptLoad = qid '[' expr (':'! expr)? (':'! expr)? ']'! {
+subscriptLoad = '[' expr (':'! expr)? (':'! expr)? ']'! {
     NSArray *nodes = REV(ABOVE(_openSquareTok));
     POP(); // square
     
@@ -666,12 +666,9 @@ subscriptLoad = qid '[' expr (':'! expr)? (':'! expr)? ']'! {
         default:{ TDAssert(0); } break;
     }
 
-    XPNode *refNode = [XPNode nodeWithToken:_loadTok];
-    XPNode *idNode = [XPNode nodeWithToken:POP()];
-    [refNode addChild:idNode];
-
+    XPNode *targetNode = POP();
     XPNode *callNode = [XPNode nodeWithToken:_loadSubscriptTok];
-    [callNode addChild:refNode];
+    [callNode addChild:targetNode];
     [callNode addChild:startNode];
     if (stopNode) [callNode addChild:stopNode];
     if (stepNode) [callNode addChild:stepNode];

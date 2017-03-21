@@ -305,7 +305,7 @@
 
 - (id)loadSubscript:(XPNode *)node {
     // (GET_IDX (LOAD foo) `0`)
-    XPNode *refNode = [node childAtIndex:0];
+    XPNode *targetNode = [node childAtIndex:0];
     XPNode *startNode = [node childAtIndex:1];
     XPNode *stopNode = nil;
     XPNode *stepNode = nil;
@@ -318,11 +318,11 @@
         }
     }
     
-    XPObject *obj = [self load:refNode];
+    XPObject *targetObj = [self walk:targetNode];
 
     XPObject *res = nil;
 
-    if ([obj isStringObject] || [obj isArrayObject]) {
+    if ([targetObj isStringObject] || [targetObj isArrayObject]) {
         NSInteger start = [[self walk:startNode] doubleValue];
         
         if (stopNode) {
@@ -331,25 +331,25 @@
             if (stepNode) {
                 step = [[self walk:stepNode] doubleValue];
             }
-            res = [obj callInstanceMethodNamed:@"slice" withArgs:@[@(start), @(stop), @(step)]];
+            res = [targetObj callInstanceMethodNamed:@"slice" withArgs:@[@(start), @(stop), @(step)]];
         } else {
-            res = [obj callInstanceMethodNamed:@"get" withArg:@(start)];
+            res = [targetObj callInstanceMethodNamed:@"get" withArg:@(start)];
         }
     }
     
-    else if ([obj isDictionaryObject]) {
+    else if ([targetObj isDictionaryObject]) {
         if (stopNode) {
-            [self raise:XPExceptionTypeMismatch node:node format:@"attempting sliced subscript access on dictionary object `%@`", refNode.token.stringValue];
+            [self raise:XPExceptionTypeMismatch node:node format:@"attempting sliced subscript access on dictionary object `%@`", targetNode.token.stringValue];
             return nil;
         }
         TDAssert(!stepNode);
         XPObject *keyObj = [self walk:startNode];
         
-        res = [obj callInstanceMethodNamed:@"get" withArg:keyObj];
+        res = [targetObj callInstanceMethodNamed:@"get" withArg:keyObj];
     }
     
     else {
-        [self raise:XPExceptionTypeMismatch node:node format:@"attempting subscript access on non-collection object `%@`", refNode.token.stringValue];
+        [self raise:XPExceptionTypeMismatch node:node format:@"attempting subscript access on non-collection object `%@`", targetNode.token.stringValue];
         return nil;
     }
     

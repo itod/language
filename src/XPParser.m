@@ -2262,7 +2262,13 @@
 
 - (void)__trailer {
     
-    [self funcCall_]; 
+    if ([self predicts:XP_TOKEN_KIND_OPEN_PAREN, 0]) {
+        [self funcCall_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_OPEN_BRACKET, 0]) {
+        [self subscriptLoad_]; 
+    } else {
+        [self raise:@"No viable alternative found in rule 'trailer'."];
+    }
 
     [self fireDelegateSelector:@selector(parser:didMatchTrailer:)];
 }
@@ -2293,17 +2299,15 @@
 
 - (void)__atom {
     
-    if ([self speculate:^{ [self scalar_]; }]) {
+    if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_TRUE, 0]) {
         [self scalar_]; 
-    } else if ([self speculate:^{ [self arrayLiteral_]; }]) {
+    } else if ([self predicts:XP_TOKEN_KIND_OPEN_BRACKET, 0]) {
         [self arrayLiteral_]; 
-    } else if ([self speculate:^{ [self dictLiteral_]; }]) {
+    } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
         [self dictLiteral_]; 
-    } else if ([self speculate:^{ [self funcLiteral_]; }]) {
+    } else if ([self predicts:XP_TOKEN_KIND_SUB, 0]) {
         [self funcLiteral_]; 
-    } else if ([self speculate:^{ [self subscriptLoad_]; }]) {
-        [self subscriptLoad_]; 
-    } else if ([self speculate:^{ [self varRef_]; }]) {
+    } else if ([self predicts:TOKEN_KIND_BUILTIN_WORD, 0]) {
         [self varRef_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'atom'."];
@@ -2318,7 +2322,6 @@
 
 - (void)__subscriptLoad {
     
-    [self qid_]; 
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:NO]; 
     [self expr_]; 
     if ([self speculate:^{ [self match:XP_TOKEN_KIND_COLON discard:YES]; [self expr_]; }]) {
@@ -2345,12 +2348,9 @@
         default:{ TDAssert(0); } break;
     }
 
-    XPNode *refNode = [XPNode nodeWithToken:_loadTok];
-    XPNode *idNode = [XPNode nodeWithToken:POP()];
-    [refNode addChild:idNode];
-
+    XPNode *targetNode = POP();
     XPNode *callNode = [XPNode nodeWithToken:_loadSubscriptTok];
-    [callNode addChild:refNode];
+    [callNode addChild:targetNode];
     [callNode addChild:startNode];
     if (stopNode) [callNode addChild:stopNode];
     if (stepNode) [callNode addChild:stepNode];
