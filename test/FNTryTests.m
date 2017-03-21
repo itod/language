@@ -35,7 +35,7 @@
 }
 
 - (void)testFinally {
-    [self eval:@"var x='foo';try{x='bar'} finally {x='baz'}"];
+    [self eval:@"var x='foo';try{x='bar'}finally{x='baz'}"];
     TDEqualObjects(@"baz", [self stringForName:@"x"]);
 }
 

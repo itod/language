@@ -216,6 +216,7 @@ realStat
             | assign
             | assignIndex
             | assignAppend
+            | throwStat
             | expr
             | break
             | continue
@@ -373,6 +374,12 @@ finallyBlock
 
     XPNode *tryNode = PEEK();
     [tryNode addChild:finallyNode];
+};
+
+throwStat   = 'throw' expr {
+    XPNode *expr = POP();
+    XPNode *throwNode = [XPNode nodeWithToken:POP()];
+    PUSH(throwNode);
 };
 
 // FUNCTION DECL

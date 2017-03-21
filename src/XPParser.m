@@ -74,6 +74,7 @@
 @property (nonatomic, retain) NSMutableDictionary *tryBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *catchBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *finallyBlock_memo;
+@property (nonatomic, retain) NSMutableDictionary *throwStat_memo;
 @property (nonatomic, retain) NSMutableDictionary *returnStat_memo;
 @property (nonatomic, retain) NSMutableDictionary *funcDecl_memo;
 @property (nonatomic, retain) NSMutableDictionary *funcBody_memo;
@@ -250,6 +251,7 @@
         self.tokenKindTab[@"for"] = @(XP_TOKEN_KIND_FOR);
         self.tokenKindTab[@">>"] = @(XP_TOKEN_KIND_SHIFTRIGHT);
         self.tokenKindTab[@"<"] = @(XP_TOKEN_KIND_LT);
+        self.tokenKindTab[@"throw"] = @(XP_TOKEN_KIND_THROW);
         self.tokenKindTab[@"="] = @(XP_TOKEN_KIND_EQUALS);
         self.tokenKindTab[@"try"] = @(XP_TOKEN_KIND_TRY);
         self.tokenKindTab[@">"] = @(XP_TOKEN_KIND_GT);
@@ -306,6 +308,7 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_FOR] = @"for";
         self.tokenKindNameTab[XP_TOKEN_KIND_SHIFTRIGHT] = @">>";
         self.tokenKindNameTab[XP_TOKEN_KIND_LT] = @"<";
+        self.tokenKindNameTab[XP_TOKEN_KIND_THROW] = @"throw";
         self.tokenKindNameTab[XP_TOKEN_KIND_EQUALS] = @"=";
         self.tokenKindNameTab[XP_TOKEN_KIND_TRY] = @"try";
         self.tokenKindNameTab[XP_TOKEN_KIND_GT] = @">";
@@ -356,6 +359,7 @@
         self.tryBlock_memo = [NSMutableDictionary dictionary];
         self.catchBlock_memo = [NSMutableDictionary dictionary];
         self.finallyBlock_memo = [NSMutableDictionary dictionary];
+        self.throwStat_memo = [NSMutableDictionary dictionary];
         self.returnStat_memo = [NSMutableDictionary dictionary];
         self.funcDecl_memo = [NSMutableDictionary dictionary];
         self.funcBody_memo = [NSMutableDictionary dictionary];
@@ -479,6 +483,7 @@
     self.tryBlock_memo = nil;
     self.catchBlock_memo = nil;
     self.finallyBlock_memo = nil;
+    self.throwStat_memo = nil;
     self.returnStat_memo = nil;
     self.funcDecl_memo = nil;
     self.funcBody_memo = nil;
@@ -578,6 +583,7 @@
     [_tryBlock_memo removeAllObjects];
     [_catchBlock_memo removeAllObjects];
     [_finallyBlock_memo removeAllObjects];
+    [_throwStat_memo removeAllObjects];
     [_returnStat_memo removeAllObjects];
     [_funcDecl_memo removeAllObjects];
     [_funcBody_memo removeAllObjects];
@@ -870,7 +876,7 @@
     
     if ([self predicts:XP_TOKEN_KIND_SEMI_COLON, XP_TOKEN_KIND__N, 0]) {
         [self terminator_]; 
-    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_RETURN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_RETURN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_THROW, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
         [self testAndThrow:(id)^{ return _valid; }]; 
         [self realStat_]; 
     } else {
@@ -894,6 +900,8 @@
         [self assignIndex_]; 
     } else if ([self speculate:^{ [self assignAppend_]; }]) {
         [self assignAppend_]; 
+    } else if ([self speculate:^{ [self throwStat_]; }]) {
+        [self throwStat_]; 
     } else if ([self speculate:^{ [self expr_]; }]) {
         [self expr_]; 
     } else if ([self speculate:^{ [self break_]; }]) {
@@ -1357,6 +1365,25 @@
 
 - (void)finallyBlock_ {
     [self parseRule:@selector(__finallyBlock) withMemo:_finallyBlock_memo];
+}
+
+- (void)__throwStat {
+    
+    [self match:XP_TOKEN_KIND_THROW discard:NO]; 
+    [self expr_]; 
+    [self execute:^{
+    
+    XPNode *expr = POP();
+    XPNode *throwNode = [XPNode nodeWithToken:POP()];
+    PUSH(throwNode);
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchThrowStat:)];
+}
+
+- (void)throwStat_ {
+    [self parseRule:@selector(__throwStat) withMemo:_throwStat_memo];
 }
 
 - (void)__returnStat {
