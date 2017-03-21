@@ -65,6 +65,7 @@
 @property (nonatomic, assign) BOOL negation;
 @property (nonatomic, assign) BOOL negative;
 @property (nonatomic, assign) BOOL canBreak;
+@property (nonatomic, assign) BOOL valid;
 }
 
 @implementation {
@@ -166,6 +167,7 @@
 // GLOBAL
 program
 @before {
+    self.valid = YES;
     self.currentScope = _globalScope;
 }
             = globalList;
@@ -176,7 +178,10 @@ globalList  = globalItem* {
     [block addChildren:items];
     PUSH(block);
 };
-globalItem  = stats | ifBlock | whileBlock | forBlock | localBlock | funcDecl;
+globalItem  = stats | globalBlocks;
+globalBlocks
+@after {self.valid=YES;}
+            = { _valid }? ifBlock | whileBlock | forBlock | localBlock | funcDecl;
 
 // LOCAL
 localList   = localItem* {
@@ -186,7 +191,10 @@ localList   = localItem* {
     [block addChildren:items];
     PUSH(block);
 };
-localItem   = stats | ifBlock | whileBlock | forBlock | localBlock;
+localItem   = stats | localBlocks;
+localBlocks
+@after {self.valid=YES;}
+            = { _valid }? ifBlock | whileBlock | forBlock | localBlock;
 
 // FUNC
 funcBlock   = '{' localList '}'!;
@@ -197,10 +205,15 @@ localBlock
             = '{' localList '}'!;
 
 // STATEMENTS
-terminator = ('\n'!|';'!);
-stats = stat (terminator stat)*;
-stat        = terminator
-            | varDecl
+terminator 
+@after {self.valid=YES;}
+            = ('\n'!|';'!);
+stats       = stat (terminator stat)*;
+stat        = terminator | realStat;
+realStat    
+@after {self.valid=NO;}
+            = { _valid }? 
+              varDecl
             | assign
             | assignIndex
             | assignAppend

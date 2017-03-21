@@ -24,8 +24,13 @@
     [super tearDown];
 }
 
-- (void)testTerminator {
+- (void)testTerminatorStat {
     [self fail:@"var foo = 1 var bar = 2"];
+    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+}
+
+- (void)testTerminatorBlock {
+    [self fail:@"var foo = 1 {print('foo')}"];
     TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
 }
 
