@@ -29,6 +29,16 @@
     TDEqualObjects(@"bar", [self stringForName:@"x"]);
 }
 
+- (void)testCatchFinally {
+    [self eval:@"var x='foo';try{x='bar'}catch e{}finally{x='baz'}"];
+    TDEqualObjects(@"baz", [self stringForName:@"x"]);
+}
+
+- (void)testFinally {
+    [self eval:@"var x='foo';try{x='bar'}finally{x='baz'}"];
+    TDEqualObjects(@"baz", [self stringForName:@"x"]);
+}
+
 //- (void)testLocalsInLocalBlock {
 //    [self eval:[self sourceForSelector:_cmd]];
 //    TDEquals(42.0, [self doubleForName:@"x"]);

@@ -470,7 +470,7 @@
         }
         
         if (tryNode.childCount > 2) {
-            XPNode *finallyNode = [tryNode childAtIndex:2];
+            finallyNode = [tryNode childAtIndex:2];
             TDAssert([finallyNode.token.stringValue isEqualToString:@"finally"]);
         }
     }
