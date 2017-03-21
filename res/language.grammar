@@ -181,7 +181,7 @@ globalList  = globalItem* {
 globalItem  = stats | globalBlockType;
 globalBlockType
 @after {self.valid=YES;}
-            = { _valid }? ifBlock | whileBlock | forBlock | localBlock | funcDecl;
+            = { _valid }? ifBlock | whileBlock | forBlock | localBlock | tryBlock | funcDecl;
 
 // LOCAL
 localList   = localItem* {
@@ -194,7 +194,7 @@ localList   = localItem* {
 localItem   = stats | localBlockType;
 localBlockType
 @after {self.valid=YES;}
-            = { _valid }? ifBlock | whileBlock | forBlock | localBlock;
+            = { _valid }? ifBlock | whileBlock | forBlock | tryBlock | localBlock;
 
 // FUNC
 funcBlock   = '{' localList '}'!;
@@ -342,6 +342,37 @@ elseBlock
 
     XPNode *ifNode = PEEK();
     [ifNode addChild:elseNode];
+};
+
+// TRY BLOCK
+tryBlock    = 'try' localBlock {
+    XPNode *block = POP();
+    XPNode *tryNode = [XPNode nodeWithToken:POP()];
+    [tryNode addChild:block];
+    PUSH(tryNode);
+}
+              catchBlock finallyBlock? | finallyBlock;
+catchBlock   
+@before {self.valid=YES;}
+          = 'catch' qid localBlock {
+  XPNode *block = POP();
+  XPNode *qid = POP();
+  XPNode *catchNode = [XPNode nodeWithToken:POP()];
+  [catchNode addChild:qid];
+  [catchNode addChild:block];
+
+  XPNode *tryNode = PEEK();
+  [tryNode addChild:catchNode];
+};
+finallyBlock
+@before {self.valid=YES;}
+            = 'finally' localBlock {
+    XPNode *block = POP();
+    XPNode *finallyNode = [XPNode nodeWithToken:POP()];
+    [finallyNode addChild:block];
+
+    XPNode *tryNode = PEEK();
+    [tryNode addChild:finallyNode];
 };
 
 // FUNCTION DECL
