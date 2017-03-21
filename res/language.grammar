@@ -475,7 +475,8 @@ funcLiteral = 'sub' {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:_anonTok.stringValue enclosingScope:_currentScope];
     funcSym.scope = _currentScope;
     // don't define fyncSym here
-    id subTok = POP();
+    PKToken *subTok = POP();
+    funcSym.lineNumber = subTok.lineNumber;
     XPNode *funcNode = [XPNode nodeWithToken:_anonTok];
     funcNode.scope = _currentScope;
     [funcNode addChild:(id)funcSym];
@@ -639,7 +640,8 @@ signedPrimaryExpr
     | (bitNot { self.unaryTok = POP(); _negative = !_negative; })+ primaryExpr
     ;
 
-primaryExpr = atom | subExpr;
+primaryExpr = (atom | subExpr) trailer*;
+trailer = funcCall;
 
 subExpr
     = '(' expr ')'! {
@@ -648,8 +650,7 @@ subExpr
     PUSH_ALL(REV(objs));
 };
 
-atom = (scalar | arrayLiteral | dictLiteral | funcLiteral | subscriptLoad | varRef) trailer*;
-trailer = funcCall;
+atom = scalar | arrayLiteral | dictLiteral | funcLiteral | subscriptLoad | varRef;
 
 subscriptLoad = qid '[' expr (':'! expr)? (':'! expr)? ']'! {
     NSArray *nodes = REV(ABOVE(_openSquareTok));

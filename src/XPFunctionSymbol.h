@@ -22,6 +22,7 @@
 - (void)setDefaultExpression:(XPNode *)val forParamNamed:(NSString *)name;
 - (void)setDefaultObject:(XPObject *)obj forParamNamed:(NSString *)name;
 
+@property (nonatomic, assign) NSUInteger lineNumber;
 @property (nonatomic, retain) XPNode *blockNode;
 @property (nonatomic, retain) XPFunctionBody *nativeBody;
 @property (nonatomic, retain) XPMemorySpace *closureSpace;

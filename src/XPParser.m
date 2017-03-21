@@ -117,9 +117,9 @@
 @property (nonatomic, retain) NSMutableDictionary *unary_memo;
 @property (nonatomic, retain) NSMutableDictionary *signedPrimaryExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *primaryExpr_memo;
+@property (nonatomic, retain) NSMutableDictionary *trailer_memo;
 @property (nonatomic, retain) NSMutableDictionary *subExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *atom_memo;
-@property (nonatomic, retain) NSMutableDictionary *trailer_memo;
 @property (nonatomic, retain) NSMutableDictionary *subscriptLoad_memo;
 @property (nonatomic, retain) NSMutableDictionary *varRef_memo;
 @property (nonatomic, retain) NSMutableDictionary *arrayLiteral_memo;
@@ -401,9 +401,9 @@
         self.unary_memo = [NSMutableDictionary dictionary];
         self.signedPrimaryExpr_memo = [NSMutableDictionary dictionary];
         self.primaryExpr_memo = [NSMutableDictionary dictionary];
+        self.trailer_memo = [NSMutableDictionary dictionary];
         self.subExpr_memo = [NSMutableDictionary dictionary];
         self.atom_memo = [NSMutableDictionary dictionary];
-        self.trailer_memo = [NSMutableDictionary dictionary];
         self.subscriptLoad_memo = [NSMutableDictionary dictionary];
         self.varRef_memo = [NSMutableDictionary dictionary];
         self.arrayLiteral_memo = [NSMutableDictionary dictionary];
@@ -524,9 +524,9 @@
     self.unary_memo = nil;
     self.signedPrimaryExpr_memo = nil;
     self.primaryExpr_memo = nil;
+    self.trailer_memo = nil;
     self.subExpr_memo = nil;
     self.atom_memo = nil;
-    self.trailer_memo = nil;
     self.subscriptLoad_memo = nil;
     self.varRef_memo = nil;
     self.arrayLiteral_memo = nil;
@@ -623,9 +623,9 @@
     [_unary_memo removeAllObjects];
     [_signedPrimaryExpr_memo removeAllObjects];
     [_primaryExpr_memo removeAllObjects];
+    [_trailer_memo removeAllObjects];
     [_subExpr_memo removeAllObjects];
     [_atom_memo removeAllObjects];
-    [_trailer_memo removeAllObjects];
     [_subscriptLoad_memo removeAllObjects];
     [_varRef_memo removeAllObjects];
     [_arrayLiteral_memo removeAllObjects];
@@ -1538,7 +1538,8 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:_anonTok.stringValue enclosingScope:_currentScope];
     funcSym.scope = _currentScope;
     // don't define fyncSym here
-    id subTok = POP();
+    PKToken *subTok = POP();
+    funcSym.lineNumber = subTok.lineNumber;
     XPNode *funcNode = [XPNode nodeWithToken:_anonTok];
     funcNode.scope = _currentScope;
     [funcNode addChild:(id)funcSym];
@@ -2248,12 +2249,26 @@
     } else {
         [self raise:@"No viable alternative found in rule 'primaryExpr'."];
     }
+    while ([self speculate:^{ [self trailer_]; }]) {
+        [self trailer_]; 
+    }
 
     [self fireDelegateSelector:@selector(parser:didMatchPrimaryExpr:)];
 }
 
 - (void)primaryExpr_ {
     [self parseRule:@selector(__primaryExpr) withMemo:_primaryExpr_memo];
+}
+
+- (void)__trailer {
+    
+    [self funcCall_]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchTrailer:)];
+}
+
+- (void)trailer_ {
+    [self parseRule:@selector(__trailer) withMemo:_trailer_memo];
 }
 
 - (void)__subExpr {
@@ -2293,26 +2308,12 @@
     } else {
         [self raise:@"No viable alternative found in rule 'atom'."];
     }
-    while ([self speculate:^{ [self trailer_]; }]) {
-        [self trailer_]; 
-    }
 
     [self fireDelegateSelector:@selector(parser:didMatchAtom:)];
 }
 
 - (void)atom_ {
     [self parseRule:@selector(__atom) withMemo:_atom_memo];
-}
-
-- (void)__trailer {
-    
-    [self funcCall_]; 
-
-    [self fireDelegateSelector:@selector(parser:didMatchTrailer:)];
-}
-
-- (void)trailer_ {
-    [self parseRule:@selector(__trailer) withMemo:_trailer_memo];
 }
 
 - (void)__subscriptLoad {
