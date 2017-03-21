@@ -402,20 +402,7 @@ funcDecl    = 'sub' qid {
 
     // push func scope
     self.currentScope = funcSym;
-}           funcBody {
-
-/*    XPNode *funcNode = POP();
-    NSString *name = [[[funcNode childAtIndex:0] token] stringValue];
-    TDAssert(funcNode.scope);
-
-    XPFunctionSymbol *funcSym = (id)[funcNode.scope resolveSymbolNamed:name];
-    TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-
-    XPObject *obj = [XPObject function:funcSym];
-
-    TDAssert(self.globals);
-    [self.globals setObject:obj forName:name];
-*/};
+}           funcBody;
 
 funcBody
 @after {

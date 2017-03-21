@@ -784,10 +784,10 @@
         [self whileBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_FOR, 0]) {
         [self forBlock_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_TRY, 0]) {
-        [self tryBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
         [self localBlock_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_TRY, 0]) {
+        [self tryBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_SUB, 0]) {
         [self funcDecl_]; 
     } else {
@@ -1428,22 +1428,6 @@
 
     }];
     [self funcBody_]; 
-    [self execute:^{
-    
-
-/*    XPNode *funcNode = POP();
-    NSString *name = [[[funcNode childAtIndex:0] token] stringValue];
-    TDAssert(funcNode.scope);
-
-    XPFunctionSymbol *funcSym = (id)[funcNode.scope resolveSymbolNamed:name];
-    TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-
-    XPObject *obj = [XPObject function:funcSym];
-
-    TDAssert(self.globals);
-    [self.globals setObject:obj forName:name];
-*/
-    }];
 
     [self fireDelegateSelector:@selector(parser:didMatchFuncDecl:)];
 }
