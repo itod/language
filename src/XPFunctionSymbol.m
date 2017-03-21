@@ -35,6 +35,7 @@
     self.nativeBody = nil;
     self.closureSpace = nil;
     self.params = nil;
+    self.members = nil;
     self.orderedParams = nil;
     self.defaultParamExpressions = nil;
     self.defaultParamObjects = nil;
