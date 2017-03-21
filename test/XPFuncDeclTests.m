@@ -129,4 +129,9 @@
     TDEquals(2.0, [self doubleForName:@"x"]);
 }
 
+- (void)testLocalFunction {
+    [self eval:[self sourceForSelector:_cmd]];
+    TDEquals(3.0, [self doubleForName:@"x"]);
+}
+
 @end

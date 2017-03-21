@@ -169,29 +169,25 @@ program
 }
             = globalList;
 
-globalList  = globalItem* {
+globalList  = item* {
     NSArray *items = REV(ABOVE(nil));
     XPNode *block = [XPNode nodeWithToken:_blockTok];
     [block addChildren:items];
     PUSH(block);
 };
-globalItem  = stats | globalBlockType;
-globalBlockType
+item  = stats | anyBlock;
+anyBlock
 @after {self.valid=YES;}
             = { _valid }? ifBlock | whileBlock | forBlock | localBlock | tryBlock | funcDecl;
 
 // LOCAL
-localList   = localItem* {
+localList   = item* {
     NSArray *items = REV(ABOVE(_openCurlyTok));
     POP(); // 'curly'
     XPNode *block = [XPNode nodeWithToken:_blockTok];
     [block addChildren:items];
     PUSH(block);
 };
-localItem   = stats | localBlockType;
-localBlockType
-@after {self.valid=YES;}
-            = { _valid }? ifBlock | whileBlock | forBlock | localBlock | tryBlock | funcDecl;
 
 // FUNC
 funcBlock   = '{' localList '}'!;
