@@ -455,7 +455,7 @@
 #pragma mark Try
 
 - (void)try:(XPNode *)tryNode {
-    NSLog(@"%s, %@", __PRETTY_FUNCTION__, tryNode);
+    //NSLog(@"%s, %@", __PRETTY_FUNCTION__, tryNode);
     
     TDAssert(tryNode.children > 0);
     XPNode *catchNode = nil;
