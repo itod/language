@@ -178,8 +178,8 @@ globalList  = globalItem* {
     [block addChildren:items];
     PUSH(block);
 };
-globalItem  = stats | globalBlocks;
-globalBlocks
+globalItem  = stats | globalBlockType;
+globalBlockType
 @after {self.valid=YES;}
             = { _valid }? ifBlock | whileBlock | forBlock | localBlock | funcDecl;
 
@@ -191,8 +191,8 @@ localList   = localItem* {
     [block addChildren:items];
     PUSH(block);
 };
-localItem   = stats | localBlocks;
-localBlocks
+localItem   = stats | localBlockType;
+localBlockType
 @after {self.valid=YES;}
             = { _valid }? ifBlock | whileBlock | forBlock | localBlock;
 

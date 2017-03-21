@@ -45,10 +45,10 @@
 @property (nonatomic, retain) NSMutableDictionary *program_memo;
 @property (nonatomic, retain) NSMutableDictionary *globalList_memo;
 @property (nonatomic, retain) NSMutableDictionary *globalItem_memo;
-@property (nonatomic, retain) NSMutableDictionary *globalBlocks_memo;
+@property (nonatomic, retain) NSMutableDictionary *globalBlockType_memo;
 @property (nonatomic, retain) NSMutableDictionary *localList_memo;
 @property (nonatomic, retain) NSMutableDictionary *localItem_memo;
-@property (nonatomic, retain) NSMutableDictionary *localBlocks_memo;
+@property (nonatomic, retain) NSMutableDictionary *localBlockType_memo;
 @property (nonatomic, retain) NSMutableDictionary *funcBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *localBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *terminator_memo;
@@ -318,10 +318,10 @@
         self.program_memo = [NSMutableDictionary dictionary];
         self.globalList_memo = [NSMutableDictionary dictionary];
         self.globalItem_memo = [NSMutableDictionary dictionary];
-        self.globalBlocks_memo = [NSMutableDictionary dictionary];
+        self.globalBlockType_memo = [NSMutableDictionary dictionary];
         self.localList_memo = [NSMutableDictionary dictionary];
         self.localItem_memo = [NSMutableDictionary dictionary];
-        self.localBlocks_memo = [NSMutableDictionary dictionary];
+        self.localBlockType_memo = [NSMutableDictionary dictionary];
         self.funcBlock_memo = [NSMutableDictionary dictionary];
         self.localBlock_memo = [NSMutableDictionary dictionary];
         self.terminator_memo = [NSMutableDictionary dictionary];
@@ -438,10 +438,10 @@
     self.program_memo = nil;
     self.globalList_memo = nil;
     self.globalItem_memo = nil;
-    self.globalBlocks_memo = nil;
+    self.globalBlockType_memo = nil;
     self.localList_memo = nil;
     self.localItem_memo = nil;
-    self.localBlocks_memo = nil;
+    self.localBlockType_memo = nil;
     self.funcBlock_memo = nil;
     self.localBlock_memo = nil;
     self.terminator_memo = nil;
@@ -534,10 +534,10 @@
     [_program_memo removeAllObjects];
     [_globalList_memo removeAllObjects];
     [_globalItem_memo removeAllObjects];
-    [_globalBlocks_memo removeAllObjects];
+    [_globalBlockType_memo removeAllObjects];
     [_localList_memo removeAllObjects];
     [_localItem_memo removeAllObjects];
-    [_localBlocks_memo removeAllObjects];
+    [_localBlockType_memo removeAllObjects];
     [_funcBlock_memo removeAllObjects];
     [_localBlock_memo removeAllObjects];
     [_terminator_memo removeAllObjects];
@@ -673,8 +673,8 @@
     
     if ([self speculate:^{ [self stats_]; }]) {
         [self stats_]; 
-    } else if ([self speculate:^{ [self globalBlocks_]; }]) {
-        [self globalBlocks_]; 
+    } else if ([self speculate:^{ [self globalBlockType_]; }]) {
+        [self globalBlockType_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'globalItem'."];
     }
@@ -686,7 +686,7 @@
     [self parseRule:@selector(__globalItem) withMemo:_globalItem_memo];
 }
 
-- (void)__globalBlocks {
+- (void)__globalBlockType {
     
     if ([self predicts:XP_TOKEN_KIND_IF, 0]) {
         [self testAndThrow:(id)^{ return _valid; }]; 
@@ -700,17 +700,17 @@
     } else if ([self predicts:XP_TOKEN_KIND_SUB, 0]) {
         [self funcDecl_]; 
     } else {
-        [self raise:@"No viable alternative found in rule 'globalBlocks'."];
+        [self raise:@"No viable alternative found in rule 'globalBlockType'."];
     }
     [self execute:^{
     self.valid=YES;
     }];
 
-    [self fireDelegateSelector:@selector(parser:didMatchGlobalBlocks:)];
+    [self fireDelegateSelector:@selector(parser:didMatchGlobalBlockType:)];
 }
 
-- (void)globalBlocks_ {
-    [self parseRule:@selector(__globalBlocks) withMemo:_globalBlocks_memo];
+- (void)globalBlockType_ {
+    [self parseRule:@selector(__globalBlockType) withMemo:_globalBlockType_memo];
 }
 
 - (void)__localList {
@@ -739,8 +739,8 @@
     
     if ([self speculate:^{ [self stats_]; }]) {
         [self stats_]; 
-    } else if ([self speculate:^{ [self localBlocks_]; }]) {
-        [self localBlocks_]; 
+    } else if ([self speculate:^{ [self localBlockType_]; }]) {
+        [self localBlockType_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'localItem'."];
     }
@@ -752,7 +752,7 @@
     [self parseRule:@selector(__localItem) withMemo:_localItem_memo];
 }
 
-- (void)__localBlocks {
+- (void)__localBlockType {
     
     if ([self predicts:XP_TOKEN_KIND_IF, 0]) {
         [self testAndThrow:(id)^{ return _valid; }]; 
@@ -764,17 +764,17 @@
     } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
         [self localBlock_]; 
     } else {
-        [self raise:@"No viable alternative found in rule 'localBlocks'."];
+        [self raise:@"No viable alternative found in rule 'localBlockType'."];
     }
     [self execute:^{
     self.valid=YES;
     }];
 
-    [self fireDelegateSelector:@selector(parser:didMatchLocalBlocks:)];
+    [self fireDelegateSelector:@selector(parser:didMatchLocalBlockType:)];
 }
 
-- (void)localBlocks_ {
-    [self parseRule:@selector(__localBlocks) withMemo:_localBlocks_memo];
+- (void)localBlockType_ {
+    [self parseRule:@selector(__localBlockType) withMemo:_localBlockType_memo];
 }
 
 - (void)__funcBlock {
