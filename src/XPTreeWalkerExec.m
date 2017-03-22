@@ -475,10 +475,10 @@
             
             XPObject *thrownObj = ex.thrownObject;
             TDAssert(thrownObj);
-            [self.currentSpace setObject:thrownObj forName:idNode.token.stringValue];
+            NSString *name = idNode.token.stringValue;
             
             XPNode *catchBlock = [catchNode childAtIndex:1];
-            [self walk:catchBlock];
+            [self block:catchBlock withVars:@{name: thrownObj}];
         }
     } @finally {
         if (finallyNode) {

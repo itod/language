@@ -44,10 +44,8 @@
     TDEqualObjects(@"baz", [self stringForName:@"x"]);
 }
 
-//- (void)testLocalsInLocalBlock {
-//    [self eval:[self sourceForSelector:_cmd]];
-//    TDEquals(42.0, [self doubleForName:@"x"]);
-//    TDEquals(47.0, [self doubleForName:@"y"]);
-//}
-//
+- (void)testCaughtObjectScope {
+    [self fail:[self sourceForSelector:_cmd]];
+}
+
 @end
