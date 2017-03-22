@@ -100,13 +100,14 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 - (void)dealloc {
     self.globalScope = nil;
+    self.globals = nil;
     self.root = nil;
     self.parser = nil;
-    self.breakpointCollection = nil;
-    self.delegate = nil;
-    self.debugDelegate = nil;
     self.stdOut = nil;
     self.stdErr = nil;
+    self.delegate = nil;
+    self.breakpointCollection = nil;
+    self.debugDelegate = nil;
     
     self.treeWalker = nil;
     
