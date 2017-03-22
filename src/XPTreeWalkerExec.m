@@ -576,7 +576,7 @@
         
         // check for too few args
         if (argCount + defaultParamCount < paramCount) {
-            [self raise:XPExceptionTooFewArguments node:node format:@"sub `%@` called with too few arguments. %@ld given, at least %ld expected", name, argCount, paramCount-defaultParamCount];
+            [self raise:XPExceptionTooFewArguments node:node format:@"sub `%@` called with too few arguments. %ld given, at least %ld expected", name, argCount, paramCount-defaultParamCount];
             return nil;
         }
         
