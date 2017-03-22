@@ -483,7 +483,7 @@
     } @finally {
         if (finallyNode) {
             XPNode *finallyBlock = [finallyNode childAtIndex:0];
-            [self walk:finallyBlock];
+            [self block:finallyBlock withVars:nil];
         }
     }
 }
