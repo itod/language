@@ -468,7 +468,7 @@
     
     @try {
         XPNode *tryBlock = [tryNode childAtIndex:0];
-        [self walk:tryBlock];
+        [self block:tryBlock withVars:nil];
     } @catch (XPThrownException *ex) {
         if (catchNode) {
             XPNode *idNode = [catchNode childAtIndex:0];
