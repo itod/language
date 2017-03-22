@@ -8,10 +8,6 @@
 
 #import "XPFunctionSymbol.h"
 
-@interface XPFunctionSymbol ()
-
-@end
-
 @implementation XPFunctionSymbol
 
 + (instancetype)symbolWithName:(NSString *)name enclosingScope:(id<XPScope>)scope {
