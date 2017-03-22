@@ -533,7 +533,6 @@
 
 - (id)call:(XPNode *)node {
     XPFunctionSymbol *funcSym = nil;
-    NSString *name = nil;
 
     // EVAL TARGET / FUNC SYM
     {
@@ -544,11 +543,12 @@
             funcSym = target.value;
             TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
         } else {
-            [self raise:XPExceptionTypeMismatch node:node format:@"illegal call to `%@()`, `%@` is not a subroutine", name, name];
+            [self raise:XPExceptionTypeMismatch node:node format:@"illegal call to non-subroutine object"];
             return nil;
         }
     }
 
+    NSString *name = funcSym.name;
     XPFunctionSpace *funcSpace = [XPFunctionSpace functionSpaceWithSymbol:funcSym];
     funcSpace.wantsPause = self.wantsPauseOnCall;
 
@@ -556,9 +556,9 @@
     {
         [self evalDefaultParams:funcSym];
         
-        for (NSString *name in funcSym.defaultParamObjects) {
-            XPObject *valObj = funcSym.defaultParamObjects[name];
-            [funcSpace setObject:valObj forName:name];
+        for (NSString *paramName in funcSym.defaultParamObjects) {
+            XPObject *valObj = funcSym.defaultParamObjects[paramName];
+            [funcSpace setObject:valObj forName:paramName];
         }
     }
     
