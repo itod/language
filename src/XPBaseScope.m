@@ -38,6 +38,7 @@
 
 - (void)dealloc {
     self.enclosingScope = nil;
+    self.symbols = nil;
     [super dealloc];
 }
 

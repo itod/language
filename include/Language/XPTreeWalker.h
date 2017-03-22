@@ -40,7 +40,6 @@
 @property (nonatomic, retain) NSFileHandle *stdOut;
 @property (nonatomic, retain) NSFileHandle *stdErr;
 
-
 @property (nonatomic, retain) NSMutableArray<XPMemorySpace *> *callStack;
 @property (nonatomic, retain) NSMutableArray<XPMemorySpace *> *lexicalStack;
 
