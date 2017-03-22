@@ -99,7 +99,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 
 - (void)dealloc {
-    self.globalScope = nil;
+    //self.globalScope = nil;
     self.globals = nil;
     self.root = nil;
     self.parser = nil;
@@ -132,7 +132,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 - (BOOL)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr {
     input = [NSString stringWithFormat:@"%@\n", input]; // ensure final terminator
 
-    self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
+    //self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
     if (!_globals) {
         self.globals = [[[XPMemorySpace alloc] initWithName:@"globals" enclosingSpace:nil] autorelease];       // global memory;
     }
@@ -200,7 +200,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     // PARSE
     {
         self.parser = [[[XPParser alloc] initWithDelegate:nil] autorelease];
-        _parser.globalScope = _globalScope;
+        _parser.globalScope = [[[XPGlobalScope alloc] init] autorelease];
         _parser.globals = _globals;
         
         NSError *err = nil;
@@ -303,8 +303,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     XPFunctionSymbol *funcSym = [body symbol];
     
     // declare. dont think this is actually necessary
-    TDAssert(_globalScope);
-    [_globalScope defineSymbol:funcSym];
+//    TDAssert(_globalScope);
+//    [_globalScope defineSymbol:funcSym];
     
     // define in memory
     XPObject *obj = [XPObject function:funcSym];

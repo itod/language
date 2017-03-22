@@ -17,7 +17,7 @@ extern NSString * const XPDebugInfoFrameStackKey;
 extern NSString * const XPDebugInfoFilePathKey;
 extern NSString * const XPDebugInfoLineNumberKey;
 
-@class XPGlobalScope;
+//@class XPGlobalScope;
 @class XPMemorySpace;
 @class XPNode;
 @class XPParser;
@@ -40,7 +40,7 @@ extern NSString * const XPDebugInfoLineNumberKey;
 - (BOOL)interpretFileAtPath:(NSString *)path error:(NSError **)outErr;
 - (BOOL)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr;
 
-@property (nonatomic, retain) XPGlobalScope *globalScope;
+//@property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, retain) XPMemorySpace *globals;
 @property (nonatomic, retain) XPNode *root;               // the AST represents our code memory
 @property (nonatomic, retain) XPParser *parser;
