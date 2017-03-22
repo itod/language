@@ -63,7 +63,7 @@
     
     // or a statically-declared func
     if (!res) {
-        NSString *name = node.token.stringValue;
+        NSString *name = node.name;
         TDAssert(node.scope);
         XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
         if (funcSym) {
@@ -74,14 +74,14 @@
     }
 
     if (!res) {
-        [self raise:XPExceptionUndeclaredSymbol node:node format:@"unknown var reference: `%@`", node.token.stringValue];
+        [self raise:XPExceptionUndeclaredSymbol node:node format:@"unknown var reference: `%@`", node.name];
     }
     return res;
 }
 
 
 - (XPObject *)_loadVariableReference:(XPNode *)node {
-    NSString *name = node.token.stringValue;
+    NSString *name = node.name;
     XPMemorySpace *space = [self spaceWithSymbolNamed:name];
     XPObject *res = [space objectForName:name];
     return res;
@@ -187,7 +187,7 @@
 
     XPException *ex = [[[XPException alloc] initWithName:name reason:reason userInfo:nil] autorelease];
     ex.lineNumber = node.lineNumber;
-    ex.range = NSMakeRange(node.token.offset, [node.token.stringValue length]);
+    ex.range = NSMakeRange(node.token.offset, [node.name length]);
     [ex raise];
 }
 

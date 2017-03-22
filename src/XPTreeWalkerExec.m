@@ -89,7 +89,7 @@
     // (sub make (BLOCK (return [)))
 
     XPNode *nameNode = [node childAtIndex:0];
-    NSString *name = nameNode.token.stringValue;
+    NSString *name = nameNode.name;
 
     if ([[XPSymbol reservedWords] containsObject:name]) {
         [self raise:XPExceptionReservedWord node:node format:@"cannot define subroutine with reserved name `%@`", name];
@@ -126,7 +126,7 @@
 - (void)assignEq:(XPNode *)node op:(NSInteger)op {
     //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     XPNode *idNode = [node childAtIndex:0];
-    NSString *name = idNode.token.stringValue;
+    NSString *name = idNode.name;
     
     XPMemorySpace *space = [self spaceWithSymbolNamed:name];
     if (!space) {
@@ -170,7 +170,7 @@
 - (void)assign:(XPNode *)node {
     //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     XPNode *idNode = [node childAtIndex:0];
-    NSString *name = idNode.token.stringValue;
+    NSString *name = idNode.name;
     
     XPMemorySpace *space = [self spaceWithSymbolNamed:name];
     if (!space) {
@@ -225,7 +225,7 @@
     XPObject *collObj = [self loadVariableReference:idNode];
     
     if (!collObj) {
-        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.token.stringValue];
+        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.name];
         return;
     }
     
@@ -261,7 +261,7 @@
     }
     
     else {
-        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", idNode.token.stringValue];
+        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", idNode.name];
         return;
     }
 }
@@ -275,12 +275,12 @@
     XPObject *seqObj = [self loadVariableReference:idNode];
     
     if (!seqObj) {
-        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.token.stringValue];
+        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.name];
         return;
     }
     
     if (![seqObj isStringObject] && ![seqObj isArrayObject]) {
-        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-sequence object `%@`", idNode.token.stringValue];
+        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-sequence object `%@`", idNode.name];
         return;
     }
     
@@ -339,7 +339,7 @@
     
     else if ([targetObj isDictionaryObject]) {
         if (stopNode) {
-            [self raise:XPExceptionTypeMismatch node:node format:@"attempting sliced subscript access on dictionary object `%@`", targetNode.token.stringValue];
+            [self raise:XPExceptionTypeMismatch node:node format:@"attempting sliced subscript access on dictionary object `%@`", targetNode.name];
             return nil;
         }
         TDAssert(!stepNode);
@@ -349,7 +349,7 @@
     }
     
     else {
-        [self raise:XPExceptionTypeMismatch node:node format:@"attempting subscript access on non-collection object `%@`", targetNode.token.stringValue];
+        [self raise:XPExceptionTypeMismatch node:node format:@"attempting subscript access on non-collection object `%@`", targetNode.name];
         return nil;
     }
     
@@ -398,10 +398,10 @@
         
         // set val
         NSMutableDictionary *vars = [NSMutableDictionary dictionaryWithCapacity:2];
-        NSString *valName = valNode.token.stringValue;
+        NSString *valName = valNode.name;
         
         if (keyNode) {
-            NSString *keyName = keyNode.token.stringValue;
+            NSString *keyName = keyNode.name;
 
             NSArray *pair = e.values[e.current];
             TDAssert(2 == [pair count]);
@@ -452,7 +452,7 @@
         XPNode *kid1 = [tryNode childAtIndex:1];
         TDAssert(kid1.childCount > 0);
         
-        if ([kid1.token.stringValue isEqualToString:@"catch"]) {
+        if ([kid1.name isEqualToString:@"catch"]) {
             catchNode = kid1;
         } else {
             finallyNode = kid1;
@@ -463,8 +463,8 @@
         }
     }
 
-    TDAssert(!catchNode || [catchNode.token.stringValue isEqualToString:@"catch"]);
-    TDAssert(!finallyNode || [finallyNode.token.stringValue isEqualToString:@"finally"]);
+    TDAssert(!catchNode || [catchNode.name isEqualToString:@"catch"]);
+    TDAssert(!finallyNode || [finallyNode.name isEqualToString:@"finally"]);
     
     @try {
         XPNode *tryBlock = [tryNode childAtIndex:0];
@@ -475,7 +475,7 @@
             
             XPObject *thrownObj = ex.thrownObject;
             TDAssert(thrownObj);
-            NSString *name = idNode.token.stringValue;
+            NSString *name = idNode.name;
             
             XPNode *catchBlock = [catchNode childAtIndex:1];
             [self block:catchBlock withVars:@{name: thrownObj}];
@@ -841,7 +841,7 @@
 
 
 - (id)string:(XPNode *)node {
-    XPObject *obj = [XPObject string:node.token.stringValue];
+    XPObject *obj = [XPObject string:node.name];
     return obj;
 }
 
