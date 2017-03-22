@@ -39,7 +39,6 @@
 
 
 - (void)dealloc {
-    self.globalScope = nil;
     self.globals = nil;
     self.currentSpace = nil;
     self.closureSpace = nil;

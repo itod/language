@@ -10,7 +10,6 @@
 
 @class XPNode;
 @class XPObject;
-@class XPGlobalScope;
 @class XPMemorySpace;
 @class XPTreeWalker;
 @class XPBreakpointCollection;
@@ -32,7 +31,6 @@
 - (void)block:(XPNode *)node withVars:(NSDictionary<NSString *, XPObject *> *)vars;
 - (void)funcBlock:(XPNode *)node;
 
-@property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, retain) XPMemorySpace *globals;
 @property (nonatomic, retain) XPMemorySpace *currentSpace;
 @property (nonatomic, retain) XPMemorySpace *closureSpace;
