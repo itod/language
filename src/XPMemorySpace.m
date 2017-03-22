@@ -36,6 +36,7 @@
 
 - (void)dealloc {
     self.name = nil;
+    self.enclosingSpace = nil;
     self.members = nil;
     [super dealloc];
 }
