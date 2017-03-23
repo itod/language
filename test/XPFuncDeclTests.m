@@ -124,6 +124,12 @@
     TDEquals(1.0, [self doubleForName:@"bar"]);
 }
 
+- (void)testRecursion {
+    [self eval:[self sourceForSelector:_cmd]];
+    TDEquals(12.0, [self doubleForName:@"x"]);
+    TDEquals(13.0, [self doubleForName:@"y"]);
+}
+
 // - (void)testNestedFunction {
 //     [self eval:[self sourceForSelector:_cmd]];
 //     TDEquals(1.0, [self doubleForName:@"x"]);

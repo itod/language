@@ -169,6 +169,7 @@
 		D37CE4AF1E4CE4500008945E /* XPClass.m in Sources */ = {isa = PBXBuildFile; fileRef = D37CE4AD1E4CE4500008945E /* XPClass.m */; };
 		D37CE4B21E4CE6940008945E /* XPArrayClass.h in Headers */ = {isa = PBXBuildFile; fileRef = D37CE4B01E4CE6940008945E /* XPArrayClass.h */; };
 		D37CE4B31E4CE6940008945E /* XPArrayClass.m in Sources */ = {isa = PBXBuildFile; fileRef = D37CE4B11E4CE6940008945E /* XPArrayClass.m */; };
+		D3903E0E1E8441A0007E7674 /* testRecursion.js in Resources */ = {isa = PBXBuildFile; fileRef = D3903E0D1E8441A0007E7674 /* testRecursion.js */; };
 		D3A7F27D1E4D71CC00C7099B /* XPBooleanClass.h in Headers */ = {isa = PBXBuildFile; fileRef = D3A7F27B1E4D71CC00C7099B /* XPBooleanClass.h */; };
 		D3A7F27E1E4D71CC00C7099B /* XPBooleanClass.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F27C1E4D71CC00C7099B /* XPBooleanClass.m */; };
 		D3A7F2811E4D79FB00C7099B /* XPNumberClass.h in Headers */ = {isa = PBXBuildFile; fileRef = D3A7F27F1E4D79FB00C7099B /* XPNumberClass.h */; };
@@ -377,6 +378,7 @@
 		D37CE4AD1E4CE4500008945E /* XPClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPClass.m; path = src/XPClass.m; sourceTree = SOURCE_ROOT; };
 		D37CE4B01E4CE6940008945E /* XPArrayClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPArrayClass.h; path = src/XPArrayClass.h; sourceTree = SOURCE_ROOT; };
 		D37CE4B11E4CE6940008945E /* XPArrayClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPArrayClass.m; path = src/XPArrayClass.m; sourceTree = SOURCE_ROOT; };
+		D3903E0D1E8441A0007E7674 /* testRecursion.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testRecursion.js; path = test/scripts/testRecursion.js; sourceTree = SOURCE_ROOT; };
 		D3A7F27B1E4D71CC00C7099B /* XPBooleanClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPBooleanClass.h; path = src/XPBooleanClass.h; sourceTree = SOURCE_ROOT; };
 		D3A7F27C1E4D71CC00C7099B /* XPBooleanClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPBooleanClass.m; path = src/XPBooleanClass.m; sourceTree = SOURCE_ROOT; };
 		D3A7F27F1E4D79FB00C7099B /* XPNumberClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPNumberClass.h; path = src/XPNumberClass.h; sourceTree = SOURCE_ROOT; };
@@ -637,6 +639,7 @@
 				D34A56921E81A63C0064DF65 /* testLocalFwdFunction.js */,
 				D34A56941E81A65C0064DF65 /* testLocalFwdFunctionRef.js */,
 				D34A569A1E8219F20064DF65 /* testCaughtObjectScope.js */,
+				D3903E0D1E8441A0007E7674 /* testRecursion.js */,
 			);
 			name = Scripts;
 			sourceTree = "<group>";
@@ -990,6 +993,7 @@
 				D34A56951E81A65C0064DF65 /* testLocalFwdFunctionRef.js in Resources */,
 				D3166E491E5603D200DEE3A0 /* testDoubleNestedClosure.js in Resources */,
 				D34A569B1E8219F20064DF65 /* testCaughtObjectScope.js in Resources */,
+				D3903E0E1E8441A0007E7674 /* testRecursion.js in Resources */,
 				D3166E621E5611F800DEE3A0 /* testGlobalVarFromClosure2.js in Resources */,
 				D34A56931E81A63C0064DF65 /* testLocalFwdFunction.js in Resources */,
 				D3166E4B1E56046E00DEE3A0 /* testLocalVarFromClosure.js in Resources */,
