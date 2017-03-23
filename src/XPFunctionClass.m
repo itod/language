@@ -34,7 +34,7 @@
 
 
 - (id)stringValue:(XPObject *)this {
-    return @"[object Subroutine]"; // TODO
+    return @"[Object Subroutine]"; // TODO
 }
 
 

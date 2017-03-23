@@ -550,6 +550,8 @@
 
     NSString *name = funcSym.name;
     XPFunctionSpace *funcSpace = [XPFunctionSpace functionSpaceWithSymbol:funcSym];
+    TDAssert(NSNotFound != node.lineNumber);
+    funcSpace.lineNumber = node.lineNumber;
     funcSpace.wantsPause = self.wantsPauseOnCall;
 
     // APPLY DEFAULT PARAMS
@@ -594,6 +596,7 @@
     // PUSH MEMORY SPACE
     XPMemorySpace *savedCurrentSpace = self.currentSpace;
     TDAssert(savedCurrentSpace);
+    TDAssert(NSNotFound != node.lineNumber);
     savedCurrentSpace.lineNumber = node.lineNumber;
     [self.lexicalStack addObject:savedCurrentSpace];
     

@@ -148,6 +148,7 @@
         
         for (XPMemorySpace *space in [self.callStack reverseObjectEnumerator]) {
             XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
+            TDAssert(NSNotFound != space.lineNumber);
             frame.lineNumber = space.lineNumber;
             frame.filePath = _currentFilePath;
             frame.functionName = space.name;
@@ -161,6 +162,7 @@
         // add global space manually
         {
             XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
+            TDAssert(NSNotFound != self.globals.lineNumber);
             frame.lineNumber = self.globals.lineNumber;
             frame.filePath = _currentFilePath;
             frame.functionName = @"<global>";

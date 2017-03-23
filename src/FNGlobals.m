@@ -28,7 +28,6 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc {
-    TDAssert([walker.lexicalStack count]);
     XPMemorySpace *space = walker.globals;
     TDAssert([space isKindOfClass:[XPMemorySpace class]]);
     

@@ -29,6 +29,7 @@
         self.name = name;
         self.enclosingSpace = space;
         self.members = [NSMutableDictionary dictionary];
+        self.lineNumber = NSNotFound;
     }
     return self;
 }
