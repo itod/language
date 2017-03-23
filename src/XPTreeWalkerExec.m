@@ -96,8 +96,8 @@
         return;
     }
 
-    TDAssert(node.scope);
-    XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
+    TDAssert(self.globalScope);
+    XPFunctionSymbol *funcSym = (id)[self.globalScope resolveSymbolNamed:name];
     TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
     
     XPObject *obj = [XPObject function:funcSym];

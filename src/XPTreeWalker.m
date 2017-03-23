@@ -39,6 +39,7 @@
 
 
 - (void)dealloc {
+    self.globalScope = nil;
     self.globals = nil;
     self.currentSpace = nil;
     self.closureSpace = nil;
@@ -63,8 +64,8 @@
     // or a statically-declared func
     if (!res) {
         NSString *name = node.name;
-        TDAssert(node.scope);
-        XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
+        TDAssert(_globalScope);
+        XPFunctionSymbol *funcSym = (id)[_globalScope resolveSymbolNamed:name];
         if (funcSym) {
             res = [XPObject function:funcSym];
             TDAssert(self.currentSpace);

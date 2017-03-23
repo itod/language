@@ -119,34 +119,39 @@
     TDTrue([self boolForName:@"foo"]);
 }
 
-- (void)testNestedFunction {
-    [self eval:[self sourceForSelector:_cmd]];
-    TDEquals(1.0, [self doubleForName:@"x"]);
+- (void)testFwdNativeFuncRef {
+    [self eval:@"var foo=abs;var bar=foo(-1.0)"];
+    TDEquals(1.0, [self doubleForName:@"bar"]);
 }
 
-- (void)testNestedFwdFunction {
-    [self eval:[self sourceForSelector:_cmd]];
-    TDEquals(2.0, [self doubleForName:@"x"]);
-}
-
-- (void)testNestedFwdFunctionRef {
-    [self eval:[self sourceForSelector:_cmd]];
-    TDEquals(3.0, [self doubleForName:@"x"]);
-}
-
-- (void)testLocalFunction {
-    [self eval:[self sourceForSelector:_cmd]];
-    TDEquals(1.0, [self doubleForName:@"x"]);
-}
-
-- (void)testLocalFwdFunction {
-    [self eval:[self sourceForSelector:_cmd]];
-    TDEquals(2.0, [self doubleForName:@"x"]);
-}
-
-- (void)testLocalFwdFunctionRef {
-    [self eval:[self sourceForSelector:_cmd]];
-    TDEquals(3.0, [self doubleForName:@"x"]);
-}
+// - (void)testNestedFunction {
+//     [self eval:[self sourceForSelector:_cmd]];
+//     TDEquals(1.0, [self doubleForName:@"x"]);
+// }
+//
+// - (void)testNestedFwdFunction {
+//     [self eval:[self sourceForSelector:_cmd]];
+//     TDEquals(2.0, [self doubleForName:@"x"]);
+// }
+//
+// - (void)testNestedFwdFunctionRef {
+//     [self eval:[self sourceForSelector:_cmd]];
+//     TDEquals(3.0, [self doubleForName:@"x"]);
+// }
+//
+// - (void)testLocalFunction {
+//     [self eval:[self sourceForSelector:_cmd]];
+//     TDEquals(1.0, [self doubleForName:@"x"]);
+// }
+//
+// - (void)testLocalFwdFunction {
+//     [self eval:[self sourceForSelector:_cmd]];
+//     TDEquals(2.0, [self doubleForName:@"x"]);
+// }
+//
+// - (void)testLocalFwdFunctionRef {
+//     [self eval:[self sourceForSelector:_cmd]];
+//     TDEquals(3.0, [self doubleForName:@"x"]);
+// }
 
 @end

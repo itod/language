@@ -1368,7 +1368,6 @@
     [_currentScope defineSymbol:funcSym];
     id subTok = POP();
     XPNode *funcNode = [XPNode nodeWithToken:subTok];
-    funcNode.scope = _currentScope;
     [funcNode addChild:[XPNode nodeWithToken:nameTok]]; // qid / func name
     PUSH(funcNode);
     PUSH(subTok); // barrier for later
@@ -1541,7 +1540,6 @@
     PKToken *subTok = POP();
     funcSym.lineNumber = subTok.lineNumber;
     XPNode *funcNode = [XPNode nodeWithToken:_anonTok];
-    funcNode.scope = _currentScope;
     [funcNode addChild:(id)funcSym];
     PUSH(funcNode);
     PUSH(subTok); // barrier for later
@@ -2372,7 +2370,6 @@
     
     XPNode *refNode = [XPNode nodeWithToken:_loadTok];
     XPNode *idNode = [XPNode nodeWithToken:POP()];
-    idNode.scope = _currentScope;
     [refNode addChild:idNode];
     PUSH(refNode);
 

@@ -79,10 +79,6 @@ NSString * const XPDebugInfoFrameStackKey = @"frameStack";
 NSString * const XPDebugInfoFilePathKey = @"filePath";
 NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
-@interface XPObject ()
-@property (nonatomic, assign, readwrite) BOOL isNative;
-@end
-
 @interface XPInterpreter ()
 @property (nonatomic, retain) XPTreeWalker *treeWalker;
 @end
@@ -99,7 +95,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 
 - (void)dealloc {
-    //self.globalScope = nil;
+    self.globalScope = nil;
     self.globals = nil;
     self.root = nil;
     self.parser = nil;
@@ -132,7 +128,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 - (BOOL)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr {
     input = [NSString stringWithFormat:@"%@\n", input]; // ensure final terminator
 
-    //self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
+    self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
     if (!_globals) {
         self.globals = [[[XPMemorySpace alloc] initWithName:@"globals" enclosingSpace:nil] autorelease];       // global memory;
     }
@@ -200,7 +196,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     // PARSE
     {
         self.parser = [[[XPParser alloc] initWithDelegate:nil] autorelease];
-        _parser.globalScope = [[[XPGlobalScope alloc] init] autorelease];
+        _parser.globalScope = _globalScope;
         _parser.globals = _globals;
         
         NSError *err = nil;
@@ -229,6 +225,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     {
         @try {
             self.treeWalker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
+            _treeWalker.globalScope = _globalScope;
             _treeWalker.globals = _globals;
             _treeWalker.stdOut = _stdOut;
             _treeWalker.stdErr = _stdErr;
@@ -302,16 +299,15 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     
     XPFunctionSymbol *funcSym = [body symbol];
     
-    // declare. dont think this is actually necessary
-//    TDAssert(_globalScope);
-//    [_globalScope defineSymbol:funcSym];
+    // declare
+    TDAssert(_globalScope);
+    [_globalScope defineSymbol:funcSym];
     
     // define in memory
-    XPObject *obj = [XPObject function:funcSym];
-    obj.isNative = YES;
-    
-    TDAssert(_globals);
-    [_globals setObject:obj forName:name];
+//    XPObject *obj = [XPObject function:funcSym];
+//
+//    TDAssert(_globals);
+//    [_globals setObject:obj forName:name];
     
     [XPSymbol addReservedWord:name];
 }
