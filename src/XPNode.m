@@ -36,7 +36,6 @@
 - (void)dealloc {
     self.token = nil;
     self.kids = nil;
-    self.scope = nil;
     [super dealloc];
 }
 
@@ -45,7 +44,6 @@
     TDAssertMainThread();
     XPNode *that = [[[self class] alloc] initWithToken:_token];
     that->_kids = [_kids mutableCopyWithZone:zone];
-    that->_scope = _scope; // weakref
     return that;
 }
 

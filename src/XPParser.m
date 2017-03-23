@@ -1569,7 +1569,6 @@
     NSArray *args = REV(ABOVE(_openParenTok));
     POP(); // '('
     XPNode *callNode = [XPNode nodeWithToken:_callTok];
-    callNode.scope = _currentScope;
     [callNode addChild:POP()]; // call target obj
     [callNode addChildren:args];
     PUSH(callNode);
