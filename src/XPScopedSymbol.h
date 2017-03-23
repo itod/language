@@ -15,6 +15,6 @@
 
 - (NSMutableDictionary *)members; // abstract
 
-@property (nonatomic, retain, readonly) id <XPScope>parentScope;
-@property (nonatomic, retain, readonly) id <XPScope>enclosingScope;
+@property (nonatomic, assign, readonly) id <XPScope>parentScope; // weakref - avoids cyle for func delcarations define in this scope
+@property (nonatomic, assign, readonly) id <XPScope>enclosingScope; // weakref - "
 @end

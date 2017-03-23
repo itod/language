@@ -10,6 +10,19 @@
 
 @implementation XPGlobalScope
 
+// - (instancetype)initWithEnclosingScope:(id <XPScope>)scope {
+//     self = [super initWithEnclosingScope:scope];
+//     if (self) {
+//     }
+//     return self;
+// }
+//
+//
+// - (void)dealloc {
+//     [super dealloc];
+// }
+
+
 #pragma mark -
 #pragma mark XPScope
 

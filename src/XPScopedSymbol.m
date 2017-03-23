@@ -9,7 +9,7 @@
 #import "XPScopedSymbol.h"
 
 @interface XPScopedSymbol ()
-@property (nonatomic, retain, readwrite) id <XPScope>enclosingScope;
+@property (nonatomic, assign, readwrite) id <XPScope>enclosingScope;
 @end
 
 @implementation XPScopedSymbol
