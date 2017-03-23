@@ -37,8 +37,11 @@
     for (NSString *name in allNames) {
         XPObject *val = members[name];
         TDAssert(val);
-        [names addObject:name];
-        [vals addObject:val];
+        
+        if (!val.isNative) {
+            [names addObject:name];
+            [vals addObject:val];
+        }
     }
     
     self.sortedLocalNames = names;

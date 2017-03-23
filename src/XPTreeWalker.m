@@ -12,12 +12,17 @@
 #import "XPScope.h"
 #import "XPNode.h"
 #import "XPException.h"
+#import "XPFunctionSymbol.h"
 #import "XPFunctionSpace.h"
 #import "XPInterpreter.h"
 #import "XPStackFrame.h"
 
 #import <Language/XPBreakpoint.h>
 #import <Language/XPBreakpointCollection.h>
+
+@interface XPObject ()
+@property (nonatomic, assign, readwrite) BOOL isNative;
+@end
 
 @implementation XPTreeWalker
 
@@ -69,6 +74,11 @@
         if (funcSym) {
             res = [XPObject function:funcSym];
             TDAssert(self.currentSpace);
+            
+            if (funcSym.nativeBody) {
+                res.isNative = YES;
+            }
+            
             [self.currentSpace setObject:res forName:name];
         }
     }
@@ -162,8 +172,12 @@
         // add global space manually
         {
             XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
-            TDAssert(NSNotFound != self.globals.lineNumber);
-            frame.lineNumber = self.globals.lineNumber;
+            if (NSNotFound == self.globals.lineNumber) {
+                frame.lineNumber = lineNum;
+            } else {
+                frame.lineNumber = self.globals.lineNumber;
+            }
+            TDAssert(NSNotFound != frame.lineNumber);
             frame.filePath = _currentFilePath;
             frame.functionName = @"<global>";
             [frame setMembers:self.globals.members];
