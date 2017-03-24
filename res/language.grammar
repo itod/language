@@ -175,7 +175,7 @@ globalList  = item* {
     [block addChildren:items];
     PUSH(block);
 };
-item  = stats | anyBlock;
+item  = anyBlock | stats;
 anyBlock
 @after {self.valid=YES;}
             = { _valid }? ifBlock | whileBlock | forBlock | localBlock | tryBlock | funcDecl;

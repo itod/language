@@ -688,10 +688,10 @@
 
 - (void)__item {
     
-    if ([self speculate:^{ [self stats_]; }]) {
-        [self stats_]; 
-    } else if ([self speculate:^{ [self anyBlock_]; }]) {
+    if ([self speculate:^{ [self anyBlock_]; }]) {
         [self anyBlock_]; 
+    } else if ([self speculate:^{ [self stats_]; }]) {
+        [self stats_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'item'."];
     }
