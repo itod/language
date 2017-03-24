@@ -83,6 +83,7 @@ enum {
 @property (nonatomic, retain) id <XPScope>currentScope;
 @property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, retain) XPMemorySpace *globals;
+@property (nonatomic, retain) NSMutableArray *allScopes;
 @property (nonatomic, assign) BOOL foundDefaultParam;
 
 @end

@@ -69,8 +69,8 @@
     // or a statically-declared func
     if (!res) {
         NSString *name = node.name;
-        TDAssert(_globalScope);
-        XPFunctionSymbol *funcSym = (id)[_globalScope resolveSymbolNamed:name];
+        TDAssert(node.scope);
+        XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
         if (funcSym) {
             res = [XPObject function:funcSym];
             TDAssert(self.currentSpace);

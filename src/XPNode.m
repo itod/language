@@ -36,6 +36,7 @@
 - (void)dealloc {
     self.token = nil;
     self.kids = nil;
+    self.scope = nil;
     [super dealloc];
 }
 

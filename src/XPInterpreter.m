@@ -81,6 +81,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 @interface XPInterpreter ()
 @property (nonatomic, retain) XPTreeWalker *treeWalker;
+@property (nonatomic, retain) NSMutableArray *allScopes; // this exists to allow all scopes to persist after parsing until tree traversal is done
 @end
 
 @implementation XPInterpreter
@@ -195,9 +196,12 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     
     // PARSE
     {
+        self.allScopes = [NSMutableArray array];
+
         self.parser = [[[XPParser alloc] initWithDelegate:nil] autorelease];
         _parser.globalScope = _globalScope;
         _parser.globals = _globals;
+        _parser.allScopes = _allScopes;
         
         NSError *err = nil;
         PKAssembly *a = [_parser parseString:input error:&err];
@@ -233,7 +237,6 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             _treeWalker.breakpointCollection = _breakpointCollection;
             _treeWalker.currentFilePath = path ? path : @"<main>";
             [_treeWalker walk:_root];
-            
         } @catch (XPRuntimeException *rex) {
             success = NO;
             if (outErr) {
@@ -252,6 +255,10 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             }
         } @finally {
             self.treeWalker = nil;
+            self.allScopes = nil;
+            self.globalScope = nil;
+            self.stdOut = nil;
+            self.stdErr = nil;
         }
     }
     

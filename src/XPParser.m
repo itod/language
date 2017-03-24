@@ -171,6 +171,18 @@
     return t;
 }
 
+- (void)setCurrentScope:(id<XPScope>)s {
+    if (s != _currentScope) {
+        [_currentScope autorelease];
+        _currentScope = [s retain];
+    
+        if (s) {
+            TDAssert(_allScopes);
+            [_allScopes addObject:s];
+        }
+    }
+}
+    
 
 - (instancetype)initWithDelegate:(id)d {
     self = [super initWithDelegate:d];
@@ -426,6 +438,7 @@
     self.currentScope = nil;
     self.globalScope = nil;
     self.globals = nil;
+    self.allScopes = nil;
     self.blockTok = nil;
     self.loadTok = nil;
     self.callTok = nil;
@@ -688,10 +701,10 @@
 
 - (void)__item {
     
-    if ([self speculate:^{ [self stats_]; }]) {
-        [self stats_];
-    } else if ([self speculate:^{ [self anyBlock_]; }]) {
+    if ([self speculate:^{ [self anyBlock_]; }]) {
         [self anyBlock_]; 
+    } else if ([self speculate:^{ [self stats_]; }]) {
+        [self stats_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'item'."];
     }
@@ -1368,7 +1381,9 @@
     [_currentScope defineSymbol:funcSym];
     id subTok = POP();
     XPNode *funcNode = [XPNode nodeWithToken:subTok];
-    [funcNode addChild:[XPNode nodeWithToken:nameTok]]; // qid / func name
+    XPNode *nameNode = [XPNode nodeWithToken:nameTok];
+    nameNode.scope = _currentScope;
+    [funcNode addChild:nameNode];
     PUSH(funcNode);
     PUSH(subTok); // barrier for later
 
@@ -2369,6 +2384,7 @@
     
     XPNode *refNode = [XPNode nodeWithToken:_loadTok];
     XPNode *idNode = [XPNode nodeWithToken:POP()];
+    idNode.scope = _currentScope;
     [refNode addChild:idNode];
     PUSH(refNode);
 

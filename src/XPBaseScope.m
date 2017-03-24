@@ -48,7 +48,7 @@
 }
 
 
-- (id <XPScope>)getParentScope {
+- (id <XPScope>)parentScope {
     return self.enclosingScope;
 }
 

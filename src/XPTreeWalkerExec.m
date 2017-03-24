@@ -93,17 +93,7 @@
         return;
     }
 
-    TDAssert(self.globalScope);
-    XPFunctionSymbol *funcSym = (id)[self.globalScope resolveSymbolNamed:name];
-    TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
-    
-    TDAssert(self.currentSpace);
-    XPObject *obj = [self.currentSpace objectForName:name];
-    
-    if (!obj) {
-        obj = [XPObject function:funcSym];
-        [self.currentSpace setObject:obj forName:name];
-    }
+    [self loadVariableReference:nameNode];
 }
 
 
