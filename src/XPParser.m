@@ -688,10 +688,12 @@
 
 - (void)__item {
     
-    if ([self speculate:^{ [self anyBlock_]; }]) {
-        [self anyBlock_]; 
+    if ([self predicts:XP_TOKEN_KIND_IF, XP_TOKEN_KIND_WHILE, XP_TOKEN_KIND_FOR, XP_TOKEN_KIND_TRY, XP_TOKEN_KIND_SUB, 0]) {
+        [self anyBlock_];
     } else if ([self speculate:^{ [self stats_]; }]) {
-        [self stats_]; 
+        [self stats_];
+    } else if ([self speculate:^{ [self anyBlock_]; }]) {
+        [self anyBlock_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'item'."];
     }
