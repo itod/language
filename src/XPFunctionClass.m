@@ -7,7 +7,16 @@
 //
 
 #import "XPFunctionClass.h"
+#import "XPFunctionSymbol.h"
 #import <Language/XPObject.h>
+
+@interface XPObject ()
+- (instancetype)initWithClass:(XPClass *)cls value:(id)val;
+@end
+
+@interface XPFunctionClass ()
+@property (nonatomic, retain) NSMutableDictionary *cache;
+@end
 
 @implementation XPFunctionClass
 
@@ -18,6 +27,22 @@
         cls = [[self alloc] init];
     }
     return cls;
+}
+
+
+- (XPObject *)internedObjectWithValue:(id)val {
+    TDAssertMainThread();
+    TDAssert([val isKindOfClass:[XPFunctionSymbol class]]);
+    
+    XPFunctionSymbol *funcSym = (id)val;
+    
+    XPObject *res = self.cache[funcSym.name];
+    if (!res) {
+        res = [[[XPObject alloc] initWithClass:self value:val] autorelease];
+        self.cache[funcSym.name] = res;
+    }
+    
+    return res;
 }
 
 
