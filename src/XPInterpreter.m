@@ -14,7 +14,7 @@
 #import "XPNode.h"
 
 #import "XPTreeWalkerExec.h"
-#import "XPException.h"
+#import "XPRuntimeException.h"
 
 #import <Language/XPObject.h>
 #import "XPFunctionSymbol.h"
@@ -234,15 +234,19 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             _treeWalker.currentFilePath = path ? path : @"<main>";
             [_treeWalker walk:_root];
             
+        } @catch (XPRuntimeException *rex) {
+            success = NO;
+            if (outErr) {
+                NSLog(@"%@", rex.reason);
+                *outErr = [self errorWithCode:XPExceptionCodeRuntime name:rex.name reason:rex.reason range:rex.range lineNumber:rex.lineNumber];
+            } else {
+                [rex raise];
+            }
         } @catch (XPException *ex) {
             success = NO;
             if (outErr) {
-                NSString *domain = XPErrorDomain;
-                NSString *name = [ex name];
-                NSString *reason = [ex reason];
-                NSLog(@"%@", reason);
-                
-                *outErr = [self errorWithDomain:domain name:name reason:reason range:ex.range lineNumber:ex.lineNumber];
+                NSLog(@"%@", ex.reason);
+                *outErr = [self errorWithCode:XPExceptionCodeCompileTime name:ex.name reason:ex.reason range:ex.range lineNumber:ex.lineNumber];
             } else {
                 [ex raise];
             }
@@ -255,7 +259,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 }
 
 
-- (NSError *)errorWithDomain:(NSString *)domain name:(NSString *)name reason:(NSString *)reason range:(NSRange)r lineNumber:(NSUInteger)lineNum {
+- (NSError *)errorWithCode:(NSInteger)code name:(NSString *)name reason:(NSString *)reason range:(NSRange)r lineNumber:(NSUInteger)lineNum {
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     
     // get description
@@ -276,7 +280,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     userInfo[XPErrorLineNumberKey] = lineNumVal;
     
     // convert to NSError
-    NSError *err = [NSError errorWithDomain:XPErrorDomain code:0 userInfo:[[userInfo copy] autorelease]];
+    NSError *err = [NSError errorWithDomain:XPErrorDomain code:code userInfo:[[userInfo copy] autorelease]];
     return err;
 }
 
@@ -287,7 +291,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     NSRange range = [inErr.userInfo[XPErrorRangeKey] rangeValue];
     NSUInteger lineNum = [inErr.userInfo[XPErrorLineNumberKey] unsignedIntegerValue];
 
-    NSError *outErr = [self errorWithDomain:XPErrorDomain name:name reason:reason range:range lineNumber:lineNum];
+    NSError *outErr = [self errorWithCode:XPExceptionCodeCompileTime name:name reason:reason range:range lineNumber:lineNum];
     return outErr;
 }
 

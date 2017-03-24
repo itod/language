@@ -11,7 +11,7 @@
 #import "XPParser.h"
 #import "XPScope.h"
 #import "XPNode.h"
-#import "XPException.h"
+#import "XPRuntimeException.h"
 #import "XPFunctionSymbol.h"
 #import "XPFunctionSpace.h"
 #import "XPInterpreter.h"
@@ -201,7 +201,7 @@
     
     va_end(vargs);
 
-    XPException *ex = [[[XPException alloc] initWithName:name reason:reason userInfo:nil] autorelease];
+    XPRuntimeException *ex = [[[XPRuntimeException alloc] initWithName:name reason:reason userInfo:nil] autorelease];
     ex.lineNumber = node.lineNumber;
     ex.range = NSMakeRange(node.token.offset, [node.name length]);
     [ex raise];

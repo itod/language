@@ -170,6 +170,8 @@
 		D37CE4B21E4CE6940008945E /* XPArrayClass.h in Headers */ = {isa = PBXBuildFile; fileRef = D37CE4B01E4CE6940008945E /* XPArrayClass.h */; };
 		D37CE4B31E4CE6940008945E /* XPArrayClass.m in Sources */ = {isa = PBXBuildFile; fileRef = D37CE4B11E4CE6940008945E /* XPArrayClass.m */; };
 		D3903E0E1E8441A0007E7674 /* testRecursion.js in Resources */ = {isa = PBXBuildFile; fileRef = D3903E0D1E8441A0007E7674 /* testRecursion.js */; };
+		D3903E111E84A504007E7674 /* XPRuntimeException.h in Headers */ = {isa = PBXBuildFile; fileRef = D3903E0F1E84A504007E7674 /* XPRuntimeException.h */; };
+		D3903E121E84A504007E7674 /* XPRuntimeException.m in Sources */ = {isa = PBXBuildFile; fileRef = D3903E101E84A504007E7674 /* XPRuntimeException.m */; };
 		D3A7F27D1E4D71CC00C7099B /* XPBooleanClass.h in Headers */ = {isa = PBXBuildFile; fileRef = D3A7F27B1E4D71CC00C7099B /* XPBooleanClass.h */; };
 		D3A7F27E1E4D71CC00C7099B /* XPBooleanClass.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F27C1E4D71CC00C7099B /* XPBooleanClass.m */; };
 		D3A7F2811E4D79FB00C7099B /* XPNumberClass.h in Headers */ = {isa = PBXBuildFile; fileRef = D3A7F27F1E4D79FB00C7099B /* XPNumberClass.h */; };
@@ -379,6 +381,8 @@
 		D37CE4B01E4CE6940008945E /* XPArrayClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPArrayClass.h; path = src/XPArrayClass.h; sourceTree = SOURCE_ROOT; };
 		D37CE4B11E4CE6940008945E /* XPArrayClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPArrayClass.m; path = src/XPArrayClass.m; sourceTree = SOURCE_ROOT; };
 		D3903E0D1E8441A0007E7674 /* testRecursion.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testRecursion.js; path = test/scripts/testRecursion.js; sourceTree = SOURCE_ROOT; };
+		D3903E0F1E84A504007E7674 /* XPRuntimeException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPRuntimeException.h; path = src/XPRuntimeException.h; sourceTree = SOURCE_ROOT; };
+		D3903E101E84A504007E7674 /* XPRuntimeException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPRuntimeException.m; path = src/XPRuntimeException.m; sourceTree = SOURCE_ROOT; };
 		D3A7F27B1E4D71CC00C7099B /* XPBooleanClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPBooleanClass.h; path = src/XPBooleanClass.h; sourceTree = SOURCE_ROOT; };
 		D3A7F27C1E4D71CC00C7099B /* XPBooleanClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPBooleanClass.m; path = src/XPBooleanClass.m; sourceTree = SOURCE_ROOT; };
 		D3A7F27F1E4D79FB00C7099B /* XPNumberClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPNumberClass.h; path = src/XPNumberClass.h; sourceTree = SOURCE_ROOT; };
@@ -773,6 +777,8 @@
 				D37316A01E3EBD4B0034798E /* XPNode.m */,
 				D3BB83641E454B8F007AC9DD /* XPException.h */,
 				D37316EB1E4121110034798E /* XPException.m */,
+				D3903E0F1E84A504007E7674 /* XPRuntimeException.h */,
+				D3903E101E84A504007E7674 /* XPRuntimeException.m */,
 				D3166E3A1E54EBA200DEE3A0 /* XPReturnException.h */,
 				D3166E3B1E54EBA200DEE3A0 /* XPReturnException.m */,
 				D309BCD21E5CF841002B3199 /* XPTreeWalker.h */,
@@ -879,6 +885,7 @@
 				D3166DE31E53B0C400DEE3A0 /* FNBoolean.h in Headers */,
 				D3166E701E57A69500DEE3A0 /* FNGlobals.h in Headers */,
 				D32E70BE1E5365F700728D80 /* XPFunctionBody.h in Headers */,
+				D3903E111E84A504007E7674 /* XPRuntimeException.h in Headers */,
 				D37316BA1E3EBF980034798E /* XPVariableSymbol.h in Headers */,
 				D37316CF1E3EC4E50034798E /* XPLocalScope.h in Headers */,
 				D309BCD71E5FA0EE002B3199 /* XPStackFrame.h in Headers */,
@@ -1047,6 +1054,7 @@
 				D3166E001E53B9A900DEE3A0 /* FNCopy.m in Sources */,
 				D32E70BF1E5365F700728D80 /* XPFunctionBody.m in Sources */,
 				D34A562A1E7F36780064DF65 /* FNPow.m in Sources */,
+				D3903E121E84A504007E7674 /* XPRuntimeException.m in Sources */,
 				D3166E151E54BAFE00DEE3A0 /* FNMatches.m in Sources */,
 				D34A560B1E7F04F20064DF65 /* FNAbs.m in Sources */,
 				D37316B71E3EBF800034798E /* XPSymbol.m in Sources */,

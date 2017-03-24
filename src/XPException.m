@@ -14,7 +14,7 @@ NSString * const XPExceptionReservedWord = @"Reserved Word";
 
 // runtime
 NSString * const XPExceptionUserKill = @"User Stopped Execution";
-NSString * const XPExceptionRuntimeError = @"Runtime Error";
+NSString * const XPExceptionUncaughtThrownObject = @"Uncaught User-Thrown Object";
 NSString * const XPExceptionRegexError = @"Regular Expression Error";
 NSString * const XPExceptionUndeclaredSymbol = @"Undeclared Symbol";
 NSString * const XPExceptionTooManyArguments = @"Too Many Arguments";

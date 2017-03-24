@@ -20,7 +20,3 @@
 @interface XPContinueException : NSException
 @end
 
-@interface XPThrownException : NSException
-@property (nonatomic, retain) XPObject *thrownObject;
-@end
-
