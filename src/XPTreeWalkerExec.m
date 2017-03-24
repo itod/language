@@ -97,10 +97,13 @@
     XPFunctionSymbol *funcSym = (id)[self.globalScope resolveSymbolNamed:name];
     TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
     
-    XPObject *obj = [XPObject function:funcSym];
-    
     TDAssert(self.currentSpace);
-    [self.currentSpace setObject:obj forName:name];
+    XPObject *obj = [self.currentSpace objectForName:name];
+    
+    if (!obj) {
+        obj = [XPObject function:funcSym];
+        [self.currentSpace setObject:obj forName:name];
+    }
 }
 
 
