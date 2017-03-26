@@ -27,6 +27,7 @@ extern NSString * const XPExceptionRegexError;
 extern NSString * const XPExceptionTypeMismatch;
 extern NSString * const XPExceptionArrayIndexOutOfBounds;
 extern NSString * const XPExceptionAssertionFailed;
+extern NSString * const XPExceptionIllegalArgument;
 
 @interface XPException : NSException
 @property (nonatomic, assign) NSUInteger lineNumber;

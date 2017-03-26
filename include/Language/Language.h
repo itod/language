@@ -20,6 +20,7 @@ FOUNDATION_EXPORT const unsigned char LanguageVersionString[];
 #import <Language/XPTreeWalker.h>
 #import <Language/XPInterpreter.h>
 #import <Language/XPException.h>
+#import <Language/XPUserThrownException.h>
 #import <Language/XPObject.h>
 
 // DEBUG

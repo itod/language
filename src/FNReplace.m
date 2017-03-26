@@ -12,7 +12,7 @@
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
-#import "XPException.h"
+#import <Language/XPException.h>
 
 @implementation FNReplace
 

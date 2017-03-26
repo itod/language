@@ -10,8 +10,8 @@
 #import <Language/XPObject.h>
 #import "XPFunctionSymbol.h"
 #import "XPFunctionSpace.h"
-#import "XPException.h"
-#import "XPReturnException.h"
+#import "XPFlowExceptions.h"
+#import <Language/XPException.h>
 #import <Language/XPTreeWalker.h>
 
 @implementation FNFilter

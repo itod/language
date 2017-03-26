@@ -14,7 +14,7 @@
 #import "XPNode.h"
 
 #import "XPTreeWalkerExec.h"
-#import "XPRuntimeException.h"
+#import <Language/XPUserThrownException.h>
 
 #import <Language/XPObject.h>
 #import "XPFunctionSymbol.h"
@@ -237,7 +237,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             _treeWalker.breakpointCollection = _breakpointCollection;
             _treeWalker.currentFilePath = path ? path : @"<main>";
             [_treeWalker walk:_root];
-        } @catch (XPRuntimeException *rex) {
+        } @catch (XPUserThrownException *rex) {
             success = NO;
             if (outErr) {
                 NSLog(@"%@", rex.reason);

@@ -8,10 +8,10 @@
 
 #import <Language/XPTreeWalker.h>
 #import <Language/XPObject.h>
+#import <Language/XPException.h>
 #import "XPParser.h"
 #import "XPScope.h"
 #import "XPNode.h"
-#import "XPRuntimeException.h"
 #import "XPFunctionSymbol.h"
 #import "XPFunctionSpace.h"
 #import "XPInterpreter.h"
@@ -201,7 +201,7 @@
     
     va_end(vargs);
 
-    XPRuntimeException *ex = [[[XPRuntimeException alloc] initWithName:name reason:reason userInfo:nil] autorelease];
+    XPException *ex = [[[XPException alloc] initWithName:name reason:reason userInfo:nil] autorelease];
     ex.lineNumber = node.lineNumber;
     ex.range = NSMakeRange(node.token.offset, [node.name length]);
     [ex raise];

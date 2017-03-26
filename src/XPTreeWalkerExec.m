@@ -7,7 +7,7 @@
 //
 
 #import "XPTreeWalkerExec.h"
-#import "XPRuntimeException.h"
+#import <Language/XPUserThrownException.h>
 
 #import "XPMemorySpace.h"
 #import "XPFunctionSpace.h"
@@ -25,7 +25,7 @@
 #import "XPSymbol.h"
 
 #import "XPEnumeration.h"
-#import "XPReturnException.h"
+#import "XPFlowExceptions.h"
 
 #define OFFSET 1
 
@@ -459,7 +459,7 @@
     @try {
         XPNode *tryBlock = [tryNode childAtIndex:0];
         [self block:tryBlock withVars:nil];
-    } @catch (XPRuntimeException *ex) {
+    } @catch (XPUserThrownException *ex) {
         if (catchNode) {
             XPNode *idNode = [catchNode childAtIndex:0];
             
@@ -483,7 +483,7 @@
     XPNode *expr = [node childAtIndex:0];
     XPObject *thrownObj = [self walk:expr];
 
-    XPRuntimeException *ex = [[[XPRuntimeException alloc] initWithName:XPExceptionUncaughtThrownObject reason:XPExceptionUncaughtThrownObject userInfo:nil] autorelease];
+    XPUserThrownException *ex = [[[XPUserThrownException alloc] initWithName:XPExceptionUncaughtThrownObject reason:XPExceptionUncaughtThrownObject userInfo:nil] autorelease];
     ex.lineNumber = node.lineNumber;
     ex.range = NSMakeRange(node.token.offset, [node.name length]);
     ex.thrownObject = thrownObj;
@@ -615,7 +615,12 @@
         // native function
         else {
             TDAssert(funcSym.nativeBody);
-            result = [funcSym.nativeBody callWithWalker:self argc:argCount];
+            @try {
+                result = [funcSym.nativeBody callWithWalker:self argc:argCount];
+            } @catch (XPException *ex) {
+                // just catch & rethrow to add lineNum and range
+                [self raise:ex.name node:node format:ex.reason];
+            }
         }
         
         [self.callStack removeLastObject];
