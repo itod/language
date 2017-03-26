@@ -781,9 +781,10 @@
         case XP_TOKEN_KIND_TIMES:
             res = lhs * rhs;
             break;
-        case XP_TOKEN_KIND_DIV:
+        case XP_TOKEN_KIND_DIV: {
+            if (0.0 == rhs) [self raise:XPZeroDivisionError node:node format:@"cannot divide by 0.0"];
             res = lhs / rhs;
-            break;
+            } break;
         case XP_TOKEN_KIND_MOD:
             res = lrint(lhs) % lrint(rhs);
             break;

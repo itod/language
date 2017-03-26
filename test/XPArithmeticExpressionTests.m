@@ -143,4 +143,14 @@
     TDEquals(4.0, [self doubleForName:@"foo"]);
 }
 
+- (void)testZeroDiv {
+    [self fail:@"var foo=1/0;"];
+    TDEqualObjects(XPZeroDivisionError, self.error.localizedDescription);
+}
+
+- (void)testZeroDiv1 {
+    [self fail:@"var foo=1/-0;"];
+    TDEqualObjects(XPZeroDivisionError, self.error.localizedDescription);
+}
+
 @end
