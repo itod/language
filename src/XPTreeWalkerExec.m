@@ -459,6 +459,24 @@
     @try {
         XPNode *tryBlock = [tryNode childAtIndex:0];
         [self block:tryBlock withVars:nil];
+    } @catch (XPException *ex) {
+        NSDictionary *tab = @{
+                              [XPObject string:@"name"]  : [XPObject string:ex.name],
+                              [XPObject string:@"reason"]: [XPObject string:ex.reason],
+                              [XPObject string:@"line"]  : [XPObject number:ex.lineNumber],
+                              };
+        XPObject *thrownObj = [XPObject dictionary:tab];
+
+        if (catchNode) {
+            XPNode *idNode = [catchNode childAtIndex:0];
+            
+            NSString *name = idNode.name;
+            
+            XPNode *catchBlock = [catchNode childAtIndex:1];
+            [self block:catchBlock withVars:@{name: thrownObj}];
+        } else {
+            @throw thrownObj;
+        }
     } @catch (XPUserThrownException *ex) {
         if (catchNode) {
             XPNode *idNode = [catchNode childAtIndex:0];

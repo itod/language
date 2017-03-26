@@ -35,7 +35,7 @@
 
 
 - (id)stringValue:(XPObject *)this {
-    return @"[Object Subroutine]"; // TODO
+    return [NSString stringWithFormat:@"[Subroutine %@]", [this.value name]];
 }
 
 
