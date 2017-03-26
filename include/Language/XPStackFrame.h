@@ -13,6 +13,7 @@
 @interface XPStackFrame : NSObject
 
 - (void)setMembers:(NSDictionary *)members;
+- (NSDictionary *)members;
 
 @property (nonatomic, assign) NSUInteger lineNumber;
 @property (nonatomic, copy) NSString *filePath;

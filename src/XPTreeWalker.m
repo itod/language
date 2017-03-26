@@ -184,6 +184,13 @@
             
             [frameStack addObject:frame];
         }
+        
+        {
+            XPStackFrame *first = [frameStack firstObject];
+            NSMutableDictionary *mems = [NSMutableDictionary dictionaryWithDictionary:first.members];
+            [mems addEntriesFromDictionary:[[self.lexicalStack lastObject] members]];
+            [first setMembers:mems];
+        }
     }
     
     return info;
@@ -332,8 +339,11 @@
         [_currentSpace setObject:obj forName:name];
     }
     
+    [self.lexicalStack addObject:_currentSpace];
     
     [self doWalkStats:node];
+    
+    [self.lexicalStack removeLastObject];
     
     self.currentSpace = savedSpace;
 }

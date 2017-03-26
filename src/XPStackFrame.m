@@ -48,4 +48,18 @@
     self.sortedLocalValues = vals;
 }
 
+
+- (NSDictionary *)members {
+    NSUInteger c = [_sortedLocalNames count];
+    
+    NSMutableDictionary *mems = [NSMutableDictionary dictionaryWithCapacity:c];
+    NSUInteger i = 0;
+    for (NSString *name in _sortedLocalNames) {
+        id val = _sortedLocalValues[i++];
+        [mems setObject:val forKey:name];
+    }
+    
+    return mems;
+}
+
 @end
