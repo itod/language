@@ -13,9 +13,6 @@
 - (void)setUp {
     [super setUp];
     
-    self.stat = nil;
-    self.interp = [[[XPInterpreter alloc] init] autorelease];
-    self.error = nil;
 }
 
 - (void)tearDown {
@@ -52,6 +49,12 @@
 
 
 - (void)eval:(NSString *)input {
+    {
+        self.stat = nil;
+        self.interp = [[[XPInterpreter alloc] init] autorelease];
+        self.error = nil;
+    }
+    
     NSError *err = nil;
     [self.interp interpretString:input filePath:nil error:&err];
     TDNil(err);
@@ -60,6 +63,12 @@
 
 
 - (void)fail:(NSString *)input {
+    {
+        self.stat = nil;
+        self.interp = [[[XPInterpreter alloc] init] autorelease];
+        self.error = nil;
+    }
+    
     NSError *err = nil;
     [self.interp interpretString:input filePath:nil error:&err];
     TDNotNil(err);

@@ -34,7 +34,7 @@
 }
 
 - (void)testOverrideFail {
-    [self fail:@"var foo=sub(){return 1;};var foo=1;var bar=foo();"];
+    [self fail:@"var foo=sub(){return 1;};foo=1;var bar=foo();"];
     TDEqualObjects(XPTypeError, self.error.localizedDescription);
 }
 

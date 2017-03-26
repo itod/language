@@ -82,16 +82,24 @@
 - (void)testIsNan {
     [self eval:@"var b=isNaN(1);"];
     TDFalse([self boolForName:@"b"]);
-    
+}
+
+- (void)testIsNan1 {
     [self eval:@"var b=isNaN(0.0);"];
     TDFalse([self boolForName:@"b"]);
-    
+}
+
+- (void)testIsNan2 {
     [self eval:@"var b=isNaN('NaN');"];
     TDFalse([self boolForName:@"b"]);
-    
+}
+
+- (void)testIsNan3 {
     [self eval:@"var b=isNaN(NaN);"];
     TDTrue([self boolForName:@"b"]);
-    
+}
+
+- (void)testIsNan4 {
     [self eval:@"var foo=NaN;var b=isNaN(foo);"];
     TDTrue([self boolForName:@"b"]);
 }

@@ -59,4 +59,9 @@
     TDEqualObjects(XPNameError, self.error.localizedDescription);
 }
 
+- (void)testReDeclare {
+    [self fail:@"var foo=1;var foo=2;"];
+    TDEqualObjects(XPNameError, self.error.localizedDescription);
+}
+
 @end

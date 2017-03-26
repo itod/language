@@ -72,11 +72,15 @@
         return;
     }
     
+    TDAssert(self.currentSpace);
+    if ([self.currentSpace.members objectForKey:name]) {
+        [self raise:XPNameError node:node format:@"cannot re-define variable with same name (`%@`) within same scope", name];
+    }
+    
     XPNode *expr = [node childAtIndex:1];
     XPObject *valObj = [self walk:expr];
     TDAssert([valObj isKindOfClass:[XPObject class]]);
     
-    TDAssert(self.currentSpace);
     [self.currentSpace setObject:valObj forName:name];
 }
 
