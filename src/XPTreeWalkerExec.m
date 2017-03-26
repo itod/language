@@ -68,7 +68,7 @@
     NSString *name = [[[node childAtIndex:0] token] stringValue];
     
     if ([[XPSymbol reservedWords] containsObject:name]) {
-        [self raise:XPExceptionReservedWord node:node format:@"cannot define variable with reserved name `%@`", name];
+        [self raise:XPNameError node:node format:@"cannot define variable with reserved name `%@`", name];
         return;
     }
     
@@ -89,7 +89,7 @@
     NSString *name = nameNode.name;
 
     if ([[XPSymbol reservedWords] containsObject:name]) {
-        [self raise:XPExceptionReservedWord node:node format:@"cannot define subroutine with reserved name `%@`", name];
+        [self raise:XPNameError node:node format:@"cannot define subroutine with reserved name `%@`", name];
         return;
     }
 
@@ -120,7 +120,7 @@
     
     XPMemorySpace *space = [self spaceWithSymbolNamed:name];
     if (!space) {
-        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", name];
+        [self raise:XPNameError node:node format:@"attempting to assign to undeclared symbol `%@`", name];
         return;
     }
     
@@ -164,7 +164,7 @@
     
     XPMemorySpace *space = [self spaceWithSymbolNamed:name];
     if (!space) {
-        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", name];
+        [self raise:XPNameError node:node format:@"attempting to assign to undeclared symbol `%@`", name];
         return;
     }
     
@@ -215,7 +215,7 @@
     XPObject *collObj = [self loadVariableReference:idNode];
     
     if (!collObj) {
-        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.name];
+        [self raise:XPNameError node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.name];
         return;
     }
     
@@ -229,7 +229,7 @@
             NSInteger len = [[collObj callInstanceMethodNamed:@"count"] integerValue];
             
             if (checkIdx < 1 || checkIdx > len) {
-                [self raise:XPExceptionArrayIndexOutOfBounds node:node format:@"array index out of bounds: `%ld`", idx];
+                [self raise:XPIndexError node:node format:@"array index out of bounds: `%ld`", idx];
                 return;
             }
         }
@@ -251,7 +251,7 @@
     }
     
     else {
-        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-array object `%@`", idNode.name];
+        [self raise:XPTypeError node:node format:@"attempting indexed assignment on non-Array object `%@`", idNode.name];
         return;
     }
 }
@@ -265,12 +265,12 @@
     XPObject *seqObj = [self loadVariableReference:idNode];
     
     if (!seqObj) {
-        [self raise:XPExceptionUndeclaredSymbol node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.name];
+        [self raise:XPNameError node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.name];
         return;
     }
     
     if (![seqObj isStringObject] && ![seqObj isArrayObject]) {
-        [self raise:XPExceptionTypeMismatch node:node format:@"attempting indexed assignment on non-sequence object `%@`", idNode.name];
+        [self raise:XPTypeError node:node format:@"attempting indexed assignment on non-sequence object `%@`", idNode.name];
         return;
     }
     
@@ -329,7 +329,7 @@
     
     else if ([targetObj isDictionaryObject]) {
         if (stopNode) {
-            [self raise:XPExceptionTypeMismatch node:node format:@"attempting sliced subscript access on dictionary object `%@`", targetNode.name];
+            [self raise:XPTypeError node:node format:@"attempting sliced subscript access on non-Array object `%@`", targetNode.name];
             return nil;
         }
         TDAssert(!stepNode);
@@ -339,7 +339,7 @@
     }
     
     else {
-        [self raise:XPExceptionTypeMismatch node:node format:@"attempting subscript access on non-collection object `%@`", targetNode.name];
+        [self raise:XPNameError node:node format:@"attempting subscript access on non-collection object `%@`", targetNode.name];
         return nil;
     }
     
@@ -380,7 +380,7 @@
     XPObject *collObj = [self walk:collExpr];
     XPEnumeration *e = [collObj enumeration];
     if (!e) {
-        [self raise:XPExceptionTypeMismatch node:node format:@"cannot execute `for` loop on non-collection types", collObj];
+        [self raise:XPNameError node:node format:@"cannot execute `for` loop on non-collection types", collObj];
         return;
     }
     
@@ -483,10 +483,9 @@
     XPNode *expr = [node childAtIndex:0];
     XPObject *thrownObj = [self walk:expr];
 
-    XPUserThrownException *ex = [[[XPUserThrownException alloc] initWithName:XPExceptionUncaughtThrownObject reason:XPExceptionUncaughtThrownObject userInfo:nil] autorelease];
+    XPUserThrownException *ex = [[[XPUserThrownException alloc] initWithThrownObject:thrownObj] autorelease];
     ex.lineNumber = node.lineNumber;
     ex.range = NSMakeRange(node.token.offset, [node.name length]);
-    ex.thrownObject = thrownObj;
     [ex raise];
 }
 
@@ -535,7 +534,7 @@
             funcSym = target.value;
             TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
         } else {
-            [self raise:XPExceptionTypeMismatch node:node format:@"illegal call to non-subroutine object"];
+            [self raise:XPTypeError node:node format:@"attempting to call a non-Subroutine object"];
             return nil;
         }
     }
@@ -564,13 +563,13 @@
         
         // check for too many args
         if (argCount > paramCount) {
-            [self raise:XPExceptionTooManyArguments node:node format:@"sub `%@` called with too many arguments. %ld given, no more than %ld expected", name, argCount, paramCount];
+            [self raise:XPTypeError node:node format:@"sub `%@` called with too many arguments. %ld given, no more than %ld expected", name, argCount, paramCount];
             return nil;
         }
         
         // check for too few args
         if (argCount + defaultParamCount < paramCount) {
-            [self raise:XPExceptionTooFewArguments node:node format:@"sub `%@` called with too few arguments. %ld given, at least %ld expected", name, argCount, paramCount-defaultParamCount];
+            [self raise:XPTypeError node:node format:@"sub `%@` called with too few arguments. %ld given, at least %ld expected", name, argCount, paramCount-defaultParamCount];
             return nil;
         }
         

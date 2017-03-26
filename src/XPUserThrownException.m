@@ -10,6 +10,15 @@
 
 @implementation XPUserThrownException
 
+- (instancetype)initWithThrownObject:(XPObject *)obj {
+    self = [super initWithName:@"" reason:@"" userInfo:nil];
+    if (self) {
+        self.thrownObject = obj;
+    }
+    return self;
+}
+
+
 - (void)dealloc {
     self.thrownObject = nil;
     [super dealloc];

@@ -7,22 +7,25 @@
 //
 
 #import <Language/XPException.h>
+NSString * const XPRuntimeError = @"RuntimeError";
+    NSString * const XPArithmeticError = @"ArithmeticError";
+        NSString * const XPOverflowError = @"OverflowError";
+        NSString * const XPZeroDivisionError = @"ZeroDivisionError";
+        NSString * const XPFloatingPointError = @"FloatingPointError";
+    NSString * const XPLookupError = @"LookupError";
+        NSString * const XPIndexError = @"IndexError";
+    NSString * const XPEnvironmentError = @"EnvironmentError";
+        NSString * const XPIOError = @"IOError";
+        NSString * const XPOSError = @"OSError";
+    NSString * const XPAssertionError = @"AssertionError";
+    NSString * const XPImportError = @"ImportError";
+    NSString * const XPNameError = @"NameError";
+    NSString * const XPSyntaxError = @"SyntaxError";
+    NSString * const XPRegexSyntaxError = @"RegexSyntaxError";
+    NSString * const XPTypeError = @"TypeError";
+    NSString * const XPValueError = @"ValueError";
 
-// static
-NSString * const XPExceptionSyntaxError = @"Syntax Error";
-NSString * const XPExceptionReservedWord = @"Reserved Word";
-
-// runtime
-NSString * const XPExceptionUserKill = @"User Stopped Execution";
-NSString * const XPExceptionUncaughtThrownObject = @"Uncaught User-Thrown Object";
-NSString * const XPExceptionRegexError = @"Regular Expression Error";
-NSString * const XPExceptionUndeclaredSymbol = @"Undeclared Symbol";
-NSString * const XPExceptionTooManyArguments = @"Too Many Arguments";
-NSString * const XPExceptionTooFewArguments = @"Too Few Arguments";
-NSString * const XPExceptionTypeMismatch = @"Type Mismatch";
-NSString * const XPExceptionArrayIndexOutOfBounds = @"Array Index Out of Bounds";
-NSString * const XPExceptionAssertionFailed = @"Assertion Failed";
-NSString * const XPExceptionIllegalArgument = @"Illegal Argument";
+NSString * const XPUserInterruptException = @"UserInterruptException";
 
 @implementation XPException
 

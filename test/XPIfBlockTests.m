@@ -75,7 +75,7 @@
 
 - (void)testIfFalseElseIfTrueElseFail {
     [self fail:@"var foo = 0; if false {} else {foo=11;} else {foo=1;}"];
-    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+    TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
 }
 
 @end

@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 /*
- 
  Exception
     RuntimeError
         ArithmeticError
@@ -23,36 +22,34 @@
             IOError
             OSError
         AssertionError
-        AttributeError
         ImportError
         NameError
         SyntaxError
-        TypeError/IllegalArgumentError/ValueError ??
+        TypeError
+        ValueError
     
     UserInterruptException
 */
 
+extern NSString * const XPRuntimeError;
+    extern NSString * const XPArithmeticError;
+        extern NSString * const XPOverflowError;
+        extern NSString * const XPZeroDivisionError;
+        extern NSString * const XPFloatingPointError;
+    extern NSString * const XPLookupError;
+        extern NSString * const XPIndexError;
+    extern NSString * const XPEnvironmentError;
+        extern NSString * const XPIOError;
+        extern NSString * const XPOSError;
+    extern NSString * const XPAssertionError;
+    extern NSString * const XPImportError;
+    extern NSString * const XPNameError;
+    extern NSString * const XPSyntaxError;
+    extern NSString * const XPRegexSyntaxError;
+    extern NSString * const XPTypeError;
+    extern NSString * const XPValueError;
 
-typedef NS_ENUM(NSUInteger, XPExceptionCode) {
-    XPExceptionCodeCompileTime,
-    XPExceptionCodeRuntime,
-};
-
-// static
-extern NSString * const XPExceptionSyntaxError;
-extern NSString * const XPExceptionReservedWord;
-extern NSString * const XPExceptionUndeclaredSymbol;
-extern NSString * const XPExceptionTooManyArguments;
-extern NSString * const XPExceptionTooFewArguments;
-
-// runtime
-extern NSString * const XPExceptionUserKill;
-extern NSString * const XPExceptionUncaughtThrownObject;
-extern NSString * const XPExceptionRegexError;
-extern NSString * const XPExceptionTypeMismatch;
-extern NSString * const XPExceptionArrayIndexOutOfBounds;
-extern NSString * const XPExceptionAssertionFailed;
-extern NSString * const XPExceptionIllegalArgument;
+extern NSString * const XPUserInterruptException;
 
 @interface XPException : NSException
 @property (nonatomic, assign) NSUInteger lineNumber;

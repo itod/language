@@ -53,7 +53,7 @@
 
 - (void)testCallSubFooRetAPlusBGlobalFail {
     [self fail:@"var bar=foo();var b=5;sub foo(){var a=10;return a+b;}"];
-    TDEqualObjects(XPExceptionUndeclaredSymbol, self.error.localizedDescription);
+    TDEqualObjects(XPNameError, self.error.localizedDescription);
 }
 
 - (void)testCallSubArg {
@@ -98,20 +98,20 @@
 
 - (void)testCallSubMissingArg {
     [self fail:@"var bar = foo(22); sub foo(a,b) { }"];
-    TDEqualObjects(XPExceptionTooFewArguments, self.error.localizedDescription);
+    TDEqualObjects(XPTypeError, self.error.localizedDescription);
 }
 
 - (void)testCallSubMisorderedArg {
     [self fail:@"var bar = foo(1,2); sub foo(a=10,b) { }"];
-    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+    TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
 }
 
 - (void)testDupeParams {
     [self fail:@"sub foo(a,a) { }"];
-    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+    TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
 
     [self fail:@"sub foo(b,b=10) { }"];
-    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+    TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
 }
 
 - (void)testFoo {

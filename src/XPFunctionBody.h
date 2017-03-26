@@ -16,4 +16,5 @@
 + (NSString *)name;
 - (XPFunctionSymbol *)symbol;
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc;
+- (void)raise:(NSString *)name format:fmt, ...;
 @end

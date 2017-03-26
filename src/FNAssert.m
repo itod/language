@@ -9,9 +9,9 @@
 #import "FNAssert.h"
 #import <Language/XPObject.h>
 #import <Language/XPTreeWalker.h>
+#import <Language/XPException.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
-#import <Language/XPException.h>
 
 @implementation FNAssert
 
@@ -50,8 +50,7 @@
     
     if (!yn) {
         NSString *str = [test stringValue];
-        NSLog(@"Assertion Failed: `%@`, %@", str, msg);
-        [XPException raise:XPExceptionAssertionFailed format:@"assertion failed: `%@`, %@", str, msg];
+        [self raise:XPAssertionError format:@"assertion failed: `%@`, %@", str, msg];
     }
     
     return nil;

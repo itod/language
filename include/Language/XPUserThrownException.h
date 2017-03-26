@@ -11,5 +11,8 @@
 @class XPObject;
 
 @interface XPUserThrownException : XPException
+
+- (instancetype)initWithThrownObject:(XPObject *)obj;
+
 @property (nonatomic, retain) XPObject *thrownObject;
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "XPFunctionBody.h"
+#import <Language/XPException.h>
 
 @implementation XPFunctionBody
 
@@ -25,6 +26,19 @@
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc {
     NSAssert2(0, @"%s is an abstract method and must be implemented in %@", __PRETTY_FUNCTION__, [self class]);
     return nil;
+}
+
+
+- (void)raise:(NSString *)name format:fmt, ... {
+    va_list vargs;
+    va_start(vargs, fmt);
+    
+    NSString *msg = [[[NSString alloc] initWithFormat:fmt arguments:vargs] autorelease];
+    
+    va_end(vargs);
+    
+    XPException *ex = [[[XPException alloc] initWithName:name reason:msg userInfo:nil] autorelease];
+    [ex raise];
 }
 
 @end

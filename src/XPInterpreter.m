@@ -241,7 +241,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             success = NO;
             if (outErr) {
                 NSLog(@"%@", rex.reason);
-                *outErr = [self errorWithCode:XPExceptionCodeRuntime name:rex.name reason:rex.reason range:rex.range lineNumber:rex.lineNumber];
+                *outErr = [self errorWithName:rex.name reason:rex.reason range:rex.range lineNumber:rex.lineNumber];
             } else {
                 [rex raise];
             }
@@ -249,7 +249,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             success = NO;
             if (outErr) {
                 NSLog(@"%@", ex.reason);
-                *outErr = [self errorWithCode:XPExceptionCodeCompileTime name:ex.name reason:ex.reason range:ex.range lineNumber:ex.lineNumber];
+                *outErr = [self errorWithName:ex.name reason:ex.reason range:ex.range lineNumber:ex.lineNumber];
             } else {
                 [ex raise];
             }
@@ -266,7 +266,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 }
 
 
-- (NSError *)errorWithCode:(NSInteger)code name:(NSString *)name reason:(NSString *)reason range:(NSRange)r lineNumber:(NSUInteger)lineNum {
+- (NSError *)errorWithName:(NSString *)name reason:(NSString *)reason range:(NSRange)r lineNumber:(NSUInteger)lineNum {
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     
     // get description
@@ -287,18 +287,18 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     userInfo[XPErrorLineNumberKey] = lineNumVal;
     
     // convert to NSError
-    NSError *err = [NSError errorWithDomain:XPErrorDomain code:code userInfo:[[userInfo copy] autorelease]];
+    NSError *err = [NSError errorWithDomain:XPErrorDomain code:0 userInfo:[[userInfo copy] autorelease]];
     return err;
 }
 
 
 - (NSError *)errorFromPEGKitError:(NSError *)inErr {
-    NSString *name = XPExceptionSyntaxError; //inErr.localizedDescription;
+    NSString *name = XPSyntaxError; //inErr.localizedDescription;
     NSString *reason = inErr.userInfo[NSLocalizedFailureReasonErrorKey];
     NSRange range = [inErr.userInfo[XPErrorRangeKey] rangeValue];
     NSUInteger lineNum = [inErr.userInfo[XPErrorLineNumberKey] unsignedIntegerValue];
 
-    NSError *outErr = [self errorWithCode:XPExceptionCodeCompileTime name:name reason:reason range:range lineNumber:lineNum];
+    NSError *outErr = [self errorWithName:name reason:reason range:range lineNumber:lineNum];
     return outErr;
 }
 

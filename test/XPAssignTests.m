@@ -31,7 +31,7 @@
 
 - (void)testFooEq2Fail {
     [self fail:@"foo = 2;"];
-    TDEqualObjects(XPExceptionUndeclaredSymbol, self.error.localizedDescription);
+    TDEqualObjects(XPNameError, self.error.localizedDescription);
 }
 
 - (void)testFuncAssignGlobal {

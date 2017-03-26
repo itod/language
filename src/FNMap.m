@@ -49,7 +49,7 @@
     XPFunctionSymbol *funcSym = func.value;
     
     if (![coll isArrayObject]) {
-        [XPException raise:XPExceptionTypeMismatch format:@"`map()` subroutine called on non-array object"];
+        [self raise:XPTypeError format:@"first argument to `map()` must be an Array object"];
         return nil;
     }
     

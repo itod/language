@@ -26,22 +26,22 @@
 
 - (void)testTerminatorStat {
     [self fail:@"var foo = 1 var bar = 2"];
-    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+    TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
 }
 
 - (void)testTerminatorExpr {
     [self fail:@"var foo = 1 print('asdf')"];
-    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+    TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
 }
 
 - (void)testTerminatorBlock {
     [self fail:@"var foo = 1 {print('foo')}"];
-    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+    TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
 }
 
 - (void)testTerminatorFunc {
     [self fail:@"var foo = 1 sub bar() {print('foo')}"];
-    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+    TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
 }
 
 - (void)testFooEq1 {
@@ -51,12 +51,12 @@
 
 - (void)testReservedIf {
     [self fail:@"var if = 1;"];
-    TDEqualObjects(XPExceptionSyntaxError, self.error.localizedDescription);
+    TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
 }
 
 - (void)testReservedString {
     [self fail:@"var String = 1;"];
-    TDEqualObjects(XPExceptionReservedWord, self.error.localizedDescription);
+    TDEqualObjects(XPNameError, self.error.localizedDescription);
 }
 
 @end

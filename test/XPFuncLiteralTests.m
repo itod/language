@@ -35,7 +35,7 @@
 
 - (void)testOverrideFail {
     [self fail:@"var foo=sub(){return 1;};var foo=1;var bar=foo();"];
-    TDEqualObjects(XPExceptionTypeMismatch, self.error.localizedDescription);
+    TDEqualObjects(XPTypeError, self.error.localizedDescription);
 }
 
 - (void)testFwdFuncValRef {

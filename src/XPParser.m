@@ -1499,7 +1499,7 @@
     NSMutableDictionary *params = POP();
 
     // check for dupe param names
-    if ([params objectForKey:name]) [self raiseInRange:NSMakeRange(nameToken.offset, [name length]) lineNumber:nameToken.lineNumber name:XPExceptionSyntaxError format:@"more than one param named `%@` in declaration of subroutine `%@`", name, funcSym.name];
+    if ([params objectForKey:name]) [self raiseInRange:NSMakeRange(nameToken.offset, [name length]) lineNumber:nameToken.lineNumber name:XPSyntaxError format:@"more than one param named `%@` in declaration of subroutine `%@`", name, funcSym.name];
 
     [params setObject:sym forKey:name];
     PUSH(params);
@@ -1527,7 +1527,7 @@
     NSMutableDictionary *params = POP();
         
     // check for dupe param names
-    if ([params objectForKey:name]) [self raiseInRange:NSMakeRange(nameTok.offset, [name length]) lineNumber:nameTok.lineNumber name:XPExceptionSyntaxError format:@"more than one param named `%@` in declaration of subroutine `%@`", name, funcSym.name];
+    if ([params objectForKey:name]) [self raiseInRange:NSMakeRange(nameTok.offset, [name length]) lineNumber:nameTok.lineNumber name:XPSyntaxError format:@"more than one param named `%@` in declaration of subroutine `%@`", name, funcSym.name];
         
     [params setObject:sym forKey:name];
     PUSH(params);

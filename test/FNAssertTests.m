@@ -26,7 +26,7 @@
 
 - (void)testTypeTrue {
     [self fail:@"assert(0);"];
-    TDEqualObjects(XPExceptionAssertionFailed, self.error.localizedDescription);
+    TDEqualObjects(XPAssertionError, self.error.localizedDescription);
 }
 
 @end
