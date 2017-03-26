@@ -8,6 +8,31 @@
 
 #import <Foundation/Foundation.h>
 
+/*
+ 
+ Exception
+    RuntimeError
+        ArithmeticError
+            OverflowError
+            ZeroDivisionError
+            FloatingPointError
+        LookupError
+            IndexError
+            KeyError ??
+        EnvironmentError
+            IOError
+            OSError
+        AssertionError
+        AttributeError
+        ImportError
+        NameError
+        SyntaxError
+        TypeError/IllegalArgumentError/ValueError ??
+    
+    UserInterruptException
+*/
+
+
 typedef NS_ENUM(NSUInteger, XPExceptionCode) {
     XPExceptionCodeCompileTime,
     XPExceptionCodeRuntime,
