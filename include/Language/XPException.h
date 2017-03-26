@@ -33,9 +33,7 @@
 
 extern NSString * const XPRuntimeError;
     extern NSString * const XPArithmeticError;
-        extern NSString * const XPOverflowError;
         extern NSString * const XPZeroDivisionError;
-        extern NSString * const XPFloatingPointError;
     extern NSString * const XPLookupError;
         extern NSString * const XPIndexError;
     extern NSString * const XPEnvironmentError;

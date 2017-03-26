@@ -9,9 +9,7 @@
 #import <Language/XPException.h>
 NSString * const XPRuntimeError = @"RuntimeError";
     NSString * const XPArithmeticError = @"ArithmeticError";
-        NSString * const XPOverflowError = @"OverflowError";
         NSString * const XPZeroDivisionError = @"ZeroDivisionError";
-        NSString * const XPFloatingPointError = @"FloatingPointError";
     NSString * const XPLookupError = @"LookupError";
         NSString * const XPIndexError = @"IndexError";
     NSString * const XPEnvironmentError = @"EnvironmentError";
