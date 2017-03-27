@@ -628,7 +628,6 @@
             XPMemorySpace *savedClosureSpace = self.closureSpace;
             self.closureSpace = funcSym.closureSpace;
 
-            
             @try {
                 [self funcBlock:funcSym.blockNode];
             } @catch (XPReturnExpception *ex) {
@@ -643,6 +642,7 @@
         // native function
         else {
             TDAssert(funcSym.nativeBody);
+            TDAssert(funcSpace);
             funcSym.nativeBody.dynamicSpace = self.currentSpace;
             @try {
                 result = [funcSym.nativeBody callWithWalker:self functionSpace:funcSpace argc:argCount];
