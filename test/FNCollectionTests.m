@@ -61,6 +61,18 @@
     TDEquals(47.0, [self doubleForName:@"y"]);
 }
 
+- (void)testLocalsInLocalBlockRecursive {
+    [self eval:[self sourceForSelector:_cmd]];
+    TDEquals(42.0, [self doubleForName:@"x"]);
+    TDEquals(47.0, [self doubleForName:@"y"]);
+}
+
+- (void)testLocalsInLocalBlockNotRecursive {
+    [self eval:[self sourceForSelector:_cmd]];
+    TDEquals(42.0, [self doubleForName:@"x"]);
+    TDEquals(0.0, [self doubleForName:@"y"]);
+}
+
 - (void)testLocalsInFunctionDecl {
     [self eval:[self sourceForSelector:_cmd]];
     TDEqualObjects(@"argX", [self stringForName:@"a"]);
