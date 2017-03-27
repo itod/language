@@ -614,7 +614,6 @@
     TDAssert(savedCurrentSpace);
     TDAssert(NSNotFound != node.lineNumber);
     savedCurrentSpace.lineNumber = node.lineNumber;
-    [self.lexicalStack addObject:savedCurrentSpace];
     
     self.currentSpace = funcSpace;
     XPMemorySpace *savedClosureSpace = self.closureSpace;
@@ -639,11 +638,14 @@
         // native function
         else {
             TDAssert(funcSym.nativeBody);
+            funcSym.nativeBody.dynamicSpace = savedCurrentSpace;
             @try {
                 result = [funcSym.nativeBody callWithWalker:self argc:argCount];
             } @catch (XPException *ex) {
                 // just catch & rethrow to add lineNum and range
                 [self raise:ex.name node:node format:ex.reason];
+            } @finally {
+                funcSym.nativeBody.dynamicSpace = nil;
             }
         }
         
@@ -653,7 +655,6 @@
     // POP MEMORY SPACE
     self.closureSpace = savedClosureSpace;
     self.currentSpace = savedCurrentSpace;
-    [self.lexicalStack removeLastObject];
     
     if (self.wantsPauseOnReturn) {
         self.currentSpace.wantsPause = YES;

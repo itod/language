@@ -28,11 +28,10 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc {
-    TDAssert([walker.lexicalStack count]);
-    XPMemorySpace *space = [walker.lexicalStack lastObject];
-    TDAssert([space isKindOfClass:[XPMemorySpace class]]);
+    XPMemorySpace *space = self.dynamicSpace;
+    TDAssert(space);
     
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:[space.members count]];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:[space.members count]]; // -allMembers ???
 
     for (NSString *key in space.members) {
         TDAssert([key isKindOfClass:[NSString class]]);

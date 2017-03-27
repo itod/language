@@ -41,7 +41,6 @@
 @property (nonatomic, retain) NSFileHandle *stdErr;
 
 @property (nonatomic, retain) NSMutableArray<XPMemorySpace *> *callStack;
-@property (nonatomic, retain) NSMutableArray<XPMemorySpace *> *lexicalStack;
 
 @property (nonatomic, assign) id <XPTreeWalkerDelegate>delegate; // weakref
 @property (nonatomic, assign) BOOL debug;

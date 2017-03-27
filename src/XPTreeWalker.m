@@ -38,7 +38,6 @@
     if (self) {
         self.delegate = d;
         self.callStack = [NSMutableArray array];
-        self.lexicalStack = [NSMutableArray array];
     }
     return self;
 }
@@ -52,7 +51,6 @@
     self.stdOut = nil;
     self.stdErr = nil;
     self.callStack = nil;
-    self.lexicalStack = nil;
     self.delegate = nil;
     self.breakpointCollection = nil;
     self.currentFilePath = nil;
@@ -340,12 +338,8 @@
         [_currentSpace setObject:obj forName:name];
     }
     
-    [self.lexicalStack addObject:_currentSpace];
-    
     [self doWalkStats:node];
-    
-    [self.lexicalStack removeLastObject];
-    
+        
     self.currentSpace = savedSpace;
 }
 

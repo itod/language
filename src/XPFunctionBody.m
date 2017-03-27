@@ -17,6 +17,13 @@
 }
 
 
+- (void)dealloc {
+    TDAssert(!_dynamicSpace); // should have been nil'ed already
+    self.dynamicSpace = nil;
+    [super dealloc];
+}
+
+
 - (XPFunctionSymbol *)symbol {
     NSAssert2(0, @"%s is an abstract method and must be implemented in %@", __PRETTY_FUNCTION__, [self class]);
     return nil;
