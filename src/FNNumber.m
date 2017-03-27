@@ -33,7 +33,7 @@
 }
 
 
-- (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc {
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
     return [[walker.currentSpace objectForName:@"object"] asNumberObject];
 }
 

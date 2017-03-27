@@ -456,6 +456,8 @@
     TDAssert(!catchNode || [catchNode.name isEqualToString:@"catch"]);
     TDAssert(!finallyNode || [finallyNode.name isEqualToString:@"finally"]);
     
+    XPMemorySpace *beforeSpace = self.currentSpace;
+    TDAssert(beforeSpace == [self.callStack lastObject]);
     @try {
         XPNode *tryBlock = [tryNode childAtIndex:0];
         [self block:tryBlock withVars:nil];
@@ -605,15 +607,6 @@
         }
     }
 
-    // PUSH MEMORY SPACE
-    XPMemorySpace *savedCurrentSpace = self.currentSpace;
-    TDAssert(savedCurrentSpace);
-    TDAssert(NSNotFound != node.lineNumber);
-    savedCurrentSpace.lineNumber = node.lineNumber;
-    
-    self.currentSpace = funcSpace;
-    XPMemorySpace *savedClosureSpace = self.closureSpace;
-    self.closureSpace = funcSym.closureSpace;
 
     // CALL
     XPObject *result = nil;
@@ -624,19 +617,35 @@
         // user-defined function
         if (funcSym.blockNode) {
             TDAssert(!funcSym.nativeBody);
+
+            // PUSH MEMORY SPACE
+            XPMemorySpace *savedCurrentSpace = self.currentSpace;
+            TDAssert(savedCurrentSpace);
+            TDAssert(NSNotFound != node.lineNumber);
+            savedCurrentSpace.lineNumber = node.lineNumber;
+            
+            self.currentSpace = funcSpace;
+            XPMemorySpace *savedClosureSpace = self.closureSpace;
+            self.closureSpace = funcSym.closureSpace;
+
+            
             @try {
                 [self funcBlock:funcSym.blockNode];
             } @catch (XPReturnExpception *ex) {
                 result = ex.value;
             }
+            
+            // POP MEMORY SPACE
+            self.closureSpace = savedClosureSpace;
+            self.currentSpace = savedCurrentSpace;
         }
         
         // native function
         else {
             TDAssert(funcSym.nativeBody);
-            funcSym.nativeBody.dynamicSpace = savedCurrentSpace;
+            funcSym.nativeBody.dynamicSpace = self.currentSpace;
             @try {
-                result = [funcSym.nativeBody callWithWalker:self argc:argCount];
+                result = [funcSym.nativeBody callWithWalker:self functionSpace:funcSpace argc:argCount];
             } @catch (XPException *ex) {
                 // just catch & rethrow to add lineNum and range
                 [self raise:ex.name node:node format:ex.reason];
@@ -647,10 +656,6 @@
         
         [self.callStack removeLastObject];
     }
-
-    // POP MEMORY SPACE
-    self.closureSpace = savedClosureSpace;
-    self.currentSpace = savedCurrentSpace;
     
     if (self.wantsPauseOnReturn) {
         self.currentSpace.wantsPause = YES;

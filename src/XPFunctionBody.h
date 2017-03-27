@@ -16,7 +16,7 @@
 @interface XPFunctionBody : NSObject
 + (NSString *)name;
 - (XPFunctionSymbol *)symbol;
-- (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc;
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc;
 - (void)raise:(NSString *)name format:fmt, ...;
 
 // the space from which this function was called at runtime. used on in locals() currently

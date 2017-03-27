@@ -27,8 +27,8 @@
 }
 
 
-- (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc {
-    XPMemorySpace *space = self.dynamicSpace;
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
+    space = self.dynamicSpace;
     TDAssert(space);
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:[space.members count]]; // -allMembers ???

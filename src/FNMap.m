@@ -37,8 +37,7 @@
 }
 
 
-- (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc {
-    XPMemorySpace *space = walker.currentSpace;
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
     TDAssert(space);
     
     XPObject *coll = [space objectForName:@"collection"];
@@ -58,9 +57,12 @@
     
     for (XPObject *oldItem in old) {
         TDAssert([oldItem isKindOfClass:[XPObject class]]);
+        
+        XPMemorySpace *savedSpace = walker.currentSpace;
 
         // PUSH MEMORY SPACE
         XPFunctionSpace *funcSpace = [[[XPFunctionSpace alloc] initWithSymbol:funcSym] autorelease];
+        
         walker.currentSpace = funcSpace;
 
         // EVAL ARGS
@@ -86,9 +88,9 @@
         }
         
         [new addObject:newItem];
-
+        
         // POP MEMORY SPACE
-        walker.currentSpace = space;
+        walker.currentSpace = savedSpace;
     }
     
     return [XPObject array:new];

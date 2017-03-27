@@ -27,15 +27,15 @@
 }
 
 
-- (XPObject *)callWithWalker:(XPTreeWalker *)walker argc:(NSUInteger)argc {
-    XPMemorySpace *space = walker.globals;
-    TDAssert([space isKindOfClass:[XPMemorySpace class]]);
+- (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
+    XPMemorySpace *globals = walker.globals;
+    TDAssert([globals isKindOfClass:[XPMemorySpace class]]);
     
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:[space.members count]];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:[globals.members count]];
 
-    for (NSString *key in space.members) {
+    for (NSString *key in globals.members) {
         TDAssert([key isKindOfClass:[NSString class]]);
-        XPObject *valObj = space.members[key];
+        XPObject *valObj = globals.members[key];
         TDAssert([valObj isKindOfClass:[XPObject class]]);
         XPObject *keyObj = [XPObject string:key];
         dict[keyObj] = valObj;
