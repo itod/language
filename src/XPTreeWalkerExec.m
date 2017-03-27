@@ -472,12 +472,14 @@
         // TODO. MUST UNWIND mem space stack ???
         
         rethrow = [[ex retain] autorelease];
-        NSDictionary *tab = @{
-          [XPObject string:@"name"]  : [XPObject string:ex.name],
-          [XPObject string:@"reason"]: [XPObject string:ex.reason],
-          [XPObject string:@"line"]  : [XPObject number:ex.lineNumber],
-        };
-        thrownObj = [XPObject dictionary:tab];
+        if (catchNode) {
+            NSDictionary *tab = @{
+              [XPObject string:@"name"]  : [XPObject string:ex.name],
+              [XPObject string:@"reason"]: [XPObject string:ex.reason],
+              [XPObject string:@"line"]  : [XPObject number:ex.lineNumber],
+            };
+            thrownObj = [XPObject dictionary:tab];
+        }
     } @finally {
         @try {
             if (catchNode && thrownObj) {
@@ -492,8 +494,7 @@
                 [self block:finallyBlock withVars:nil];
             }
             
-            if (thrownObj && !catchNode) {
-                TDAssert(rethrow);
+            if (rethrow && !catchNode) {
                 @throw rethrow;
             }
         }
