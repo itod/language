@@ -78,9 +78,9 @@
             
             if (funcSym.nativeBody) {
                 res.isNative = YES;
+            } else {
+                [self.currentSpace setObject:res forName:name];
             }
-            
-            [self.currentSpace setObject:res forName:name];
         }
     }
 
