@@ -207,7 +207,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         PKAssembly *a = [_parser parseString:input error:&err];
         
         if (err) {
-            NSLog(@"%@", err);
+            //NSLog(@"%@", err);
             *outErr = [self errorFromPEGKitError:err];
             return NO;
         }
@@ -240,7 +240,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         } @catch (XPUserThrownException *rex) {
             success = NO;
             if (outErr) {
-                NSLog(@"%@", rex.reason);
+                //NSLog(@"%@", rex.reason);
                 *outErr = [self errorWithName:rex.name reason:rex.reason range:rex.range lineNumber:rex.lineNumber];
             } else {
                 [rex raise];
@@ -248,7 +248,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         } @catch (XPException *ex) {
             success = NO;
             if (outErr) {
-                NSLog(@"%@", ex.reason);
+                //NSLog(@"%@", ex.reason);
                 *outErr = [self errorWithName:ex.name reason:ex.reason range:ex.range lineNumber:ex.lineNumber];
             } else {
                 [ex raise];
@@ -447,7 +447,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     NSError *err = nil;
     if (![interp interpretString:exprStr filePath:nil error:&err]) {
         TDAssert(err);
-        NSLog(@"%@", err);
+        //NSLog(@"%@", err);
         return;
     }
     
