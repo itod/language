@@ -458,6 +458,8 @@
     
     XPMemorySpace *beforeSpace = self.currentSpace;
     TDAssert(beforeSpace == [self.callStack lastObject]);
+    
+    XPObject *thrownObj = nil;
     @try {
         XPNode *tryBlock = [tryNode childAtIndex:0];
         [self block:tryBlock withVars:nil];
@@ -465,38 +467,36 @@
         
         // TODO. MUST UNWIND mem space stack
         
-        NSDictionary *tab = @{
-                              [XPObject string:@"name"]  : [XPObject string:ex.name],
-                              [XPObject string:@"reason"]: [XPObject string:ex.reason],
-                              [XPObject string:@"line"]  : [XPObject number:ex.lineNumber],
-                              };
-        XPObject *thrownObj = [XPObject dictionary:tab];
-
         if (catchNode) {
-            XPNode *idNode = [catchNode childAtIndex:0];
-            
-            NSString *name = idNode.name;
-            
-            XPNode *catchBlock = [catchNode childAtIndex:1];
-            [self block:catchBlock withVars:@{name: thrownObj}];
-        } else {
-            @throw thrownObj;
+            NSDictionary *tab = @{
+              [XPObject string:@"name"]  : [XPObject string:ex.name],
+              [XPObject string:@"reason"]: [XPObject string:ex.reason],
+              [XPObject string:@"line"]  : [XPObject number:ex.lineNumber],
+            };
+            thrownObj = [XPObject dictionary:tab];
         }
     } @catch (XPUserThrownException *ex) {
         if (catchNode) {
-            XPNode *idNode = [catchNode childAtIndex:0];
-            
-            XPObject *thrownObj = ex.thrownObject;
+            thrownObj = ex.thrownObject;
             TDAssert(thrownObj);
-            NSString *name = idNode.name;
-            
-            XPNode *catchBlock = [catchNode childAtIndex:1];
-            [self block:catchBlock withVars:@{name: thrownObj}];
         }
     } @finally {
-        if (finallyNode) {
-            XPNode *finallyBlock = [finallyNode childAtIndex:0];
-            [self block:finallyBlock withVars:nil];
+        @try {
+            if (catchNode && thrownObj) {
+                XPNode *idNode = [catchNode childAtIndex:0];
+                NSString *name = idNode.name;
+                XPNode *catchBlock = [catchNode childAtIndex:1];
+                [self block:catchBlock withVars:@{name: thrownObj}];
+            }
+        } @finally {
+            if (finallyNode) {
+                XPNode *finallyBlock = [finallyNode childAtIndex:0];
+                [self block:finallyBlock withVars:nil];
+            }
+            
+            if (thrownObj && !catchNode) {
+                @throw thrownObj;
+            }
         }
     }
 }
