@@ -89,6 +89,13 @@
 }
 
 
+- (NSMutableDictionary *)allMembers {
+    NSMutableDictionary *mems = [NSMutableDictionary dictionaryWithDictionary:[_enclosingSpace allMembers]];
+    [mems addEntriesFromDictionary:self.members];
+    return mems;
+}
+
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@ : %@>", _name, _members];
 }

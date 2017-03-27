@@ -11,6 +11,5 @@
 @class XPSymbol;
 
 @interface XPFunctionSpace : XPMemorySpace
-+ (instancetype)functionSpaceWithSymbol:(XPSymbol *)sym;
 - (instancetype)initWithSymbol:(XPSymbol *)sym;
 @end

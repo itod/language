@@ -22,7 +22,13 @@
 
 @property (nonatomic, copy, readonly) NSString *name;
 @property (nonatomic, retain, readonly) XPMemorySpace *enclosingSpace;
+
+// returns members placed exactly in this memory space
 @property (nonatomic, retain, readonly) NSMutableDictionary<NSString *, XPObject *> *members;
+
+// returns members placed in this memory space plus members accessible in enclosing space too (recursively)
+// this is useful for <local> spaces, where you want enclosing members too
+@property (nonatomic, retain, readonly) NSMutableDictionary<NSString *, XPObject *> *allMembers;
 
 // DEBUG
 @property (nonatomic, assign) BOOL wantsPause;

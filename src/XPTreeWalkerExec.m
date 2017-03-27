@@ -565,7 +565,7 @@
     }
 
     NSString *name = funcSym.name;
-    XPFunctionSpace *funcSpace = [XPFunctionSpace functionSpaceWithSymbol:funcSym];
+    XPFunctionSpace *funcSpace = [[[XPFunctionSpace alloc] initWithSymbol:funcSym] autorelease];
     TDAssert(NSNotFound != node.lineNumber);
     funcSpace.lineNumber = node.lineNumber;
     funcSpace.wantsPause = self.wantsPauseOnCall;

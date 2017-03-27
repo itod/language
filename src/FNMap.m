@@ -60,7 +60,7 @@
         TDAssert([oldItem isKindOfClass:[XPObject class]]);
 
         // PUSH MEMORY SPACE
-        XPFunctionSpace *funcSpace = [XPFunctionSpace functionSpaceWithSymbol:funcSym];
+        XPFunctionSpace *funcSpace = [[[XPFunctionSpace alloc] initWithSymbol:funcSym] autorelease];
         walker.currentSpace = funcSpace;
 
         // EVAL ARGS

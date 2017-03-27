@@ -185,12 +185,12 @@
             [frameStack addObject:frame];
         }
         
-        {
-            XPStackFrame *first = [frameStack firstObject];
-            NSMutableDictionary *mems = [NSMutableDictionary dictionaryWithDictionary:first.members];
-            [mems addEntriesFromDictionary:[[self.lexicalStack lastObject] members]];
-            [first setMembers:mems];
-        }
+//        {
+//            XPStackFrame *first = [frameStack firstObject];
+//            NSMutableDictionary *mems = [NSMutableDictionary dictionaryWithDictionary:first.members];
+//            [mems addEntriesFromDictionary:[[self.lexicalStack lastObject] members]];
+//            [first setMembers:mems];
+//        }
     }
     
     return info;
