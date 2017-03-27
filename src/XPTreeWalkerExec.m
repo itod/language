@@ -29,10 +29,6 @@
 
 #define OFFSET 1
 
-@interface XPTreeWalker ()
-- (id)_loadVariableReference:(XPNode *)node;
-@end
-
 @interface XPTreeWalkerExec ()
 @property (nonatomic, retain) XPReturnExpception *returnException;
 @property (nonatomic, retain) XPBreakException *breakException;

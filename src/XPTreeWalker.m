@@ -63,7 +63,9 @@
 #pragma mark XPTreeWalker
 
 - (XPObject *)loadVariableReference:(XPNode *)node {
-    XPObject *res = [self _loadVariableReference:node];
+    NSString *name = node.name;
+    XPMemorySpace *space = [self spaceWithSymbolNamed:name];
+    XPObject *res = [space objectForName:name];
     
     // or a statically-declared func
     if (!res) {
@@ -85,14 +87,6 @@
     if (!res) {
         [self raise:XPNameError node:node format:@"unknown var reference: `%@`", node.name];
     }
-    return res;
-}
-
-
-- (XPObject *)_loadVariableReference:(XPNode *)node {
-    NSString *name = node.name;
-    XPMemorySpace *space = [self spaceWithSymbolNamed:name];
-    XPObject *res = [space objectForName:name];
     return res;
 }
 
