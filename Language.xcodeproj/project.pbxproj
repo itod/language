@@ -120,7 +120,7 @@
 		D34A564E1E7F39040064DF65 /* FNDegrees.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A564C1E7F39040064DF65 /* FNDegrees.m */; };
 		D34A56511E7F39770064DF65 /* FNRadians.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A564F1E7F39770064DF65 /* FNRadians.h */; };
 		D34A56521E7F39770064DF65 /* FNRadians.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56501E7F39770064DF65 /* FNRadians.m */; };
-		D34A56891E80E2AE0064DF65 /* FNTryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56881E80E2AE0064DF65 /* FNTryTests.m */; };
+		D34A56891E80E2AE0064DF65 /* XPTryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56881E80E2AE0064DF65 /* XPTryTests.m */; };
 		D34A568B1E8195E60064DF65 /* testNestedFunction.js in Resources */ = {isa = PBXBuildFile; fileRef = D34A568A1E8195E60064DF65 /* testNestedFunction.js */; };
 		D34A568D1E8197340064DF65 /* testNestedFwdFunction.js in Resources */ = {isa = PBXBuildFile; fileRef = D34A568C1E8197340064DF65 /* testNestedFwdFunction.js */; };
 		D34A568F1E81A4B00064DF65 /* testLocalFunction.js in Resources */ = {isa = PBXBuildFile; fileRef = D34A568E1E81A4B00064DF65 /* testLocalFunction.js */; };
@@ -327,7 +327,7 @@
 		D34A564C1E7F39040064DF65 /* FNDegrees.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNDegrees.m; path = src/FNDegrees.m; sourceTree = SOURCE_ROOT; };
 		D34A564F1E7F39770064DF65 /* FNRadians.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNRadians.h; path = src/FNRadians.h; sourceTree = SOURCE_ROOT; };
 		D34A56501E7F39770064DF65 /* FNRadians.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNRadians.m; path = src/FNRadians.m; sourceTree = SOURCE_ROOT; };
-		D34A56881E80E2AE0064DF65 /* FNTryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNTryTests.m; path = test/FNTryTests.m; sourceTree = SOURCE_ROOT; };
+		D34A56881E80E2AE0064DF65 /* XPTryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPTryTests.m; path = test/XPTryTests.m; sourceTree = SOURCE_ROOT; };
 		D34A568A1E8195E60064DF65 /* testNestedFunction.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testNestedFunction.js; path = test/scripts/testNestedFunction.js; sourceTree = SOURCE_ROOT; };
 		D34A568C1E8197340064DF65 /* testNestedFwdFunction.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testNestedFwdFunction.js; path = test/scripts/testNestedFwdFunction.js; sourceTree = SOURCE_ROOT; };
 		D34A568E1E81A4B00064DF65 /* testLocalFunction.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testLocalFunction.js; path = test/scripts/testLocalFunction.js; sourceTree = SOURCE_ROOT; };
@@ -506,7 +506,6 @@
 		D3166DDC1E53997700DEE3A0 /* Func */ = {
 			isa = PBXGroup;
 			children = (
-				D34A56881E80E2AE0064DF65 /* FNTryTests.m */,
 				D3166DDA1E53997100DEE3A0 /* FNSequenceTests.m */,
 				D3166E331E54E37F00DEE3A0 /* FNCollectionTests.m */,
 				D3166DED1E53B21700DEE3A0 /* FNTypeTests.m */,
@@ -721,6 +720,7 @@
 				D3DF58CC1E44E276006CAA07 /* XPIfBlockTests.m */,
 				D3DF58CE1E44F69F006CAA07 /* XPWhileBlockTests.m */,
 				D3A7F2961E51245400C7099B /* XPForBlockTests.m */,
+				D34A56881E80E2AE0064DF65 /* XPTryTests.m */,
 				D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */,
 				D3DF58B61E429ACA006CAA07 /* XPFuncDeclTests.m */,
 				D30C5C5D1E4508DC001A6F5D /* XPFuncLiteralTests.m */,
@@ -1110,7 +1110,7 @@
 				D35167E11E515BE4004C43CC /* XPDictionaryLiteralTests.m in Sources */,
 				D368A0181E3BE4F8005783BB /* XPBooleanExpressionTests.m in Sources */,
 				D373169E1E3EBA490034798E /* XPBaseStatementTests.m in Sources */,
-				D34A56891E80E2AE0064DF65 /* FNTryTests.m in Sources */,
+				D34A56891E80E2AE0064DF65 /* XPTryTests.m in Sources */,
 				D3166DF51E53B38A00DEE3A0 /* FNTypeTests.m in Sources */,
 				D3B5F7361E47F50C00740161 /* XPArrayLiteralTests.m in Sources */,
 				D3166E1C1E54BF4200DEE3A0 /* FNStringTests.m in Sources */,

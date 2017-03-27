@@ -464,6 +464,9 @@
         XPNode *tryBlock = [tryNode childAtIndex:0];
         [self block:tryBlock withVars:nil];
     } @catch (XPException *ex) {
+        
+        // TODO. MUST UNWIND mem space stack
+        
         NSDictionary *tab = @{
                               [XPObject string:@"name"]  : [XPObject string:ex.name],
                               [XPObject string:@"reason"]: [XPObject string:ex.reason],

@@ -1,5 +1,5 @@
 //
-//  FNTryTests.m
+//  XPTryTests.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 29.01.17.
@@ -8,11 +8,11 @@
 
 #import "XPBaseStatementTests.h"
 
-@interface FNTryTests : XPBaseStatementTests
+@interface XPTryTests : XPBaseStatementTests
 
 @end
 
-@implementation FNTryTests
+@implementation XPTryTests
 
 - (void)setUp {
     [super setUp];
@@ -42,6 +42,11 @@
 - (void)testFinally {
     [self eval:@"var x='foo';try{x='bar'}finally{x='baz'}"];
     TDEqualObjects(@"baz", [self stringForName:@"x"]);
+}
+
+- (void)testCatchLocalsCount {
+    [self eval:@"var c=0;try{throw'foo'}catch e{c=count(locals())}"];
+    TDEquals(1.0, [self doubleForName:@"c"]);
 }
 
 - (void)testCaughtObjectScope {
