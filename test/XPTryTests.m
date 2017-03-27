@@ -54,8 +54,9 @@
 }
 
 - (void)testFinallyOnlyRethrows {
-    [self eval:@"try {throw 'foo'} finally {}"];
-    //TDEqualObjects(@"???", self.error.localizedDescription);
+    [self fail:@"try {throw 'foo'} finally {}"];
+    TDEqualObjects(@"RuntimeError", self.error.localizedDescription);
+    TDEqualObjects(@"foo", self.error.localizedFailureReason);
 }
 
 @end
