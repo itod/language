@@ -11,7 +11,7 @@
 @implementation XPGlobalSpace
 
 - (instancetype)init {
-    self = [super initWithName:@"globals" enclosingSpace:nil];
+    self = [super initWithName:@"global" enclosingSpace:nil];
     if (self) {
         
     }

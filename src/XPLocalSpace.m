@@ -11,7 +11,7 @@
 @implementation XPLocalSpace
 
 - (instancetype)initWithEnclosingSpace:(XPMemorySpace *)space {
-    self = [super initWithName:@"locals" enclosingSpace:space];
+    self = [super initWithName:@"local" enclosingSpace:space];
     if (self) {
         
     }

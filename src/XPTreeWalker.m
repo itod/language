@@ -160,29 +160,34 @@
             TDAssert(NSNotFound != space.lineNumber);
             frame.lineNumber = space.lineNumber;
             frame.filePath = _currentFilePath;
+            [frame setMembers:space.allMembers];
+
+            // TODO
+            while (space.enclosingSpace) {
+                space = space.enclosingSpace;
+            }
             frame.functionName = space.name;
-            [frame setMembers:space.members];
-            
+
             [frameStack addObject:frame];
         }
         
         [[frameStack firstObject] setLineNumber:lineNum];
         
         // add global space manually
-        {
-            XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
-            if (NSNotFound == self.globals.lineNumber) {
-                frame.lineNumber = lineNum;
-            } else {
-                frame.lineNumber = self.globals.lineNumber;
-            }
-            TDAssert(NSNotFound != frame.lineNumber);
-            frame.filePath = _currentFilePath;
-            frame.functionName = @"<global>";
-            [frame setMembers:self.globals.members];
-            
-            [frameStack addObject:frame];
-        }
+//        {
+//            XPStackFrame *frame = [[[XPStackFrame alloc] init] autorelease];
+//            if (NSNotFound == self.globals.lineNumber) {
+//                frame.lineNumber = lineNum;
+//            } else {
+//                frame.lineNumber = self.globals.lineNumber;
+//            }
+//            TDAssert(NSNotFound != frame.lineNumber);
+//            frame.filePath = _currentFilePath;
+//            frame.functionName = @"<global>";
+//            [frame setMembers:self.globals.members];
+//            
+//            [frameStack addObject:frame];
+//        }
         
 //        {
 //            XPStackFrame *first = [frameStack firstObject];
@@ -327,9 +332,11 @@
     if (_currentSpace) {
         // func or local
         self.currentSpace = [[[XPLocalSpace alloc] initWithEnclosingSpace:savedSpace] autorelease];
+        _currentSpace.lineNumber = savedSpace.lineNumber;
     } else {
         // top-level
         self.currentSpace = _globals;
+        _currentSpace.lineNumber = node.lineNumber;
     }
     TDAssert(_currentSpace);
     
@@ -338,8 +345,13 @@
         [_currentSpace setObject:obj forName:name];
     }
     
+    [self.callStack removeLastObject];
+    [self.callStack addObject:_currentSpace];
+    
     [self doWalkStats:node];
         
+    [self.callStack removeLastObject];
+    if (savedSpace) [self.callStack addObject:savedSpace];
     self.currentSpace = savedSpace;
 }
 
