@@ -89,7 +89,7 @@
     NSUInteger i = 0;
     for (id key in this.value) {
         XPObject *obj = this.value[key];
-        [buf appendFormat:@"%@:%@%@", [key stringValue], [obj stringValue], i++ == c-1 ? @"" : @", "];
+        [buf appendFormat:@"'%@': %@%@", [key stringValue], [obj stringValue], i++ == c-1 ? @"" : @", "];
     }
     
     [buf appendString:@"}"];
