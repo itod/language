@@ -70,7 +70,7 @@
 - (void)testLocalsInLocalBlockNotRecursive {
     [self eval:[self sourceForSelector:_cmd]];
     TDEquals(42.0, [self doubleForName:@"x"]);
-    TDEquals(0.0, [self doubleForName:@"y"]);
+    TDEquals( 0.0, [self doubleForName:@"y"]);
 }
 
 - (void)testLocalsInFunctionDecl {
