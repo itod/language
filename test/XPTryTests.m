@@ -53,10 +53,15 @@
     [self fail:[self sourceForSelector:_cmd]];
 }
 
-- (void)testFinallyOnlyRethrows {
+- (void)testFinallyOnlyRethrowsOnThrow {
     [self fail:@"try {throw 'foo'} finally {}"];
     TDEqualObjects(@"RuntimeError", self.error.localizedDescription);
     TDEqualObjects(@"foo", self.error.localizedFailureReason);
+}
+
+- (void)testFinallyOnlyRethrowsOnException {
+    [self fail:@"try {map(1, 1)} finally {}"];
+    TDEqualObjects(@"TypeError", self.error.localizedDescription);
 }
 
 @end

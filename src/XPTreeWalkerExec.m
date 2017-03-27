@@ -471,14 +471,13 @@
     } @catch (XPException *ex) {
         // TODO. MUST UNWIND mem space stack ???
         
-        if (catchNode) {
-            NSDictionary *tab = @{
-              [XPObject string:@"name"]  : [XPObject string:ex.name],
-              [XPObject string:@"reason"]: [XPObject string:ex.reason],
-              [XPObject string:@"line"]  : [XPObject number:ex.lineNumber],
-            };
-            thrownObj = [XPObject dictionary:tab];
-        }
+        rethrow = [[ex retain] autorelease];
+        NSDictionary *tab = @{
+          [XPObject string:@"name"]  : [XPObject string:ex.name],
+          [XPObject string:@"reason"]: [XPObject string:ex.reason],
+          [XPObject string:@"line"]  : [XPObject number:ex.lineNumber],
+        };
+        thrownObj = [XPObject dictionary:tab];
     } @finally {
         @try {
             if (catchNode && thrownObj) {
