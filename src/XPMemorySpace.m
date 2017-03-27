@@ -90,9 +90,16 @@
 
 
 - (NSMutableDictionary *)allMembers {
-    NSMutableDictionary *mems = [NSMutableDictionary dictionaryWithDictionary:[_enclosingSpace allMembers]];
-    [mems addEntriesFromDictionary:self.members];
-    return mems;
+    NSMutableDictionary *res = nil;
+    if (_enclosingSpace) {
+        TDAssert([self isKindOfClass:NSClassFromString(@"XPLocalSpace")]);
+        res = [NSMutableDictionary dictionaryWithDictionary:[_enclosingSpace allMembers]];
+        [res addEntriesFromDictionary:self.members];
+    } else {
+        TDAssert([self isKindOfClass:NSClassFromString(@"XPGlobalSpace")] || [self isKindOfClass:NSClassFromString(@"XPFunctionSpace")]);
+        res = self.members;
+    }
+    return res;
 }
 
 
