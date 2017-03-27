@@ -465,13 +465,15 @@
         XPNode *tryBlock = [tryNode childAtIndex:0];
         [self block:tryBlock withVars:nil];
     } @catch (XPUserThrownException *ex) {
-        rethrow = [[ex retain] autorelease];
-        thrownObj = ex.thrownObject;
-        TDAssert(thrownObj);
+        if (catchNode) {
+            thrownObj = ex.thrownObject;
+            TDAssert(thrownObj);
+        } else {
+            rethrow = [[ex retain] autorelease];
+        }
     } @catch (XPException *ex) {
         // TODO. MUST UNWIND mem space stack ???
         
-        rethrow = [[ex retain] autorelease];
         if (catchNode) {
             NSDictionary *tab = @{
               [XPObject string:@"name"]  : [XPObject string:ex.name],
@@ -479,6 +481,8 @@
               [XPObject string:@"line"]  : [XPObject number:ex.lineNumber],
             };
             thrownObj = [XPObject dictionary:tab];
+        } else {
+            rethrow = [[ex retain] autorelease];
         }
     } @finally {
         @try {
@@ -494,7 +498,8 @@
                 [self block:finallyBlock withVars:nil];
             }
             
-            if (rethrow && !catchNode) {
+            if (rethrow) {
+                TDAssert(!catchNode);
                 @throw rethrow;
             }
         }
