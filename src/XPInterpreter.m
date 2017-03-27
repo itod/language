@@ -8,7 +8,7 @@
 
 #import "XPInterpreter.h"
 #import "XPGlobalScope.h"
-#import "XPMemorySpace.h"
+#import "XPGlobalSpace.h"
 
 #import "XPParser.h"
 #import "XPNode.h"
@@ -131,7 +131,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
     self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
     if (!_globals) {
-        self.globals = [[[XPMemorySpace alloc] initWithName:@"globals" enclosingSpace:nil] autorelease];       // global memory;
+        self.globals = [[[XPGlobalSpace alloc] init] autorelease];       // global memory;
     }
     
     // DECLARE NATIVE FUNCS
@@ -435,7 +435,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     NSMutableDictionary<NSString *, XPObject *> *mems = [[[_globals members] mutableCopy] autorelease];
     [mems addEntriesFromDictionary:self.treeWalker.currentSpace.members];
     
-    XPMemorySpace *monoSpace = [[[XPMemorySpace alloc] initWithName:@"globals" enclosingSpace:nil] autorelease];
+    XPMemorySpace *monoSpace = [[[XPGlobalSpace alloc] init] autorelease];
     [monoSpace addMembers:_globals.members];
     
     for (XPMemorySpace *space in [self.treeWalker.callStack reverseObjectEnumerator]) {

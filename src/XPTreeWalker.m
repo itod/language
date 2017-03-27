@@ -12,9 +12,10 @@
 #import "XPParser.h"
 #import "XPScope.h"
 #import "XPNode.h"
+#import "XPInterpreter.h"
+#import "XPLocalSpace.h"
 #import "XPFunctionSymbol.h"
 #import "XPFunctionSpace.h"
-#import "XPInterpreter.h"
 #import "XPStackFrame.h"
 
 #import <Language/XPBreakpoint.h>
@@ -327,7 +328,7 @@
 
     if (_currentSpace) {
         // func or local
-        self.currentSpace = [[[XPMemorySpace alloc] initWithName:@"LOCAL" enclosingSpace:savedSpace] autorelease];
+        self.currentSpace = [[[XPLocalSpace alloc] initWithEnclosingSpace:savedSpace] autorelease];
     } else {
         // top-level
         self.currentSpace = _globals;

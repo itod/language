@@ -19,4 +19,10 @@
     return self;
 }
 
+
+- (void)dealloc {
+    TDAssert(!self.enclosingSpace);
+    [super dealloc];
+}
+
 @end
