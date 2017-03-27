@@ -456,9 +456,6 @@
     TDAssert(!catchNode || [catchNode.name isEqualToString:@"catch"]);
     TDAssert(!finallyNode || [finallyNode.name isEqualToString:@"finally"]);
     
-    XPMemorySpace *beforeSpace = self.currentSpace;
-    TDAssert(beforeSpace == [self.callStack lastObject]);
-    
     XPException *rethrow = nil;
     XPObject *thrownObj = nil;
     @try {
