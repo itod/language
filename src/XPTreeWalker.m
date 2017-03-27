@@ -162,7 +162,7 @@
             frame.filePath = _currentFilePath;
             [frame setMembers:space.allMembers];
 
-            // TODO
+            // make sure you don't use the name 'local'. climb space tree to find nearest global or func space's name
             while (space.enclosingSpace) {
                 space = space.enclosingSpace;
             }
