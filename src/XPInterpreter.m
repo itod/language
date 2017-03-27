@@ -240,9 +240,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         } @catch (XPUserThrownException *rex) {
             success = NO;
             if (outErr) {
-                NSString *str = [rex.thrownObject stringValue];
-                NSLog(@"%@", str);
-                *outErr = [self errorWithName:XPRuntimeError reason:str range:rex.range lineNumber:rex.lineNumber];
+                NSLog(@"%@", rex.reason);
+                *outErr = [self errorWithName:rex.name reason:rex.reason range:rex.range lineNumber:rex.lineNumber];
             } else {
                 [rex raise];
             }

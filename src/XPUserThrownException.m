@@ -11,7 +11,8 @@
 @implementation XPUserThrownException
 
 - (instancetype)initWithThrownObject:(XPObject *)obj {
-    self = [super initWithName:@"" reason:@"" userInfo:nil];
+    TDAssert(obj);
+    self = [super initWithName:XPRuntimeError reason:[obj stringValue] userInfo:nil];
     if (self) {
         self.thrownObject = obj;
     }
