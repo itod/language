@@ -39,8 +39,6 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
-    TDAssert(space);
-    
     XPObject *test = [space objectForName:@"test"];
     TDAssert(test);
     NSString *msg = [[space objectForName:@"message"] stringValue];

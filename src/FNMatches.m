@@ -70,8 +70,6 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
-    TDAssert(space);
-    
     BOOL res = NO;
     
     NSString *input = [[space objectForName:@"input"] stringValue];

@@ -36,8 +36,6 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
-    TDAssert(space);
-    
     XPObject *n = [space objectForName:@"n"]; TDAssert(n);
     XPObject *e = [space objectForName:@"e"]; TDAssert(e);
     

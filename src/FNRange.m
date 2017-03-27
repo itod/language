@@ -40,8 +40,6 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
-    TDAssert(space);
-    
     // calc start, stop, step
     NSInteger start = 0;
     NSInteger stop = 0;

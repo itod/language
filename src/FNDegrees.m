@@ -34,8 +34,6 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
-    TDAssert(space);
-    
     XPObject *radians = [space objectForName:@"radians"];
     TDAssert(radians);
     
