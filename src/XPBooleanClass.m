@@ -21,7 +21,7 @@
 @implementation XPBooleanClass
 
 + (instancetype)classInstance {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     static XPBooleanClass *cls = nil;
     if (!cls) {
         cls = [[self alloc] init];
@@ -38,7 +38,7 @@
 
 
 - (XPObject *)internedObjectWithValue:(id)val {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     XPObject *res = [val boolValue] ? self.trueObject : self.falseObject;
     return res;
 }

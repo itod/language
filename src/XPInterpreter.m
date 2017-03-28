@@ -332,7 +332,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 #pragma mark XPTreeWalkerDelegate
 
 - (void)treeWalker:(XPTreeWalker *)w didPause:(NSMutableDictionary *)debugInfo {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert(_debug);
     TDAssert(w == self.treeWalker);
 
@@ -356,7 +356,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 
 - (void)pause {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert(_debug);
     TDAssert(_debugDelegate);
     TDAssert(self.treeWalker);
@@ -366,7 +366,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 
 - (void)resume {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert(_debug);
     TDAssert(_debugDelegate);
     TDAssert(self.treeWalker);
@@ -375,7 +375,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 
 - (void)stepOver {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert(_debug);
     TDAssert(_debugDelegate);
     TDAssert(self.treeWalker);
@@ -388,7 +388,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 
 - (void)stepIn {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert(_debug);
     TDAssert(_debugDelegate);
     TDAssert(self.treeWalker);
@@ -401,7 +401,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 
 - (void)cont {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert(_debug);
     TDAssert(_debugDelegate);
     TDAssert(self.treeWalker);
@@ -414,7 +414,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 
 - (void)finish {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert(_debug);
     TDAssert(_debugDelegate);
     TDAssert(self.treeWalker);
@@ -427,7 +427,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 
 - (void)print:(NSString *)exprStr {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert(_debug);
     TDAssert(_debugDelegate);
     

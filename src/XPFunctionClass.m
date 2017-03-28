@@ -13,7 +13,7 @@
 @implementation XPFunctionClass
 
 + (instancetype)classInstance {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     static XPFunctionClass *cls = nil;
     if (!cls) {
         cls = [[self alloc] init];

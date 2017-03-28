@@ -13,7 +13,7 @@
 @implementation XPDictionaryClass
 
 + (instancetype)classInstance {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     static XPDictionaryClass *cls = nil;
     if (!cls) {
         cls = [[self alloc] init];

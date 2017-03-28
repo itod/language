@@ -13,7 +13,7 @@
 @implementation XPArrayClass
 
 + (instancetype)classInstance {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     static XPArrayClass *cls = nil;
     if (!cls) {
         cls = [[self alloc] init];

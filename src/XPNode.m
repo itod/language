@@ -42,7 +42,7 @@
 
 
 - (id)copyWithZone:(NSZone *)zone {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     XPNode *that = [[[self class] alloc] initWithToken:_token];
     that->_kids = [_kids mutableCopyWithZone:zone];
     return that;
@@ -127,7 +127,7 @@
 #pragma mark Child Access
 
 - (void)addChild:(XPNode *)node {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert(node);
     if (!_kids) {
         self.kids = [NSMutableArray array];
@@ -137,7 +137,7 @@
 
 
 - (void)addChildren:(NSArray *)nodes {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert(nodes);
     if (!_kids) {
         self.kids = [NSMutableArray array];
@@ -147,7 +147,7 @@
 
 
 - (id)childAtIndex:(NSUInteger)i {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert(NSNotFound != i);
     TDAssert(_kids);
     TDAssert(i < [_kids count]);
@@ -156,7 +156,7 @@
 
 
 - (void)replaceChild:(XPNode *)node atIndex:(NSUInteger)i {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert([node isKindOfClass:[XPNode class]]);
     TDAssert(NSNotFound != i);
     TDAssert(_kids);
@@ -166,14 +166,14 @@
 
 
 - (NSUInteger)childCount {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert(_kids);
     return [_kids count];
 }
 
 
 - (NSArray *)children {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     return [[_kids copy] autorelease];
 }
 

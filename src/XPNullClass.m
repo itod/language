@@ -20,7 +20,7 @@
 @implementation XPNullClass
 
 + (instancetype)classInstance {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     static XPNullClass *cls = nil;
     if (!cls) {
         cls = [[self alloc] init];
@@ -36,7 +36,7 @@
 
 
 - (XPObject *)internedObjectWithValue:(id)val {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     return self.nullObject;
 }
 

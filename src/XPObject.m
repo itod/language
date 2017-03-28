@@ -26,25 +26,25 @@
 @implementation XPObject
 
 + (instancetype)nullObject {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     return [[XPNullClass classInstance] nullObject];
 }
 
 
 + (instancetype)nanObject {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     return [[XPNumberClass classInstance] nanObject];
 }
 
 
 + (instancetype)trueObject {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     return [[XPBooleanClass classInstance] trueObject];
 }
 
 
 + (instancetype)falseObject {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     return [[XPBooleanClass classInstance] falseObject];
 }
 

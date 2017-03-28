@@ -21,7 +21,7 @@
 @implementation XPNumberClass
 
 + (instancetype)classInstance {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     static XPNumberClass *cls = nil;
     if (!cls) {
         cls = [[self alloc] init];
@@ -38,7 +38,7 @@
 
 
 - (XPObject *)internedObjectWithValue:(id)val {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     
     XPObject *res = nil;
     

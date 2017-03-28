@@ -44,7 +44,7 @@
 
 
 - (BOOL)containsObjectForName:(NSString *)name {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert([name length]);
     TDAssert(_members);
     
@@ -54,7 +54,7 @@
 
 
 - (XPObject *)objectForName:(NSString *)name {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert([name length]);
     TDAssert(_members);
     
@@ -69,7 +69,7 @@
 
 
 - (void)setObject:(XPObject *)obj forName:(NSString *)name {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert([name length]);
     TDAssert(_members);
     
@@ -78,7 +78,7 @@
 
 
 - (void)addMembers:(NSMutableDictionary<NSString *, XPObject *> *)members {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert(members);
     TDAssert(_members);
     

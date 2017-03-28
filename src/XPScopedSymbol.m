@@ -49,7 +49,7 @@
 
 
 - (void)defineSymbol:(XPSymbol *)sym {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert(sym);
     TDAssert(self.members);
     
@@ -59,7 +59,7 @@
 
 
 - (XPSymbol *)resolveSymbolNamed:(NSString *)name {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert([name length]);
     TDAssert(self.members);
     

@@ -52,7 +52,7 @@
 #pragma mark XPScopedSymbol
 
 - (XPSymbol *)resolveSymbolNamed:(NSString *)name {
-    TDAssertMainThread();
+    TDAssertExecuteThread();
     TDAssert([name length]);
     TDAssert(self.params);
     TDAssert(self.members);
