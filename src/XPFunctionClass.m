@@ -35,7 +35,7 @@
 
 
 - (id)stringValue:(XPObject *)this {
-    return [NSString stringWithFormat:@"[Subroutine %@]", [this.value name]];
+    return [NSString stringWithFormat:@"<sub %@>", [this.value name]];
 }
 
 
