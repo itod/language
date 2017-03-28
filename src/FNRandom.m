@@ -12,10 +12,34 @@
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 
+//NSInteger random_number(NSInteger min_num, NSInteger max_num)
+//{
+//    NSInteger result = 0, low_num = 0, hi_num = 0;
+//    
+//    if (min_num < max_num)
+//    {
+//        low_num = min_num;
+//        hi_num = max_num + 1; // include max_num in output
+//    } else {
+//        low_num = max_num + 1; // include max_num in output
+//        hi_num = min_num;
+//    }
+//    
+//    srand((unsigned int)time(NULL));
+//    result = (rand() % (hi_num - low_num)) + low_num;
+//    return result;
+//}
+
+NSData *PARandomDataOfLength(NSUInteger len) {
+    assert(len > 0);
+    assert(NSNotFound != len);
+    return [[NSFileHandle fileHandleForReadingAtPath:@"/dev/urandom"] readDataOfLength:len];
+}
+
 NSInteger random_number(NSInteger min_num, NSInteger max_num)
 {
     NSInteger result = 0, low_num = 0, hi_num = 0;
-    
+
     if (min_num < max_num)
     {
         low_num = min_num;
@@ -24,9 +48,14 @@ NSInteger random_number(NSInteger min_num, NSInteger max_num)
         low_num = max_num + 1; // include max_num in output
         hi_num = min_num;
     }
+
+    NSUInteger len = sizeof(NSUInteger);
+    NSData *data = PARandomDataOfLength(len);
     
-    srand((unsigned int)time(NULL));
-    result = (rand() % (hi_num - low_num)) + low_num;
+    NSUInteger rand;
+    [data getBytes:&rand length:len];
+
+    result = (rand % (hi_num - low_num)) + low_num;
     return result;
 }
 
