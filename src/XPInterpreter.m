@@ -58,7 +58,7 @@
 
 #import "FNAcos.h"
 #import "FNAsin.h"
-#import "FNATan.h"
+#import "FNAtan.h"
 #import "FNAtan2.h"
 #import "FNCos.h"
 #import "FNDegrees.h"
@@ -81,7 +81,8 @@ NSString * const XPDebugInfoFilePathKey = @"filePath";
 NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 @interface XPInterpreter ()
-@property (nonatomic, retain) XPTreeWalker *treeWalker;
+@property (nonatomic, retain) NSMutableArray *treeWalkerStack;
+@property (nonatomic, retain, readonly) XPTreeWalker *treeWalker;
 @property (nonatomic, retain) NSMutableArray *allScopes; // this exists to allow all scopes to persist after parsing until tree traversal is done
 @end
 
@@ -90,7 +91,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 - (instancetype)init {
     self = [super init];
     if (self) {
-
+        self.treeWalkerStack = [NSMutableArray array];
     }
     return self;
 }
@@ -107,7 +108,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     self.breakpointCollection = nil;
     self.debugDelegate = nil;
     
-    self.treeWalker = nil;
+    self.treeWalkerStack = nil;
     self.allScopes = nil;
 
     [super dealloc];
@@ -229,16 +230,20 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     // EVAL WALK
     BOOL success = YES;
 
+    XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
+    walker.globalScope = _globalScope;
+    walker.globals = _globals;
+    walker.stdOut = _stdOut;
+    walker.stdErr = _stdErr;
+    walker.debug = _debug;
+    walker.breakpointCollection = _breakpointCollection;
+    walker.currentFilePath = path ? path : @"<main>";
+    
+    TDAssert(_treeWalkerStack);
+    [_treeWalkerStack addObject:walker];
+
     @try {
-        self.treeWalker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
-        _treeWalker.globalScope = _globalScope;
-        _treeWalker.globals = _globals;
-        _treeWalker.stdOut = _stdOut;
-        _treeWalker.stdErr = _stdErr;
-        _treeWalker.debug = _debug;
-        _treeWalker.breakpointCollection = _breakpointCollection;
-        _treeWalker.currentFilePath = path ? path : @"<main>";
-        [_treeWalker walk:_root];
+        [walker walk:_root];
     } @catch (XPUserThrownException *rex) {
         success = NO;
         if (outErr) {
@@ -256,7 +261,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             [ex raise];
         }
     } @finally {
-        self.treeWalker = nil;
+        TDAssert([_treeWalkerStack count]);
+        [_treeWalkerStack removeLastObject];
         self.allScopes = nil;
     }
     
@@ -328,7 +334,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 - (void)treeWalker:(XPTreeWalker *)w didPause:(NSMutableDictionary *)debugInfo {
     TDAssertMainThread();
     TDAssert(_debug);
-    TDAssert(w == _treeWalker);
+    TDAssert(w == self.treeWalker);
 
     TDAssert(_debugDelegate);
     [_debugDelegate interpreter:self didPause:debugInfo];
@@ -340,7 +346,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 - (void)updateBreakpoints:(XPBreakpointCollection *)bpColl {
     self.breakpointCollection = bpColl;
-    _treeWalker.breakpointCollection = bpColl;
+    self.treeWalker.breakpointCollection = bpColl;
 }
 
 
@@ -352,8 +358,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 - (void)pause {
     TDAssertMainThread();
     TDAssert(_debug);
-    TDAssert(_treeWalker);
     TDAssert(_debugDelegate);
+    TDAssert(self.treeWalker);
     
     
 }
@@ -362,8 +368,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 - (void)resume {
     TDAssertMainThread();
     TDAssert(_debug);
-    TDAssert(_treeWalker);
     TDAssert(_debugDelegate);
+    TDAssert(self.treeWalker);
 
 }
 
@@ -371,8 +377,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 - (void)stepOver {
     TDAssertMainThread();
     TDAssert(_debug);
-    TDAssert(_treeWalker);
     TDAssert(_debugDelegate);
+    TDAssert(self.treeWalker);
 
     self.treeWalker.wantsPauseOnCall = NO;
     self.treeWalker.wantsPauseOnReturn = YES;
@@ -384,8 +390,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 - (void)stepIn {
     TDAssertMainThread();
     TDAssert(_debug);
-    TDAssert(_treeWalker);
     TDAssert(_debugDelegate);
+    TDAssert(self.treeWalker);
     
     self.treeWalker.wantsPauseOnCall = YES;
     self.treeWalker.wantsPauseOnReturn = YES;
@@ -397,8 +403,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 - (void)cont {
     TDAssertMainThread();
     TDAssert(_debug);
-    TDAssert(_treeWalker);
     TDAssert(_debugDelegate);
+    TDAssert(self.treeWalker);
     
     self.treeWalker.wantsPauseOnCall = NO;
     self.treeWalker.wantsPauseOnReturn = NO;
@@ -410,8 +416,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 - (void)finish {
     TDAssertMainThread();
     TDAssert(_debug);
-    TDAssert(_treeWalker);
     TDAssert(_debugDelegate);
+    TDAssert(self.treeWalker);
     
     self.treeWalker.wantsPauseOnCall = NO;
     self.treeWalker.wantsPauseOnReturn = YES;
@@ -465,5 +471,13 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 //    
 //    return interp.globals; // TODO
 //}
+
+#pragma mark -
+#pragma mark Properties
+
+- (XPTreeWalker *)treeWalker {
+    TDAssert([_treeWalkerStack count]);
+    return [_treeWalkerStack lastObject];
+}
 
 @end
