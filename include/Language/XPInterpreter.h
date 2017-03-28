@@ -51,9 +51,6 @@ extern NSString * const XPDebugInfoLineNumberKey;
 - (void)declareNativeFunction:(Class)cls;
 @property (nonatomic, assign) id <XPInterpreterDelegate>delegate; // weakref
 
-// move to XPContext
-- (id)evaluateString:(NSString *)script error:(NSError **)outErr;
-
 // debug
 @property (assign) BOOL debug;
 @property (retain) XPBreakpointCollection *breakpointCollection;
