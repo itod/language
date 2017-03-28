@@ -45,6 +45,7 @@
 #import "FNCompare.h"
 
 #import "FNIsNan.h"
+#import "FNRandom.h"
 #import "FNAbs.h"
 #import "FNRound.h"
 #import "FNFloor.h"
@@ -107,7 +108,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     self.debugDelegate = nil;
     
     self.treeWalker = nil;
-    
+    self.allScopes = nil;
+
     [super dealloc];
 }
 
@@ -168,6 +170,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         
         // num
         [self declareNativeFunction:[FNIsNan class]];
+        [self declareNativeFunction:[FNRandom class]];
         [self declareNativeFunction:[FNAbs class]];
         [self declareNativeFunction:[FNRound class]];
         [self declareNativeFunction:[FNFloor class]];
@@ -224,43 +227,50 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     }
     
     // EVAL WALK
+    BOOL success = [self walk:_root filePath:path result:nil error:outErr];
+    return success;
+}
+
+
+- (BOOL)walk:(XPNode *)root filePath:(NSString *)path result:(id *)result error:(NSError **)outErr {
     BOOL success = YES;
+    id res = nil;
     
-    {
-        @try {
-            self.treeWalker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
-            _treeWalker.globalScope = _globalScope;
-            _treeWalker.globals = _globals;
-            _treeWalker.stdOut = _stdOut;
-            _treeWalker.stdErr = _stdErr;
-            _treeWalker.debug = _debug;
-            _treeWalker.breakpointCollection = _breakpointCollection;
-            _treeWalker.currentFilePath = path ? path : @"<main>";
-            [_treeWalker walk:_root];
-        } @catch (XPUserThrownException *rex) {
-            success = NO;
-            if (outErr) {
-                //NSLog(@"%@", rex.reason);
-                *outErr = [self errorWithName:rex.name reason:rex.reason range:rex.range lineNumber:rex.lineNumber];
-            } else {
-                [rex raise];
-            }
-        } @catch (XPException *ex) {
-            success = NO;
-            if (outErr) {
-                //NSLog(@"%@", ex.reason);
-                *outErr = [self errorWithName:ex.name reason:ex.reason range:ex.range lineNumber:ex.lineNumber];
-            } else {
-                [ex raise];
-            }
-        } @finally {
-            self.treeWalker = nil;
-            self.allScopes = nil;
-            self.globalScope = nil;
-            self.stdOut = nil;
-            self.stdErr = nil;
+    @try {
+        self.treeWalker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
+        _treeWalker.globalScope = _globalScope;
+        _treeWalker.globals = _globals;
+        _treeWalker.stdOut = _stdOut;
+        _treeWalker.stdErr = _stdErr;
+        _treeWalker.debug = _debug;
+        _treeWalker.breakpointCollection = _breakpointCollection;
+        _treeWalker.currentFilePath = path ? path : @"<main>";
+        res = [_treeWalker walk:_root];
+    } @catch (XPUserThrownException *rex) {
+        success = NO;
+        if (outErr) {
+            //NSLog(@"%@", rex.reason);
+            *outErr = [self errorWithName:rex.name reason:rex.reason range:rex.range lineNumber:rex.lineNumber];
+        } else {
+            [rex raise];
         }
+    } @catch (XPException *ex) {
+        success = NO;
+        if (outErr) {
+            //NSLog(@"%@", ex.reason);
+            *outErr = [self errorWithName:ex.name reason:ex.reason range:ex.range lineNumber:ex.lineNumber];
+        } else {
+            [ex raise];
+        }
+    } @finally {
+//        self.treeWalker = nil;
+//        self.allScopes = nil;
+//        self.globalScope = nil;
+//        self.stdOut = nil;
+//        self.stdErr = nil;
     }
+    
+    if (result) *result = res;
     
     return success;
 }
@@ -430,32 +440,42 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     
     exprStr = [NSString stringWithFormat:@"var %@=%@;", DEBUG_VAR_NAME, exprStr];
     
+    NSError *err = nil;
+    XPMemorySpace *globals = [self evaluateString:exprStr error:&err];
+    
+    XPObject *obj = [globals objectForName:DEBUG_VAR_NAME];
+    NSString *res = [NSString stringWithFormat:@"\n%@\n", [obj stringValue]];
+    
+    TDAssert(_stdOut);
+    [_stdOut writeData:[res dataUsingEncoding:NSUTF8StringEncoding]];
+
+}
+
+- (id)evaluateString:(NSString *)script error:(NSError **)outErr {
+
     XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
     
+    TDAssert(_treeWalker);
     NSMutableDictionary<NSString *, XPObject *> *mems = [[[_globals members] mutableCopy] autorelease];
-    [mems addEntriesFromDictionary:self.treeWalker.currentSpace.members];
+    [mems addEntriesFromDictionary:_treeWalker.currentSpace.members];
     
     XPMemorySpace *monoSpace = [[[XPGlobalSpace alloc] init] autorelease];
     [monoSpace addMembers:_globals.members];
     
-    for (XPMemorySpace *space in [self.treeWalker.callStack reverseObjectEnumerator]) {
+    for (XPMemorySpace *space in [_treeWalker.callStack reverseObjectEnumerator]) {
         [monoSpace addMembers:space.members];
     }
     
     interp.globals = monoSpace;
     
     NSError *err = nil;
-    if (![interp interpretString:exprStr filePath:nil error:&err]) {
+    if (![interp interpretString:script filePath:nil error:&err]) {
         TDAssert(err);
         //NSLog(@"%@", err);
-        return;
+        return nil;
     }
     
-    XPObject *obj = [interp.globals objectForName:DEBUG_VAR_NAME];
-    NSString *res = [NSString stringWithFormat:@"\n%@\n", [obj stringValue]];
-    
-    TDAssert(_stdOut);
-    [_stdOut writeData:[res dataUsingEncoding:NSUTF8StringEncoding]];
+    return interp.globals; // TODO
 }
 
 @end

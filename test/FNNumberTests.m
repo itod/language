@@ -61,4 +61,37 @@
     TDEquals(1.0, [self doubleForName:@"x"]);
 }
 
+- (void)testRand {
+    {
+        [self eval:@"var x=random(1);"];
+        double d = [self doubleForName:@"x"];
+        TDTrue(d >= 0.0 && d <= 1.0);
+    }
+    {
+        [self eval:@"var x=random(10);"];
+        double d = [self doubleForName:@"x"];
+        TDTrue(d >= 0.0 && d <= 10.0);
+    }
+    {
+        [self eval:@"var x=random(-10);"];
+        double d = [self doubleForName:@"x"];
+        TDTrue(d <= 0.0 && d >= -10.0);
+    }
+    {
+        [self eval:@"var x=random(0,10);"];
+        double d = [self doubleForName:@"x"];
+        TDTrue(d >= 0.0 && d <= 10.0);
+    }
+    {
+        [self eval:@"var x=random(0, -10);"];
+        double d = [self doubleForName:@"x"];
+        TDTrue(d <= 0.0 && d >= -10.0);
+    }
+    {
+        [self eval:@"var x=random(5,12);"];
+        double d = [self doubleForName:@"x"];
+        TDTrue(d >= 5.0 && d <= 12.0);
+    }
+}
+
 @end

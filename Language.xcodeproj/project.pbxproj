@@ -193,6 +193,8 @@
 		D3ADB43A1E897E6100306142 /* XPLocalSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = D3ADB4381E897E6100306142 /* XPLocalSpace.m */; };
 		D3ADB43F1E89D84500306142 /* testLocalsInLocalBlockRecursive.js in Resources */ = {isa = PBXBuildFile; fileRef = D3ADB43E1E89D84500306142 /* testLocalsInLocalBlockRecursive.js */; };
 		D3ADB4411E89D8D600306142 /* testLocalsInLocalBlockNotRecursive.js in Resources */ = {isa = PBXBuildFile; fileRef = D3ADB4401E89D8D600306142 /* testLocalsInLocalBlockNotRecursive.js */; };
+		D3ADB4441E8AC9BA00306142 /* FNRandom.h in Headers */ = {isa = PBXBuildFile; fileRef = D3ADB4421E8AC9BA00306142 /* FNRandom.h */; };
+		D3ADB4451E8AC9BA00306142 /* FNRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = D3ADB4431E8AC9BA00306142 /* FNRandom.m */; };
 		D3B5F7361E47F50C00740161 /* XPArrayLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3B5F7351E47F50C00740161 /* XPArrayLiteralTests.m */; };
 		D3BB83651E454B8F007AC9DD /* XPException.h in Headers */ = {isa = PBXBuildFile; fileRef = D3BB83641E454B8F007AC9DD /* XPException.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3DF58B71E429ACA006CAA07 /* XPFuncDeclTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58B61E429ACA006CAA07 /* XPFuncDeclTests.m */; };
@@ -411,6 +413,8 @@
 		D3ADB4381E897E6100306142 /* XPLocalSpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPLocalSpace.m; path = src/XPLocalSpace.m; sourceTree = SOURCE_ROOT; };
 		D3ADB43E1E89D84500306142 /* testLocalsInLocalBlockRecursive.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testLocalsInLocalBlockRecursive.js; path = test/scripts/testLocalsInLocalBlockRecursive.js; sourceTree = SOURCE_ROOT; };
 		D3ADB4401E89D8D600306142 /* testLocalsInLocalBlockNotRecursive.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testLocalsInLocalBlockNotRecursive.js; path = test/scripts/testLocalsInLocalBlockNotRecursive.js; sourceTree = SOURCE_ROOT; };
+		D3ADB4421E8AC9BA00306142 /* FNRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNRandom.h; path = src/FNRandom.h; sourceTree = SOURCE_ROOT; };
+		D3ADB4431E8AC9BA00306142 /* FNRandom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNRandom.m; path = src/FNRandom.m; sourceTree = SOURCE_ROOT; };
 		D3B5F7351E47F50C00740161 /* XPArrayLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPArrayLiteralTests.m; path = test/XPArrayLiteralTests.m; sourceTree = SOURCE_ROOT; };
 		D3BB83641E454B8F007AC9DD /* XPException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPException.h; path = include/Language/XPException.h; sourceTree = SOURCE_ROOT; };
 		D3DF58B61E429ACA006CAA07 /* XPFuncDeclTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFuncDeclTests.m; path = test/XPFuncDeclTests.m; sourceTree = SOURCE_ROOT; };
@@ -567,6 +571,8 @@
 			children = (
 				D3166E1E1E54C76200DEE3A0 /* FNIsNan.h */,
 				D3166E1F1E54C76200DEE3A0 /* FNIsNan.m */,
+				D3ADB4421E8AC9BA00306142 /* FNRandom.h */,
+				D3ADB4431E8AC9BA00306142 /* FNRandom.m */,
 				D34A56081E7F04F20064DF65 /* FNAbs.h */,
 				D34A56091E7F04F20064DF65 /* FNAbs.m */,
 				D34A560C1E7F06720064DF65 /* FNRound.h */,
@@ -904,6 +910,7 @@
 				D3166E3C1E54EBA200DEE3A0 /* XPFlowExceptions.h in Headers */,
 				D3A7F2941E51219900C7099B /* XPEnumeration.h in Headers */,
 				D3166DE31E53B0C400DEE3A0 /* FNBoolean.h in Headers */,
+				D3ADB4441E8AC9BA00306142 /* FNRandom.h in Headers */,
 				D3166E701E57A69500DEE3A0 /* FNGlobals.h in Headers */,
 				D32E70BE1E5365F700728D80 /* XPFunctionBody.h in Headers */,
 				D37316BA1E3EBF980034798E /* XPVariableSymbol.h in Headers */,
@@ -1051,6 +1058,7 @@
 				D3166E081E53F6DB00DEE3A0 /* FNLowerCase.m in Sources */,
 				D37316D41E3EC5430034798E /* XPMemorySpace.m in Sources */,
 				D3166DFA1E53B7D000DEE3A0 /* FNAssert.m in Sources */,
+				D3ADB4451E8AC9BA00306142 /* FNRandom.m in Sources */,
 				D3A7F2911E511E3200C7099B /* XPNullClass.m in Sources */,
 				D3A7F2861E4D7A8A00C7099B /* XPStringClass.m in Sources */,
 				D34A56321E7F37EF0064DF65 /* FNAcos.m in Sources */,
