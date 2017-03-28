@@ -445,32 +445,6 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 }
 
-//- (id)evaluateString:(NSString *)script error:(NSError **)outErr {
-//
-//    XPInterpreter *interp = [[[XPInterpreter alloc] init] autorelease];
-//    
-//    TDAssert(_treeWalker);
-//    NSMutableDictionary<NSString *, XPObject *> *mems = [[[_globals members] mutableCopy] autorelease];
-//    [mems addEntriesFromDictionary:_treeWalker.currentSpace.members];
-//    
-//    XPMemorySpace *monoSpace = [[[XPGlobalSpace alloc] init] autorelease];
-//    [monoSpace addMembers:_globals.members];
-//    
-//    for (XPMemorySpace *space in [_treeWalker.callStack reverseObjectEnumerator]) {
-//        [monoSpace addMembers:space.members];
-//    }
-//    
-//    interp.globals = monoSpace;
-//    
-//    NSError *err = nil;
-//    if (![interp interpretString:script filePath:nil error:&err]) {
-//        TDAssert(err);
-//        //NSLog(@"%@", err);
-//        return nil;
-//    }
-//    
-//    return interp.globals; // TODO
-//}
 
 #pragma mark -
 #pragma mark Properties
