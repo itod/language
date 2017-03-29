@@ -10,7 +10,7 @@
 #import <Language/XPBreakpoint.h>
 
 @interface XPBreakpointCollection ()
-@property (nonatomic, retain) NSMutableDictionary *all;
+@property (retain) NSMutableDictionary *all;
 - (NSMutableSet *)mutableBreakpointsForFile:(NSString *)path;
 @end
 
@@ -57,7 +57,7 @@
 
 
 - (NSDictionary *)asPlist {
-    TDAssert(_all);
+    TDAssert(self.all);
     
     NSArray *bps = [self allBreakpoints];
 
@@ -79,12 +79,11 @@
 
 
 - (NSArray *)allBreakpoints {
-    TDAssertMainThread();
-    TDAssert(_all);
+    TDAssert(self.all);
     
     NSMutableArray *result = [NSMutableArray array];
 
-    for (NSSet *bps in [_all allValues]) {
+    for (NSSet *bps in [self.all allValues]) {
         for (XPBreakpoint *bp in bps) {
             [result addObject:bp];
         }
@@ -95,16 +94,14 @@
 
 
 - (NSArray *)allFiles {
-    TDAssertMainThread();
-    TDAssert(_all);
+    TDAssert(self.all);
     
-    return [[_all allKeys] sortedArrayUsingSelector:@selector(compare:)];
+    return [[self.all allKeys] sortedArrayUsingSelector:@selector(compare:)];
 }
 
 
 - (NSDictionary *)breakpointsDictionaryForFile:(NSString *)path {
-    TDAssertMainThread();
-    TDAssert(_all);
+    TDAssert(self.all);
 
     NSMutableDictionary *dict = nil;
     NSMutableSet *bps = [self mutableBreakpointsForFile:path];
@@ -131,18 +128,16 @@
 
 
 - (NSMutableSet *)mutableBreakpointsForFile:(NSString *)path {
-    TDAssertMainThread();
-    TDAssert(_all);
+    TDAssert(self.all);
     TDAssert([path length]);
 
-    NSMutableSet *result = _all[path];
+    NSMutableSet *result = self.all[path];
     return result;
 }
 
 
 - (void)addBreakpoint:(XPBreakpoint *)bp {
-    TDAssertMainThread();
-    TDAssert(_all);
+    TDAssert(self.all);
     TDAssert(bp);
     
     NSString *key = [[bp.file copy] autorelease];
@@ -152,7 +147,7 @@
 
     if (!bps) {
         bps = [NSMutableSet set];
-        _all[key] = bps;
+        self.all[key] = bps;
     }
     
     [bps addObject:bp];
@@ -160,8 +155,7 @@
 
 
 - (void)removeBreakpoint:(XPBreakpoint *)bp {
-    TDAssertMainThread();
-    TDAssert(_all);
+    TDAssert(self.all);
 
     NSString *key = [[bp.file copy] autorelease];
     TDAssert([key length]);
@@ -179,11 +173,10 @@
 
 
 - (void)removeBreakpointsForFile:(NSString *)path {
-    TDAssertMainThread();
-    TDAssert(_all);
+    TDAssert(self.all);
     TDAssert([path length]);
 
-    [_all removeObjectForKey:path];
+    [self.all removeObjectForKey:path];
 }
 
 @end
