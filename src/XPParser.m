@@ -1683,8 +1683,10 @@
 - (void)__orExpr {
     
     [self andExpr_]; 
-    while ([self speculate:^{ [self or_]; [self andExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; [self or_]; [self nl_]; [self andExpr_]; }]) {
+        [self nl_]; 
         [self or_]; 
+        [self nl_]; 
         [self andExpr_]; 
         [self execute:^{
         
@@ -2327,7 +2329,9 @@
 - (void)__subExpr {
     
     [self match:XP_TOKEN_KIND_OPEN_PAREN discard:NO]; 
+    [self nl_]; 
     [self expr_]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_PAREN discard:YES]; 
     [self execute:^{
     

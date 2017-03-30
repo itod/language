@@ -25,6 +25,37 @@
 }
 
 #pragma mark -
+#pragma mark EXPR
+
+- (void)testOrExpr {
+    [self eval:@"var foo=0 or 1"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=0\nor 1"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=0 or\n1"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=(0 or 1)"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=(\n0 or 1)"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=(0\nor 1)"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=(0 or\n1)"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=(0 or 1\n)"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
+}
+
+
+
+#pragma mark -
 #pragma mark STAT
 
 - (void)testVarDecl {

@@ -520,7 +520,7 @@ arg         = expr;
 expr    = orExpr;
 
 or      = 'or';
-orExpr  = andExpr (or andExpr {
+orExpr  = andExpr (nl or nl andExpr {
     id rhs = POP();
     XPNode *orNode = [XPNode nodeWithToken:POP()];
     id lhs = POP();
@@ -658,7 +658,7 @@ primaryExpr = (atom | subExpr) trailer*;
 trailer = funcCall | subscriptLoad;
 
 subExpr
-    = '(' expr ')'! {
+    = '(' nl expr nl ')'! {
     id objs = ABOVE(_openParenTok);
     POP(); // discard `(`
     PUSH_ALL(REV(objs));
