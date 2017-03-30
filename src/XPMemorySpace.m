@@ -73,7 +73,11 @@
     TDAssert([name length]);
     TDAssert(_members);
     
-    [_members setObject:obj forKey:name];
+    if (obj) {
+        [_members setObject:obj forKey:name];
+    } else {
+        [_members removeObjectForKey:name];
+    }
 }
 
 

@@ -609,7 +609,6 @@
         }
     }
 
-
     // CALL
     XPObject *result = nil;
     {

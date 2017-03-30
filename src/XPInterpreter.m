@@ -442,6 +442,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     XPObject *obj = [_globals objectForName:DEBUG_VAR_NAME];
     NSString *res = [NSString stringWithFormat:@"\n%@\n", [obj stringValue]];
     
+    [_globals setObject:nil forName:DEBUG_VAR_NAME];
+    
     TDAssert(_stdOut);
     [_stdOut writeData:[res dataUsingEncoding:NSUTF8StringEncoding]];
 
