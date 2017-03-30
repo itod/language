@@ -22,6 +22,7 @@
 - (BOOL)boolForName:(NSString *)name;
 - (double)doubleForName:(NSString *)name;
 - (NSString *)stringForName:(NSString *)name;
+- (NSString *)descriptionForName:(NSString *)name;
 - (XPObject *)valueForName:(NSString *)name;
 
 - (NSString *)sourceForSelector:(SEL)sel;

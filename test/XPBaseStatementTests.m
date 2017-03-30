@@ -91,6 +91,11 @@
 }
 
 
+- (NSString *)descriptionForName:(NSString *)name {
+    return [[self valueForName:name] description];
+}
+
+
 - (XPObject *)valueForName:(NSString *)name {
     XPObject *obj = [self.interp.globals objectForName:name];
     return obj;

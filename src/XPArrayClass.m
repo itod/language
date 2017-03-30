@@ -120,14 +120,24 @@
 }
 
 
+- (NSString *)description:(XPObject *)this {
+    return [self repr:this withSelector:@selector(description)];
+}
+
+
 - (id)stringValue:(XPObject *)this {
+    return [self repr:this withSelector:@selector(stringValue)];
+}
+
+
+- (NSString *)repr:(XPObject *)this withSelector:(SEL)sel {
     NSMutableString *buf = [NSMutableString stringWithString:@"["];
     
     TDAssert(this.value);
     NSUInteger c = [this.value count];
     NSUInteger i = 0;
     for (id obj in this.value) {
-        [buf appendFormat:@"%@%@", [obj stringValue], i++ == c-1 ? @"" : @", "];
+        [buf appendFormat:@"%@%@", [obj performSelector:sel], i++ == c-1 ? @"" : @", "];
     }
     
     [buf appendString:@"]"];

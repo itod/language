@@ -27,6 +27,7 @@
 #import "FNAssert.h"
 #import "FNPrint.h"
 #import "FNCopy.h"
+#import "FNDescription.h"
 
 #import "FNCount.h"
 #import "FNPosition.h"
@@ -149,6 +150,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         [self declareNativeFunction:[FNAssert class]];
         [self declareNativeFunction:[FNPrint class]];
         [self declareNativeFunction:[FNCopy class]];
+        [self declareNativeFunction:[FNDescription class]];
         
         // seq
         [self declareNativeFunction:[FNCount class]];

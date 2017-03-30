@@ -1610,9 +1610,11 @@
 - (void)__funcCall {
     
     [self match:XP_TOKEN_KIND_OPEN_PAREN discard:NO]; 
+    [self nl_]; 
     if ([self speculate:^{ [self argList_]; }]) {
         [self argList_]; 
     }
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_PAREN discard:YES]; 
     [self execute:^{
     
@@ -1635,8 +1637,10 @@
 - (void)__argList {
     
     [self arg_]; 
-    while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self arg_]; }]) {
+    while ([self speculate:^{ [self nl_]; [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self nl_]; [self arg_]; }]) {
+        [self nl_]; 
         [self match:XP_TOKEN_KIND_COMMA discard:YES]; 
+        [self nl_]; 
         [self arg_]; 
     }
 
@@ -2393,15 +2397,21 @@
 - (void)__subscriptLoad {
     
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:NO]; 
+    [self nl_]; 
     [self expr_]; 
-    if ([self speculate:^{ [self match:XP_TOKEN_KIND_COLON discard:YES]; [self expr_]; }]) {
+    if ([self speculate:^{ [self nl_]; [self match:XP_TOKEN_KIND_COLON discard:YES]; [self nl_]; [self expr_]; }]) {
+        [self nl_]; 
         [self match:XP_TOKEN_KIND_COLON discard:YES]; 
+        [self nl_]; 
         [self expr_]; 
     }
-    if ([self speculate:^{ [self match:XP_TOKEN_KIND_COLON discard:YES]; [self expr_]; }]) {
+    if ([self speculate:^{ [self nl_]; [self match:XP_TOKEN_KIND_COLON discard:YES]; [self nl_]; [self expr_]; }]) {
+        [self nl_]; 
         [self match:XP_TOKEN_KIND_COLON discard:YES]; 
+        [self nl_]; 
         [self expr_]; 
     }
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
     [self execute:^{
     

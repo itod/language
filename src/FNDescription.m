@@ -1,22 +1,21 @@
 //
-//  FNPrint.m
+//  FNDescription.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "FNPrint.h"
+#import "FNDescription.h"
 #import <Language/XPObject.h>
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
-#import <Language/XPException.h>
 
-@implementation FNPrint
+@implementation FNDescription
 
 + (NSString *)name {
-    return @"print";
+    return @"description";
 }
 
 
@@ -38,11 +37,10 @@
     XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
     
-    NSString *str = [obj description];
-    [walker.stdOut writeData:[[NSString stringWithFormat:@"%@\n", str] dataUsingEncoding:NSUTF8StringEncoding]];
+    XPObject *res = [obj callInstanceMethodNamed:@"description"];
+    TDAssert([res isKindOfClass:[XPObject class]]);
     
-    //NSLog(@"%@", str);
-    return nil;
+    return res;
 }
 
 @end

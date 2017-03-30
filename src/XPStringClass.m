@@ -111,6 +111,11 @@
 }
 
 
+- (NSString *)description:(XPObject *)this {
+    return [NSString stringWithFormat:@"'%@'", this.value];
+}
+
+
 - (id)stringValue:(XPObject *)this {
     return this.value;
 }

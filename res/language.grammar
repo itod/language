@@ -504,7 +504,7 @@ funcLiteral = 'sub' {
     funcBody;
 
 // FUNC CALL
-funcCall    = '(' argList? ')'! {
+funcCall    = '(' nl argList? nl ')'! {
     NSArray *args = REV(ABOVE(_openParenTok));
     POP(); // '('
     XPNode *callNode = [XPNode nodeWithToken:_callTok];
@@ -513,7 +513,7 @@ funcCall    = '(' argList? ')'! {
     PUSH(callNode);
 };
 
-argList     = arg (','! arg)*;
+argList     = arg (nl ','! nl arg)*;
 arg         = expr;
 
 // EXPRESSIONS
@@ -666,7 +666,7 @@ subExpr
 
 atom = scalar | arrayLiteral | dictLiteral | funcLiteral | varRef;
 
-subscriptLoad = '[' expr (':'! expr)? (':'! expr)? ']'! {
+subscriptLoad = '[' nl expr (nl ':'! nl expr)? (nl ':'! nl expr)? nl ']'! {
     NSArray *nodes = REV(ABOVE(_openSquareTok));
     POP(); // square
     
