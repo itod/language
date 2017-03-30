@@ -246,7 +246,7 @@ plusEq  = '+=';
 minusEq = '-=';
 timesEq = '*=';
 divEq   = '/=';
-assign      = qid ('=' | plusEq | minusEq | timesEq | divEq) expr {
+assign      = qid nl ('=' | plusEq | minusEq | timesEq | divEq) nl expr {
     XPNode *rhs = POP();
     PKToken *tok = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
@@ -256,7 +256,7 @@ assign      = qid ('=' | plusEq | minusEq | timesEq | divEq) expr {
     PUSH(stat);
 };
 
-assignIndex = qid '['! expr ']'! '='! expr {
+assignIndex = qid nl '['! nl expr nl ']'! nl '='! nl expr {
     XPNode *rhs = POP();
     XPNode *idx = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
@@ -268,7 +268,7 @@ assignIndex = qid '['! expr ']'! '='! expr {
     PUSH(stat);
 };
 
-assignAppend = qid '['! ']'! '='! expr {
+assignAppend = qid nl '['! nl ']'! nl '='! nl expr {
     XPNode *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     
@@ -321,7 +321,7 @@ forBlock
 };
 
 // IF BLOCK
-ifBlock     = 'if' expr localBlock {
+ifBlock     = 'if' nl expr nl localBlock {
     XPNode *block = POP();
     XPNode *expr = POP();
     XPNode *ifNode = [XPNode nodeWithToken:POP()];
@@ -384,7 +384,7 @@ finallyBlock
     [tryNode addChild:finallyNode];
 };
 
-throwStat   = 'throw' expr {
+throwStat   = 'throw' nl expr {
     XPNode *expr = POP();
     XPNode *throwNode = [XPNode nodeWithToken:POP()];
     [throwNode addChild:expr];
@@ -392,7 +392,7 @@ throwStat   = 'throw' expr {
 };
 
 // FUNCTION DECL
-returnStat  = 'return' expr {
+returnStat  = 'return' nl expr {
     XPNode *expr = POP();
     XPNode *ret = [XPNode nodeWithToken:POP()];
     [ret addChild:expr];

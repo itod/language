@@ -989,6 +989,7 @@
 - (void)__assign {
     
     [self qid_]; 
+    [self nl_]; 
     if ([self predicts:XP_TOKEN_KIND_EQUALS, 0]) {
         [self match:XP_TOKEN_KIND_EQUALS discard:NO]; 
     } else if ([self predicts:XP_TOKEN_KIND_PLUSEQ, 0]) {
@@ -1002,6 +1003,7 @@
     } else {
         [self raise:@"No viable alternative found in rule 'assign'."];
     }
+    [self nl_]; 
     [self expr_]; 
     [self execute:^{
     
@@ -1025,10 +1027,15 @@
 - (void)__assignIndex {
     
     [self qid_]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:YES]; 
+    [self nl_]; 
     [self expr_]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
+    [self nl_]; 
     [self expr_]; 
     [self execute:^{
     
@@ -1054,9 +1061,13 @@
 - (void)__assignAppend {
     
     [self qid_]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:YES]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
+    [self nl_]; 
     [self expr_]; 
     [self execute:^{
     
@@ -1186,7 +1197,9 @@
 - (void)__ifBlock {
     
     [self match:XP_TOKEN_KIND_IF discard:NO]; 
+    [self nl_]; 
     [self expr_]; 
+    [self nl_]; 
     [self localBlock_]; 
     [self execute:^{
     
@@ -1352,6 +1365,7 @@
 - (void)__throwStat {
     
     [self match:XP_TOKEN_KIND_THROW discard:NO]; 
+    [self nl_]; 
     [self expr_]; 
     [self execute:^{
     
@@ -1372,6 +1386,7 @@
 - (void)__returnStat {
     
     [self match:XP_TOKEN_KIND_RETURN discard:NO]; 
+    [self nl_]; 
     [self expr_]; 
     [self execute:^{
     
