@@ -25,8 +25,8 @@
 }
 
 - (void)testVarDecl {
-    [self fail:@"var foo =\n 1"];
-    TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
+    [self eval:@"var foo =\n 1"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 //- (void)testFuncCallArgument {

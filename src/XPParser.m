@@ -46,6 +46,7 @@
 @property (nonatomic, retain) NSMutableDictionary *localList_memo;
 @property (nonatomic, retain) NSMutableDictionary *funcBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *localBlock_memo;
+@property (nonatomic, retain) NSMutableDictionary *nl_memo;
 @property (nonatomic, retain) NSMutableDictionary *terminator_memo;
 @property (nonatomic, retain) NSMutableDictionary *stats_memo;
 @property (nonatomic, retain) NSMutableDictionary *stat_memo;
@@ -272,7 +273,7 @@
         self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
         self.tokenKindTab[@"!"] = @(XP_TOKEN_KIND_BANG);
         self.tokenKindTab[@"true"] = @(XP_TOKEN_KIND_TRUE);
-        self.tokenKindTab[@"\n"] = @(XP_TOKEN_KIND__N);
+        self.tokenKindTab[@"\n"] = @(XP_TOKEN_KIND_NL);
         self.tokenKindTab[@"sub"] = @(XP_TOKEN_KIND_SUB);
         self.tokenKindTab[@"%"] = @(XP_TOKEN_KIND_MOD);
         self.tokenKindTab[@"&"] = @(XP_TOKEN_KIND_BITAND);
@@ -329,7 +330,7 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
         self.tokenKindNameTab[XP_TOKEN_KIND_BANG] = @"!";
         self.tokenKindNameTab[XP_TOKEN_KIND_TRUE] = @"true";
-        self.tokenKindNameTab[XP_TOKEN_KIND__N] = @"\n";
+        self.tokenKindNameTab[XP_TOKEN_KIND_NL] = @"\n";
         self.tokenKindNameTab[XP_TOKEN_KIND_SUB] = @"sub";
         self.tokenKindNameTab[XP_TOKEN_KIND_MOD] = @"%";
         self.tokenKindNameTab[XP_TOKEN_KIND_BITAND] = @"&";
@@ -342,6 +343,7 @@
         self.localList_memo = [NSMutableDictionary dictionary];
         self.funcBlock_memo = [NSMutableDictionary dictionary];
         self.localBlock_memo = [NSMutableDictionary dictionary];
+        self.nl_memo = [NSMutableDictionary dictionary];
         self.terminator_memo = [NSMutableDictionary dictionary];
         self.stats_memo = [NSMutableDictionary dictionary];
         self.stat_memo = [NSMutableDictionary dictionary];
@@ -466,6 +468,7 @@
     self.localList_memo = nil;
     self.funcBlock_memo = nil;
     self.localBlock_memo = nil;
+    self.nl_memo = nil;
     self.terminator_memo = nil;
     self.stats_memo = nil;
     self.stat_memo = nil;
@@ -565,6 +568,7 @@
     [_localList_memo removeAllObjects];
     [_funcBlock_memo removeAllObjects];
     [_localBlock_memo removeAllObjects];
+    [_nl_memo removeAllObjects];
     [_terminator_memo removeAllObjects];
     [_stats_memo removeAllObjects];
     [_stat_memo removeAllObjects];
@@ -799,10 +803,21 @@
     [self parseRule:@selector(__localBlock) withMemo:_localBlock_memo];
 }
 
+- (void)__nl {
+    
+    [self match:XP_TOKEN_KIND_NL discard:YES]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchNl:)];
+}
+
+- (void)nl_ {
+    [self parseRule:@selector(__nl) withMemo:_nl_memo];
+}
+
 - (void)__terminator {
     
-    if ([self predicts:XP_TOKEN_KIND__N, 0]) {
-        [self match:XP_TOKEN_KIND__N discard:YES]; 
+    if ([self predicts:XP_TOKEN_KIND_NL, 0]) {
+        [self nl_]; 
     } else if ([self predicts:XP_TOKEN_KIND_SEMI_COLON, 0]) {
         [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
     } else {
@@ -836,7 +851,7 @@
 
 - (void)__stat {
     
-    if ([self predicts:XP_TOKEN_KIND_SEMI_COLON, XP_TOKEN_KIND__N, 0]) {
+    if ([self predicts:XP_TOKEN_KIND_NL, XP_TOKEN_KIND_SEMI_COLON, 0]) {
         [self terminator_]; 
     } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_RETURN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_THROW, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
         [self testAndThrow:(id)^{ return _valid; }]; 

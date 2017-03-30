@@ -212,9 +212,10 @@ localBlock
             = '{' localList '}'!;
 
 // STATEMENTS
+nl = '\n'!;
 terminator 
 @after {self.valid=YES;}
-            = ('\n'!|';'!);
+            = (nl|';'!);
 stats       = stat (terminator stat)*;
 stat        = terminator | { _valid }? realStat;
 realStat    
