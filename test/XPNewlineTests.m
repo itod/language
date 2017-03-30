@@ -207,6 +207,49 @@
     TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
 }
 
+- (void)testArrayLiteral {
+    [self eval:@"var foo=['a','b']"];
+    TDEqualObjects(@"[a, b]", [self stringForName:@"foo"]);
+    
+    [self eval:@"var foo=[\n'a','b']"];
+    TDEqualObjects(@"[a, b]", [self stringForName:@"foo"]);
+
+    [self eval:@"var foo=['a'\n,'b']"];
+    TDEqualObjects(@"[a, b]", [self stringForName:@"foo"]);
+    
+    [self eval:@"var foo=['a',\n'b']"];
+    TDEqualObjects(@"[a, b]", [self stringForName:@"foo"]);
+    
+    [self eval:@"var foo=['a','b'\n]"];
+    TDEqualObjects(@"[a, b]", [self stringForName:@"foo"]);
+}
+
+- (void)testDictLiteral {
+    [self eval:@"var foo={'a':1,'b':2}['b']"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo={\n'a':1,'b':2}['b']"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo={'a'\n:1,'b':2}['b']"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo={'a':\n1,'b':2}['b']"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo={'a':1\n,'b':2}['b']"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo={'a':1,\n'b':2}['b']"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo={'a':1,'b'\n:2}['b']"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo={'a':1,'b':2\n}['b']"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+}
+
 #pragma mark -
 #pragma mark STAT
 
