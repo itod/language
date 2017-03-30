@@ -212,7 +212,7 @@ localBlock
             = '{' localList '}'!;
 
 // STATEMENTS
-nl = '\n'!;
+nl = ('\n'!)*;
 terminator 
 @after {self.valid=YES;}
             = (nl|';'!);
@@ -231,7 +231,7 @@ realStat
             | returnStat
             ;
             
-varDecl     = 'var' qid '='! expr {
+varDecl     = 'var' nl qid nl '='! nl expr {
     XPNode *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     PKToken *tok = POP();

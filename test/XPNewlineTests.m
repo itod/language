@@ -25,6 +25,12 @@
 }
 
 - (void)testVarDecl {
+    [self eval:@"var\nfoo = 1"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
+
+    [self eval:@"var foo\n= 1"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
+
     [self eval:@"var foo =\n 1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
