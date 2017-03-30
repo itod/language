@@ -450,7 +450,6 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 #pragma mark Properties
 
 - (XPTreeWalker *)treeWalker {
-    TDAssert([_treeWalkerStack count]);
     return [_treeWalkerStack lastObject];
 }
 
