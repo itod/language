@@ -1721,8 +1721,10 @@
 - (void)__andExpr {
     
     [self equalityExpr_]; 
-    while ([self speculate:^{ [self and_]; [self equalityExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; [self and_]; [self nl_]; [self equalityExpr_]; }]) {
+        [self nl_]; 
         [self and_]; 
+        [self nl_]; 
         [self equalityExpr_]; 
         [self execute:^{
         
@@ -1779,7 +1781,8 @@
 - (void)__equalityExpr {
     
     [self relationalExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_EQ, 0]) {[self eq_]; } else if ([self predicts:XP_TOKEN_KIND_NE, 0]) {[self ne_]; } else if ([self predicts:XP_TOKEN_KIND_IS, 0]) {[self is_]; } else {[self raise:@"No viable alternative found in rule 'equalityExpr'."];}[self relationalExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; if ([self predicts:XP_TOKEN_KIND_EQ, 0]) {[self eq_]; } else if ([self predicts:XP_TOKEN_KIND_NE, 0]) {[self ne_]; } else if ([self predicts:XP_TOKEN_KIND_IS, 0]) {[self is_]; } else {[self raise:@"No viable alternative found in rule 'equalityExpr'."];}[self nl_]; [self relationalExpr_]; }]) {
+        [self nl_]; 
         if ([self predicts:XP_TOKEN_KIND_EQ, 0]) {
             [self eq_]; 
         } else if ([self predicts:XP_TOKEN_KIND_NE, 0]) {
@@ -1789,6 +1792,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'equalityExpr'."];
         }
+        [self nl_]; 
         [self relationalExpr_]; 
         [self execute:^{
         
@@ -1856,7 +1860,8 @@
 - (void)__relationalExpr {
     
     [self additiveExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_LT, 0]) {[self lt_]; } else if ([self predicts:XP_TOKEN_KIND_GT, 0]) {[self gt_]; } else if ([self predicts:XP_TOKEN_KIND_LE, 0]) {[self le_]; } else if ([self predicts:XP_TOKEN_KIND_GE, 0]) {[self ge_]; } else {[self raise:@"No viable alternative found in rule 'relationalExpr'."];}[self additiveExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; if ([self predicts:XP_TOKEN_KIND_LT, 0]) {[self lt_]; } else if ([self predicts:XP_TOKEN_KIND_GT, 0]) {[self gt_]; } else if ([self predicts:XP_TOKEN_KIND_LE, 0]) {[self le_]; } else if ([self predicts:XP_TOKEN_KIND_GE, 0]) {[self ge_]; } else {[self raise:@"No viable alternative found in rule 'relationalExpr'."];}[self nl_]; [self additiveExpr_]; }]) {
+        [self nl_]; 
         if ([self predicts:XP_TOKEN_KIND_LT, 0]) {
             [self lt_]; 
         } else if ([self predicts:XP_TOKEN_KIND_GT, 0]) {
@@ -1868,6 +1873,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'relationalExpr'."];
         }
+        [self nl_]; 
         [self additiveExpr_]; 
         [self execute:^{
         
@@ -1913,7 +1919,8 @@
 - (void)__additiveExpr {
     
     [self multiplicativeExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_PLUS, 0]) {[self plus_]; } else if ([self predicts:XP_TOKEN_KIND_MINUS, 0]) {[self minus_]; } else {[self raise:@"No viable alternative found in rule 'additiveExpr'."];}[self multiplicativeExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; if ([self predicts:XP_TOKEN_KIND_PLUS, 0]) {[self plus_]; } else if ([self predicts:XP_TOKEN_KIND_MINUS, 0]) {[self minus_]; } else {[self raise:@"No viable alternative found in rule 'additiveExpr'."];}[self nl_]; [self multiplicativeExpr_]; }]) {
+        [self nl_]; 
         if ([self predicts:XP_TOKEN_KIND_PLUS, 0]) {
             [self plus_]; 
         } else if ([self predicts:XP_TOKEN_KIND_MINUS, 0]) {
@@ -1921,6 +1928,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'additiveExpr'."];
         }
+        [self nl_]; 
         [self multiplicativeExpr_]; 
         [self execute:^{
         
@@ -1977,7 +1985,8 @@
 - (void)__multiplicativeExpr {
     
     [self bitExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_TIMES, 0]) {[self times_]; } else if ([self predicts:XP_TOKEN_KIND_DIV, 0]) {[self div_]; } else if ([self predicts:XP_TOKEN_KIND_MOD, 0]) {[self mod_]; } else {[self raise:@"No viable alternative found in rule 'multiplicativeExpr'."];}[self bitExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; if ([self predicts:XP_TOKEN_KIND_TIMES, 0]) {[self times_]; } else if ([self predicts:XP_TOKEN_KIND_DIV, 0]) {[self div_]; } else if ([self predicts:XP_TOKEN_KIND_MOD, 0]) {[self mod_]; } else {[self raise:@"No viable alternative found in rule 'multiplicativeExpr'."];}[self nl_]; [self bitExpr_]; }]) {
+        [self nl_]; 
         if ([self predicts:XP_TOKEN_KIND_TIMES, 0]) {
             [self times_]; 
         } else if ([self predicts:XP_TOKEN_KIND_DIV, 0]) {
@@ -1987,6 +1996,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'multiplicativeExpr'."];
         }
+        [self nl_]; 
         [self bitExpr_]; 
         [self execute:^{
         
@@ -2043,7 +2053,8 @@
 - (void)__bitExpr {
     
     [self shiftExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_BITAND, 0]) {[self bitAnd_]; } else if ([self predicts:XP_TOKEN_KIND_BITOR, 0]) {[self bitOr_]; } else if ([self predicts:XP_TOKEN_KIND_BITXOR, 0]) {[self bitXor_]; } else {[self raise:@"No viable alternative found in rule 'bitExpr'."];}[self shiftExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; if ([self predicts:XP_TOKEN_KIND_BITAND, 0]) {[self bitAnd_]; } else if ([self predicts:XP_TOKEN_KIND_BITOR, 0]) {[self bitOr_]; } else if ([self predicts:XP_TOKEN_KIND_BITXOR, 0]) {[self bitXor_]; } else {[self raise:@"No viable alternative found in rule 'bitExpr'."];}[self nl_]; [self shiftExpr_]; }]) {
+        [self nl_]; 
         if ([self predicts:XP_TOKEN_KIND_BITAND, 0]) {
             [self bitAnd_]; 
         } else if ([self predicts:XP_TOKEN_KIND_BITOR, 0]) {
@@ -2053,6 +2064,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'bitExpr'."];
         }
+        [self nl_]; 
         [self shiftExpr_]; 
         [self execute:^{
         
@@ -2098,7 +2110,8 @@
 - (void)__shiftExpr {
     
     [self concatExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_SHIFTLEFT, 0]) {[self shiftLeft_]; } else if ([self predicts:XP_TOKEN_KIND_SHIFTRIGHT, 0]) {[self shiftRight_]; } else {[self raise:@"No viable alternative found in rule 'shiftExpr'."];}[self concatExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; if ([self predicts:XP_TOKEN_KIND_SHIFTLEFT, 0]) {[self shiftLeft_]; } else if ([self predicts:XP_TOKEN_KIND_SHIFTRIGHT, 0]) {[self shiftRight_]; } else {[self raise:@"No viable alternative found in rule 'shiftExpr'."];}[self nl_]; [self concatExpr_]; }]) {
+        [self nl_]; 
         if ([self predicts:XP_TOKEN_KIND_SHIFTLEFT, 0]) {
             [self shiftLeft_]; 
         } else if ([self predicts:XP_TOKEN_KIND_SHIFTRIGHT, 0]) {
@@ -2106,6 +2119,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'shiftExpr'."];
         }
+        [self nl_]; 
         [self concatExpr_]; 
         [self execute:^{
         
@@ -2140,8 +2154,10 @@
 - (void)__concatExpr {
     
     [self unaryExpr_]; 
-    while ([self speculate:^{ [self cat_]; [self unaryExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; [self cat_]; [self nl_]; [self unaryExpr_]; }]) {
+        [self nl_]; 
         [self cat_]; 
+        [self nl_]; 
         [self unaryExpr_]; 
         [self execute:^{
         
@@ -2196,6 +2212,7 @@
          _negation = !_negation; 
         }];
     } while ([self predicts:XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_NOT, 0]);
+    [self nl_]; 
     [self unary_]; 
     [self execute:^{
     
@@ -2260,6 +2277,7 @@
              self.unaryTok = _negTok; _negative = !_negative; 
             }];
         } while ([self predicts:XP_TOKEN_KIND_MINUS, 0]);
+        [self nl_]; 
         [self primaryExpr_]; 
     } else if ([self predicts:XP_TOKEN_KIND_BITNOT, 0]) {
         do {
@@ -2268,6 +2286,7 @@
              self.unaryTok = POP(); _negative = !_negative; 
             }];
         } while ([self predicts:XP_TOKEN_KIND_BITNOT, 0]);
+        [self nl_]; 
         [self primaryExpr_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'signedPrimaryExpr'."];

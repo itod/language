@@ -53,7 +53,76 @@
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
+- (void)testAndExpr {
+    [self eval:@"var foo=0 and 1"];
+    TDEquals(0.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=0\nand 1"];
+    TDEquals(0.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=0 and\n1"];
+    TDEquals(0.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=(0 and 1)"];
+    TDEquals(0.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=(\n0 and 1)"];
+    TDEquals(0.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=(0\nand 1)"];
+    TDEquals(0.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=(0 and\n1)"];
+    TDEquals(0.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=(0 and 1\n)"];
+    TDEquals(0.0, [self doubleForName:@"foo"]);
+}
 
+- (void)testEqualityExpr {
+    [self eval:@"var foo=0\n==1"];
+    TDEquals(NO, [self boolForName:@"foo"]);
+    
+    [self eval:@"var foo=0==\n1"];
+    TDEquals(NO, [self boolForName:@"foo"]);
+}
+
+- (void)testRelationalExpr {
+    [self eval:@"var foo=0\n>1"];
+    TDEquals(NO, [self boolForName:@"foo"]);
+    
+    [self eval:@"var foo=0>\n1"];
+    TDEquals(NO, [self boolForName:@"foo"]);
+}
+
+- (void)testMathExpr {
+    [self eval:@"var foo=1\n+1"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=1+\n1"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+}
+
+- (void)testNegatedUnaryExpr {
+    [self eval:@"var foo=not 1"];
+    TDEquals(0.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=not\n1"];
+    TDEquals(0.0, [self doubleForName:@"foo"]);
+}
+
+- (void)testSignedPrimaryExpr {
+    [self eval:@"var foo=-\n1"];
+    TDEquals(-1.0, [self doubleForName:@"foo"]);
+    
+    TDEquals(~1, -2);
+
+    [self eval:@"var foo=~1"];
+    TDEquals(-2.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=~\n1"];
+    TDEquals(-2.0, [self doubleForName:@"foo"]);
+}
 
 #pragma mark -
 #pragma mark STAT

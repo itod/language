@@ -530,7 +530,7 @@ orExpr  = andExpr (nl or nl andExpr {
 })*;
 
 and     = 'and';
-andExpr = equalityExpr (and equalityExpr {
+andExpr = equalityExpr (nl and nl equalityExpr {
     id rhs = POP();
     XPNode *andNode = [XPNode nodeWithToken:POP()];
     id lhs = POP();
@@ -542,7 +542,7 @@ andExpr = equalityExpr (and equalityExpr {
 eq      = '==';
 ne      = '!=';
 is      = 'is';
-equalityExpr = relationalExpr ((eq | ne | is) relationalExpr {
+equalityExpr = relationalExpr (nl (eq | ne | is) nl relationalExpr {
     XPNode *rhs = POP();
     XPNode *eqNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -555,7 +555,7 @@ lt    =  '<';
 gt    =  '>';
 le    = '<=';
 ge    = '>=';
-relationalExpr = additiveExpr ((lt | gt | le | ge) additiveExpr {
+relationalExpr = additiveExpr (nl (lt | gt | le | ge) nl additiveExpr {
     XPNode *rhs = POP();
     XPNode *relNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -566,7 +566,7 @@ relationalExpr = additiveExpr ((lt | gt | le | ge) additiveExpr {
 
 plus    = '+';
 minus   = '-';
-additiveExpr = multiplicativeExpr ((plus | minus) multiplicativeExpr {
+additiveExpr = multiplicativeExpr (nl (plus | minus) nl multiplicativeExpr {
     XPNode *rhs = POP();
     XPNode *addNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -578,7 +578,7 @@ additiveExpr = multiplicativeExpr ((plus | minus) multiplicativeExpr {
 times   = '*';
 div     = '/';
 mod     = '%';
-multiplicativeExpr = bitExpr ((times | div | mod) bitExpr {
+multiplicativeExpr = bitExpr (nl (times | div | mod) nl bitExpr {
     XPNode *rhs = POP();
     XPNode *multNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -590,7 +590,7 @@ multiplicativeExpr = bitExpr ((times | div | mod) bitExpr {
 bitAnd  = '&';
 bitOr   = '|';
 bitXor  = '^';
-bitExpr = shiftExpr ((bitAnd | bitOr | bitXor) shiftExpr {
+bitExpr = shiftExpr (nl (bitAnd | bitOr | bitXor) nl shiftExpr {
     XPNode *rhs = POP();
     XPNode *bitNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -601,7 +601,7 @@ bitExpr = shiftExpr ((bitAnd | bitOr | bitXor) shiftExpr {
 
 shiftLeft = '<<';
 shiftRight = '>>';
-shiftExpr = concatExpr ((shiftLeft | shiftRight) concatExpr{
+shiftExpr = concatExpr (nl (shiftLeft | shiftRight) nl concatExpr {
     XPNode *rhs = POP();
     XPNode *shiftNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -611,7 +611,7 @@ shiftExpr = concatExpr ((shiftLeft | shiftRight) concatExpr{
 })*;
 
 cat    = '||';
-concatExpr = unaryExpr (cat unaryExpr {
+concatExpr = unaryExpr (nl cat nl unaryExpr {
     XPNode *rhs = POP();
     XPNode *catNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -634,7 +634,7 @@ negatedUnary
 		PUSH(notNode);
     }
 }
-	= (('not'! | '!'!) { _negation = !_negation; })+ unary {
+	= (('not'! | '!'!) { _negation = !_negation; })+ nl unary {
 };
 
 bitNot = '~';
@@ -650,8 +650,8 @@ signedPrimaryExpr
 		PUSH(negNode);
     }
 }
-    = ('-'! { self.unaryTok = _negTok; _negative = !_negative; })+ primaryExpr
-    | (bitNot { self.unaryTok = POP(); _negative = !_negative; })+ primaryExpr
+    = ('-'! { self.unaryTok = _negTok; _negative = !_negative; })+ nl primaryExpr
+    | (bitNot { self.unaryTok = POP(); _negative = !_negative; })+ nl primaryExpr
     ;
 
 primaryExpr = (atom | subExpr) trailer*;
