@@ -155,6 +155,39 @@
     
     [self eval:@"var foo=pow(3.0,2.0\n)"];
     TDEquals(9.0, [self doubleForName:@"foo"]);
+
+
+
+    [self eval:@"var foo=ceil(12.5)"];
+    TDEquals(13.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=ceil \n (12.5)"];
+    TDEquals(1.0, [self doubleForName:@"foo"]);
+    TDEqualObjects(@"<sub ceil>", [self stringForName:@"foo"]);
+    
+    [self eval:@"var foo=ceil( \n 12.5)"];
+    TDEquals(13.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=ceil(12.5 \n )"];
+    TDEquals(13.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=pow(3.0,2.0)"];
+    TDEquals(9.0, [self doubleForName:@"foo"]);
+    
+    [self fail:@"var foo=pow \n (3.0,2.0)"];
+    TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
+    
+    [self eval:@"var foo=pow( \n 3.0,2.0)"];
+    TDEquals(9.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=pow(3.0 \n ,2.0)"];
+    TDEquals(9.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=pow(3.0, \n 2.0)"];
+    TDEquals(9.0, [self doubleForName:@"foo"]);
+    
+    [self eval:@"var foo=pow(3.0,2.0 \n )"];
+    TDEquals(9.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testSlicing {

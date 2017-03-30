@@ -83,6 +83,7 @@
     [t.symbolState add:@">>"];
     
     [t setTokenizerState:t.symbolState from:'\n' to:'\n'];
+    [t.whitespaceState setWhitespaceChars:NO from:'\n' to:'\n'];
     [t setTokenizerState:t.symbolState from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'\'' to:'\''];
