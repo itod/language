@@ -2468,9 +2468,11 @@
 - (void)__arrayLiteral {
     
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:NO]; 
+    [self nl_]; 
     if ([self speculate:^{ [self elemList_]; }]) {
         [self elemList_]; 
     }
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
     [self execute:^{
     
@@ -2492,8 +2494,10 @@
 - (void)__elemList {
     
     [self expr_]; 
-    while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self expr_]; }]) {
+    while ([self speculate:^{ [self nl_]; [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self nl_]; [self expr_]; }]) {
+        [self nl_]; 
         [self match:XP_TOKEN_KIND_COMMA discard:YES]; 
+        [self nl_]; 
         [self expr_]; 
     }
 
@@ -2507,9 +2511,11 @@
 - (void)__dictLiteral {
     
     [self match:XP_TOKEN_KIND_OPEN_CURLY discard:NO]; 
+    [self nl_]; 
     if ([self speculate:^{ [self pairList_]; }]) {
         [self pairList_]; 
     }
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
     [self execute:^{
     
@@ -2531,8 +2537,10 @@
 - (void)__pairList {
     
     [self pair_]; 
-    while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self pair_]; }]) {
+    while ([self speculate:^{ [self nl_]; [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self nl_]; [self pair_]; }]) {
+        [self nl_]; 
         [self match:XP_TOKEN_KIND_COMMA discard:YES]; 
+        [self nl_]; 
         [self pair_]; 
     }
 
@@ -2546,7 +2554,9 @@
 - (void)__pair {
     
     [self expr_]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_COLON discard:NO]; 
+    [self nl_]; 
     [self expr_]; 
     [self execute:^{
     

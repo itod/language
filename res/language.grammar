@@ -697,24 +697,24 @@ varRef = qid {
     PUSH(refNode);
 };
 
-arrayLiteral = '[' elemList? ']'! {
+arrayLiteral = '[' nl elemList? nl ']'! {
     NSArray *els = REV(ABOVE(_openSquareTok));
     POP(); // square
     XPNode *arrNode = [XPNode nodeWithToken:_arrayTok];
     [arrNode addChildren:els];
     PUSH(arrNode);
 };
-elemList = expr (','! expr)*;
+elemList = expr (nl ','! nl expr)*;
 
-dictLiteral = '{' pairList? '}'! {
+dictLiteral = '{' nl pairList? nl '}'! {
     NSArray *pairs = ABOVE(_openCurlyTok);
     POP(); // culry
     XPNode *dictNode = [XPNode nodeWithToken:_dictTok];
     [dictNode addChildren:pairs];
     PUSH(dictNode);
 };
-pairList = pair (','! pair)*;
-pair = expr ':' expr {
+pairList = pair (nl ','! nl pair)*;
+pair = expr nl ':' nl expr {
     XPNode *valExpr = POP();
     PKToken *colonTok = POP();
     XPNode *keyExpr = POP();
