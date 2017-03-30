@@ -109,17 +109,24 @@
 }
 
 
-- (NSUInteger)lineNumber {
+- (XPNode *)lineNumberNode {
+    XPNode *found = nil;
     NSUInteger lineNum = _token.lineNumber;
     
     if (NSNotFound == lineNum) {
-        for (XPNode *node in _kids) {
-            lineNum = [node lineNumber];
-            if (NSNotFound != lineNum) break;
+        for (XPNode *kid in _kids) {
+            kid = kid.lineNumberNode;
+            lineNum = kid.token.lineNumber;
+            if (NSNotFound != lineNum) {
+                found = kid;
+                break;
+            }
         }
+    } else {
+        found = self;
     }
     
-    return lineNum;
+    return found;
 }
 
 

@@ -509,7 +509,8 @@
     XPObject *thrownObj = [self walk:expr];
 
     XPUserThrownException *ex = [[[XPUserThrownException alloc] initWithThrownObject:thrownObj] autorelease];
-    ex.lineNumber = node.lineNumber;
+    node = node.lineNumberNode;
+    ex.lineNumber = node.token.lineNumber;
     ex.range = NSMakeRange(node.token.offset, [node.name length]);
     [ex raise];
 }
@@ -566,8 +567,8 @@
 
     NSString *name = funcSym.name;
     XPFunctionSpace *funcSpace = [[[XPFunctionSpace alloc] initWithSymbol:funcSym] autorelease];
-    TDAssert(NSNotFound != node.lineNumber);
-    funcSpace.lineNumber = node.lineNumber;
+    TDAssert(NSNotFound != node.lineNumberNode.token.lineNumber);
+    funcSpace.lineNumber = node.lineNumberNode.token.lineNumber;
     funcSpace.wantsPause = self.wantsPauseOnCall;
 
     // APPLY DEFAULT PARAMS
@@ -622,8 +623,8 @@
             // PUSH MEMORY SPACE
             XPMemorySpace *savedCurrentSpace = self.currentSpace;
             TDAssert(savedCurrentSpace);
-            TDAssert(NSNotFound != node.lineNumber);
-            savedCurrentSpace.lineNumber = node.lineNumber;
+            TDAssert(NSNotFound != node.lineNumberNode.token.lineNumber);
+            savedCurrentSpace.lineNumber = node.lineNumberNode.token.lineNumber;
             
             self.currentSpace = funcSpace;
             XPMemorySpace *savedClosureSpace = self.closureSpace;

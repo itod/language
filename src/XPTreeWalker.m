@@ -207,7 +207,8 @@
     va_end(vargs);
 
     XPException *ex = [[[XPException alloc] initWithName:name reason:reason userInfo:nil] autorelease];
-    ex.lineNumber = node.lineNumber;
+    node = node.lineNumberNode;
+    ex.lineNumber = node.token.lineNumber;
     ex.range = NSMakeRange(node.token.offset, [node.name length]);
     [ex raise];
 }
@@ -330,7 +331,7 @@
     } else {
         // top-level
         self.currentSpace = _globals;
-        _currentSpace.lineNumber = node.lineNumber;
+        _currentSpace.lineNumber = node.lineNumberNode.token.lineNumber;
     }
     TDAssert(_currentSpace);
     
@@ -361,7 +362,7 @@
     for (XPNode *stat in node.children) {
         if (_debug) {
             BOOL shouldPause = self.currentSpace.wantsPause;
-            NSUInteger lineNum = stat.lineNumber; // checks recursively
+            NSUInteger lineNum = stat.lineNumberNode.token.lineNumber; // checks recursively
             
             if (!shouldPause) {
                 shouldPause = [self shouldPauseAtLineNumber:lineNum];
