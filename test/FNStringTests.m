@@ -107,7 +107,6 @@
     
     [self eval:@"var s=replace('darted', '^(.*?)d(.*)$', '$1c$2');"];
     TDEqualObjects(@"carted", [self stringForName:@"s"]);
-    
 }
 
 //replace("abracadabra", "bra", "*") returns "a*cada*"

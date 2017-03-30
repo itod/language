@@ -206,6 +206,7 @@
 		D3DF58C71E42F346006CAA07 /* XPFunctionSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58C51E42F346006CAA07 /* XPFunctionSpace.m */; };
 		D3DF58CD1E44E276006CAA07 /* XPIfBlockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58CC1E44E276006CAA07 /* XPIfBlockTests.m */; };
 		D3DF58CF1E44F69F006CAA07 /* XPWhileBlockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58CE1E44F69F006CAA07 /* XPWhileBlockTests.m */; };
+		D3E79A031E8D5933001F9DC7 /* XPNewlineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E79A021E8D5933001F9DC7 /* XPNewlineTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -426,6 +427,7 @@
 		D3DF58C51E42F346006CAA07 /* XPFunctionSpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFunctionSpace.m; path = src/XPFunctionSpace.m; sourceTree = SOURCE_ROOT; };
 		D3DF58CC1E44E276006CAA07 /* XPIfBlockTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPIfBlockTests.m; path = test/XPIfBlockTests.m; sourceTree = SOURCE_ROOT; };
 		D3DF58CE1E44F69F006CAA07 /* XPWhileBlockTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPWhileBlockTests.m; path = test/XPWhileBlockTests.m; sourceTree = SOURCE_ROOT; };
+		D3E79A021E8D5933001F9DC7 /* XPNewlineTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPNewlineTests.m; path = test/XPNewlineTests.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -735,6 +737,7 @@
 			children = (
 				D373169C1E3EBA490034798E /* XPBaseStatementTests.h */,
 				D373169D1E3EBA490034798E /* XPBaseStatementTests.m */,
+				D3E79A021E8D5933001F9DC7 /* XPNewlineTests.m */,
 				D37316921E3EB75F0034798E /* XPVarDeclTests.m */,
 				D37316E71E3FB6AD0034798E /* XPAssignTests.m */,
 				D3DF58CC1E44E276006CAA07 /* XPIfBlockTests.m */,
@@ -1144,6 +1147,7 @@
 				D373169E1E3EBA490034798E /* XPBaseStatementTests.m in Sources */,
 				D34A56891E80E2AE0064DF65 /* XPTryTests.m in Sources */,
 				D3166DF51E53B38A00DEE3A0 /* FNTypeTests.m in Sources */,
+				D3E79A031E8D5933001F9DC7 /* XPNewlineTests.m in Sources */,
 				D3B5F7361E47F50C00740161 /* XPArrayLiteralTests.m in Sources */,
 				D3166E1C1E54BF4200DEE3A0 /* FNStringTests.m in Sources */,
 				D368A01A1E3BE4F8005783BB /* XPEqualityExpressionTests.m in Sources */,
