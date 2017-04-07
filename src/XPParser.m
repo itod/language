@@ -1589,7 +1589,6 @@
     funcSym.scope = _currentScope;
     // don't define fyncSym here
     PKToken *subTok = POP();
-    funcSym.lineNumber = subTok.lineNumber;
     XPNode *funcNode = [XPNode nodeWithToken:_anonTok];
     [funcNode addChild:(id)funcSym];
     PUSH(funcNode);

@@ -99,4 +99,9 @@
     [_defaultParamObjects setObject:obj forKey:name];
 }
 
+
+- (XPNode *)lineNumberNode {
+    return _blockNode;
+}
+
 @end
