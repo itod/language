@@ -25,7 +25,7 @@
 }
 
 - (void)testFooEq2 {
-    [self eval:@"var foo = 1; foo = 2;"];
+    [self exec:@"var foo = 1; foo = 2;"];
     TDEquals(2.0, [self doubleForName:@"foo"]);
 }
 
@@ -35,58 +35,58 @@
 }
 
 - (void)testFuncAssignGlobal {
-    [self eval:@"var x=1;foo();sub foo(){x=2;}"];
+    [self exec:@"var x=1;foo();sub foo(){x=2;}"];
     TDEquals(2.0, [self doubleForName:@"x"]);
 }
 
 - (void)testFuncOverrideGlobal {
-    [self eval:@"var x=1;foo();sub foo(){var x=2;}"];
+    [self exec:@"var x=1;foo();sub foo(){var x=2;}"];
     TDEquals(1.0, [self doubleForName:@"x"]);
 }
 
 - (void)testFuncNestedOverride {
-    [self eval:@"var x=1;var y=0;f();sub f(){var x=2;var y=1000;g();}sub g(){y=x;}"];
+    [self exec:@"var x=1;var y=0;f();sub f(){var x=2;var y=1000;g();}sub g(){y=x;}"];
     TDEquals(1.0, [self doubleForName:@"y"]);
 }
 
 - (void)testLocalNestedOverride {
-    [self eval:@"var x=1;var y=0;{var x=2;y=10;}"];
+    [self exec:@"var x=1;var y=0;{var x=2;y=10;}"];
     TDEquals(1.0, [self doubleForName:@"x"]);
     TDEquals(10.0, [self doubleForName:@"y"]);
 }
 
 - (void)testLocalNestedAssign {
-    [self eval:@"var x=1;{x=2;}"];
+    [self exec:@"var x=1;{x=2;}"];
     TDEquals(2.0, [self doubleForName:@"x"]);
 }
 
 - (void)testAssignNull {
-    [self eval:@"var x=1;x=null;"];
+    [self exec:@"var x=1;x=null;"];
     TDEqualObjects([XPObject nullObject], [self valueForName:@"x"]);
 }
 
 - (void)testAssignNaN {
-    [self eval:@"var x=1;x=NaN;"];
+    [self exec:@"var x=1;x=NaN;"];
     TDEqualObjects([XPObject nanObject], [self valueForName:@"x"]);
 }
 
 - (void)testPlusEq {
-    [self eval:@"var x=1;x+=1;"];
+    [self exec:@"var x=1;x+=1;"];
     TDEquals(2.0, [self doubleForName:@"x"]);
 }
 
 - (void)testMinusEq {
-    [self eval:@"var x=1;x-=1;"];
+    [self exec:@"var x=1;x-=1;"];
     TDEquals(0.0, [self doubleForName:@"x"]);
 }
 
 - (void)testTimesEq {
-    [self eval:@"var x=1;x*=3;"];
+    [self exec:@"var x=1;x*=3;"];
     TDEquals(3.0, [self doubleForName:@"x"]);
 }
 
 - (void)testDivEq {
-    [self eval:@"var x=9;x/=3;"];
+    [self exec:@"var x=9;x/=3;"];
     TDEquals(3.0, [self doubleForName:@"x"]);
 }
 

@@ -25,51 +25,51 @@
 }
 
 - (void)testIfTrueParse {
-    [self eval:@"if true {}"];
+    [self exec:@"if true {}"];
 }
 
 - (void)testIfTrue {
-    [self eval:@"var foo = 0; if true {foo=1;}"];
+    [self exec:@"var foo = 0; if true {foo=1;}"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfTrueElse {
-    [self eval:@"var foo = 0; if true {} else {foo=1;}"];
+    [self exec:@"var foo = 0; if true {} else {foo=1;}"];
     TDEquals(0.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfFalseElse {
-    [self eval:@"var foo = 0; if false {} else {foo=1;}"];
+    [self exec:@"var foo = 0; if false {} else {foo=1;}"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfFalseElseIfTrue {
-    [self eval:@"var foo = 0; if false {} else if true {foo=1;}"];
+    [self exec:@"var foo = 0; if false {} else if true {foo=1;}"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfFalseElseIfFalseElseIfTrue {
-    [self eval:@"var foo = 0; if false {} else if false {} else if true {foo=1;}"];
+    [self exec:@"var foo = 0; if false {} else if false {} else if true {foo=1;}"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfFalseElseIfFalseElse {
-    [self eval:@"var foo = 0; if false {} else if false {} else {foo=1;}"];
+    [self exec:@"var foo = 0; if false {} else if false {} else {foo=1;}"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfFalseElseIfTrueElseIfTrue {
-    [self eval:@"var foo = 0; if false {} else if true {foo=10;} else if true {foo=1;}"];
+    [self exec:@"var foo = 0; if false {} else if true {foo=10;} else if true {foo=1;}"];
     TDEquals(10.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfTrueElseIfTrueElseIfTrue {
-    [self eval:@"var foo = 0; if true {foo=3;} else if true {foo=10;} else if true {foo=1;}"];
+    [self exec:@"var foo = 0; if true {foo=3;} else if true {foo=10;} else if true {foo=1;}"];
     TDEquals(3.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testIfFalseElseIfTrueElse {
-    [self eval:@"var foo = 0; if false {} else if true {foo=11;} else {foo=1;}"];
+    [self exec:@"var foo = 0; if false {} else if true {foo=11;} else {foo=1;}"];
     TDEquals(11.0, [self doubleForName:@"foo"]);
 }
 

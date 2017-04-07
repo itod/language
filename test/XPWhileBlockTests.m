@@ -25,31 +25,31 @@
 }
 
 - (void)testWhileTrueParse {
-    [self eval:@"while true {break;}"];
+    [self exec:@"while true {break;}"];
 }
 
 - (void)testWhileTrueBreak {
-    [self eval:@"var x=0;while true {x=x+1;if x>2 {break;}}"];
+    [self exec:@"var x=0;while true {x=x+1;if x>2 {break;}}"];
     TDEquals(3.0, [self doubleForName:@"x"]);
 }
 
 - (void)testWhileTrueContinue {
-    [self eval:@"var x=0;while true {x=x+1;if x<=4 {continue;} break;}"];
+    [self exec:@"var x=0;while true {x=x+1;if x<=4 {continue;} break;}"];
     TDEquals(5.0, [self doubleForName:@"x"]);
 }
 
 - (void)testWhile1 {
-    [self eval:@"var i=10;var c=0;while i>0{i=0;c=10;}"];
+    [self exec:@"var i=10;var c=0;while i>0{i=0;c=10;}"];
     TDEquals(10.0, [self doubleForName:@"c"]);
 }
 
 - (void)testWhile10 {
-    [self eval:@"var i=10;var c=0;while i>0{i=0;c=c+1;}"];
+    [self exec:@"var i=10;var c=0;while i>0{i=0;c=c+1;}"];
     TDEquals(1.0, [self doubleForName:@"c"]);
 }
 
 - (void)testWhile5 {
-    [self eval:@"var i=5;var c=0;while i>0{i=i-1;c=c+1;}"];
+    [self exec:@"var i=5;var c=0;while i>0{i=i-1;c=c+1;}"];
     TDEquals(5.0, [self doubleForName:@"c"]);
 }
 

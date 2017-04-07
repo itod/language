@@ -25,27 +25,27 @@
 }
 
 - (void)testTry {
-    [self eval:@"var x='foo';try{x='bar'}catch e{}finally{}"];
+    [self exec:@"var x='foo';try{x='bar'}catch e{}finally{}"];
     TDEqualObjects(@"bar", [self stringForName:@"x"]);
 }
 
 - (void)testCatch {
-    [self eval:@"var x='foo';try{throw 'boo'}catch e{x='bar'}finally{}"];
+    [self exec:@"var x='foo';try{throw 'boo'}catch e{x='bar'}finally{}"];
     TDEqualObjects(@"bar", [self stringForName:@"x"]);
 }
 
 - (void)testCatchFinally {
-    [self eval:@"var x='foo';try{x='bar'}catch e{}finally{x='baz'}"];
+    [self exec:@"var x='foo';try{x='bar'}catch e{}finally{x='baz'}"];
     TDEqualObjects(@"baz", [self stringForName:@"x"]);
 }
 
 - (void)testFinally {
-    [self eval:@"var x='foo';try{x='bar'}finally{x='baz'}"];
+    [self exec:@"var x='foo';try{x='bar'}finally{x='baz'}"];
     TDEqualObjects(@"baz", [self stringForName:@"x"]);
 }
 
 - (void)testCatchLocalsCount {
-    [self eval:@"var c=0;try{throw'foo'}catch e{c=count(locals())}"];
+    [self exec:@"var c=0;try{throw'foo'}catch e{c=count(locals())}"];
     TDEquals(1.0, [self doubleForName:@"c"]);
 }
 

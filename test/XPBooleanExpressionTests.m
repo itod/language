@@ -24,77 +24,77 @@
 }
 
 - (void)test1 {
-    [self eval:@"var foo=1;"];
+    [self exec:@"var foo=1;"];
     TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)test0 {
-    [self eval:@"var foo=0;"];
+    [self exec:@"var foo=0;"];
     TDFalse([self boolForName:@"foo"]);
 }
 
 - (void)testTrue {
-    [self eval:@"var foo=true;"];
+    [self exec:@"var foo=true;"];
     TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)testFalse {
-    [self eval:@"var foo=false;"];
+    [self exec:@"var foo=false;"];
     TDFalse([self boolForName:@"foo"]);
 }
 
 - (void)testOpenTrueClose {
-    [self eval:@"var foo=(true);"];
+    [self exec:@"var foo=(true);"];
     TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)testOpenFalseClose {
-    [self eval:@"var foo=(false);"];
+    [self exec:@"var foo=(false);"];
     TDFalse([self boolForName:@"foo"]);
 }
 
 - (void)testSQString {
-    [self eval:@"var foo='hello';"];
+    [self exec:@"var foo='hello';"];
     TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)testEmptySQString {
-    [self eval:@"var foo='';"];
+    [self exec:@"var foo='';"];
     TDFalse([self boolForName:@"foo"]);
 }
 
 - (void)test1And0 {
-    [self eval:@"var foo=1 and 0;"];
+    [self exec:@"var foo=1 and 0;"];
     TDFalse([self boolForName:@"foo"]);
 }
 
 - (void)test0And1 {
-    [self eval:@"var foo=0 and 1;"];
+    [self exec:@"var foo=0 and 1;"];
     TDFalse([self boolForName:@"foo"]);
 }
 
 - (void)test1And1 {
-    [self eval:@"var foo=1 and 1;"];
+    [self exec:@"var foo=1 and 1;"];
     TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)test1Or0 {
-    [self eval:@"var foo=1 or 0;"];
+    [self exec:@"var foo=1 or 0;"];
     TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)test1PipePipe0 {
-    [self eval:@"var foo=1 or 0;"];
+    [self exec:@"var foo=1 or 0;"];
     TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)test0Or1 {
-    [self eval:@"var foo=0 or 1;"];
+    [self exec:@"var foo=0 or 1;"];
     TDTrue([self boolForName:@"foo"]);
 }
 
 - (void)test1Or1 {
-    [self eval:@"var foo=1 or 1;"];
+    [self exec:@"var foo=1 or 1;"];
     TDTrue([self boolForName:@"foo"]);
 }
 

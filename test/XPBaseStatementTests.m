@@ -13,6 +13,9 @@
 - (void)setUp {
     [super setUp];
     
+    self.stat = nil;
+    self.interp = [[[XPInterpreter alloc] init] autorelease];
+    self.error = nil;
 }
 
 - (void)tearDown {
@@ -48,7 +51,7 @@
 }
 
 
-- (void)eval:(NSString *)input {
+- (void)exec:(NSString *)input {
     {
         self.stat = nil;
         self.interp = [[[XPInterpreter alloc] init] autorelease];
@@ -73,6 +76,24 @@
     [self.interp interpretString:input filePath:nil error:&err];
     TDNotNil(err);
     self.error = err;
+}
+
+
+- (void)establish:(NSString *)input {
+    NSError *err = nil;
+    [self.interp interpretString:input filePath:nil error:&err];
+    TDNil(err);
+    self.error = err;
+}
+
+
+- (id)eval:(NSString *)input {
+    NSError *err = nil;
+    [self.interp interpretString:input filePath:nil error:&err];
+    TDNil(err);
+    self.error = err;
+    
+    return nil;
 }
 
 

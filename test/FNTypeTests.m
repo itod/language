@@ -25,82 +25,82 @@
 }
 
 - (void)testTypeNull {
-    [self eval:@"var b=type(null)=='Object';"];
+    [self exec:@"var b=type(null)=='Object';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testTypeTrue {
-    [self eval:@"var b=type(true)=='Boolean';"];
+    [self exec:@"var b=type(true)=='Boolean';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testTypeFalse {
-    [self eval:@"var b=type(false)=='Boolean';"];
+    [self exec:@"var b=type(false)=='Boolean';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testType1 {
-    [self eval:@"var b=type(1)=='Number';"];
+    [self exec:@"var b=type(1)=='Number';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testTypeNeg1 {
-    [self eval:@"var b=type(-1)=='Number';"];
+    [self exec:@"var b=type(-1)=='Number';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testType0 {
-    [self eval:@"var b=type(0)=='Number';"];
+    [self exec:@"var b=type(0)=='Number';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testTypeNaN {
-    [self eval:@"var b=type(NaN)=='Number';"];
+    [self exec:@"var b=type(NaN)=='Number';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testTypeString {
-    [self eval:@"var b=type('foo')=='String';"];
+    [self exec:@"var b=type('foo')=='String';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)test1Eq1 {
-    [self eval:@"var b=1=='1';"];
+    [self exec:@"var b=1=='1';"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)test1Eq2 {
-    [self eval:@"var b=1=='2';"];
+    [self exec:@"var b=1=='2';"];
     TDEquals(NO, [self boolForName:@"b"]);
 }
 
 - (void)testNumber1EqNumberTrue {
-    [self eval:@"var b=Number('1')==Number(true);"];
+    [self exec:@"var b=Number('1')==Number(true);"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testIsNan {
-    [self eval:@"var b=isNaN(1);"];
+    [self exec:@"var b=isNaN(1);"];
     TDFalse([self boolForName:@"b"]);
 }
 
 - (void)testIsNan1 {
-    [self eval:@"var b=isNaN(0.0);"];
+    [self exec:@"var b=isNaN(0.0);"];
     TDFalse([self boolForName:@"b"]);
 }
 
 - (void)testIsNan2 {
-    [self eval:@"var b=isNaN('NaN');"];
+    [self exec:@"var b=isNaN('NaN');"];
     TDFalse([self boolForName:@"b"]);
 }
 
 - (void)testIsNan3 {
-    [self eval:@"var b=isNaN(NaN);"];
+    [self exec:@"var b=isNaN(NaN);"];
     TDTrue([self boolForName:@"b"]);
 }
 
 - (void)testIsNan4 {
-    [self eval:@"var foo=NaN;var b=isNaN(foo);"];
+    [self exec:@"var foo=NaN;var b=isNaN(foo);"];
     TDTrue([self boolForName:@"b"]);
 }
 

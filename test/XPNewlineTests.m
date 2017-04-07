@@ -28,258 +28,258 @@
 #pragma mark EXPR
 
 - (void)testOrExpr {
-    [self eval:@"var foo=0 or 1"];
+    [self exec:@"var foo=0 or 1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=0\nor 1"];
+    [self exec:@"var foo=0\nor 1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=0 or\n1"];
+    [self exec:@"var foo=0 or\n1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=(0 or 1)"];
+    [self exec:@"var foo=(0 or 1)"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=(\n0 or 1)"];
+    [self exec:@"var foo=(\n0 or 1)"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=(0\nor 1)"];
+    [self exec:@"var foo=(0\nor 1)"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=(0 or\n1)"];
+    [self exec:@"var foo=(0 or\n1)"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=(0 or 1\n)"];
+    [self exec:@"var foo=(0 or 1\n)"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testAndExpr {
-    [self eval:@"var foo=0 and 1"];
+    [self exec:@"var foo=0 and 1"];
     TDEquals(0.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=0\nand 1"];
+    [self exec:@"var foo=0\nand 1"];
     TDEquals(0.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=0 and\n1"];
+    [self exec:@"var foo=0 and\n1"];
     TDEquals(0.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=(0 and 1)"];
+    [self exec:@"var foo=(0 and 1)"];
     TDEquals(0.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=(\n0 and 1)"];
+    [self exec:@"var foo=(\n0 and 1)"];
     TDEquals(0.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=(0\nand 1)"];
+    [self exec:@"var foo=(0\nand 1)"];
     TDEquals(0.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=(0 and\n1)"];
+    [self exec:@"var foo=(0 and\n1)"];
     TDEquals(0.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=(0 and 1\n)"];
+    [self exec:@"var foo=(0 and 1\n)"];
     TDEquals(0.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testEqualityExpr {
-    [self eval:@"var foo=0\n==1"];
+    [self exec:@"var foo=0\n==1"];
     TDEquals(NO, [self boolForName:@"foo"]);
     
-    [self eval:@"var foo=0==\n1"];
+    [self exec:@"var foo=0==\n1"];
     TDEquals(NO, [self boolForName:@"foo"]);
 }
 
 - (void)testRelationalExpr {
-    [self eval:@"var foo=0\n>1"];
+    [self exec:@"var foo=0\n>1"];
     TDEquals(NO, [self boolForName:@"foo"]);
     
-    [self eval:@"var foo=0>\n1"];
+    [self exec:@"var foo=0>\n1"];
     TDEquals(NO, [self boolForName:@"foo"]);
 }
 
 - (void)testMathExpr {
-    [self eval:@"var foo=1\n+1"];
+    [self exec:@"var foo=1\n+1"];
     TDEquals(2.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=1+\n1"];
+    [self exec:@"var foo=1+\n1"];
     TDEquals(2.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testNegatedUnaryExpr {
-    [self eval:@"var foo=not 1"];
+    [self exec:@"var foo=not 1"];
     TDEquals(0.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=not\n1"];
+    [self exec:@"var foo=not\n1"];
     TDEquals(0.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testSignedPrimaryExpr {
-    [self eval:@"var foo=-\n1"];
+    [self exec:@"var foo=-\n1"];
     TDEquals(-1.0, [self doubleForName:@"foo"]);
     
     TDEquals(~1, -2);
     
-    [self eval:@"var foo=~1"];
+    [self exec:@"var foo=~1"];
     TDEquals(-2.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=~\n1"];
+    [self exec:@"var foo=~\n1"];
     TDEquals(-2.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testFuncCall {
-    [self eval:@"var foo=ceil(12.5)"];
+    [self exec:@"var foo=ceil(12.5)"];
     TDEquals(13.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=ceil\n(12.5)"];
+    [self exec:@"var foo=ceil\n(12.5)"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     TDEqualObjects(@"<sub ceil>", [self stringForName:@"foo"]);
     
-    [self eval:@"var foo=ceil(\n12.5)"];
+    [self exec:@"var foo=ceil(\n12.5)"];
     TDEquals(13.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=ceil(12.5\n)"];
+    [self exec:@"var foo=ceil(12.5\n)"];
     TDEquals(13.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=pow(3.0,2.0)"];
+    [self exec:@"var foo=pow(3.0,2.0)"];
     TDEquals(9.0, [self doubleForName:@"foo"]);
     
     [self fail:@"var foo=pow\n(3.0,2.0)"];
     TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
     
-    [self eval:@"var foo=pow(\n3.0,2.0)"];
+    [self exec:@"var foo=pow(\n3.0,2.0)"];
     TDEquals(9.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=pow(3.0\n,2.0)"];
+    [self exec:@"var foo=pow(3.0\n,2.0)"];
     TDEquals(9.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=pow(3.0,\n2.0)"];
+    [self exec:@"var foo=pow(3.0,\n2.0)"];
     TDEquals(9.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=pow(3.0,2.0\n)"];
+    [self exec:@"var foo=pow(3.0,2.0\n)"];
     TDEquals(9.0, [self doubleForName:@"foo"]);
 
 
 
-    [self eval:@"var foo=ceil(12.5)"];
+    [self exec:@"var foo=ceil(12.5)"];
     TDEquals(13.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=ceil \n (12.5)"];
+    [self exec:@"var foo=ceil \n (12.5)"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     TDEqualObjects(@"<sub ceil>", [self stringForName:@"foo"]);
     
-    [self eval:@"var foo=ceil( \n 12.5)"];
+    [self exec:@"var foo=ceil( \n 12.5)"];
     TDEquals(13.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=ceil(12.5 \n )"];
+    [self exec:@"var foo=ceil(12.5 \n )"];
     TDEquals(13.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=pow(3.0,2.0)"];
+    [self exec:@"var foo=pow(3.0,2.0)"];
     TDEquals(9.0, [self doubleForName:@"foo"]);
     
     [self fail:@"var foo=pow \n (3.0,2.0)"];
     TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
     
-    [self eval:@"var foo=pow( \n 3.0,2.0)"];
+    [self exec:@"var foo=pow( \n 3.0,2.0)"];
     TDEquals(9.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=pow(3.0 \n ,2.0)"];
+    [self exec:@"var foo=pow(3.0 \n ,2.0)"];
     TDEquals(9.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=pow(3.0, \n 2.0)"];
+    [self exec:@"var foo=pow(3.0, \n 2.0)"];
     TDEquals(9.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=pow(3.0,2.0 \n )"];
+    [self exec:@"var foo=pow(3.0,2.0 \n )"];
     TDEquals(9.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testSlicing {
-    [self eval:@"var foo=['a','b','c','d'][1]"];
+    [self exec:@"var foo=['a','b','c','d'][1]"];
     TDEqualObjects(@"a", [self stringForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][\n1]"];
+    [self exec:@"var foo=['a','b','c','d'][\n1]"];
     TDEqualObjects(@"a", [self stringForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][\n1\n]"];
+    [self exec:@"var foo=['a','b','c','d'][\n1\n]"];
     TDEqualObjects(@"a", [self stringForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][1\n]"];
+    [self exec:@"var foo=['a','b','c','d'][1\n]"];
     TDEqualObjects(@"a", [self stringForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][1:2]"];
+    [self exec:@"var foo=['a','b','c','d'][1:2]"];
     TDEqualObjects(@"['a', 'b']", [self descriptionForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][\n1:2]"];
+    [self exec:@"var foo=['a','b','c','d'][\n1:2]"];
     TDEqualObjects(@"['a', 'b']", [self descriptionForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][1\n:2]"];
+    [self exec:@"var foo=['a','b','c','d'][1\n:2]"];
     TDEqualObjects(@"['a', 'b']", [self descriptionForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][1:\n2]"];
+    [self exec:@"var foo=['a','b','c','d'][1:\n2]"];
     TDEqualObjects(@"['a', 'b']", [self descriptionForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][1:2\n]"];
+    [self exec:@"var foo=['a','b','c','d'][1:2\n]"];
     TDEqualObjects(@"['a', 'b']", [self descriptionForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][1:4:2]"];
+    [self exec:@"var foo=['a','b','c','d'][1:4:2]"];
     TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][\n1:4:2]"];
+    [self exec:@"var foo=['a','b','c','d'][\n1:4:2]"];
     TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][1\n:4:2]"];
+    [self exec:@"var foo=['a','b','c','d'][1\n:4:2]"];
     TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][1:\n4:2]"];
+    [self exec:@"var foo=['a','b','c','d'][1:\n4:2]"];
     TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][1:4\n:2]"];
+    [self exec:@"var foo=['a','b','c','d'][1:4\n:2]"];
     TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][1:4:\n2]"];
+    [self exec:@"var foo=['a','b','c','d'][1:4:\n2]"];
     TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b','c','d'][1:4:2\n]"];
+    [self exec:@"var foo=['a','b','c','d'][1:4:2\n]"];
     TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
 }
 
 - (void)testArrayLiteral {
-    [self eval:@"var foo=['a','b']"];
+    [self exec:@"var foo=['a','b']"];
     TDEqualObjects(@"[a, b]", [self stringForName:@"foo"]);
     
-    [self eval:@"var foo=[\n'a','b']"];
+    [self exec:@"var foo=[\n'a','b']"];
     TDEqualObjects(@"[a, b]", [self stringForName:@"foo"]);
 
-    [self eval:@"var foo=['a'\n,'b']"];
+    [self exec:@"var foo=['a'\n,'b']"];
     TDEqualObjects(@"[a, b]", [self stringForName:@"foo"]);
     
-    [self eval:@"var foo=['a',\n'b']"];
+    [self exec:@"var foo=['a',\n'b']"];
     TDEqualObjects(@"[a, b]", [self stringForName:@"foo"]);
     
-    [self eval:@"var foo=['a','b'\n]"];
+    [self exec:@"var foo=['a','b'\n]"];
     TDEqualObjects(@"[a, b]", [self stringForName:@"foo"]);
 }
 
 - (void)testDictLiteral {
-    [self eval:@"var foo={'a':1,'b':2}['b']"];
+    [self exec:@"var foo={'a':1,'b':2}['b']"];
     TDEquals(2.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo={\n'a':1,'b':2}['b']"];
+    [self exec:@"var foo={\n'a':1,'b':2}['b']"];
     TDEquals(2.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo={'a'\n:1,'b':2}['b']"];
+    [self exec:@"var foo={'a'\n:1,'b':2}['b']"];
     TDEquals(2.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo={'a':\n1,'b':2}['b']"];
+    [self exec:@"var foo={'a':\n1,'b':2}['b']"];
     TDEquals(2.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo={'a':1\n,'b':2}['b']"];
+    [self exec:@"var foo={'a':1\n,'b':2}['b']"];
     TDEquals(2.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo={'a':1,\n'b':2}['b']"];
+    [self exec:@"var foo={'a':1,\n'b':2}['b']"];
     TDEquals(2.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo={'a':1,'b'\n:2}['b']"];
+    [self exec:@"var foo={'a':1,'b'\n:2}['b']"];
     TDEquals(2.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo={'a':1,'b':2\n}['b']"];
+    [self exec:@"var foo={'a':1,'b':2\n}['b']"];
     TDEquals(2.0, [self doubleForName:@"foo"]);
 }
 
@@ -287,52 +287,52 @@
 #pragma mark STAT
 
 - (void)testVarDecl {
-    [self eval:@"var\nfoo = 1"];
+    [self exec:@"var\nfoo = 1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo\n= 1"];
+    [self exec:@"var foo\n= 1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo =\n 1"];
+    [self exec:@"var foo =\n 1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testAssign {
-    [self eval:@"var foo=0;foo\n=1"];
+    [self exec:@"var foo=0;foo\n=1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=0;foo=\n1"];
+    [self exec:@"var foo=0;foo=\n1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testAssignIndex {
-    [self eval:@"var foo=[0];foo\n[1]=1"];
+    [self exec:@"var foo=[0];foo\n[1]=1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=[0];foo[\n1]=1"];
+    [self exec:@"var foo=[0];foo[\n1]=1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=[0];foo[1\n]=1"];
+    [self exec:@"var foo=[0];foo[1\n]=1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=[0];foo[1]\n=1"];
+    [self exec:@"var foo=[0];foo[1]\n=1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=[0];foo[1]=\n1"];
+    [self exec:@"var foo=[0];foo[1]=\n1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testAssignAppend {
-    [self eval:@"var foo=[];foo\n[]=1"];
+    [self exec:@"var foo=[];foo\n[]=1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=[];foo[\n]=1"];
+    [self exec:@"var foo=[];foo[\n]=1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=[];foo[]\n=1"];
+    [self exec:@"var foo=[];foo[]\n=1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=[];foo[]=\n1"];
+    [self exec:@"var foo=[];foo[]=\n1"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
@@ -347,10 +347,10 @@
 }
 
 - (void)testReturnStat {
-    [self eval:@"var foo=sub(){return 11}()"];
+    [self exec:@"var foo=sub(){return 11}()"];
     TDEquals(11.0, [self doubleForName:@"foo"]);
 
-    [self eval:@"var foo=sub(){return\n11}()"];
+    [self exec:@"var foo=sub(){return\n11}()"];
     TDEquals(11.0, [self doubleForName:@"foo"]);
 }
 
@@ -358,19 +358,19 @@
 #pragma mark BLOCK
 
 - (void)testIfBlock {
-    [self eval:@"var foo=0;if 1 {foo=22}"];
+    [self exec:@"var foo=0;if 1 {foo=22}"];
     TDEquals(22.0, [self doubleForName:@"foo"]);
 
-    [self eval:@"var foo=0;if\n1 {foo=22}"];
+    [self exec:@"var foo=0;if\n1 {foo=22}"];
     TDEquals(22.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=0;if 1\n{foo=22}"];
+    [self exec:@"var foo=0;if 1\n{foo=22}"];
     TDEquals(22.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=0;if 1 {\nfoo=22}"];
+    [self exec:@"var foo=0;if 1 {\nfoo=22}"];
     TDEquals(22.0, [self doubleForName:@"foo"]);
     
-    [self eval:@"var foo=0;if 1 {foo=22\n}"];
+    [self exec:@"var foo=0;if 1 {foo=22\n}"];
     TDEquals(22.0, [self doubleForName:@"foo"]);
 }
 
@@ -378,7 +378,7 @@
 
 
 //- (void)testFuncCallArgument {
-//    [self eval:@"var s=replace('abracadabra',\n'bra', '*');"];
+//    [self exec:@"var s=replace('abracadabra',\n'bra', '*');"];
 //    TDEqualObjects(@"a*cada*", [self stringForName:@"s"]);
 //}
 

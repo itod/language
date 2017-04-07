@@ -24,57 +24,57 @@
 }
 
 - (void)testHex {
-    [self eval:@"var n=#F;"];
+    [self exec:@"var n=#F;"];
     TDEquals(15.0, [self doubleForName:@"n"]);
 
-    [self eval:@"var n=#FF;"];
+    [self exec:@"var n=#FF;"];
     TDEquals(255.0, [self doubleForName:@"n"]);
 }
 
 - (void)testBin {
-    [self eval:@"var n=$10;"];
+    [self exec:@"var n=$10;"];
     TDEquals(2.0, [self doubleForName:@"n"]);
 }
 
 - (void)testBitNot {
-    [self eval:@"var n=~$1;"];
+    [self exec:@"var n=~$1;"];
     TDEquals(-2.0, [self doubleForName:@"n"]);
 
-    [self eval:@"var n=~$10;"];
+    [self exec:@"var n=~$10;"];
     TDEquals(-3.0, [self doubleForName:@"n"]);
 }
 
 - (void)testBitAnd {
-    [self eval:@"var n=$10 & $1;"];
+    [self exec:@"var n=$10 & $1;"];
     TDEquals(0.0, [self doubleForName:@"n"]);
 }
 
 - (void)testBitOr {
-    [self eval:@"var n=$10 | $1;"];
+    [self exec:@"var n=$10 | $1;"];
     TDEquals(3.0, [self doubleForName:@"n"]);
 }
 
 - (void)testBitXOr {
-    [self eval:@"var n=$010 ^ $101;"];
+    [self exec:@"var n=$010 ^ $101;"];
     TDEquals(7.0, [self doubleForName:@"n"]);
 }
 
 - (void)testShiftLeft {
-    [self eval:@"var n=$1 << 1;"];
+    [self exec:@"var n=$1 << 1;"];
     TDEquals(2.0, [self doubleForName:@"n"]);
     
-    [self eval:@"var n=$1 << 2;"];
+    [self exec:@"var n=$1 << 2;"];
     TDEquals(4.0, [self doubleForName:@"n"]);
     
-    [self eval:@"var n=$10 << 2;"];
+    [self exec:@"var n=$10 << 2;"];
     TDEquals(8.0, [self doubleForName:@"n"]);
 }
 
 - (void)testShiftRight {
-    [self eval:@"var n=$10 >> 1;"];
+    [self exec:@"var n=$10 >> 1;"];
     TDEquals(1.0, [self doubleForName:@"n"]);
     
-    [self eval:@"var n=$100 >> 2;"];
+    [self exec:@"var n=$100 >> 2;"];
     TDEquals(1.0, [self doubleForName:@"n"]);
 }
 

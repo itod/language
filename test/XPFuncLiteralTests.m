@@ -25,11 +25,11 @@
 }
 
 - (void)testSub {
-    [self eval:@"var foo = sub () {};"];
+    [self exec:@"var foo = sub () {};"];
 }
 
 - (void)testSubRet1 {
-    [self eval:@"var foo=sub(){return 1;}; var bar=foo();"];
+    [self exec:@"var foo=sub(){return 1;}; var bar=foo();"];
     TDEquals(1.0, [self doubleForName:@"bar"]);
 }
 
@@ -39,22 +39,22 @@
 }
 
 - (void)testFwdFuncValRef {
-    [self eval:@"var bar=foo;var baz=bar();sub foo(){return 33;}"];
+    [self exec:@"var bar=foo;var baz=bar();sub foo(){return 33;}"];
     TDEquals(33.0, [self doubleForName:@"baz"]);
 }
 
 - (void)testFuncDeclRef {
-    [self eval:@"sub foo(){return 33;}var bar=foo;var baz=bar();"];
+    [self exec:@"sub foo(){return 33;}var bar=foo;var baz=bar();"];
     TDEquals(33.0, [self doubleForName:@"baz"]);
 }
 
 - (void)testFuncLiteralCall {
-    [self eval:@"var baz=sub(){return 22}()"];
+    [self exec:@"var baz=sub(){return 22}()"];
     TDEquals(22.0, [self doubleForName:@"baz"]);
 }
 
 - (void)testFuncSubExprCall {
-    [self eval:@"var baz=(sub(){return 88})()"];
+    [self exec:@"var baz=(sub(){return 88})()"];
     TDEquals(88.0, [self doubleForName:@"baz"]);
 }
 

@@ -32,22 +32,22 @@
 }
 
 - (void)testNeg1 {
-    [self eval:@"var foo=-1;"];
+    [self exec:@"var foo=-1;"];
     TDEquals(-1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testNegNeg1 {
-    [self eval:@"var foo=--1;"];
+    [self exec:@"var foo=--1;"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testNegNegNeg1 {
-    [self eval:@"var foo=---1;"];
+    [self exec:@"var foo=---1;"];
     TDEquals(-1.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testNegNegNegNeg1 {
-    [self eval:@"var foo=----1;"];
+    [self exec:@"var foo=----1;"];
     TDEquals(1.0, [self doubleForName:@"foo"]);
 }
 

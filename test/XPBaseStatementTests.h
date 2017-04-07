@@ -16,8 +16,11 @@
 - (XPNode *)statementFromString:(NSString *)str error:(NSError **)outErr;
 - (XPNode *)statementFromTokens:(NSArray *)toks error:(NSError **)outErr;
 
-- (void)eval:(NSString *)input;
+- (void)exec:(NSString *)input;
 - (void)fail:(NSString *)input;
+
+- (void)establish:(NSString *)input;
+- (id)eval:(NSString *)input;
 
 - (BOOL)boolForName:(NSString *)name;
 - (double)doubleForName:(NSString *)name;
