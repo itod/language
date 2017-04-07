@@ -116,7 +116,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 }
 
 
-- (BOOL)interpretFileAtPath:(NSString *)path error:(NSError **)outErr {
+- (id)interpretFileAtPath:(NSString *)path error:(NSError **)outErr {
     TDAssert([path length]);
     
     NSError *err = nil;
@@ -130,7 +130,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 }
 
 
-- (BOOL)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr {
+- (id)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr {
     input = [NSString stringWithFormat:@"%@\n", input]; // ensure final terminator
 
     self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
@@ -230,7 +230,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     }
     
     // EVAL WALK
-    BOOL success = YES;
+    id result = nil;
 
     XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
     walker.globalScope = _globalScope;
@@ -245,9 +245,9 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     [_treeWalkerStack addObject:walker];
 
     @try {
-        [walker walk:_root];
+        result = [walker walk:_root];
     } @catch (XPUserThrownException *rex) {
-        success = NO;
+        result = nil;
         if (outErr) {
             //NSLog(@"%@", rex.reason);
             *outErr = [self errorWithName:rex.name reason:rex.reason range:rex.range lineNumber:rex.lineNumber];
@@ -255,7 +255,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             [rex raise];
         }
     } @catch (XPException *ex) {
-        success = NO;
+        result = nil;
         if (outErr) {
             //NSLog(@"%@", ex.reason);
             *outErr = [self errorWithName:ex.name reason:ex.reason range:ex.range lineNumber:ex.lineNumber];
@@ -268,7 +268,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         self.allScopes = nil;
     }
     
-    return success;
+    return result;
 }
 
 

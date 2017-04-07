@@ -28,9 +28,9 @@
 - (XPMemorySpace *)spaceWithSymbolNamed:(NSString *)name;
 - (void)raise:(NSString *)name node:(XPNode *)node format:(NSString *)fmt, ...;
 
-- (void)block:(XPNode *)node;
-- (void)block:(XPNode *)node withVars:(NSDictionary<NSString *, XPObject *> *)vars;
-- (void)funcBlock:(XPNode *)node;
+- (id)block:(XPNode *)node;
+- (id)block:(XPNode *)node withVars:(NSDictionary<NSString *, XPObject *> *)vars;
+- (id)funcBlock:(XPNode *)node;
 
 @property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, retain) XPMemorySpace *globals;

@@ -220,7 +220,7 @@
     
     switch (node.token.tokenKind) {
 
-        case XP_TOKEN_KIND_BLOCK:           [self block:node]; break;
+        case XP_TOKEN_KIND_BLOCK:           res = [self block:node]; break;
 
 // DECLARATIONS
         case XP_TOKEN_KIND_VAR:             [self varDecl:node]; break;
@@ -316,12 +316,12 @@
 }
 
 
-- (void)block:(XPNode *)node {
-    [self block:node withVars:nil];
+- (id)block:(XPNode *)node {
+    return [self block:node withVars:nil];
 }
 
 
-- (void)block:(XPNode *)node withVars:(NSDictionary<NSString *, XPObject *> *)vars {
+- (id)block:(XPNode *)node withVars:(NSDictionary<NSString *, XPObject *> *)vars {
     XPMemorySpace *savedSpace = _currentSpace;
 
     if (_currentSpace) {
@@ -343,22 +343,26 @@
     [self.callStack removeLastObject];
     [self.callStack addObject:_currentSpace];
     
-    [self doWalkStats:node];
+    id res = [self doWalkStats:node];
         
     [self.callStack removeLastObject];
     if (savedSpace) [self.callStack addObject:savedSpace];
     self.currentSpace = savedSpace;
+    
+    return res;
 }
 
 
 // no new mem space is necessary for func blocks. it's already been created and filled with args
-- (void)funcBlock:(XPNode *)node {
+- (id)funcBlock:(XPNode *)node {
     TDAssert([_currentSpace isKindOfClass:[XPFunctionSpace class]]);
-    [self doWalkStats:node];
+    return [self doWalkStats:node];
 }
 
 
-- (void)doWalkStats:(XPNode *)node {
+- (id)doWalkStats:(XPNode *)node {
+    id res = nil;
+    
     for (XPNode *stat in node.children) {
         if (_debug) {
             BOOL shouldPause = self.currentSpace.wantsPause;
@@ -375,8 +379,10 @@
             }
         }
 
-        [self walk:stat];
+        res = [self walk:stat];
     }
+    
+    return res;
 }
 
 

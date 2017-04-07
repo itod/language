@@ -79,21 +79,18 @@
 }
 
 
-- (void)establish:(NSString *)input {
-    NSError *err = nil;
-    [self.interp interpretString:input filePath:nil error:&err];
-    TDNil(err);
-    self.error = err;
-}
-
-
 - (id)eval:(NSString *)input {
     NSError *err = nil;
-    [self.interp interpretString:input filePath:nil error:&err];
+    id res = [self.interp interpretString:input filePath:nil error:&err];
     TDNil(err);
     self.error = err;
     
-    return nil;
+    return res;
+}
+
+
+- (NSString *)evalString:(NSString *)input {
+    return [[self eval:input] description];
 }
 
 

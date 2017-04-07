@@ -37,8 +37,8 @@ extern NSString * const XPDebugInfoLineNumberKey;
 
 @interface XPInterpreter : NSObject <XPTreeWalkerDelegate>
 
-- (BOOL)interpretFileAtPath:(NSString *)path error:(NSError **)outErr;
-- (BOOL)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr;
+- (id)interpretFileAtPath:(NSString *)path error:(NSError **)outErr;
+- (id)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr;
 
 @property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, retain) XPMemorySpace *globals;

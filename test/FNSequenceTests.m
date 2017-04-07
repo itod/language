@@ -89,9 +89,11 @@
     TDEquals(0.0, [self doubleForName:@"i"]);
 }
 
-//- (void)testSlice {
-//    [self exec:@"var a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];"];
-//    TDEqualObjects(@"");
-//}
+- (void)testSlice {
+    [self eval:@"var a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];"];
+    TDEqualObjects(@"'a'", [self evalString:@"a[1]"]);
+    TDEqualObjects(@"['a', 'b', 'c', 'd']", [self evalString:@"a[1:4]"]);
+    TDEqualObjects(@"['a', 'b', 'c', 'd']", [self evalString:@"a[:4]"]);
+}
 
 @end
