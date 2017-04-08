@@ -689,10 +689,10 @@ subscriptLoad = '[' nl slice nl ']'! {
     PUSH(callNode);
 };
 
-slice   = expr? nl ':'! nl expr? sliceop?
+slice   = (expr|Empty) nl ':'! nl (expr|Empty) sliceop?
         | expr
         ;
-sliceop = nl ':'! nl expr?;
+sliceop = nl ':'! nl (expr|Empty);
 
 varRef = qid {
     XPNode *refNode = [XPNode nodeWithToken:_loadTok];
