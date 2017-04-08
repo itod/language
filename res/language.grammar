@@ -152,7 +152,9 @@
     self.dictTok.tokenKind = XP_TOKEN_KIND_DICT_LITERAL;
     
     self.firstNode = [XPNode nodeWithToken:[PKToken tokenWithTokenType:PKTokenTypeNumber stringValue:@"1" doubleValue:1.0]];
+    self.firstNode.token.tokenKind = TOKEN_KIND_BUILTIN_NUMBER;
     self.lastNode = [XPNode nodeWithToken:[PKToken tokenWithTokenType:PKTokenTypeNumber stringValue:@"-1" doubleValue:-1.0]];
+    self.lastNode.token.tokenKind = TOKEN_KIND_BUILTIN_NUMBER;
 }
 
 @dealloc {
