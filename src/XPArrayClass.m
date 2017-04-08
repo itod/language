@@ -105,11 +105,11 @@
     // build array
     XPObject *arrObj = nil;
     {
-        NSMutableArray *res = [NSMutableArray arrayWithCapacity:labs(stop-start)];
-        
         start = [self nativeIndexForIndex:start inArray:v];
         stop = [self nativeIndexForIndex:stop inArray:v];
         
+        NSMutableArray *res = [NSMutableArray arrayWithCapacity:labs(stop-start)];
+
         for (NSInteger i = start; i <= stop; i += step) {
             XPObject *obj = [v objectAtIndex:i];
             [res addObject:obj];
