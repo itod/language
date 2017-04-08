@@ -102,10 +102,6 @@
 - (XPObject *)slice:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(NSInteger)step {
     NSMutableArray *v = this.value;
     
-//    if (stop < 0) {
-//        stop = [v count] - labs(stop);
-//    }
-    
     // build array
     XPObject *arrObj = nil;
     {
