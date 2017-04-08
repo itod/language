@@ -98,6 +98,27 @@
     TDEqualObjects(@"['e', 'f', 'g', 'h']", [self evalString:@"a[-4:-1]"]);
     TDEqualObjects(@"['e', 'f', 'g', 'h']", [self evalString:@"a[-4:]"]);
     TDEqualObjects(@"['d', 'e']", [self evalString:@"a[4:-4]"]);
+
+    TDEqualObjects(@"['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']", [self evalString:@"a[:]"]);
+    TDEqualObjects(@"['a', 'b', 'c', 'd', 'e']", [self evalString:@"a[:5]"]);
+    TDEqualObjects(@"['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']", [self evalString:@"a[:-1]"]);
+    TDEqualObjects(@"['d', 'e', 'f', 'g', 'h']", [self evalString:@"a[4:]"]);
+    TDEqualObjects(@"['f', 'g', 'h']", [self evalString:@"a[-3:]"]);
+    TDEqualObjects(@"['b', 'c', 'd', 'e']", [self evalString:@"a[2:5]"]);
+    TDEqualObjects(@"['b', 'c', 'd', 'e', 'f', 'g', 'h']", [self evalString:@"a[2:-1]"]);
+    TDEqualObjects(@"['f', 'g', 'h']", [self evalString:@"a[-3:-1]"]);
+
+// PYTHON:
+//    a[:]      # ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+//    a[:5]     # ['a', 'b', 'c', 'd', 'e']
+//    a[:-1]    # ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+//    
+//    
+//    a[4:]     # ['e', 'f', 'g', 'h']
+//    a[-3:]    # ['f', 'g', 'h']
+//    a[2:5]    # ['c', 'd', 'e']
+//    a[2:-1]   # ['c', 'd', 'e', 'f', 'g']
+//    a[-3:-1]  # ['f', 'g']    
 }
 
 @end
