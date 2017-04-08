@@ -693,7 +693,7 @@
 
 - (void)__globalList {
     
-    while ([self speculate:^{ [self item_]; }]) {
+    while ([self predicts:TOKEN_KIND_BUILTIN_ANY, 0]) {
         [self item_]; 
     }
     [self execute:^{
