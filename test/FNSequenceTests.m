@@ -108,34 +108,48 @@
     TDEqualObjects(@"['b', 'c', 'd', 'e', 'f', 'g', 'h']"       , [self evalString:@"a[2:-1]"]);
     TDEqualObjects(@"['f', 'g', 'h']"                           , [self evalString:@"a[-3:-1]"]);
 
-// PYTHON:
-//    a[:]      # ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-//    a[:5]     # ['a', 'b', 'c', 'd', 'e']
-//    a[:-1]    # ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-//    
-//    
-//    a[4:]     # ['e', 'f', 'g', 'h']
-//    a[-3:]    # ['f', 'g', 'h']
-//    a[2:5]    # ['c', 'd', 'e']
-//    a[2:-1]   # ['c', 'd', 'e', 'f', 'g']
-//    a[-3:-1]  # ['f', 'g']
-        
+    // PYTHON:
+    //    a[:]      # ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+    //    a[:5]     # ['a', 'b', 'c', 'd', 'e']
+    //    a[:-1]    # ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+    //
+    //
+    //    a[4:]     # ['e', 'f', 'g', 'h']
+    //    a[-3:]    # ['f', 'g', 'h']
+    //    a[2:5]    # ['c', 'd', 'e']
+    //    a[2:-1]   # ['c', 'd', 'e', 'f', 'g']
+    //    a[-3:-1]  # ['f', 'g']
+    
     [self eval:@"var b = a[4:]"];
     TDEqualObjects(@"['d', 'e', 'f', 'g', 'h']"                 , [self evalString:@"b"]);
     [self eval:@"b[2]=99"];
     TDEqualObjects(@"['d', 99, 'f', 'g', 'h']"                  , [self evalString:@"b"]);
     TDEqualObjects(@"['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']"  , [self evalString:@"a"]);
 
-//    b = a[4:]
-//    print('Before:   ', b)
-//    b[1] = 99
-//    print('After:    ', b)
-//    print('No change:', a)
-//    
-//    
-//    Before:    ['e', 'f', 'g', 'h']
-//    After:     ['e', 99, 'g', 'h']
-//    No change: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+    // PYTHON:
+    //    b = a[4:]
+    //    print('Before:   ', b)
+    //    b[1] = 99
+    //    print('After:    ', b)
+    //    print('No change:', a)
+    //
+    //
+    //    Before:    ['e', 'f', 'g', 'h']
+    //    After:     ['e', 99, 'g', 'h']
+    //    No change: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+
+    [self eval:@"var c = a[:]"]; // copy
+    TDEqualObjects(@"['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']"  , [self evalString:@"c"]);
+    [self eval:@"c[-1]=47"];
+    TDEqualObjects(@"['a', 'b', 'c', 'd', 'e', 'f', 'g', 47]"   , [self evalString:@"c"]);
+    TDEqualObjects(@"['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']"  , [self evalString:@"a"]);
+    
+    [self eval:@"var d = a"]; // ref
+    TDEqualObjects(@"['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']"  , [self evalString:@"d"]);
+    [self eval:@"d[1]=42"];
+    TDEqualObjects(@"[42, 'b', 'c', 'd', 'e', 'f', 'g', 'h']"   , [self evalString:@"d"]);
+    TDEqualObjects(@"[42, 'b', 'c', 'd', 'e', 'f', 'g', 'h']"   , [self evalString:@"a"]);
+    
 }
 
 @end
