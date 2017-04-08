@@ -666,7 +666,7 @@ subExpr
 
 atom = scalar | arrayLiteral | dictLiteral | funcLiteral | varRef;
 
-subscriptLoad = '[' nl expr (nl ':'! nl expr)? (nl ':'! nl expr)? nl ']'! {
+subscriptLoad = '[' nl slice nl ']'! {
     NSArray *nodes = REV(ABOVE(_openSquareTok));
     POP(); // square
     
@@ -688,6 +688,11 @@ subscriptLoad = '[' nl expr (nl ':'! nl expr)? (nl ':'! nl expr)? nl ']'! {
     if (stepNode) [callNode addChild:stepNode];
     PUSH(callNode);
 };
+
+slice   = expr? nl ':'! nl expr? sliceop?
+        | expr
+        ;
+sliceop = nl ':'! nl expr?;
 
 varRef = qid {
     XPNode *refNode = [XPNode nodeWithToken:_loadTok];

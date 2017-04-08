@@ -122,6 +122,8 @@
 @property (nonatomic, retain) NSMutableDictionary *subExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *atom_memo;
 @property (nonatomic, retain) NSMutableDictionary *subscriptLoad_memo;
+@property (nonatomic, retain) NSMutableDictionary *slice_memo;
+@property (nonatomic, retain) NSMutableDictionary *sliceop_memo;
 @property (nonatomic, retain) NSMutableDictionary *varRef_memo;
 @property (nonatomic, retain) NSMutableDictionary *arrayLiteral_memo;
 @property (nonatomic, retain) NSMutableDictionary *elemList_memo;
@@ -420,6 +422,8 @@
         self.subExpr_memo = [NSMutableDictionary dictionary];
         self.atom_memo = [NSMutableDictionary dictionary];
         self.subscriptLoad_memo = [NSMutableDictionary dictionary];
+        self.slice_memo = [NSMutableDictionary dictionary];
+        self.sliceop_memo = [NSMutableDictionary dictionary];
         self.varRef_memo = [NSMutableDictionary dictionary];
         self.arrayLiteral_memo = [NSMutableDictionary dictionary];
         self.elemList_memo = [NSMutableDictionary dictionary];
@@ -545,6 +549,8 @@
     self.subExpr_memo = nil;
     self.atom_memo = nil;
     self.subscriptLoad_memo = nil;
+    self.slice_memo = nil;
+    self.sliceop_memo = nil;
     self.varRef_memo = nil;
     self.arrayLiteral_memo = nil;
     self.elemList_memo = nil;
@@ -645,6 +651,8 @@
     [_subExpr_memo removeAllObjects];
     [_atom_memo removeAllObjects];
     [_subscriptLoad_memo removeAllObjects];
+    [_slice_memo removeAllObjects];
+    [_sliceop_memo removeAllObjects];
     [_varRef_memo removeAllObjects];
     [_arrayLiteral_memo removeAllObjects];
     [_elemList_memo removeAllObjects];
@@ -685,7 +693,7 @@
 
 - (void)__globalList {
     
-    while ([self predicts:TOKEN_KIND_BUILTIN_ANY, 0]) {
+    while ([self speculate:^{ [self item_]; }]) {
         [self item_]; 
     }
     [self execute:^{
@@ -2398,19 +2406,7 @@
     
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:NO]; 
     [self nl_]; 
-    [self expr_]; 
-    if ([self speculate:^{ [self nl_]; [self match:XP_TOKEN_KIND_COLON discard:YES]; [self nl_]; [self expr_]; }]) {
-        [self nl_]; 
-        [self match:XP_TOKEN_KIND_COLON discard:YES]; 
-        [self nl_]; 
-        [self expr_]; 
-    }
-    if ([self speculate:^{ [self nl_]; [self match:XP_TOKEN_KIND_COLON discard:YES]; [self nl_]; [self expr_]; }]) {
-        [self nl_]; 
-        [self match:XP_TOKEN_KIND_COLON discard:YES]; 
-        [self nl_]; 
-        [self expr_]; 
-    }
+    [self slice_]; 
     [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
     [self execute:^{
@@ -2443,6 +2439,50 @@
 
 - (void)subscriptLoad_ {
     [self parseRule:@selector(__subscriptLoad) withMemo:_subscriptLoad_memo];
+}
+
+- (void)__slice {
+    
+    if ([self speculate:^{ if ([self speculate:^{ [self expr_]; }]) {[self expr_]; }[self nl_]; [self match:XP_TOKEN_KIND_COLON discard:YES]; [self nl_]; if ([self speculate:^{ [self expr_]; }]) {[self expr_]; }if ([self speculate:^{ [self sliceop_]; }]) {[self sliceop_]; }}]) {
+        if ([self speculate:^{ [self expr_]; }]) {
+            [self expr_]; 
+        }
+        [self nl_]; 
+        [self match:XP_TOKEN_KIND_COLON discard:YES]; 
+        [self nl_]; 
+        if ([self speculate:^{ [self expr_]; }]) {
+            [self expr_]; 
+        }
+        if ([self speculate:^{ [self sliceop_]; }]) {
+            [self sliceop_]; 
+        }
+    } else if ([self speculate:^{ [self expr_]; }]) {
+        [self expr_]; 
+    } else {
+        [self raise:@"No viable alternative found in rule 'slice'."];
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchSlice:)];
+}
+
+- (void)slice_ {
+    [self parseRule:@selector(__slice) withMemo:_slice_memo];
+}
+
+- (void)__sliceop {
+    
+    [self nl_]; 
+    [self match:XP_TOKEN_KIND_COLON discard:YES]; 
+    [self nl_]; 
+    if ([self speculate:^{ [self expr_]; }]) {
+        [self expr_]; 
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchSliceop:)];
+}
+
+- (void)sliceop_ {
+    [self parseRule:@selector(__sliceop) withMemo:_sliceop_memo];
 }
 
 - (void)__varRef {
