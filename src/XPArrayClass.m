@@ -102,14 +102,20 @@
 - (XPObject *)slice:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(NSInteger)step {
     NSMutableArray *v = this.value;
     
+//    if (stop < 0) {
+//        stop = [v count] - labs(stop);
+//    }
+    
     // build array
     XPObject *arrObj = nil;
     {
         NSMutableArray *res = [NSMutableArray arrayWithCapacity:labs(stop-start)];
         
-        for (NSInteger i = start; i > 0 && i <= stop; i += step) {
-            NSInteger j = [self nativeIndexForIndex:i inArray:v];
-            XPObject *obj = [v objectAtIndex:j];
+        start = [self nativeIndexForIndex:start inArray:v];
+        stop = [self nativeIndexForIndex:stop inArray:v];
+        
+        for (NSInteger i = start; i <= stop; i += step) {
+            XPObject *obj = [v objectAtIndex:i];
             [res addObject:obj];
         }
         

@@ -92,8 +92,12 @@
 - (void)testSlice {
     [self eval:@"var a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];"];
     TDEqualObjects(@"'a'", [self evalString:@"a[1]"]);
+    TDEqualObjects(@"'h'", [self evalString:@"a[-1]"]);
     TDEqualObjects(@"['a', 'b', 'c', 'd']", [self evalString:@"a[1:4]"]);
     TDEqualObjects(@"['a', 'b', 'c', 'd']", [self evalString:@"a[:4]"]);
+    TDEqualObjects(@"['e', 'f', 'g', 'h']", [self evalString:@"a[-4:-1]"]);
+    TDEqualObjects(@"['e', 'f', 'g', 'h']", [self evalString:@"a[-4:]"]);
+    TDEqualObjects(@"['d', 'e']", [self evalString:@"a[4:-4]"]);
 }
 
 @end
