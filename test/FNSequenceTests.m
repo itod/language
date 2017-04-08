@@ -118,7 +118,24 @@
 //    a[-3:]    # ['f', 'g', 'h']
 //    a[2:5]    # ['c', 'd', 'e']
 //    a[2:-1]   # ['c', 'd', 'e', 'f', 'g']
-//    a[-3:-1]  # ['f', 'g']    
+//    a[-3:-1]  # ['f', 'g']
+        
+    [self eval:@"var b = a[4:]"];
+    TDEqualObjects(@"['d', 'e', 'f', 'g', 'h']"                 , [self evalString:@"b"]);
+    [self eval:@"b[2]=99"];
+    TDEqualObjects(@"['d', 99, 'f', 'g', 'h']"                  , [self evalString:@"b"]);
+    TDEqualObjects(@"['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']"  , [self evalString:@"a"]);
+
+//    b = a[4:]
+//    print('Before:   ', b)
+//    b[1] = 99
+//    print('After:    ', b)
+//    print('No change:', a)
+//    
+//    
+//    Before:    ['e', 'f', 'g', 'h']
+//    After:     ['e', 99, 'g', 'h']
+//    No change: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 }
 
 @end
