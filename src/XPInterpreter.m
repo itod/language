@@ -246,6 +246,9 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
     @try {
         result = [walker walk:_root];
+        if (!result) {
+            result = [NSNull null];
+        }
     } @catch (XPUserThrownException *rex) {
         result = nil;
         if (outErr) {
