@@ -142,7 +142,7 @@
     [self eval:@"var b = a[4:]"];
     TDEqualObjects(@"'defgh'"       , [self evalString:@"b"]);
     [self eval:@"b[2]=99"];
-    TDEqualObjects(@"'d99fgh']"     , [self evalString:@"b"]);
+    TDEqualObjects(@"'d99fgh'"     , [self evalString:@"b"]);
     TDEqualObjects(@"'abcdefgh'"    , [self evalString:@"a"]);
     
     

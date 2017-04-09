@@ -38,6 +38,8 @@
         sel = @selector(count:);
     } else if ([methName isEqualToString:@"get"]) {
         sel = @selector(get::);
+    } else if ([methName isEqualToString:@"slice"]) {
+        sel = @selector(slice::::);
     } else if ([methName isEqualToString:@"set"]) {
         sel = @selector(set::::);
     } else if ([methName isEqualToString:@"append"]) {
@@ -96,22 +98,42 @@
 }
 
 
-- (void)set:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(XPObject *)obj {
-    if (![obj isStringObject]) {
-        @throw obj; // TODO
+- (XPObject *)slice:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(NSInteger)step {
+    TDAssert(1 == step);
+    NSMutableString *s = this.value;
+    
+    // build str
+    XPObject *strObj = nil;
+    {
+        start = [self nativeIndexForIndex:start inString:s];
+        stop = [self nativeIndexForIndex:stop inString:s];
+        
+        NSMutableString *res = [NSMutableString stringWithCapacity:labs(stop-start)];
+        
+        for (NSInteger i = start; i <= stop; i += step) {
+            unichar c = [s characterAtIndex:i];
+            [res appendFormat:@"%C", c];
+        }
+        
+        strObj = [XPObject string:res];
     }
     
+    return strObj;
+}
+
+
+- (void)set:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(XPObject *)obj {
     NSMutableString *s = this.value;
     start = [self nativeIndexForIndex:start inString:s];
     stop = [self nativeIndexForIndex:stop inString:s];
     
     if (start == stop) {
-        [s replaceCharactersInRange:NSMakeRange(start, 1) withString:obj.value];
+        [s replaceCharactersInRange:NSMakeRange(start, 1) withString:obj.stringValue];
     } else {
         NSString *head = [s substringWithRange:NSMakeRange(0, start)];
         NSString *tail = [s substringWithRange:NSMakeRange(stop, [s length]-1)];
         NSMutableString *res = [NSMutableString stringWithString:head];
-        [res appendString:obj.value]; // TODO
+        [res appendString:obj.stringValue];
         [res appendString:tail];
         this.value = res;
     }
@@ -119,11 +141,8 @@
 
 
 - (void)append:(XPObject *)this :(XPObject *)obj {
-    if (![obj isStringObject]) {
-        @throw obj; // TODO
-    }
     NSMutableString *s = this.value;
-    [s appendString:obj.value];
+    [s appendString:obj.stringValue];
 }
 
 
