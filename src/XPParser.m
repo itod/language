@@ -60,7 +60,7 @@
 @property (nonatomic, retain) NSMutableDictionary *timesEq_memo;
 @property (nonatomic, retain) NSMutableDictionary *divEq_memo;
 @property (nonatomic, retain) NSMutableDictionary *assign_memo;
-@property (nonatomic, retain) NSMutableDictionary *assignIndex_memo;
+@property (nonatomic, retain) NSMutableDictionary *assignSubscript_memo;
 @property (nonatomic, retain) NSMutableDictionary *assignAppend_memo;
 @property (nonatomic, retain) NSMutableDictionary *whileBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *break_memo;
@@ -123,7 +123,7 @@
 @property (nonatomic, retain) NSMutableDictionary *trailer_memo;
 @property (nonatomic, retain) NSMutableDictionary *subExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *atom_memo;
-@property (nonatomic, retain) NSMutableDictionary *subscriptLoad_memo;
+@property (nonatomic, retain) NSMutableDictionary *loadSubscript_memo;
 @property (nonatomic, retain) NSMutableDictionary *slice_memo;
 @property (nonatomic, retain) NSMutableDictionary *sliceop_memo;
 @property (nonatomic, retain) NSMutableDictionary *varRef_memo;
@@ -365,7 +365,7 @@
         self.timesEq_memo = [NSMutableDictionary dictionary];
         self.divEq_memo = [NSMutableDictionary dictionary];
         self.assign_memo = [NSMutableDictionary dictionary];
-        self.assignIndex_memo = [NSMutableDictionary dictionary];
+        self.assignSubscript_memo = [NSMutableDictionary dictionary];
         self.assignAppend_memo = [NSMutableDictionary dictionary];
         self.whileBlock_memo = [NSMutableDictionary dictionary];
         self.break_memo = [NSMutableDictionary dictionary];
@@ -428,7 +428,7 @@
         self.trailer_memo = [NSMutableDictionary dictionary];
         self.subExpr_memo = [NSMutableDictionary dictionary];
         self.atom_memo = [NSMutableDictionary dictionary];
-        self.subscriptLoad_memo = [NSMutableDictionary dictionary];
+        self.loadSubscript_memo = [NSMutableDictionary dictionary];
         self.slice_memo = [NSMutableDictionary dictionary];
         self.sliceop_memo = [NSMutableDictionary dictionary];
         self.varRef_memo = [NSMutableDictionary dictionary];
@@ -494,7 +494,7 @@
     self.timesEq_memo = nil;
     self.divEq_memo = nil;
     self.assign_memo = nil;
-    self.assignIndex_memo = nil;
+    self.assignSubscript_memo = nil;
     self.assignAppend_memo = nil;
     self.whileBlock_memo = nil;
     self.break_memo = nil;
@@ -557,7 +557,7 @@
     self.trailer_memo = nil;
     self.subExpr_memo = nil;
     self.atom_memo = nil;
-    self.subscriptLoad_memo = nil;
+    self.loadSubscript_memo = nil;
     self.slice_memo = nil;
     self.sliceop_memo = nil;
     self.varRef_memo = nil;
@@ -596,7 +596,7 @@
     [_timesEq_memo removeAllObjects];
     [_divEq_memo removeAllObjects];
     [_assign_memo removeAllObjects];
-    [_assignIndex_memo removeAllObjects];
+    [_assignSubscript_memo removeAllObjects];
     [_assignAppend_memo removeAllObjects];
     [_whileBlock_memo removeAllObjects];
     [_break_memo removeAllObjects];
@@ -659,7 +659,7 @@
     [_trailer_memo removeAllObjects];
     [_subExpr_memo removeAllObjects];
     [_atom_memo removeAllObjects];
-    [_subscriptLoad_memo removeAllObjects];
+    [_loadSubscript_memo removeAllObjects];
     [_slice_memo removeAllObjects];
     [_sliceop_memo removeAllObjects];
     [_varRef_memo removeAllObjects];
@@ -893,8 +893,8 @@
         [self varDecl_]; 
     } else if ([self speculate:^{ [self assign_]; }]) {
         [self assign_]; 
-    } else if ([self speculate:^{ [self assignIndex_]; }]) {
-        [self assignIndex_]; 
+    } else if ([self speculate:^{ [self assignSubscript_]; }]) {
+        [self assignSubscript_]; 
     } else if ([self speculate:^{ [self assignAppend_]; }]) {
         [self assignAppend_]; 
     } else if ([self speculate:^{ [self throwStat_]; }]) {
@@ -1042,7 +1042,7 @@
     [self parseRule:@selector(__assign) withMemo:_assign_memo];
 }
 
-- (void)__assignIndex {
+- (void)__assignSubscript {
     
     [self qid_]; 
     [self nl_]; 
@@ -1069,11 +1069,11 @@
 
     }];
 
-    [self fireDelegateSelector:@selector(parser:didMatchAssignIndex:)];
+    [self fireDelegateSelector:@selector(parser:didMatchAssignSubscript:)];
 }
 
-- (void)assignIndex_ {
-    [self parseRule:@selector(__assignIndex) withMemo:_assignIndex_memo];
+- (void)assignSubscript_ {
+    [self parseRule:@selector(__assignSubscript) withMemo:_assignSubscript_memo];
 }
 
 - (void)__assignAppend {
@@ -2354,7 +2354,7 @@
     if ([self predicts:XP_TOKEN_KIND_OPEN_PAREN, 0]) {
         [self funcCall_]; 
     } else if ([self predicts:XP_TOKEN_KIND_OPEN_BRACKET, 0]) {
-        [self subscriptLoad_]; 
+        [self loadSubscript_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'trailer'."];
     }
@@ -2411,7 +2411,7 @@
     [self parseRule:@selector(__atom) withMemo:_atom_memo];
 }
 
-- (void)__subscriptLoad {
+- (void)__loadSubscript {
     
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:NO]; 
     [self nl_]; 
@@ -2443,11 +2443,11 @@
 
     }];
 
-    [self fireDelegateSelector:@selector(parser:didMatchSubscriptLoad:)];
+    [self fireDelegateSelector:@selector(parser:didMatchLoadSubscript:)];
 }
 
-- (void)subscriptLoad_ {
-    [self parseRule:@selector(__subscriptLoad) withMemo:_subscriptLoad_memo];
+- (void)loadSubscript_ {
+    [self parseRule:@selector(__loadSubscript) withMemo:_loadSubscript_memo];
 }
 
 - (void)__slice {

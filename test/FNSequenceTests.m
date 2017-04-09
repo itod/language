@@ -149,6 +149,21 @@
     [self eval:@"d[1]=42"];
     TDEqualObjects(@"[42, 'b', 'c', 'd', 'e', 'f', 'g', 'h']"   , [self evalString:@"d"]);
     TDEqualObjects(@"[42, 'b', 'c', 'd', 'e', 'f', 'g', 'h']"   , [self evalString:@"a"]);
+    
+    [self eval:@"a[2:7]=[99, 22, 14]"];
+    TDEqualObjects(@"[42, 99, 22, 14, 'h']"   , [self evalString:@"a"]);
+    
+    
+    
+    
+    
+    
+//    print('Before ', a)
+//    a[2:7] = [99, 22, 14]
+//    print('After  ', a)
+//    >>>
+//    Before  ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+//    After   ['a', 'b', 99, 22, 14, 'h']
 }
 
 @end

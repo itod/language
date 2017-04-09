@@ -232,7 +232,7 @@ realStat
 @after {self.valid=NO;}
             = varDecl
             | assign
-            | assignIndex
+            | assignSubscript
             | assignAppend
             | throwStat
             | expr
@@ -266,7 +266,7 @@ assign      = qid nl ('=' | plusEq | minusEq | timesEq | divEq) nl expr {
     PUSH(stat);
 };
 
-assignIndex = qid nl '['! nl expr nl ']'! nl '='! nl expr {
+assignSubscript = qid nl '['! nl expr nl ']'! nl '='! nl expr {
     XPNode *rhs = POP();
     XPNode *idx = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
@@ -664,7 +664,7 @@ signedPrimaryExpr
     ;
 
 primaryExpr = (atom | subExpr) trailer*;
-trailer = funcCall | subscriptLoad;
+trailer = funcCall | loadSubscript;
 
 subExpr
     = '(' nl expr nl ')'! {
@@ -675,7 +675,7 @@ subExpr
 
 atom = scalar | arrayLiteral | dictLiteral | funcLiteral | varRef;
 
-subscriptLoad = '[' nl slice nl ']'! {
+loadSubscript = '[' nl slice nl ']'! {
     NSArray *nodes = REV(ABOVE(_openSquareTok));
     POP(); // square
     
