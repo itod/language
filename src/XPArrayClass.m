@@ -162,6 +162,23 @@
 }
 
 
+//- (NSString *)repr:(XPObject *)this withSelector:(SEL)sel {
+//    BOOL isDesc = sel == @selector(description);
+//    NSMutableString *buf = [NSMutableString stringWithString:isDesc ? @"[" : @""];
+//    
+//    TDAssert(this.value);
+//    NSUInteger c = [this.value count];
+//    NSUInteger i = 0;
+//    for (id obj in this.value) {
+//        [buf appendFormat:@"%@%@", [obj performSelector:sel], i++ == c-1 ? @"" : isDesc ? @", " : @""];
+//    }
+//    
+//    [buf appendString:isDesc ? @"]" : @""];
+//    
+//    return buf;
+//}
+
+
 - (id)doubleValue:(XPObject *)this {
     return [this.value count] > 0 ? @1.0 : @0.0;
 }
