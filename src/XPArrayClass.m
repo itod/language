@@ -37,13 +37,11 @@
     if ([methName isEqualToString:@"count"]) {
         sel = @selector(count:);
     } else if ([methName isEqualToString:@"get"]) {
-        sel = @selector(get::);
+        sel = @selector(get::::);
     } else if ([methName isEqualToString:@"set"]) {
         sel = @selector(set::::);
     } else if ([methName isEqualToString:@"append"]) {
         sel = @selector(append::);
-    } else if ([methName isEqualToString:@"slice"]) {
-        sel = @selector(slice::::);
     
 //    } else if ([methName isEqualToString:@"indexOf"]) {
 //        sel = @selector(indexOf::);
@@ -82,11 +80,27 @@
 }
 
 
-- (XPObject *)get:(XPObject *)this :(NSInteger)idx {
+- (XPObject *)get:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(NSInteger)step {
     NSMutableArray *v = this.value;
-    idx = [self nativeIndexForIndex:idx inArray:v];
-    id res = [v objectAtIndex:idx];
-    return res;
+    start = [self nativeIndexForIndex:start inArray:v];
+    stop = [self nativeIndexForIndex:stop inArray:v];
+
+    XPObject *arrObj = nil;
+    
+    if (start == stop) {
+        arrObj = [v objectAtIndex:start];
+    } else {
+        NSMutableArray *res = [NSMutableArray arrayWithCapacity:labs(stop-start)];
+        
+        for (NSInteger i = start; i <= stop; i += step) {
+            XPObject *obj = [v objectAtIndex:i];
+            [res addObject:obj];
+        }
+        
+        arrObj = [XPObject array:res];
+    }
+    
+    return arrObj;
 }
 
 
@@ -119,29 +133,6 @@
 - (void)append:(XPObject *)this :(XPObject *)obj {
     NSMutableArray *v = this.value;
     [v addObject:obj];
-}
-
-
-- (XPObject *)slice:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(NSInteger)step {
-    NSMutableArray *v = this.value;
-    
-    // build array
-    XPObject *arrObj = nil;
-    {
-        start = [self nativeIndexForIndex:start inArray:v];
-        stop = [self nativeIndexForIndex:stop inArray:v];
-        
-        NSMutableArray *res = [NSMutableArray arrayWithCapacity:labs(stop-start)];
-
-        for (NSInteger i = start; i <= stop; i += step) {
-            XPObject *obj = [v objectAtIndex:i];
-            [res addObject:obj];
-        }
-        
-        arrObj = [XPObject array:res];
-    }
-    
-    return arrObj;
 }
 
 

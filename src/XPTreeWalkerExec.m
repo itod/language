@@ -333,17 +333,16 @@
 
     if ([targetObj isStringObject] || [targetObj isArrayObject]) {
         NSInteger start = [[self walk:startNode] doubleValue];
+        NSInteger stop = start;
+        NSInteger step = 1;
         
         if (stopNode) {
-            NSInteger stop = [[self walk:stopNode] doubleValue];
-            NSInteger step = 1;
+            stop = [[self walk:stopNode] doubleValue];
             if (stepNode) {
                 step = [[self walk:stepNode] doubleValue];
             }
-            res = [targetObj callInstanceMethodNamed:@"slice" withArgs:@[@(start), @(stop), @(step)]];
-        } else {
-            res = [targetObj callInstanceMethodNamed:@"get" withArg:@(start)];
         }
+        res = [targetObj callInstanceMethodNamed:@"get" withArgs:@[@(start), @(stop), @(step)]];
     }
     
     else if ([targetObj isDictionaryObject]) {

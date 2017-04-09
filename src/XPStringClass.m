@@ -37,9 +37,7 @@
     if ([methName isEqualToString:@"count"]) {
         sel = @selector(count:);
     } else if ([methName isEqualToString:@"get"]) {
-        sel = @selector(get::);
-    } else if ([methName isEqualToString:@"slice"]) {
-        sel = @selector(slice::::);
+        sel = @selector(get::::);
     } else if ([methName isEqualToString:@"set"]) {
         sel = @selector(set::::);
     } else if ([methName isEqualToString:@"append"]) {
@@ -98,16 +96,19 @@
 }
 
 
-- (XPObject *)slice:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(NSInteger)step {
+- (XPObject *)get:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(NSInteger)step {
     TDAssert(1 == step);
-    NSMutableString *s = this.value;
     
-    // build str
+    NSMutableString *s = this.value;
+    start = [self nativeIndexForIndex:start inString:s];
+    stop = [self nativeIndexForIndex:stop inString:s];
+
     XPObject *strObj = nil;
-    {
-        start = [self nativeIndexForIndex:start inString:s];
-        stop = [self nativeIndexForIndex:stop inString:s];
-        
+    
+    if (start == stop) {
+        unichar c = [s characterAtIndex:start];
+        strObj = [XPObject string:[NSString stringWithFormat:@"%C", c]];
+    } else {
         NSMutableString *res = [NSMutableString stringWithCapacity:labs(stop-start)];
         
         for (NSInteger i = start; i <= stop; i += step) {
