@@ -139,6 +139,7 @@
     //    No change: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
     [self eval:@"var c = a[:]"]; // copy
+    TDFalse([self evalBool:@"c is a or a is c"]);
     TDEqualObjects(@"['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']"  , [self evalString:@"c"]);
     [self eval:@"c[-1]=47"];
     TDEqualObjects(@"['a', 'b', 'c', 'd', 'e', 'f', 'g', 47]"   , [self evalString:@"c"]);
@@ -163,6 +164,22 @@
 //    >>>
 //    Before  ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 //    After   ['a', 'b', 99, 22, 14, 'h']
+}
+
+- (void)testAssignSlice2 {
+    [self eval:@"var a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']"];
+
+    [self eval:@"var b=a; a[:]=[101, 102, 103]"];
+    TDTrue([self evalBool:@"a is b and b is a"]);
+    TDEqualObjects(@"[101, 102, 103]"   , [self evalString:@"a"]);
+}
+
+- (void)testSliceIdentity {
+    [self eval:@"var a=[];var c = a[:]"]; // copy
+    TDFalse([self evalBool:@"c is a or a is c"]);
+
+    [self eval:@"var b=[];var d=b"]; // copy
+    TDTrue([self evalBool:@"b is d and d is b"]);
 }
 
 @end

@@ -94,6 +94,11 @@
 }
 
 
+- (BOOL)evalBool:(NSString *)input {
+    return [[self eval:input] boolValue];
+}
+
+
 - (BOOL)boolForName:(NSString *)name {
     return [[self valueForName:name] boolValue];
 }

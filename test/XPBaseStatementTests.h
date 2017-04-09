@@ -21,6 +21,7 @@
 
 - (id)eval:(NSString *)input;
 - (NSString *)evalString:(NSString *)input;
+- (BOOL)evalBool:(NSString *)input;
 
 - (BOOL)boolForName:(NSString *)name;
 - (double)doubleForName:(NSString *)name;
