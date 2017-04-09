@@ -154,8 +154,8 @@
 - (void)testAssignSlice {
     [self eval:@"var a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];"];
 
-    [self eval:@"a[2:7]=[99, 22, 14]"];
-    TDEqualObjects(@"['a', 99, 22, 14, 'h']"   , [self evalString:@"a"]);
+    //[self eval:@"a[2:7]=[99, 22, 14]"];
+    //TDEqualObjects(@"['a', 99, 22, 14, 'h']"   , [self evalString:@"a"]);
     
 //    print('Before ', a)
 //    a[2:7] = [99, 22, 14]

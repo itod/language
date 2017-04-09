@@ -209,7 +209,7 @@
 
 - (void)subscriptAssign:(XPNode *)node {
     //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
-    // (SET_IDX foo `0` `c`)
+    // (SUBSCRIPT_ASSIGN foo `0` `c`)
     XPNode *idNode = [node childAtIndex:0];
     
     XPObject *collObj = [self loadVariableReference:idNode];
