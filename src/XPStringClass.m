@@ -88,14 +88,6 @@
 }
 
 
-- (XPObject *)get:(XPObject *)this :(NSInteger)idx {
-    NSMutableString *s = this.value;
-    idx = [self nativeIndexForIndex:idx inString:s];
-    unichar res = [s characterAtIndex:idx];
-    return [XPObject string:[NSString stringWithFormat:@"%C", res]];
-}
-
-
 - (XPObject *)get:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(NSInteger)step {
     TDAssert(1 == step);
     
