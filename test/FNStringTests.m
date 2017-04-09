@@ -164,7 +164,8 @@
     [self eval:@"var a = 'abcdefgh';"];
     
     [self eval:@"a[2:7]=[99, 22, 14]"];
-    TDEqualObjects(@"'a992214h'"   , [self evalString:@"a"]);
+    //TDEqualObjects(@"'a992214h'"   , [self evalString:@"a"]);
+    TDEqualObjects(@"'a[99, 22, 14]h'"   , [self evalString:@"a"]);
     
 }
 

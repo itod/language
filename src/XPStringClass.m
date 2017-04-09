@@ -127,13 +127,13 @@
         NSString *tail = [s substringWithRange:NSMakeRange(stop+1, [s length]-1-stop)];
         NSMutableString *res = [NSMutableString stringWithString:head];
         
-        if (obj.isArrayObject) {
-            for (XPObject *el in obj.value) {
-                [res appendString:el.stringValue];
-            }
-        } else {
+//        if (obj.isArrayObject) {
+//            for (XPObject *el in obj.value) {
+//                [res appendString:el.stringValue];
+//            }
+//        } else {
             [res appendString:obj.stringValue];
-        }
+//        }
         
         [res appendString:tail];
         this.value = res;
