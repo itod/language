@@ -44,8 +44,8 @@
 @property (nonatomic, retain) PKToken *blockTok;
 @property (nonatomic, retain) PKToken *loadTok;
 @property (nonatomic, retain) PKToken *callTok;
-@property (nonatomic, retain) PKToken *loadSubscriptTok;
-@property (nonatomic, retain) PKToken *assignSubscriptTok;
+@property (nonatomic, retain) PKToken *subscriptLoadTok;
+@property (nonatomic, retain) PKToken *subscriptAssignTok;
 @property (nonatomic, retain) PKToken *appendTok;
 @property (nonatomic, retain) PKToken *anonTok;
 @property (nonatomic, retain) PKToken *openParenTok;
@@ -127,10 +127,10 @@
     self.loadTok.tokenKind = XP_TOKEN_KIND_LOAD;
     self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
-    self.loadSubscriptTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"GET_SUBSCRIPT" doubleValue:0.0];
-    self.loadSubscriptTok.tokenKind = XP_TOKEN_KIND_LOAD_SUBSCRIPT;
-    self.assignSubscriptTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"SET_SUBSCRIPT" doubleValue:0.0];
-    self.assignSubscriptTok.tokenKind = XP_TOKEN_KIND_SAVE_SUBSCRIPT;
+    self.subscriptLoadTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"GET_SUBSCRIPT" doubleValue:0.0];
+    self.subscriptLoadTok.tokenKind = XP_TOKEN_KIND_LOAD_SUBSCRIPT;
+    self.subscriptAssignTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"SET_SUBSCRIPT" doubleValue:0.0];
+    self.subscriptAssignTok.tokenKind = XP_TOKEN_KIND_SAVE_SUBSCRIPT;
     self.appendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"APPEND" doubleValue:0.0];
     self.appendTok.tokenKind = XP_TOKEN_KIND_APPEND;
     self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"<ANON>" doubleValue:0.0];
@@ -165,8 +165,8 @@
     self.blockTok = nil;
     self.loadTok = nil;
     self.callTok = nil;
-    self.loadSubscriptTok = nil;
-    self.assignSubscriptTok = nil;
+    self.subscriptLoadTok = nil;
+    self.subscriptAssignTok = nil;
     self.appendTok = nil;
     self.anonTok = nil;
     self.openParenTok = nil;
@@ -271,7 +271,7 @@ assignSubscript = qid nl '['! nl expr nl ']'! nl '='! nl expr {
     XPNode *idx = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     
-    XPNode *stat = [XPNode nodeWithToken:_assignSubscriptTok];
+    XPNode *stat = [XPNode nodeWithToken:_subscriptAssignTok];
     [stat addChild:lhs];
     [stat addChild:idx];
     [stat addChild:rhs];
@@ -690,7 +690,7 @@ loadSubscript = '[' nl slice nl ']'! {
     }
 
     XPNode *targetNode = POP();
-    XPNode *callNode = [XPNode nodeWithToken:_loadSubscriptTok];
+    XPNode *callNode = [XPNode nodeWithToken:_subscriptLoadTok];
     [callNode addChild:targetNode];
     [callNode addChild:startNode];
     if (stopNode) [callNode addChild:stopNode];
