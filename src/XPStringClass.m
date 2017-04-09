@@ -10,6 +10,10 @@
 #import <Language/XPObject.h>
 #import "XPEnumeration.h"
 
+@interface XPObject ()
+@property (nonatomic, retain, readwrite) id value;
+@end
+
 @implementation XPStringClass
 
 + (instancetype)classInstance {
@@ -35,7 +39,7 @@
     } else if ([methName isEqualToString:@"get"]) {
         sel = @selector(get::);
     } else if ([methName isEqualToString:@"set"]) {
-        sel = @selector(set:::);
+        sel = @selector(set::::);
     } else if ([methName isEqualToString:@"append"]) {
         sel = @selector(append::);
 
@@ -92,13 +96,25 @@
 }
 
 
-- (void)set:(XPObject *)this :(NSInteger)idx :(XPObject *)obj {
+- (void)set:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(XPObject *)obj {
     if (![obj isStringObject]) {
         @throw obj; // TODO
     }
+    
     NSMutableString *s = this.value;
-    idx = [self nativeIndexForIndex:idx inString:s];
-    [s replaceCharactersInRange:NSMakeRange(idx, 1) withString:obj.value];
+    start = [self nativeIndexForIndex:start inString:s];
+    stop = [self nativeIndexForIndex:stop inString:s];
+    
+    if (start == stop) {
+        [s replaceCharactersInRange:NSMakeRange(start, 1) withString:obj.value];
+    } else {
+        NSString *head = [s substringWithRange:NSMakeRange(0, start)];
+        NSString *tail = [s substringWithRange:NSMakeRange(stop, [s length]-1)];
+        NSMutableString *res = [NSMutableString stringWithString:head];
+        [res appendString:obj.value]; // TODO
+        [res appendString:tail];
+        this.value = res;
+    }
 }
 
 

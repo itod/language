@@ -266,16 +266,27 @@ assign      = qid nl ('=' | plusEq | minusEq | timesEq | divEq) nl expr {
     PUSH(stat);
 };
 
-assignSubscript = qid nl '['! nl assignSlice nl ']'! nl '='! nl expr {
+assignSubscript = qid nl '[' nl assignSlice nl ']'! nl '='! nl expr {
     XPNode *rhs = POP();
-    XPNode *idx = POP();
-    XPNode *lhs = [XPNode nodeWithToken:POP()];
+
+    NSArray *nodes = REV(ABOVE(_openSquareTok));
+    POP(); // square
     
-    XPNode *stat = [XPNode nodeWithToken:_subscriptAssignTok];
-    [stat addChild:lhs];
-    [stat addChild:idx];
-    [stat addChild:rhs];
-    PUSH(stat);
+    XPNode *startNode = startNode=nodes[0];
+    XPNode *stopNode = nil;
+    switch ([nodes count]) {
+        case 1: { } break;
+        case 2: { stopNode=nodes[1]; } break;
+        default:{ TDAssert(0); } break;
+    }
+
+    XPNode *lhs = [XPNode nodeWithToken:POP()];
+    XPNode *callNode = [XPNode nodeWithToken:_subscriptAssignTok];
+    [callNode addChild:lhs];
+    [callNode addChild:rhs];
+    [callNode addChild:startNode];
+    if (stopNode) [callNode addChild:stopNode];
+    PUSH(callNode);
 };
 
 assignSlice = (expr|Empty{PUSH(_firstNode);}) nl ':'! nl (expr|Empty{PUSH(_lastNode);})

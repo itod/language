@@ -203,9 +203,9 @@
     self.loadTok.tokenKind = XP_TOKEN_KIND_LOAD;
     self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
-    self.subscriptLoadTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"GET_SUBSCRIPT" doubleValue:0.0];
+    self.subscriptLoadTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"SUBSCRIPT_LOAD" doubleValue:0.0];
     self.subscriptLoadTok.tokenKind = XP_TOKEN_KIND_SUBSCRIPT_LOAD;
-    self.subscriptAssignTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"SET_SUBSCRIPT" doubleValue:0.0];
+    self.subscriptAssignTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"SUBSCRIPT_ASSIGN" doubleValue:0.0];
     self.subscriptAssignTok.tokenKind = XP_TOKEN_KIND_SUBSCRIPT_ASSIGN;
     self.appendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"APPEND" doubleValue:0.0];
     self.appendTok.tokenKind = XP_TOKEN_KIND_APPEND;
@@ -1050,7 +1050,7 @@
     
     [self qid_]; 
     [self nl_]; 
-    [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:YES]; 
+    [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:NO]; 
     [self nl_]; 
     [self assignSlice_]; 
     [self nl_]; 
@@ -1062,14 +1062,25 @@
     [self execute:^{
     
     XPNode *rhs = POP();
-    XPNode *idx = POP();
-    XPNode *lhs = [XPNode nodeWithToken:POP()];
+
+    NSArray *nodes = REV(ABOVE(_openSquareTok));
+    POP(); // square
     
-    XPNode *stat = [XPNode nodeWithToken:_subscriptAssignTok];
-    [stat addChild:lhs];
-    [stat addChild:idx];
-    [stat addChild:rhs];
-    PUSH(stat);
+    XPNode *startNode = startNode=nodes[0];
+    XPNode *stopNode = nil;
+    switch ([nodes count]) {
+        case 1: { } break;
+        case 2: { stopNode=nodes[1]; } break;
+        default:{ TDAssert(0); } break;
+    }
+
+    XPNode *lhs = [XPNode nodeWithToken:POP()];
+    XPNode *callNode = [XPNode nodeWithToken:_subscriptAssignTok];
+    [callNode addChild:lhs];
+    [callNode addChild:rhs];
+    [callNode addChild:startNode];
+    if (stopNode) [callNode addChild:stopNode];
+    PUSH(callNode);
 
     }];
 

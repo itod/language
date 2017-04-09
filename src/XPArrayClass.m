@@ -10,6 +10,10 @@
 #import <Language/XPObject.h>
 #import "XPEnumeration.h"
 
+@interface XPObject ()
+@property (nonatomic, retain, readwrite) id value;
+@end
+
 @implementation XPArrayClass
 
 + (instancetype)classInstance {
@@ -35,7 +39,7 @@
     } else if ([methName isEqualToString:@"get"]) {
         sel = @selector(get::);
     } else if ([methName isEqualToString:@"set"]) {
-        sel = @selector(set:::);
+        sel = @selector(set::::);
     } else if ([methName isEqualToString:@"append"]) {
         sel = @selector(append::);
     } else if ([methName isEqualToString:@"slice"]) {
@@ -86,10 +90,21 @@
 }
 
 
-- (void)set:(XPObject *)this :(NSInteger)idx :(XPObject *)obj {
+- (void)set:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(XPObject *)obj {
     NSMutableArray *v = this.value;
-    idx = [self nativeIndexForIndex:idx inArray:v];
-    [v replaceObjectAtIndex:idx withObject:obj];
+    start = [self nativeIndexForIndex:start inArray:v];
+    stop = [self nativeIndexForIndex:stop inArray:v];
+    
+    if (start == stop) {
+        [v replaceObjectAtIndex:start withObject:obj];
+    } else {
+        NSArray *head = [v subarrayWithRange:NSMakeRange(0, start)];
+        NSArray *tail = [v subarrayWithRange:NSMakeRange(stop, [v count]-1)];
+        NSMutableArray *res = [NSMutableArray arrayWithArray:head];
+        [res addObject:obj]; // TODO
+        [res addObjectsFromArray:tail];
+        this.value = res;
+    }
 }
 
 

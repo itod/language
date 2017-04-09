@@ -209,7 +209,7 @@
 
 - (void)subscriptAssign:(XPNode *)node {
     //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
-    // (SUBSCRIPT_ASSIGN foo `0` `c`)
+    // (SUBSCRIPT_ASSIGN lhs rhs start stop?)
     XPNode *idNode = [node childAtIndex:0];
     
     XPObject *collObj = [self loadVariableReference:idNode];
@@ -219,39 +219,58 @@
         return;
     }
     
-    if ([collObj isStringObject] || [collObj isArrayObject]) {
-        XPNode *idxNode = [node childAtIndex:1];
-        NSInteger idx = [[self walk:idxNode] doubleValue];
+    XPNode *valNode = [node childAtIndex:1];
+    XPObject *valObj = [self walk:valNode];
 
+    if ([collObj isStringObject] || [collObj isArrayObject]) {
+        XPNode *startNode = [node childAtIndex:2];
+        NSInteger start = [[self walk:startNode] doubleValue];
+        
         // check array bounds
         {
-            NSInteger checkIdx = labs(idx);
+            NSInteger checkIdx = labs(start);
             NSInteger len = [[collObj callInstanceMethodNamed:@"count"] integerValue];
             
             if (checkIdx < 1 || checkIdx > len) {
-                [self raise:XPIndexError node:node format:@"array index out of bounds: `%ld`", idx];
+                [self raise:XPIndexError node:node format:@"array index out of bounds: `%ld`", start];
                 return;
             }
         }
         
-        XPNode *valNode = [node childAtIndex:2];
-        XPObject *valObj = [self walk:valNode];
+        NSInteger stop = start;
+        if ([node childCount] > 3) {
+            XPNode *stopNode = [node childAtIndex:3];
+            stop = [[self walk:stopNode] doubleValue];
+            
+            // check array bounds
+            {
+                NSInteger checkIdx = labs(stop);
+                NSInteger len = [[collObj callInstanceMethodNamed:@"count"] integerValue];
+                
+                if (checkIdx < 1 || checkIdx > len) {
+                    [self raise:XPIndexError node:node format:@"array index out of bounds: `%ld`", stop];
+                    return;
+                }
+            }
+        }
         
-        [collObj callInstanceMethodNamed:@"set" withArgs:@[@(idx), valObj]];
+        [collObj callInstanceMethodNamed:@"set" withArgs:@[@(start), @(stop), valObj]];
     }
     
     else if ([collObj isDictionaryObject]) {
-        XPNode *keyNode = [node childAtIndex:1];
-        XPObject *keyObj = [self walk:keyNode];
+        if ([node childCount] > 3) {
+            [self raise:XPTypeError node:node format:@"attempting slice assignment on non-Array object: `%@`", idNode.name];
+            return;
+        }
         
-        XPNode *valNode = [node childAtIndex:2];
-        XPObject *valObj = [self walk:valNode];
+        XPNode *keyNode = [node childAtIndex:2];
+        XPObject *keyObj = [self walk:keyNode];
         
         [collObj callInstanceMethodNamed:@"set" withArgs:@[keyObj, valObj]];
     }
     
     else {
-        [self raise:XPTypeError node:node format:@"attempting indexed assignment on non-Array object `%@`", idNode.name];
+        [self raise:XPTypeError node:node format:@"attempting subscript assignment on non-Collection object `%@`", idNode.name];
         return;
     }
 }
