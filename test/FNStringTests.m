@@ -119,4 +119,53 @@
 //replace("AAAA", "A+?", "b") returns "bbbb"
 //replace("darted", "^(.*?)d(.*)$", "$1c$2") returns "carted". The first d is replaced.
 
+
+- (void)testLoadSlice {
+    [self eval:@"var a = 'abcdefgh';"];
+    TDEqualObjects(@"'a'"           , [self evalString:@"a[1]"]);
+    TDEqualObjects(@"'h'"           , [self evalString:@"a[-1]"]);
+    TDEqualObjects(@"'abcd'"        , [self evalString:@"a[1:4]"]);
+    TDEqualObjects(@"'abcd'"        , [self evalString:@"a[:4]"]);
+    TDEqualObjects(@"'efgh'"        , [self evalString:@"a[-4:-1]"]);
+    TDEqualObjects(@"'efgh'"        , [self evalString:@"a[-4:]"]);
+    TDEqualObjects(@"'de'"          , [self evalString:@"a[4:-4]"]);
+    
+    TDEqualObjects(@"'abcdefgh'"    , [self evalString:@"a[:]"]);
+    TDEqualObjects(@"'abcde'"       , [self evalString:@"a[:5]"]);
+    TDEqualObjects(@"'abcdefgh'"    , [self evalString:@"a[:-1]"]);
+    TDEqualObjects(@"'defgh'"       , [self evalString:@"a[4:]"]);
+    TDEqualObjects(@"'fgh'"         , [self evalString:@"a[-3:]"]);
+    TDEqualObjects(@"'bcde'"        , [self evalString:@"a[2:5]"]);
+    TDEqualObjects(@"'bcdefgh'"     , [self evalString:@"a[2:-1]"]);
+    TDEqualObjects(@"'fgh'"         , [self evalString:@"a[-3:-1]"]);
+    
+    [self eval:@"var b = a[4:]"];
+    TDEqualObjects(@"'defgh'"       , [self evalString:@"b"]);
+    [self eval:@"b[2]=99"];
+    TDEqualObjects(@"'d99fgh']"     , [self evalString:@"b"]);
+    TDEqualObjects(@"'abcdefgh'"    , [self evalString:@"a"]);
+    
+    
+
+//    [self eval:@"var c = a[:]"]; // copy
+//    TDEqualObjects(@"['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']"  , [self evalString:@"c"]);
+//    [self eval:@"c[-1]=47"];
+//    TDEqualObjects(@"['a', 'b', 'c', 'd', 'e', 'f', 'g', 47]"   , [self evalString:@"c"]);
+//    TDEqualObjects(@"['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']"  , [self evalString:@"a"]);
+//    
+//    [self eval:@"var d = a"]; // ref
+//    TDEqualObjects(@"['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']"  , [self evalString:@"d"]);
+//    [self eval:@"d[1]=42"];
+//    TDEqualObjects(@"[42, 'b', 'c', 'd', 'e', 'f', 'g', 'h']"   , [self evalString:@"d"]);
+//    TDEqualObjects(@"[42, 'b', 'c', 'd', 'e', 'f', 'g', 'h']"   , [self evalString:@"a"]);
+//}
+//
+//- (void)testAssignSlice {
+//    [self eval:@"var a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];"];
+//    
+//    [self eval:@"a[2:7]=[99, 22, 14]"];
+//    TDEqualObjects(@"['a', 99, 22, 14, 'h']"   , [self evalString:@"a"]);
+//    
+}
+
 @end
