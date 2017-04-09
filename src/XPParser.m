@@ -61,6 +61,7 @@
 @property (nonatomic, retain) NSMutableDictionary *divEq_memo;
 @property (nonatomic, retain) NSMutableDictionary *assign_memo;
 @property (nonatomic, retain) NSMutableDictionary *assignSubscript_memo;
+@property (nonatomic, retain) NSMutableDictionary *assignSlice_memo;
 @property (nonatomic, retain) NSMutableDictionary *assignAppend_memo;
 @property (nonatomic, retain) NSMutableDictionary *whileBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *break_memo;
@@ -124,7 +125,7 @@
 @property (nonatomic, retain) NSMutableDictionary *subExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *atom_memo;
 @property (nonatomic, retain) NSMutableDictionary *loadSubscript_memo;
-@property (nonatomic, retain) NSMutableDictionary *slice_memo;
+@property (nonatomic, retain) NSMutableDictionary *loadSlice_memo;
 @property (nonatomic, retain) NSMutableDictionary *sliceop_memo;
 @property (nonatomic, retain) NSMutableDictionary *varRef_memo;
 @property (nonatomic, retain) NSMutableDictionary *arrayLiteral_memo;
@@ -366,6 +367,7 @@
         self.divEq_memo = [NSMutableDictionary dictionary];
         self.assign_memo = [NSMutableDictionary dictionary];
         self.assignSubscript_memo = [NSMutableDictionary dictionary];
+        self.assignSlice_memo = [NSMutableDictionary dictionary];
         self.assignAppend_memo = [NSMutableDictionary dictionary];
         self.whileBlock_memo = [NSMutableDictionary dictionary];
         self.break_memo = [NSMutableDictionary dictionary];
@@ -429,7 +431,7 @@
         self.subExpr_memo = [NSMutableDictionary dictionary];
         self.atom_memo = [NSMutableDictionary dictionary];
         self.loadSubscript_memo = [NSMutableDictionary dictionary];
-        self.slice_memo = [NSMutableDictionary dictionary];
+        self.loadSlice_memo = [NSMutableDictionary dictionary];
         self.sliceop_memo = [NSMutableDictionary dictionary];
         self.varRef_memo = [NSMutableDictionary dictionary];
         self.arrayLiteral_memo = [NSMutableDictionary dictionary];
@@ -495,6 +497,7 @@
     self.divEq_memo = nil;
     self.assign_memo = nil;
     self.assignSubscript_memo = nil;
+    self.assignSlice_memo = nil;
     self.assignAppend_memo = nil;
     self.whileBlock_memo = nil;
     self.break_memo = nil;
@@ -558,7 +561,7 @@
     self.subExpr_memo = nil;
     self.atom_memo = nil;
     self.loadSubscript_memo = nil;
-    self.slice_memo = nil;
+    self.loadSlice_memo = nil;
     self.sliceop_memo = nil;
     self.varRef_memo = nil;
     self.arrayLiteral_memo = nil;
@@ -597,6 +600,7 @@
     [_divEq_memo removeAllObjects];
     [_assign_memo removeAllObjects];
     [_assignSubscript_memo removeAllObjects];
+    [_assignSlice_memo removeAllObjects];
     [_assignAppend_memo removeAllObjects];
     [_whileBlock_memo removeAllObjects];
     [_break_memo removeAllObjects];
@@ -660,7 +664,7 @@
     [_subExpr_memo removeAllObjects];
     [_atom_memo removeAllObjects];
     [_loadSubscript_memo removeAllObjects];
-    [_slice_memo removeAllObjects];
+    [_loadSlice_memo removeAllObjects];
     [_sliceop_memo removeAllObjects];
     [_varRef_memo removeAllObjects];
     [_arrayLiteral_memo removeAllObjects];
@@ -1048,7 +1052,7 @@
     [self nl_]; 
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:YES]; 
     [self nl_]; 
-    [self expr_]; 
+    [self assignSlice_]; 
     [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
     [self nl_]; 
@@ -1074,6 +1078,41 @@
 
 - (void)assignSubscript_ {
     [self parseRule:@selector(__assignSubscript) withMemo:_assignSubscript_memo];
+}
+
+- (void)__assignSlice {
+    
+    if ([self speculate:^{ if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {[self expr_]; } else {[self matchEmpty:NO]; }[self nl_]; [self match:XP_TOKEN_KIND_COLON discard:YES]; [self nl_]; if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {[self expr_]; } else {[self matchEmpty:NO]; }}]) {
+        if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
+            [self expr_]; 
+        } else {
+            [self matchEmpty:NO]; 
+            [self execute:^{
+            PUSH(_firstNode);
+            }];
+        }
+        [self nl_]; 
+        [self match:XP_TOKEN_KIND_COLON discard:YES]; 
+        [self nl_]; 
+        if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
+            [self expr_]; 
+        } else {
+            [self matchEmpty:NO]; 
+            [self execute:^{
+            PUSH(_lastNode);
+            }];
+        }
+    } else if ([self speculate:^{ [self expr_]; }]) {
+        [self expr_]; 
+    } else {
+        [self raise:@"No viable alternative found in rule 'assignSlice'."];
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchAssignSlice:)];
+}
+
+- (void)assignSlice_ {
+    [self parseRule:@selector(__assignSlice) withMemo:_assignSlice_memo];
 }
 
 - (void)__assignAppend {
@@ -2415,7 +2454,7 @@
     
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:NO]; 
     [self nl_]; 
-    [self slice_]; 
+    [self loadSlice_]; 
     [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
     [self execute:^{
@@ -2450,7 +2489,7 @@
     [self parseRule:@selector(__loadSubscript) withMemo:_loadSubscript_memo];
 }
 
-- (void)__slice {
+- (void)__loadSlice {
     
     if ([self speculate:^{ if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {[self expr_]; } else {[self matchEmpty:NO]; }[self nl_]; [self match:XP_TOKEN_KIND_COLON discard:YES]; [self nl_]; if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {[self expr_]; } else {[self matchEmpty:NO]; }if ([self speculate:^{ [self sliceop_]; }]) {[self sliceop_]; }}]) {
         if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
@@ -2478,14 +2517,14 @@
     } else if ([self speculate:^{ [self expr_]; }]) {
         [self expr_]; 
     } else {
-        [self raise:@"No viable alternative found in rule 'slice'."];
+        [self raise:@"No viable alternative found in rule 'loadSlice'."];
     }
 
-    [self fireDelegateSelector:@selector(parser:didMatchSlice:)];
+    [self fireDelegateSelector:@selector(parser:didMatchLoadSlice:)];
 }
 
-- (void)slice_ {
-    [self parseRule:@selector(__slice) withMemo:_slice_memo];
+- (void)loadSlice_ {
+    [self parseRule:@selector(__loadSlice) withMemo:_loadSlice_memo];
 }
 
 - (void)__sliceop {

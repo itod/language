@@ -266,7 +266,7 @@ assign      = qid nl ('=' | plusEq | minusEq | timesEq | divEq) nl expr {
     PUSH(stat);
 };
 
-assignSubscript = qid nl '['! nl expr nl ']'! nl '='! nl expr {
+assignSubscript = qid nl '['! nl assignSlice nl ']'! nl '='! nl expr {
     XPNode *rhs = POP();
     XPNode *idx = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
@@ -277,6 +277,10 @@ assignSubscript = qid nl '['! nl expr nl ']'! nl '='! nl expr {
     [stat addChild:rhs];
     PUSH(stat);
 };
+
+assignSlice = (expr|Empty{PUSH(_firstNode);}) nl ':'! nl (expr|Empty{PUSH(_lastNode);})
+            | expr
+            ;
 
 assignAppend = qid nl '['! nl ']'! nl '='! nl expr {
     XPNode *rhs = POP();
@@ -675,7 +679,7 @@ subExpr
 
 atom = scalar | arrayLiteral | dictLiteral | funcLiteral | varRef;
 
-loadSubscript = '[' nl slice nl ']'! {
+loadSubscript = '[' nl loadSlice nl ']'! {
     NSArray *nodes = REV(ABOVE(_openSquareTok));
     POP(); // square
     
@@ -698,9 +702,9 @@ loadSubscript = '[' nl slice nl ']'! {
     PUSH(callNode);
 };
 
-slice   = (expr|Empty{PUSH(_firstNode);}) nl ':'! nl (expr|Empty{PUSH(_lastNode);}) sliceop?
-        | expr
-        ;
+loadSlice = (expr|Empty{PUSH(_firstNode);}) nl ':'! nl (expr|Empty{PUSH(_lastNode);}) sliceop?
+          | expr
+          ;
 sliceop = nl ':'! nl (expr|Empty{PUSH(_lastNode);});
 
 varRef = qid {

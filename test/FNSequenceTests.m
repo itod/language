@@ -89,7 +89,7 @@
     TDEquals(0.0, [self doubleForName:@"i"]);
 }
 
-- (void)testSlice {
+- (void)testLoadSlice {
     [self eval:@"var a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];"];
     TDEqualObjects(@"'a'"                                       , [self evalString:@"a[1]"]);
     TDEqualObjects(@"'h'"                                       , [self evalString:@"a[-1]"]);
@@ -149,14 +149,13 @@
     [self eval:@"d[1]=42"];
     TDEqualObjects(@"[42, 'b', 'c', 'd', 'e', 'f', 'g', 'h']"   , [self evalString:@"d"]);
     TDEqualObjects(@"[42, 'b', 'c', 'd', 'e', 'f', 'g', 'h']"   , [self evalString:@"a"]);
-    
+}
+
+- (void)testAssignSlice {
+    [self eval:@"var a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];"];
+
     [self eval:@"a[2:7]=[99, 22, 14]"];
-    TDEqualObjects(@"[42, 99, 22, 14, 'h']"   , [self evalString:@"a"]);
-    
-    
-    
-    
-    
+    TDEqualObjects(@"['a', 99, 22, 14, 'h']"   , [self evalString:@"a"]);
     
 //    print('Before ', a)
 //    a[2:7] = [99, 22, 14]
