@@ -99,7 +99,7 @@
         [v replaceObjectAtIndex:start withObject:obj];
     } else {
         NSArray *head = [v subarrayWithRange:NSMakeRange(0, start)];
-        NSArray *tail = [v subarrayWithRange:NSMakeRange(stop, [v count]-1)];
+        NSArray *tail = [v subarrayWithRange:NSMakeRange(stop, [v count]-1-stop)];
         NSMutableArray *res = [NSMutableArray arrayWithArray:head];
         [res addObject:obj]; // TODO
         [res addObjectsFromArray:tail];
