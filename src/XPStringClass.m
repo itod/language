@@ -131,9 +131,17 @@
         [s replaceCharactersInRange:NSMakeRange(start, 1) withString:obj.stringValue];
     } else {
         NSString *head = [s substringWithRange:NSMakeRange(0, start)];
-        NSString *tail = [s substringWithRange:NSMakeRange(stop, [s length]-1)];
+        NSString *tail = [s substringWithRange:NSMakeRange(stop+1, [s length]-1-stop)];
         NSMutableString *res = [NSMutableString stringWithString:head];
-        [res appendString:obj.stringValue];
+        
+        if (obj.isArrayObject) {
+            for (XPObject *el in obj.value) {
+                [res appendString:el.stringValue];
+            }
+        } else {
+            [res appendString:obj.stringValue];
+        }
+        
         [res appendString:tail];
         this.value = res;
     }
