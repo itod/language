@@ -204,9 +204,9 @@
     self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
     self.subscriptLoadTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"GET_SUBSCRIPT" doubleValue:0.0];
-    self.subscriptLoadTok.tokenKind = XP_TOKEN_KIND_LOAD_SUBSCRIPT;
+    self.subscriptLoadTok.tokenKind = XP_TOKEN_KIND_SUBSCRIPT_LOAD;
     self.subscriptAssignTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"SET_SUBSCRIPT" doubleValue:0.0];
-    self.subscriptAssignTok.tokenKind = XP_TOKEN_KIND_SAVE_SUBSCRIPT;
+    self.subscriptAssignTok.tokenKind = XP_TOKEN_KIND_SUBSCRIPT_ASSIGN;
     self.appendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"APPEND" doubleValue:0.0];
     self.appendTok.tokenKind = XP_TOKEN_KIND_APPEND;
     self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"<ANON>" doubleValue:0.0];

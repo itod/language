@@ -207,7 +207,7 @@
 }
 
 
-- (void)saveSubscript:(XPNode *)node {
+- (void)subscriptAssign:(XPNode *)node {
     //NSLog(@"%s, %@", __PRETTY_FUNCTION__, node);
     // (SET_IDX foo `0` `c`)
     XPNode *idNode = [node childAtIndex:0];
@@ -293,7 +293,7 @@
 }
 
 
-- (id)loadSubscript:(XPNode *)node {
+- (id)subscriptLoad:(XPNode *)node {
     // (GET_IDX (LOAD foo) `0`)
     XPNode *targetNode = [node childAtIndex:0];
     XPNode *startNode = [node childAtIndex:1];

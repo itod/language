@@ -3,8 +3,8 @@
 #define XP_TOKEN_KIND_BLOCK -2
 #define XP_TOKEN_KIND_CALL  -3
 #define XP_TOKEN_KIND_APPEND -4
-#define XP_TOKEN_KIND_SAVE_SUBSCRIPT -5
-#define XP_TOKEN_KIND_LOAD_SUBSCRIPT -6
+#define XP_TOKEN_KIND_SUBSCRIPT_ASSIGN -5
+#define XP_TOKEN_KIND_SUBSCRIPT_LOAD -6
 #define XP_TOKEN_KIND_NEG -7
 #define XP_TOKEN_KIND_LOAD -8
 #define XP_TOKEN_KIND_FUNC_LITERAL -9
@@ -127,10 +127,10 @@
     self.loadTok.tokenKind = XP_TOKEN_KIND_LOAD;
     self.callTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"CALL" doubleValue:0.0];
     self.callTok.tokenKind = XP_TOKEN_KIND_CALL;
-    self.subscriptLoadTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"GET_SUBSCRIPT" doubleValue:0.0];
-    self.subscriptLoadTok.tokenKind = XP_TOKEN_KIND_LOAD_SUBSCRIPT;
-    self.subscriptAssignTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"SET_SUBSCRIPT" doubleValue:0.0];
-    self.subscriptAssignTok.tokenKind = XP_TOKEN_KIND_SAVE_SUBSCRIPT;
+    self.subscriptLoadTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"SUBSCRIPT_LOAD" doubleValue:0.0];
+    self.subscriptLoadTok.tokenKind = XP_TOKEN_KIND_SUBSCRIPT_LOAD;
+    self.subscriptAssignTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"SUBSCRIPT_ASSIGN" doubleValue:0.0];
+    self.subscriptAssignTok.tokenKind = XP_TOKEN_KIND_SUBSCRIPT_ASSIGN;
     self.appendTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"APPEND" doubleValue:0.0];
     self.appendTok.tokenKind = XP_TOKEN_KIND_APPEND;
     self.anonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"<ANON>" doubleValue:0.0];

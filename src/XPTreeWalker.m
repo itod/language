@@ -228,11 +228,11 @@
 
 // REFERENCES
         case XP_TOKEN_KIND_LOAD:            res = [self load:node]; break;
-        case XP_TOKEN_KIND_LOAD_SUBSCRIPT:  res = [self loadSubscript:node]; break;
+        case XP_TOKEN_KIND_SUBSCRIPT_LOAD:  res = [self subscriptLoad:node]; break;
 
 // ASSIGNMENTS
         case XP_TOKEN_KIND_EQUALS:          [self assign:node]; break;
-        case XP_TOKEN_KIND_SAVE_SUBSCRIPT:  [self saveSubscript:node]; break;
+        case XP_TOKEN_KIND_SUBSCRIPT_ASSIGN:[self subscriptAssign:node]; break;
         case XP_TOKEN_KIND_APPEND:          [self append:node]; break;
             
         case XP_TOKEN_KIND_PLUSEQ:          [self plusEq:node]; break;
@@ -414,7 +414,7 @@
 - (void)minusEq:(XPNode *)node {}
 - (void)timesEq:(XPNode *)node {}
 - (void)divEq:(XPNode *)node {}
-- (void)saveSubscript:(XPNode *)node {}
+- (void)subscriptAssign:(XPNode *)node {}
 - (void)append:(XPNode *)node {}
 
 - (id)call:(XPNode *)node {return nil;}
@@ -461,7 +461,7 @@
 - (id)not:(XPNode *)node {return nil;}
 - (id)neg:(XPNode *)node {return nil;}
 - (id)load:(XPNode *)node {return nil;}
-- (id)loadSubscript:(XPNode *)node {return nil;}
+- (id)subscriptLoad:(XPNode *)node {return nil;}
 
 - (id)null:(XPNode *)node {return nil;}
 - (id)nan:(XPNode *)node {return nil;}
