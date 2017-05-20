@@ -36,16 +36,14 @@
 
     if ([methName isEqualToString:@"count"]) {
         sel = @selector(count:);
+    } else if ([methName isEqualToString:@"position"]) {
+        sel = @selector(position:::);
     } else if ([methName isEqualToString:@"get"]) {
         sel = @selector(get::::);
     } else if ([methName isEqualToString:@"set"]) {
         sel = @selector(set::::);
     } else if ([methName isEqualToString:@"append"]) {
         sel = @selector(append::);
-    
-//    } else if ([methName isEqualToString:@"indexOf"]) {
-//        sel = @selector(indexOf::);
-
     }
     TDAssert(sel);
 
@@ -63,6 +61,19 @@
     NSMutableArray *v = this.value;
     NSInteger c = [v count];
     return @(c);
+}
+
+
+- (id)position:(XPObject *)this :(XPObject *)obj :(XPObject *)identity {
+    NSUInteger idx = NSNotFound;
+    if ([identity boolValue]) {
+        idx = [this.value indexOfObjectIdenticalTo:obj];
+    } else {
+        idx = [this.value indexOfObject:obj];
+    }
+
+    double res = NSNotFound == idx ? 0 : idx+1;
+    return @(res);
 }
 
 

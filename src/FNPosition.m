@@ -11,6 +11,7 @@
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
+#import "XPClass.h"
 
 @implementation FNPosition
 
@@ -44,37 +45,16 @@
     TDAssert(col);
     XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
-    BOOL identity = [[space objectForName:@"compareIdentity"] boolValue];
+    XPObject *identity = [space objectForName:@"compareIdentity"];
     
-    NSUInteger idx = NSNotFound;
-    
-    if ([col isDictionaryObject]) {
-        if (identity) {
-            idx = [[col.value allKeys] indexOfObjectIdenticalTo:obj];
-        } else {
-            idx = [col.value objectForKey:obj] ? 0 : NSNotFound;
-        }
-    } else if ([col isArrayObject]) {
-        if (identity) {
-            idx = [col.value indexOfObjectIdenticalTo:obj];
-        } else {
-            idx = [col.value indexOfObject:obj];
-        }
-    } else {
-        NSString *v = [col stringValue];
-        if (identity) {
-            if (obj.isStringObject) {
-                idx = [v rangeOfString:[obj stringValue]].location;
-            } else {
-                idx = NSNotFound;
-            }
-        } else {
-            idx = [v rangeOfString:[obj stringValue]].location;
-        }
+    if (![col.objectClass selectorForMethodNamed:@"position"]) {
+        col = [col asStringObject];
     }
     
-    double res = NSNotFound == idx ? 0 : idx+1;
+    TDAssert([col.objectClass selectorForMethodNamed:@"position"]);
     
+    NSUInteger res = [[col callInstanceMethodNamed:@"position" withArgs:@[obj, identity]] unsignedIntegerValue];
+
     return [XPObject number:res];
 }
 
