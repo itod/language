@@ -93,4 +93,105 @@
     TDEquals(42.0, [self doubleForName:@"y"]);
 }
 
+- (void)testPositionStr1 {
+    [self exec:@"var x='321';var i=position(x, '1');"];
+    TDEquals(3.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x='321';var i=position(x, '1', false);"];
+    TDEquals(3.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x='321';var i=position(x, '1', 0);"];
+    TDEquals(3.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x='321';var i=position(x, '1', true);"];
+    TDEquals(3.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x='321';var i=position(x, '1', 1);"];
+    TDEquals(3.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x='321';var i=position(x, 1);"];
+    TDEquals(3.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x='321';var i=position(x, 1, false);"];
+    TDEquals(3.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x='321';var i=position(x, 1, 0);"];
+    TDEquals(3.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x='321';var i=position(x, 1, true);"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+
+    [self exec:@"var x='321';var i=position(x, 1, 1);"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+}
+
+- (void)testPositionStr2 {
+    [self exec:@"var x='321';var i=position(x, 0);"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x='321';var i=position(x, 0, true);"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x='321';var i=position(x, 0, false);"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x='321';var i=position(x, '0');"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+
+    [self exec:@"var x='321';var i=position(x, '0', true);"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+
+    [self exec:@"var x='321';var i=position(x, '0', false);"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+}
+
+- (void)testPositionStr3 {
+    [self exec:@"var x='';var i=position(x, 'a');"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+}
+
+- (void)testPositionArr1 {
+    [self exec:@"var x=[3,4,5];var i=position(x, 3);"];
+    TDEquals(1.0, [self doubleForName:@"i"]);
+
+    [self exec:@"var x=[3,4,5];var i=position(x, 3, false);"];
+    TDEquals(1.0, [self doubleForName:@"i"]);
+
+    [self exec:@"var x=[3,4,5];var i=position(x, 3, true);"];
+    TDEquals(1.0, [self doubleForName:@"i"]);
+
+    [self exec:@"var x=[3,4,5];var i=position(x, '3');"];
+    TDEquals(1.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x=[3,4,5];var i=position(x, '3', false);"];
+    TDEquals(1.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x=[3,4,5];var i=position(x, '3', true);"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+}
+
+- (void)testPositionArr2 {
+    [self exec:@"var x=[3,4,5];var i=position(x, 1);"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+}
+
+- (void)testPositionArr3 {
+    [self exec:@"var x=[];var i=position(x, 3);"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+}
+
+- (void)testPositionDict1 {
+    [self exec:@"var x={};x[3]=null;var i=position(x, 3);"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x={3:null};var i=position(x, 3);"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x={'3':null};var i=position(x, 3);"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var x={'3':null};var i=position(x, 3, true);"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+}
+
 @end

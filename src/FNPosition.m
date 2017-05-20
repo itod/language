@@ -23,12 +23,12 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *seq = [XPSymbol symbolWithName:@"sequence"];
+    XPSymbol *col = [XPSymbol symbolWithName:@"collection"];
     XPSymbol *obj = [XPSymbol symbolWithName:@"object"];
     XPSymbol *identity = [XPSymbol symbolWithName:@"compareIdentity"];
-    funcSym.orderedParams = [NSMutableArray arrayWithObjects:seq, obj, nil];
+    funcSym.orderedParams = [NSMutableArray arrayWithObjects:col, obj, identity, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      seq, @"sequence",
+                      col, @"collection",
                       obj, @"object",
                       identity, @"compareIdentity",
                       nil];
@@ -40,23 +40,37 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
-    XPObject *seq = [space objectForName:@"sequence"];
-    TDAssert(seq);
+    XPObject *col = [space objectForName:@"collection"];
+    TDAssert(col);
     XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
     BOOL identity = [[space objectForName:@"compareIdentity"] boolValue];
     
     NSUInteger idx = NSNotFound;
     
-    if ([seq isArrayObject]) {
+    if ([col isDictionaryObject]) {
         if (identity) {
-            idx = [seq.value indexOfObjectIdenticalTo:obj];
+            idx = [[col.value allKeys] indexOfObjectIdenticalTo:obj];
         } else {
-            idx = [seq.value indexOfObject:obj];
+            idx = [col.value objectForKey:obj] ? 0 : NSNotFound;
+        }
+    } else if ([col isArrayObject]) {
+        if (identity) {
+            idx = [col.value indexOfObjectIdenticalTo:obj];
+        } else {
+            idx = [col.value indexOfObject:obj];
         }
     } else {
-        NSString *v = [seq stringValue];
-        idx = [v rangeOfString:[obj stringValue]].location;
+        NSString *v = [col stringValue];
+        if (identity) {
+            if (obj.isStringObject) {
+                idx = [v rangeOfString:[obj stringValue]].location;
+            } else {
+                idx = NSNotFound;
+            }
+        } else {
+            idx = [v rangeOfString:[obj stringValue]].location;
+        }
     }
     
     double res = NSNotFound == idx ? 0 : idx+1;

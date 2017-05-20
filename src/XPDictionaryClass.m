@@ -77,7 +77,12 @@
 
 - (void)set:(XPObject *)this :(XPObject *)key :(XPObject *)obj {
     NSMutableDictionary *v = this.value;
-    [v setObject:obj forKey:key];
+    
+    if ([XPObject nullObject] == obj) {
+        [v removeObjectForKey:key];
+    } else {
+        [v setObject:obj forKey:key];
+    }
 }
 
 

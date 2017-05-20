@@ -59,36 +59,6 @@
     TDEquals(0.0, [self doubleForName:@"c"]);
 }
 
-- (void)testPosition1 {
-    [self exec:@"var x='321';var i=position(x, 1);"];
-    TDEquals(3.0, [self doubleForName:@"i"]);
-}
-
-- (void)testPosition2 {
-    [self exec:@"var x='321';var i=position(x, 0);"];
-    TDEquals(0.0, [self doubleForName:@"i"]);
-}
-
-- (void)testPosition3 {
-    [self exec:@"var x='';var i=position(x, 'a');"];
-    TDEquals(0.0, [self doubleForName:@"i"]);
-}
-
-- (void)testPosition4 {
-    [self exec:@"var x=[3,4,5];var i=position(x, 3);"];
-    TDEquals(1.0, [self doubleForName:@"i"]);
-}
-
-- (void)testPosition5 {
-    [self exec:@"var x=[3,4,5];var i=position(x, 1);"];
-    TDEquals(0.0, [self doubleForName:@"i"]);
-}
-
-- (void)testPosition6 {
-    [self exec:@"var x=[];var i=position(x, 3);"];
-    TDEquals(0.0, [self doubleForName:@"i"]);
-}
-
 - (void)testLoadSlice {
     [self eval:@"var a = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];"];
     TDEqualObjects(@"'a'"                                       , [self evalString:@"a[1]"]);
