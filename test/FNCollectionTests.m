@@ -112,7 +112,7 @@
     TDEquals(1, [self boolForName:@"i"]);
 }
 
-- (void)testRemove2 {
+- (void)testRemove1 {
     [self exec:@"var x={'foo':null};var bevor=contains(x, 'foo');var entfernt1=remove(x, 'foo');var entfernt2=remove(x, 'bar');var danach=contains(x, 'foo');"];
     TDEquals(1, [self boolForName:@"bevor"]);
     TDEquals(1, [self boolForName:@"entfernt1"]);
