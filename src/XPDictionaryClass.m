@@ -69,8 +69,20 @@
     NSUInteger idx = NSNotFound;
     NSDictionary *dict = this.value;
     
-    if ([identity boolValue]) {
-        idx = [[dict allKeys] indexOfObjectIdenticalTo:key];
+    if ([identity boolValue] && [dict objectForKey:key]) {
+        BOOL found = NO;
+        idx = 0;
+        for (XPObject *peer in dict) {
+            TDAssert([peer isKindOfClass:[XPObject class]]);
+            if ([key isEqualTo:peer] && key.objectClass == peer.objectClass) {
+                found = YES;
+                break;
+            }
+            ++idx;
+        }
+        if (!found) {
+            idx = NSNotFound;
+        }
     } else {
         idx = [dict objectForKey:key] ? 0 : NSNotFound;
     }

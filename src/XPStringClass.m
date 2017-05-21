@@ -11,12 +11,7 @@
 #import "XPEnumeration.h"
 
 @interface XPObject ()
-- (instancetype)initWithClass:(XPClass *)cls value:(id)val;
 @property (nonatomic, retain, readwrite) id value;
-@end
-
-@interface XPStringClass ()
-@property (nonatomic, retain) NSMutableDictionary *cache;
 @end
 
 @implementation XPStringClass
@@ -29,25 +24,6 @@
     }
     return cls;
 }
-
-
-- (void)dealloc {
-    self.cache = nil;
-    [super dealloc];
-}
-
-
-//- (XPObject *)internedObjectWithValue:(id)val {
-//    TDAssertExecuteThread();
-//    
-//    XPObject *res = self.cache[val];
-//    if (!res) {
-//        res = [[[XPObject alloc] initWithClass:self value:val] autorelease];
-//        self.cache[val] = res;
-//    }
-//    
-//    return res;
-//}
 
 
 - (NSString *)name {
@@ -204,18 +180,6 @@
 
 - (id)boolValue:(XPObject *)this {
     return [this.value length] ? @YES : @NO;
-}
-
-
-#pragma mark -
-#pragma mark Private
-
-- (NSMutableDictionary *)cache {
-    if (!_cache) {
-        self.cache = [NSMutableDictionary dictionary];
-    }
-    
-    return _cache;
 }
 
 @end

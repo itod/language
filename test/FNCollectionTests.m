@@ -192,7 +192,9 @@
     
     [self exec:@"var x={'3':null};var i=position(x, 3, true);"];
     TDEquals(0.0, [self doubleForName:@"i"]);
-    
+}
+
+- (void)testPositionDict2 {
     [self exec:@"var key='3';var x={key:null};var i=position(x, key, true);"];
     TDEquals(1.0, [self doubleForName:@"i"]);
 }
