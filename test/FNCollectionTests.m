@@ -93,7 +93,7 @@
     TDEquals(42.0, [self doubleForName:@"y"]);
 }
 
-- (void)testPositionDict1 {
+- (void)testContains1 {
     [self exec:@"var x={};x[3]=null;var i=contains(x, 3);"];
     TDEquals(1, [self boolForName:@"i"]);
     
@@ -107,9 +107,17 @@
     TDEquals(1, [self boolForName:@"i"]);
 }
 
-- (void)testPositionDict2 {
+- (void)testContains2 {
     [self exec:@"var key='3';var x={key:null};var i=contains(x, key);"];
     TDEquals(1, [self boolForName:@"i"]);
+}
+
+- (void)testRemove2 {
+    [self exec:@"var x={'foo':null};var bevor=contains(x, 'foo');var entfernt1=remove(x, 'foo');var entfernt2=remove(x, 'bar');var danach=contains(x, 'foo');"];
+    TDEquals(1, [self boolForName:@"bevor"]);
+    TDEquals(1, [self boolForName:@"entfernt1"]);
+    TDEquals(0, [self boolForName:@"entfernt2"]);
+    TDEquals(0, [self boolForName:@"danach"]);
 }
 
 @end
