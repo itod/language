@@ -1,22 +1,22 @@
 //
-//  FNPosition.m
+//  FNContains.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "FNPosition.h"
+#import "FNContains.h"
 #import <Language/XPObject.h>
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 #import "XPClass.h"
 
-@implementation FNPosition
+@implementation FNContains
 
 + (NSString *)name {
-    return @"position";
+    return @"contains";
 }
 
 
@@ -47,13 +47,13 @@
     TDAssert(obj);
     XPObject *identity = [space objectForName:@"compareIdentity"];
     
-    if (![col.objectClass selectorForMethodNamed:@"position"]) {
+    if (![col.objectClass selectorForMethodNamed:@"contains"]) {
         col = [col asStringObject];
     }
     
-    TDAssert([col.objectClass selectorForMethodNamed:@"position"]);
+    TDAssert([col.objectClass selectorForMethodNamed:@"contains"]);
     
-    NSUInteger res = [[col callInstanceMethodNamed:@"position" withArgs:@[obj, identity]] unsignedIntegerValue];
+    NSUInteger res = [[col callInstanceMethodNamed:@"contains" withArgs:@[obj, identity]] unsignedIntegerValue];
 
     return [XPObject number:res];
 }

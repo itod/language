@@ -36,7 +36,7 @@
 
     if ([methName isEqualToString:@"count"]) {
         sel = @selector(count:);
-    } else if ([methName isEqualToString:@"position"]) {
+    } else if ([methName isEqualToString:@"contains"]) {
         sel = @selector(position:::);
     } else if ([methName isEqualToString:@"get"]) {
         sel = @selector(get::::);

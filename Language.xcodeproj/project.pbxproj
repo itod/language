@@ -52,8 +52,8 @@
 		D3166E251E54C8BD00DEE3A0 /* FNCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E231E54C8BD00DEE3A0 /* FNCompare.m */; };
 		D3166E271E54CB6000DEE3A0 /* FNTrim.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166E011E53F64300DEE3A0 /* FNTrim.h */; };
 		D3166E281E54CBB200DEE3A0 /* FNTrim.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E021E53F64300DEE3A0 /* FNTrim.m */; };
-		D3166E2B1E54DD4600DEE3A0 /* FNPosition.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166E291E54DD4600DEE3A0 /* FNPosition.h */; };
-		D3166E2C1E54DD4600DEE3A0 /* FNPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E2A1E54DD4600DEE3A0 /* FNPosition.m */; };
+		D3166E2B1E54DD4600DEE3A0 /* FNContains.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166E291E54DD4600DEE3A0 /* FNContains.h */; };
+		D3166E2C1E54DD4600DEE3A0 /* FNContains.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E2A1E54DD4600DEE3A0 /* FNContains.m */; };
 		D3166E311E54E2ED00DEE3A0 /* FNMap.h in Headers */ = {isa = PBXBuildFile; fileRef = D3166E2F1E54E2ED00DEE3A0 /* FNMap.h */; };
 		D3166E321E54E2ED00DEE3A0 /* FNMap.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E301E54E2ED00DEE3A0 /* FNMap.m */; };
 		D3166E351E54E48A00DEE3A0 /* FNCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3166E331E54E37F00DEE3A0 /* FNCollectionTests.m */; };
@@ -270,8 +270,8 @@
 		D3166E1F1E54C76200DEE3A0 /* FNIsNan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNIsNan.m; path = src/FNIsNan.m; sourceTree = SOURCE_ROOT; };
 		D3166E221E54C8BD00DEE3A0 /* FNCompare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNCompare.h; path = src/FNCompare.h; sourceTree = SOURCE_ROOT; };
 		D3166E231E54C8BD00DEE3A0 /* FNCompare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNCompare.m; path = src/FNCompare.m; sourceTree = SOURCE_ROOT; };
-		D3166E291E54DD4600DEE3A0 /* FNPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNPosition.h; path = src/FNPosition.h; sourceTree = SOURCE_ROOT; };
-		D3166E2A1E54DD4600DEE3A0 /* FNPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNPosition.m; path = src/FNPosition.m; sourceTree = SOURCE_ROOT; };
+		D3166E291E54DD4600DEE3A0 /* FNContains.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNContains.h; path = src/FNContains.h; sourceTree = SOURCE_ROOT; };
+		D3166E2A1E54DD4600DEE3A0 /* FNContains.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNContains.m; path = src/FNContains.m; sourceTree = SOURCE_ROOT; };
 		D3166E2F1E54E2ED00DEE3A0 /* FNMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNMap.h; path = src/FNMap.h; sourceTree = SOURCE_ROOT; };
 		D3166E301E54E2ED00DEE3A0 /* FNMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNMap.m; path = src/FNMap.m; sourceTree = SOURCE_ROOT; };
 		D3166E331E54E37F00DEE3A0 /* FNCollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNCollectionTests.m; path = test/FNCollectionTests.m; sourceTree = SOURCE_ROOT; };
@@ -676,8 +676,8 @@
 			children = (
 				D3166DD61E53989300DEE3A0 /* FNCount.h */,
 				D3166DD71E53989300DEE3A0 /* FNCount.m */,
-				D3166E291E54DD4600DEE3A0 /* FNPosition.h */,
-				D3166E2A1E54DD4600DEE3A0 /* FNPosition.m */,
+				D3166E291E54DD4600DEE3A0 /* FNContains.h */,
+				D3166E2A1E54DD4600DEE3A0 /* FNContains.m */,
 				D3166E2F1E54E2ED00DEE3A0 /* FNMap.h */,
 				D3166E301E54E2ED00DEE3A0 /* FNMap.m */,
 				D3166E361E54E4CD00DEE3A0 /* FNFilter.h */,
@@ -913,7 +913,7 @@
 				D3ADB4391E897E6100306142 /* XPLocalSpace.h in Headers */,
 				D3166E311E54E2ED00DEE3A0 /* FNMap.h in Headers */,
 				D3166E381E54E4CE00DEE3A0 /* FNFilter.h in Headers */,
-				D3166E2B1E54DD4600DEE3A0 /* FNPosition.h in Headers */,
+				D3166E2B1E54DD4600DEE3A0 /* FNContains.h in Headers */,
 				D3A7F2811E4D79FB00C7099B /* XPNumberClass.h in Headers */,
 				D37316CB1E3EC49C0034798E /* XPGlobalScope.h in Headers */,
 				D3166E3C1E54EBA200DEE3A0 /* XPFlowExceptions.h in Headers */,
@@ -1083,7 +1083,7 @@
 				D34A562E1E7F37480064DF65 /* FNLog.m in Sources */,
 				D37316AC1E3EBDD20034798E /* XPInterpreter.m in Sources */,
 				D37316BB1E3EBF980034798E /* XPVariableSymbol.m in Sources */,
-				D3166E2C1E54DD4600DEE3A0 /* FNPosition.m in Sources */,
+				D3166E2C1E54DD4600DEE3A0 /* FNContains.m in Sources */,
 				D34A56521E7F39770064DF65 /* FNRadians.m in Sources */,
 				D3166E251E54C8BD00DEE3A0 /* FNCompare.m in Sources */,
 				D34A564A1E7F38DF0064DF65 /* FNTan.m in Sources */,
