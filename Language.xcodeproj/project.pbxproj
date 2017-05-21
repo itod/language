@@ -77,6 +77,8 @@
 		D3166E731E57A6C100DEE3A0 /* testGlobals.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166E721E57A6C100DEE3A0 /* testGlobals.js */; };
 		D3166EDB1E57F82700DEE3A0 /* testLocalsInFunctionLiteral.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166EDA1E57F82700DEE3A0 /* testLocalsInFunctionLiteral.js */; };
 		D3166EDD1E57F82B00DEE3A0 /* testLocalsInFunctionDecl.js in Resources */ = {isa = PBXBuildFile; fileRef = D3166EDC1E57F82B00DEE3A0 /* testLocalsInFunctionDecl.js */; };
+		D3168C6D1ED11ED200517E9D /* FNPosition.h in Headers */ = {isa = PBXBuildFile; fileRef = D3168C6B1ED11ED200517E9D /* FNPosition.h */; };
+		D3168C6E1ED11ED200517E9D /* FNPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = D3168C6C1ED11ED200517E9D /* FNPosition.m */; };
 		D32E70BE1E5365F700728D80 /* XPFunctionBody.h in Headers */ = {isa = PBXBuildFile; fileRef = D32E70BC1E5365F700728D80 /* XPFunctionBody.h */; };
 		D32E70BF1E5365F700728D80 /* XPFunctionBody.m in Sources */ = {isa = PBXBuildFile; fileRef = D32E70BD1E5365F700728D80 /* XPFunctionBody.m */; };
 		D32E70C21E5367A900728D80 /* FNRange.h in Headers */ = {isa = PBXBuildFile; fileRef = D32E70C01E5367A900728D80 /* FNRange.h */; };
@@ -295,6 +297,8 @@
 		D3166E721E57A6C100DEE3A0 /* testGlobals.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testGlobals.js; path = test/scripts/testGlobals.js; sourceTree = SOURCE_ROOT; };
 		D3166EDA1E57F82700DEE3A0 /* testLocalsInFunctionLiteral.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testLocalsInFunctionLiteral.js; path = test/scripts/testLocalsInFunctionLiteral.js; sourceTree = SOURCE_ROOT; };
 		D3166EDC1E57F82B00DEE3A0 /* testLocalsInFunctionDecl.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testLocalsInFunctionDecl.js; path = test/scripts/testLocalsInFunctionDecl.js; sourceTree = SOURCE_ROOT; };
+		D3168C6B1ED11ED200517E9D /* FNPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNPosition.h; path = src/FNPosition.h; sourceTree = SOURCE_ROOT; };
+		D3168C6C1ED11ED200517E9D /* FNPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNPosition.m; path = src/FNPosition.m; sourceTree = SOURCE_ROOT; };
 		D32E70BC1E5365F700728D80 /* XPFunctionBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPFunctionBody.h; path = src/XPFunctionBody.h; sourceTree = SOURCE_ROOT; };
 		D32E70BD1E5365F700728D80 /* XPFunctionBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPFunctionBody.m; path = src/XPFunctionBody.m; sourceTree = SOURCE_ROOT; };
 		D32E70C01E5367A900728D80 /* FNRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNRange.h; path = src/FNRange.h; sourceTree = SOURCE_ROOT; };
@@ -624,6 +628,8 @@
 			children = (
 				D32E70C01E5367A900728D80 /* FNRange.h */,
 				D32E70C11E5367A900728D80 /* FNRange.m */,
+				D3168C6B1ED11ED200517E9D /* FNPosition.h */,
+				D3168C6C1ED11ED200517E9D /* FNPosition.m */,
 			);
 			name = Seq;
 			sourceTree = "<group>";
@@ -898,6 +904,7 @@
 				D34A55DD1E7DD5AA0064DF65 /* XPMemorySpace.h in Headers */,
 				D34A561E1E7F32430064DF65 /* FNMax.h in Headers */,
 				D309BCD31E5CF841002B3199 /* XPTreeWalker.h in Headers */,
+				D3168C6D1ED11ED200517E9D /* FNPosition.h in Headers */,
 				D309BCE01E60AABB002B3199 /* XPBreakpoint.h in Headers */,
 				D34A56161E7F31680064DF65 /* FNCeil.h in Headers */,
 				D305629D1E3BD929008BEC9A /* Language.h in Headers */,
@@ -1085,6 +1092,7 @@
 				D37316BB1E3EBF980034798E /* XPVariableSymbol.m in Sources */,
 				D3166E2C1E54DD4600DEE3A0 /* FNContains.m in Sources */,
 				D34A56521E7F39770064DF65 /* FNRadians.m in Sources */,
+				D3168C6E1ED11ED200517E9D /* FNPosition.m in Sources */,
 				D3166E251E54C8BD00DEE3A0 /* FNCompare.m in Sources */,
 				D34A564A1E7F38DF0064DF65 /* FNTan.m in Sources */,
 				D37CE4AF1E4CE4500008945E /* XPClass.m in Sources */,

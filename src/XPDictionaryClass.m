@@ -32,8 +32,6 @@
 
     if ([methName isEqualToString:@"count"]) {
         sel = @selector(count:);
-    } else if ([methName isEqualToString:@"contains"]) {
-        sel = @selector(position:::);
     } else if ([methName isEqualToString:@"get"]) {
         sel = @selector(get::);
     } else if ([methName isEqualToString:@"set"]) {
@@ -62,33 +60,6 @@
     NSMutableDictionary *v = this.value;
     NSInteger c = [v count];
     return @(c);
-}
-
-
-- (id)position:(XPObject *)this :(XPObject *)key :(XPObject *)identity {
-    NSUInteger idx = NSNotFound;
-    NSDictionary *dict = this.value;
-    
-    if ([identity boolValue] && [dict objectForKey:key]) {
-        BOOL found = NO;
-        idx = 0;
-        for (XPObject *peer in dict) {
-            TDAssert([peer isKindOfClass:[XPObject class]]);
-            if ([key isEqualTo:peer] && key.objectClass == peer.objectClass) {
-                found = YES;
-                break;
-            }
-            ++idx;
-        }
-        if (!found) {
-            idx = NSNotFound;
-        }
-    } else {
-        idx = [dict objectForKey:key] ? 0 : NSNotFound;
-    }
-    
-    double res = NSNotFound == idx ? 0 : idx+1;
-    return @(res);
 }
 
 

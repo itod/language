@@ -9,9 +9,9 @@
 #import "FNContains.h"
 #import <Language/XPObject.h>
 #import <Language/XPTreeWalker.h>
+#import <Language/XPException.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
-#import "XPClass.h"
 
 @implementation FNContains
 
@@ -24,38 +24,33 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *col = [XPSymbol symbolWithName:@"collection"];
-    XPSymbol *obj = [XPSymbol symbolWithName:@"object"];
-    XPSymbol *identity = [XPSymbol symbolWithName:@"compareIdentity"];
-    funcSym.orderedParams = [NSMutableArray arrayWithObjects:col, obj, identity, nil];
+    XPSymbol *col = [XPSymbol symbolWithName:@"dictionary"];
+    XPSymbol *key = [XPSymbol symbolWithName:@"key"];
+    funcSym.orderedParams = [NSMutableArray arrayWithObjects:col, key, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      col, @"collection",
-                      obj, @"object",
-                      identity, @"compareIdentity",
+                      col, @"dictionary",
+                      key, @"key",
                       nil];
-    
-    [funcSym setDefaultObject:[XPObject falseObject] forParamNamed:@"compareIdentity"];
     
     return funcSym;
 }
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
-    XPObject *col = [space objectForName:@"collection"];
-    TDAssert(col);
-    XPObject *obj = [space objectForName:@"object"];
+    XPObject *obj = [space objectForName:@"dictionary"];
     TDAssert(obj);
-    XPObject *identity = [space objectForName:@"compareIdentity"];
+    XPObject *key = [space objectForName:@"key"];
+    TDAssert(key);
     
-    if (![col.objectClass selectorForMethodNamed:@"contains"]) {
-        col = [col asStringObject];
+    BOOL res = NO;
+    
+    if (obj.isDictionaryObject) {
+        res = nil != [obj.value objectForKey:key];
+    } else {
+        [self raise:XPTypeError format:@"first argument to `contains()` must be a Dictionary object"];
     }
     
-    TDAssert([col.objectClass selectorForMethodNamed:@"contains"]);
-    
-    NSUInteger res = [[col callInstanceMethodNamed:@"contains" withArgs:@[obj, identity]] unsignedIntegerValue];
-
-    return [XPObject number:res];
+    return [XPObject boolean:res];
 }
 
 @end

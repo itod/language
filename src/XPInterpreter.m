@@ -30,9 +30,10 @@
 #import "FNDescription.h"
 
 #import "FNCount.h"
-#import "FNContains.h"
+#import "FNPosition.h"
 #import "FNRange.h"
 
+#import "FNContains.h"
 #import "FNMap.h"
 #import "FNFilter.h"
 #import "FNLocals.h"
@@ -154,10 +155,11 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         
         // seq
         [self declareNativeFunction:[FNCount class]];
-        [self declareNativeFunction:[FNContains class]];
+        [self declareNativeFunction:[FNPosition class]];
         [self declareNativeFunction:[FNRange class]];
         
         // coll
+        [self declareNativeFunction:[FNContains class]];
         [self declareNativeFunction:[FNMap class]];
         [self declareNativeFunction:[FNFilter class]];
         [self declareNativeFunction:[FNLocals class]];

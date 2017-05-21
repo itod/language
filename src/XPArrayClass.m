@@ -36,8 +36,6 @@
 
     if ([methName isEqualToString:@"count"]) {
         sel = @selector(count:);
-    } else if ([methName isEqualToString:@"contains"]) {
-        sel = @selector(position:::);
     } else if ([methName isEqualToString:@"get"]) {
         sel = @selector(get::::);
     } else if ([methName isEqualToString:@"set"]) {
@@ -61,19 +59,6 @@
     NSMutableArray *v = this.value;
     NSInteger c = [v count];
     return @(c);
-}
-
-
-- (id)position:(XPObject *)this :(XPObject *)obj :(XPObject *)identity {
-    NSUInteger idx = NSNotFound;
-    if ([identity boolValue]) {
-        idx = [this.value indexOfObjectIdenticalTo:obj];
-    } else {
-        idx = [this.value indexOfObject:obj];
-    }
-
-    double res = NSNotFound == idx ? 0 : idx+1;
-    return @(res);
 }
 
 
