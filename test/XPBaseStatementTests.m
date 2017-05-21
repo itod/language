@@ -100,26 +100,26 @@
 
 
 - (BOOL)boolForName:(NSString *)name {
-    return [[self valueForName:name] boolValue];
+    return [[self objectForName:name] boolValue];
 }
 
 
 - (double)doubleForName:(NSString *)name {
-    return [[self valueForName:name] doubleValue];
+    return [[self objectForName:name] doubleValue];
 }
 
 
 - (NSString *)stringForName:(NSString *)name {
-    return [[self valueForName:name] stringValue];
+    return [[self objectForName:name] stringValue];
 }
 
 
 - (NSString *)descriptionForName:(NSString *)name {
-    return [[self valueForName:name] description];
+    return [[self objectForName:name] description];
 }
 
 
-- (XPObject *)valueForName:(NSString *)name {
+- (XPObject *)objectForName:(NSString *)name {
     XPObject *obj = [self.interp.globals objectForName:name];
     return obj;
 }

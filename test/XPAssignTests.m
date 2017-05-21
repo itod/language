@@ -62,12 +62,12 @@
 
 - (void)testAssignNull {
     [self exec:@"var x=1;x=null;"];
-    TDEqualObjects([XPObject nullObject], [self valueForName:@"x"]);
+    TDEqualObjects([XPObject nullObject], [self objectForName:@"x"]);
 }
 
 - (void)testAssignNaN {
     [self exec:@"var x=1;x=NaN;"];
-    TDEqualObjects([XPObject nanObject], [self valueForName:@"x"]);
+    TDEqualObjects([XPObject nanObject], [self objectForName:@"x"]);
 }
 
 - (void)testPlusEq {

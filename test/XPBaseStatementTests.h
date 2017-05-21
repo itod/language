@@ -27,7 +27,7 @@
 - (double)doubleForName:(NSString *)name;
 - (NSString *)stringForName:(NSString *)name;
 - (NSString *)descriptionForName:(NSString *)name;
-- (XPObject *)valueForName:(NSString *)name;
+- (XPObject *)objectForName:(NSString *)name;
 
 - (NSString *)sourceForSelector:(SEL)sel;
 - (NSString *)stringFromFileNamed:(NSString *)filename;

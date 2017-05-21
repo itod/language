@@ -85,7 +85,7 @@
 
 
 #pragma mark -
-#pragma markPrivate
+#pragma mark Private
 
 - (NSMutableDictionary *)cache {
     if (!_cache) {

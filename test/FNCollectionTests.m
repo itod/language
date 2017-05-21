@@ -77,14 +77,14 @@
     [self exec:[self sourceForSelector:_cmd]];
     TDEqualObjects(@"argX", [self stringForName:@"a"]);
     TDEqualObjects(@"localY", [self stringForName:@"b"]);
-    TDEqualObjects([XPObject nullObject], [self valueForName:@"c"]);
+    TDEqualObjects([XPObject nullObject], [self objectForName:@"c"]);
 }
 
 - (void)testLocalsInFunctionLiteral {
     [self exec:[self sourceForSelector:_cmd]];
     TDEqualObjects(@"argX", [self stringForName:@"a"]);
     TDEqualObjects(@"localY", [self stringForName:@"b"]);
-    TDEqualObjects([XPObject nullObject], [self valueForName:@"c"]);
+    TDEqualObjects([XPObject nullObject], [self objectForName:@"c"]);
 }
 
 - (void)testGlobals {
@@ -182,16 +182,19 @@
 
 - (void)testPositionDict1 {
     [self exec:@"var x={};x[3]=null;var i=position(x, 3);"];
-    TDEquals(0.0, [self doubleForName:@"i"]);
+    TDEquals(1.0, [self doubleForName:@"i"]);
     
     [self exec:@"var x={3:null};var i=position(x, 3);"];
-    TDEquals(0.0, [self doubleForName:@"i"]);
+    TDEquals(1.0, [self doubleForName:@"i"]);
     
     [self exec:@"var x={'3':null};var i=position(x, 3);"];
-    TDEquals(0.0, [self doubleForName:@"i"]);
+    TDEquals(1.0, [self doubleForName:@"i"]);
     
     [self exec:@"var x={'3':null};var i=position(x, 3, true);"];
     TDEquals(0.0, [self doubleForName:@"i"]);
+    
+    [self exec:@"var key='3';var x={key:null};var i=position(x, key, true);"];
+    TDEquals(1.0, [self doubleForName:@"i"]);
 }
 
 @end

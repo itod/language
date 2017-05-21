@@ -67,10 +67,12 @@
 
 - (id)position:(XPObject *)this :(XPObject *)key :(XPObject *)identity {
     NSUInteger idx = NSNotFound;
+    NSDictionary *dict = this.value;
+    
     if ([identity boolValue]) {
-        idx = [[this.value allKeys] indexOfObjectIdenticalTo:key];
+        idx = [[dict allKeys] indexOfObjectIdenticalTo:key];
     } else {
-        idx = [this.value objectForKey:key] ? 0 : NSNotFound;
+        idx = [dict objectForKey:key] ? 0 : NSNotFound;
     }
     
     double res = NSNotFound == idx ? 0 : idx+1;
@@ -92,12 +94,7 @@
 
 - (void)set:(XPObject *)this :(XPObject *)key :(XPObject *)obj {
     NSMutableDictionary *v = this.value;
-    
-    if ([XPObject nullObject] == obj) {
-        [v removeObjectForKey:key];
-    } else {
-        [v setObject:obj forKey:key];
-    }
+    [v setObject:obj forKey:key];
 }
 
 
