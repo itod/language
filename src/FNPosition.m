@@ -46,7 +46,7 @@
     TDAssert(seq);
     XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
-    XPObject *identity = [space objectForName:@"compareIdentity"];
+    BOOL identity = [[space objectForName:@"compareIdentity"] boolValue];
     
     NSUInteger idx = NSNotFound;
     
