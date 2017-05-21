@@ -218,9 +218,7 @@
     
     [self exec:@"var x=[3,4,5];var i=position(x, 3, true);"];
     TDEquals(1.0, [self doubleForName:@"i"]);
-}
-
-- (void)testPositionArr4 {
+    
     [self exec:@"var x=[3,4,5];var i=position(x, '3');"];
     TDEquals(1.0, [self doubleForName:@"i"]);
     
