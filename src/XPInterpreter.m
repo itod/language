@@ -380,7 +380,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     TDAssert(_debugDelegate);
     TDAssert(self.treeWalker);
 
-    [self cont];
+    return; // resumes
 }
 
 
