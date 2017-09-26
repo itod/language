@@ -125,7 +125,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     NSString *src = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&err];
     if (!src) {
         if (outErr) *outErr = err;
-        return NO;
+        return nil;
     }
     
     return [self interpretString:src filePath:path error:outErr];
@@ -219,7 +219,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         if (err) {
             //NSLog(@"%@", err);
             *outErr = [self errorFromPEGKitError:err];
-            return NO;
+            return nil;
         }
         TDAssert(!(*outErr));
         
@@ -227,7 +227,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         
         if (!_root) {
             *outErr = err;
-            return NO;
+            return nil;
         }
         
         self.parser = nil;
