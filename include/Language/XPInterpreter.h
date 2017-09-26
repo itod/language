@@ -60,6 +60,9 @@ extern NSString * const XPDebugInfoLineNumberKey;
 
 - (NSArray *)completionsForPrefix:(NSString *)prefix inRange:(NSRange)range;
 
+- (void)pause;
+- (void)resume;
+
 - (void)stepOver; // next
 - (void)stepIn; // step
 - (void)cont; // continue

@@ -7,6 +7,7 @@
 //
 
 #import <Language/XPException.h>
+
 NSString * const XPRuntimeError = @"RuntimeError";
     NSString * const XPArithmeticError = @"ArithmeticError";
         NSString * const XPZeroDivisionError = @"ZeroDivisionError";

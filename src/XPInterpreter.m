@@ -370,7 +370,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     TDAssert(_debugDelegate);
     TDAssert(self.treeWalker);
     
-    
+    [self stepOver];
 }
 
 
@@ -380,6 +380,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     TDAssert(_debugDelegate);
     TDAssert(self.treeWalker);
 
+    [self cont];
 }
 
 
