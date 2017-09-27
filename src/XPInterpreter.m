@@ -247,6 +247,11 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     
     TDAssert(_treeWalkerStack);
     [_treeWalkerStack addObject:walker];
+    
+    if (self.paused) {
+        [self pause];
+        self.paused = NO;
+    }
 
     @try {
         result = [walker walk:_root];
@@ -370,7 +375,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     TDAssert(_debugDelegate);
     TDAssert(self.treeWalker);
     
-    [self stepOver];
+    [self stepIn];
 }
 
 
@@ -380,7 +385,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     TDAssert(_debugDelegate);
     TDAssert(self.treeWalker);
 
-    return; // resumes
+    return; // noop resumes
 }
 
 

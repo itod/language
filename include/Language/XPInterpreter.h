@@ -53,6 +53,7 @@ extern NSString * const XPDebugInfoLineNumberKey;
 
 // debug
 @property (assign) BOOL debug;
+@property (assign) BOOL paused;
 @property (retain) XPBreakpointCollection *breakpointCollection;
 @property (nonatomic, assign) id <XPInterpreterDebugDelegate>debugDelegate; // weakref
 
