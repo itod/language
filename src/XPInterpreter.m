@@ -91,10 +91,80 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 @implementation XPInterpreter
 
-- (instancetype)init {
+- (instancetype)initWithDelegate:(id<XPInterpreterDelegate>)d {
     self = [super init];
     if (self) {
+        self.delegate = d;
         self.treeWalkerStack = [NSMutableArray array];
+        
+        self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
+        if (!_globals) {
+            self.globals = [[[XPGlobalSpace alloc] init] autorelease];       // global memory;
+        }
+        
+        // DECLARE NATIVE FUNCS
+        {
+            // types
+            [self declareNativeFunction:[FNBoolean class]];
+            [self declareNativeFunction:[FNNumber class]];
+            [self declareNativeFunction:[FNString class]];
+            [self declareNativeFunction:[FNType class]];
+            
+            // util
+            [self declareNativeFunction:[FNAssert class]];
+            [self declareNativeFunction:[FNPrint class]];
+            [self declareNativeFunction:[FNCopy class]];
+            [self declareNativeFunction:[FNDescription class]];
+            
+            // seq
+            [self declareNativeFunction:[FNCount class]];
+            [self declareNativeFunction:[FNPosition class]];
+            [self declareNativeFunction:[FNRange class]];
+            
+            // coll
+            [self declareNativeFunction:[FNContains class]];
+            [self declareNativeFunction:[FNRemove class]];
+            [self declareNativeFunction:[FNMap class]];
+            [self declareNativeFunction:[FNFilter class]];
+            [self declareNativeFunction:[FNLocals class]];
+            [self declareNativeFunction:[FNGlobals class]];
+            
+            // str
+            [self declareNativeFunction:[FNTrim class]];
+            [self declareNativeFunction:[FNLowercase class]];
+            [self declareNativeFunction:[FNUppercase class]];
+            [self declareNativeFunction:[FNMatches class]];
+            [self declareNativeFunction:[FNReplace class]];
+            [self declareNativeFunction:[FNCompare class]];
+            
+            // num
+            [self declareNativeFunction:[FNIsNan class]];
+            [self declareNativeFunction:[FNRandom class]];
+            [self declareNativeFunction:[FNAbs class]];
+            [self declareNativeFunction:[FNRound class]];
+            [self declareNativeFunction:[FNFloor class]];
+            [self declareNativeFunction:[FNCeil class]];
+            [self declareNativeFunction:[FNMax class]];
+            [self declareNativeFunction:[FNMin class]];
+            [self declareNativeFunction:[FNSqrt class]];
+            [self declareNativeFunction:[FNPow class]];
+            [self declareNativeFunction:[FNLog class]];
+            
+            // trig
+            [self declareNativeFunction:[FNAcos class]];
+            [self declareNativeFunction:[FNAsin class]];
+            [self declareNativeFunction:[FNAtan class]];
+            [self declareNativeFunction:[FNAtan2 class]];
+            [self declareNativeFunction:[FNCos class]];
+            [self declareNativeFunction:[FNDegrees class]];
+            [self declareNativeFunction:[FNRadians class]];
+            [self declareNativeFunction:[FNSin class]];
+            [self declareNativeFunction:[FNTan class]];
+            
+            if ([_delegate respondsToSelector:@selector(interpreterDidDeclareNativeFunctions:)]) {
+                [_delegate interpreterDidDeclareNativeFunctions:self];
+            }
+        }
     }
     return self;
 }
@@ -135,75 +205,6 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 - (id)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr {
     input = [NSString stringWithFormat:@"%@\n", input]; // ensure final terminator
 
-    self.globalScope = [[[XPGlobalScope alloc] init] autorelease];
-    if (!_globals) {
-        self.globals = [[[XPGlobalSpace alloc] init] autorelease];       // global memory;
-    }
-    
-    // DECLARE NATIVE FUNCS
-    {
-        // types
-        [self declareNativeFunction:[FNBoolean class]];
-        [self declareNativeFunction:[FNNumber class]];
-        [self declareNativeFunction:[FNString class]];
-        [self declareNativeFunction:[FNType class]];
-
-        // util
-        [self declareNativeFunction:[FNAssert class]];
-        [self declareNativeFunction:[FNPrint class]];
-        [self declareNativeFunction:[FNCopy class]];
-        [self declareNativeFunction:[FNDescription class]];
-        
-        // seq
-        [self declareNativeFunction:[FNCount class]];
-        [self declareNativeFunction:[FNPosition class]];
-        [self declareNativeFunction:[FNRange class]];
-        
-        // coll
-        [self declareNativeFunction:[FNContains class]];
-        [self declareNativeFunction:[FNRemove class]];
-        [self declareNativeFunction:[FNMap class]];
-        [self declareNativeFunction:[FNFilter class]];
-        [self declareNativeFunction:[FNLocals class]];
-        [self declareNativeFunction:[FNGlobals class]];
-
-        // str
-        [self declareNativeFunction:[FNTrim class]];
-        [self declareNativeFunction:[FNLowercase class]];
-        [self declareNativeFunction:[FNUppercase class]];
-        [self declareNativeFunction:[FNMatches class]];
-        [self declareNativeFunction:[FNReplace class]];
-        [self declareNativeFunction:[FNCompare class]];
-        
-        // num
-        [self declareNativeFunction:[FNIsNan class]];
-        [self declareNativeFunction:[FNRandom class]];
-        [self declareNativeFunction:[FNAbs class]];
-        [self declareNativeFunction:[FNRound class]];
-        [self declareNativeFunction:[FNFloor class]];
-        [self declareNativeFunction:[FNCeil class]];
-        [self declareNativeFunction:[FNMax class]];
-        [self declareNativeFunction:[FNMin class]];
-        [self declareNativeFunction:[FNSqrt class]];
-        [self declareNativeFunction:[FNPow class]];
-        [self declareNativeFunction:[FNLog class]];
-
-        // trig
-        [self declareNativeFunction:[FNAcos class]];
-        [self declareNativeFunction:[FNAsin class]];
-        [self declareNativeFunction:[FNAtan class]];
-        [self declareNativeFunction:[FNAtan2 class]];
-        [self declareNativeFunction:[FNCos class]];
-        [self declareNativeFunction:[FNDegrees class]];
-        [self declareNativeFunction:[FNRadians class]];
-        [self declareNativeFunction:[FNSin class]];
-        [self declareNativeFunction:[FNTan class]];
-
-        if ([_delegate respondsToSelector:@selector(interpreterDidDeclareNativeFunctions:)]) {
-            [_delegate interpreterDidDeclareNativeFunctions:self];
-        }
-    }
-    
     // PARSE
     {
         self.allScopes = [NSMutableArray array];

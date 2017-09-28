@@ -30,5 +30,5 @@
 #if TEST
 #define TDAssertExecuteThread() NSAssert1([NSThread isMainThread], @"%s should be called on the EXECUTE-THREAD only.", __PRETTY_FUNCTION__);
 #else
-#define TDAssertExecuteThread() NSAssert1(0==strcmp("EXECUTE-THREAD", dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL)), @"%s should be called on the EXECUTE-THREAD only.", __PRETTY_FUNCTION__);
+#define TDAssertExecuteThread() NSAssert1(0==strcmp("EXECUTE-THREAD", dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL))||[[[NSThread currentThread] name] isEqualToString:@"EXECUTE-THREAD"], @"%s should be called on the EXECUTE-THREAD only.", __PRETTY_FUNCTION__);
 #endif
