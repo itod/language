@@ -91,6 +91,12 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 @implementation XPInterpreter
 
+- (instancetype)init {
+    self = [self initWithDelegate:nil];
+    return self;
+}
+
+
 - (instancetype)initWithDelegate:(id<XPInterpreterDelegate>)d {
     self = [super init];
     if (self) {
@@ -208,54 +214,79 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     // PARSE
     {
         self.allScopes = [NSMutableArray array];
-
-        self.parser = [[[XPParser alloc] initWithDelegate:nil] autorelease];
-        _parser.globalScope = _globalScope;
-        _parser.globals = _globals;
-        _parser.allScopes = _allScopes;
         
-        NSError *err = nil;
-        PKAssembly *a = [_parser parseString:input error:&err];
-        
-        if (err) {
-            //NSLog(@"%@", err);
-            *outErr = [self errorFromPEGKitError:err];
-            return nil;
-        }
-        TDAssert(!(*outErr));
-        
-        self.root = [a pop];
-        
+        self.root = [self parseInput:input error:outErr];
         if (!_root) {
-            *outErr = err;
             return nil;
         }
-        
-        self.parser = nil;
     }
-    
-    // EVAL WALK
-    id result = nil;
 
-    XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
-    walker.globalScope = _globalScope;
-    walker.globals = _globals;
-    walker.stdOut = _stdOut;
-    walker.stdErr = _stdErr;
-    walker.debug = _debug;
-    walker.breakpointCollection = _breakpointCollection;
-    walker.currentFilePath = path ? path : @"<main>";
-    
-    TDAssert(_treeWalkerStack);
-    [_treeWalkerStack addObject:walker];
-    
     if (self.paused) {
         [self pause];
         self.paused = NO;
     }
+    
+    // EVAL WALK
+    id result = nil;
+    {
+        XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
+        walker.globalScope = _globalScope;
+        walker.globals = _globals;
+        walker.stdOut = _stdOut;
+        walker.stdErr = _stdErr;
+        walker.debug = _debug;
+        walker.breakpointCollection = _breakpointCollection;
+        if (path) walker.currentFilePath = path;
+        
+        TDAssert(_treeWalkerStack);
+        [_treeWalkerStack addObject:walker];
+        
+        @try {
+            result = [self walk:_root with:walker error:outErr];
+        } @finally {
+            TDAssert([_treeWalkerStack count]);
+            [_treeWalkerStack removeLastObject];
+            self.allScopes = nil;
+        }
+    }
+    
+    return result;
+}
 
+
+- (XPNode *)parseInput:(NSString *)input error:(NSError **)outErr {
+    self.parser = [[[XPParser alloc] initWithDelegate:nil] autorelease];
+    _parser.globalScope = _globalScope;
+    _parser.globals = _globals;
+    _parser.allScopes = _allScopes;
+    
+    NSError *err = nil;
+    PKAssembly *a = [_parser parseString:input error:&err];
+    
+    if (err) {
+        //NSLog(@"%@", err);
+        *outErr = [self errorFromPEGKitError:err];
+        return nil;
+    }
+    TDAssert(!(*outErr));
+    
+    XPNode *root = [[[a pop] retain] autorelease];
+    
+    self.parser = nil;
+
+    if (!root) {
+        *outErr = err;
+    }
+    
+    return root;
+}
+
+
+- (id)walk:(XPNode *)node with:(XPTreeWalker *)walker error:(NSError **)outErr {
+    id result = nil;
+    
     @try {
-        result = [walker walk:_root];
+        result = [walker walk:node];
         if (!result) {
             result = [NSNull null];
         }
@@ -275,12 +306,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         } else {
             [ex raise];
         }
-    } @finally {
-        TDAssert([_treeWalkerStack count]);
-        [_treeWalkerStack removeLastObject];
-        self.allScopes = nil;
     }
-    
+
     return result;
 }
 
@@ -447,19 +474,43 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     TDAssert(_debug);
     TDAssert(_debugDelegate);
     
-    exprStr = [NSString stringWithFormat:@"var %@=%@;", DEBUG_VAR_NAME, exprStr];
+    exprStr = [NSString stringWithFormat:@"(%@)", exprStr];
+
+    NSString *result = nil;
     
     NSError *err = nil;
-    [self interpretString:exprStr filePath:nil error:&err];
+    XPNode *node = [self parseInput:exprStr error:&err];
     
-    TDAssert(_globals);
-    XPObject *obj = [_globals objectForName:DEBUG_VAR_NAME];
-    NSString *res = [NSString stringWithFormat:@"\n%@\n", [obj stringValue]];
+    if (node) {
+        TDAssert(!err);
+        
+        err = nil;
+        
+        // peel off BLOCK (that causes an eroneous local space to be created that clobbers the closure's surrounding scope - ie, where we paused)
+        TDAssert([@"BLOCK" isEqualToString:node.name]);
+        node = [node.children firstObject];
+        TDAssert(![@"BLOCK" isEqualToString:node.name]);
+        
+        XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
+        walker.globalScope = [[_globalScope copy] autorelease];
+        walker.globals = [[_globals copy] autorelease];
+        walker.currentSpace = [[self.treeWalker.currentSpace copy] autorelease];
+        walker.debug = NO;
+
+        TDAssert(_treeWalkerStack);
+        [_treeWalkerStack addObject:walker];
+
+        XPObject *obj = [self walk:node with:walker error:&err];
+        result = [NSString stringWithFormat:@"\n%@\n", [obj stringValue]];
+    }
     
-    [_globals setObject:nil forName:DEBUG_VAR_NAME];
-    
+    if (!result) {
+        if (err) result = [err description];
+        else result = @"Unknown Error.";
+    }
+
     TDAssert(_stdOut);
-    [_stdOut writeData:[res dataUsingEncoding:NSUTF8StringEncoding]];
+    [_stdOut writeData:[result dataUsingEncoding:NSUTF8StringEncoding]];
 
 }
 

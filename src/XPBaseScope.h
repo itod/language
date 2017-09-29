@@ -10,7 +10,7 @@
 
 @class XPSymbol;
 
-@interface XPBaseScope : NSObject <XPScope>
+@interface XPBaseScope : NSObject <NSCopying, XPScope>
 
 + (instancetype)scopeWithEnclosingScope:(id <XPScope>)scope;
 - (instancetype)initWithEnclosingScope:(id <XPScope>)scope;

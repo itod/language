@@ -10,7 +10,7 @@
 
 @class XPObject;
 
-@interface XPMemorySpace : NSObject
+@interface XPMemorySpace : NSObject <NSCopying>
 
 - (instancetype)initWithName:(NSString *)name enclosingSpace:(XPMemorySpace *)space;
 

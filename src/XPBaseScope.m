@@ -48,6 +48,20 @@
 }
 
 
+#pragma mark -
+#pragma mark NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    XPBaseScope *scope = [[self class] alloc];
+    scope.enclosingScope = _enclosingScope;
+    scope.symbols = [NSMutableDictionary dictionaryWithDictionary:_symbols];
+    return scope;
+}
+
+
+#pragma mark -
+#pragma mark Public
+
 - (id <XPScope>)parentScope {
     return self.enclosingScope;
 }

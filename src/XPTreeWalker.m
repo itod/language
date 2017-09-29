@@ -38,6 +38,7 @@
     if (self) {
         self.delegate = d;
         self.callStack = [NSMutableArray array];
+        self.currentFilePath = @"<main>";
     }
     return self;
 }

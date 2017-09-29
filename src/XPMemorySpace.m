@@ -43,6 +43,24 @@
 }
 
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@ : %@>", _name, _members];
+}
+
+
+#pragma mark -
+#pragma mark NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    XPMemorySpace *space = [[XPMemorySpace alloc] initWithName:_name enclosingSpace:_enclosingSpace];
+    space.members = [NSMutableDictionary dictionaryWithDictionary:_members];
+    return space;
+}
+
+
+#pragma mark -
+#pragma mark Public
+
 - (BOOL)containsObjectForName:(NSString *)name {
     TDAssertExecuteThread();
     TDAssert([name length]);
@@ -104,11 +122,6 @@
         res = self.members;
     }
     return res;
-}
-
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<%@ : %@>", _name, _members];
 }
 
 @end
