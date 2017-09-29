@@ -501,7 +501,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         [_treeWalkerStack addObject:walker];
 
         XPObject *obj = [self walk:node with:walker error:&err];
-        result = [NSString stringWithFormat:@"\n%@\n", [obj stringValue]];
+        result = [NSString stringWithFormat:@"\n%@\n", [obj description]];
     }
     
     if (!result) {

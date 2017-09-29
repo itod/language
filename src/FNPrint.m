@@ -38,7 +38,7 @@
     XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
     
-    NSString *str = [obj stringValue];
+    NSString *str = [obj description];
     [walker.stdOut writeData:[[NSString stringWithFormat:@"%@\n", str] dataUsingEncoding:NSUTF8StringEncoding]];
     
     //NSLog(@"%@", str);
