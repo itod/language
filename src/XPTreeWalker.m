@@ -366,7 +366,7 @@
     
     for (XPNode *stat in node.children) {
         if (_debug) {
-            BOOL shouldPause = self.currentSpace.wantsPause;
+            BOOL shouldPause = self.currentSpace.wantsPause || [_delegate shouldPauseForTreeWalker:self];
             NSUInteger lineNum = stat.lineNumberNode.token.lineNumber; // checks recursively
             
             if (!shouldPause) {

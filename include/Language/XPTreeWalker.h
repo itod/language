@@ -17,6 +17,7 @@
 
 @protocol XPTreeWalkerDelegate <NSObject>
 - (void)treeWalker:(XPTreeWalker *)w didPause:(NSDictionary *)debugInfo;
+- (BOOL)shouldPauseForTreeWalker:(XPTreeWalker *)w;
 @end
 
 @interface XPTreeWalker : NSObject

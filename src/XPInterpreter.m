@@ -221,11 +221,6 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         }
     }
 
-    if (self.paused) {
-        [self pause];
-        self.paused = NO;
-    }
-    
     // EVAL WALK
     id result = nil;
     {
@@ -380,6 +375,15 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
     TDAssert(_debugDelegate);
     [_debugDelegate interpreter:self didPause:debugInfo];
+}
+
+
+- (BOOL)shouldPauseForTreeWalker:(XPTreeWalker *)w {
+    BOOL yn = self.paused;
+    if (yn) {
+        self.paused = NO;
+    }
+    return yn;
 }
 
 
