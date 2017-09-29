@@ -11,7 +11,6 @@
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
-#import <Language/XPException.h>
 
 @implementation FNPrint
 
