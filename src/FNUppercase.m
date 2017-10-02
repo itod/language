@@ -37,7 +37,7 @@
     XPObject *str = [space objectForName:@"str"];
     TDAssert(str);
     
-    NSString *v = [str.value uppercaseString];
+    NSString *v = [[str stringValue] uppercaseString];
     
     XPObject *res = [XPObject string:v];
     return res;

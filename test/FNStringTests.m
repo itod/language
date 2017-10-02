@@ -30,6 +30,12 @@
     
     [self exec:@"var s=uppercase('ab');"];
     TDEqualObjects(@"AB", [self stringForName:@"s"]);
+
+    [self exec:@"var s=uppercase(0);"];
+    TDEqualObjects(@"0", [self stringForName:@"s"]);
+
+    [self exec:@"var s=uppercase(true);"];
+    TDEqualObjects(@"TRUE", [self stringForName:@"s"]);
 }
 
 - (void)testLowercase {
@@ -38,6 +44,12 @@
     
     [self exec:@"var s=lowercase('AB');"];
     TDEqualObjects(@"ab", [self stringForName:@"s"]);
+
+    [self exec:@"var s=lowercase(9);"];
+    TDEqualObjects(@"9", [self stringForName:@"s"]);
+
+    [self exec:@"var s=lowercase(true);"];
+    TDEqualObjects(@"true", [self stringForName:@"s"]);
 }
 
 - (void)testCompare {

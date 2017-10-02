@@ -37,7 +37,7 @@
     XPObject *str = [space objectForName:@"str"];
     TDAssert(str);
     
-    NSString *v = [str.value lowercaseString];
+    NSString *v = [[str stringValue] lowercaseString];
     
     XPObject *res = [XPObject string:v];
     return res;
