@@ -285,14 +285,6 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         if (!result) {
             result = [NSNull null];
         }
-    } @catch (XPUserThrownException *rex) {
-        result = nil;
-        if (outErr) {
-            //NSLog(@"%@", rex.reason);
-            *outErr = [self errorWithName:rex.name reason:rex.reason range:rex.range lineNumber:rex.lineNumber];
-        } else {
-            [rex raise];
-        }
     } @catch (XPException *ex) {
         result = nil;
         if (outErr) {
