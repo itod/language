@@ -17,7 +17,7 @@
 + (NSString *)name;
 - (XPFunctionSymbol *)symbol;
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc;
-- (void)raise:(NSString *)name format:fmt, ...;
+- (void)raise:(NSString *)name format:(NSString *)fmt, ...;
 
 // the space from which this function was called at runtime. used on in locals() currently
 @property (nonatomic, retain) XPMemorySpace *dynamicSpace;

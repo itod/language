@@ -46,8 +46,9 @@
     BOOL yn = [test boolValue];
     
     if (!yn) {
-        NSString *str = [test stringValue];
-        [self raise:XPAssertionError format:@"assertion failed: `%@`, %@", str, msg];
+//        NSString *str = [test stringValue];
+//        [self raise:XPAssertionError format:@"assertion failed: `%@`, %@", str, msg];
+        [self raise:XPAssertionError format:msg];
     }
     
     return nil;

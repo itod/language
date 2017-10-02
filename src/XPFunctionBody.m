@@ -36,7 +36,7 @@
 }
 
 
-- (void)raise:(NSString *)name format:fmt, ... {
+- (void)raise:(NSString *)name format:(NSString *)fmt, ... {
     va_list vargs;
     va_start(vargs, fmt);
     

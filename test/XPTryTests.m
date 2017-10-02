@@ -64,4 +64,11 @@
     TDEqualObjects(@"TypeError", self.error.localizedDescription);
 }
 
+- (void)testExceptionNameReasonLine {
+    [self exec:[self sourceForSelector:_cmd]];
+    TDEqualObjects(@"AssertionError", [self stringForName:@"name"]);
+    TDEqualObjects(@"FOO BAR BAZ", [self stringForName:@"reason"]);
+    TDEquals(6.0, [self doubleForName:@"line"]);
+}
+
 @end
