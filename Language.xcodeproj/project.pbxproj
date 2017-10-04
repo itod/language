@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D30078C71F8581E200452D2F /* FNSum.m in Sources */ = {isa = PBXBuildFile; fileRef = D30078C51F8581E100452D2F /* FNSum.m */; };
 		D30562961E3BD929008BEC9A /* Language.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D305628C1E3BD929008BEC9A /* Language.framework */; };
 		D305629D1E3BD929008BEC9A /* Language.h in Headers */ = {isa = PBXBuildFile; fileRef = D305628F1E3BD929008BEC9A /* Language.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D309BCD31E5CF841002B3199 /* XPTreeWalker.h in Headers */ = {isa = PBXBuildFile; fileRef = D309BCD21E5CF841002B3199 /* XPTreeWalker.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -227,6 +228,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D30078C51F8581E100452D2F /* FNSum.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FNSum.m; path = src/FNSum.m; sourceTree = SOURCE_ROOT; };
+		D30078C61F8581E200452D2F /* FNSum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FNSum.h; path = src/FNSum.h; sourceTree = SOURCE_ROOT; };
 		D305628C1E3BD929008BEC9A /* Language.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Language.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D305628F1E3BD929008BEC9A /* Language.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Language.h; path = include/Language/Language.h; sourceTree = SOURCE_ROOT; };
 		D30562901E3BD929008BEC9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = src/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -689,6 +692,8 @@
 			children = (
 				D3166DD61E53989300DEE3A0 /* FNCount.h */,
 				D3166DD71E53989300DEE3A0 /* FNCount.m */,
+				D30078C61F8581E200452D2F /* FNSum.h */,
+				D30078C51F8581E100452D2F /* FNSum.m */,
 				D3166E291E54DD4600DEE3A0 /* FNContains.h */,
 				D3166E2A1E54DD4600DEE3A0 /* FNContains.m */,
 				D3168C6F1ED122EB00517E9D /* FNRemove.h */,
@@ -1091,6 +1096,7 @@
 				D3A7F2861E4D7A8A00C7099B /* XPStringClass.m in Sources */,
 				D34A56321E7F37EF0064DF65 /* FNAcos.m in Sources */,
 				D3166E391E54E4CE00DEE3A0 /* FNFilter.m in Sources */,
+				D30078C71F8581E200452D2F /* FNSum.m in Sources */,
 				D34A56361E7F381D0064DF65 /* FNAtan.m in Sources */,
 				D368A0091E3BE383005783BB /* XPParser.m in Sources */,
 				D309BCE51E60AAD5002B3199 /* XPBreakpointCollection.m in Sources */,
