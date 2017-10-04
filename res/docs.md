@@ -28,7 +28,7 @@ And a single-line:
 
 MalerScript includes six (6) data types: Boolean, Number, String, Array, Dictionary and Function.
 
-<a name="boolean"></a>**Term:** **Boolean**
+<a name="boolean"></a>**Type:** **Boolean**
 
 An object of type boolean can have one of two values, true and false.
 
@@ -36,7 +36,7 @@ An object of type boolean can have one of two values, true and false.
 
     false
 
-<a name="number"></a>**Term:** **Number**
+<a name="number"></a>**Type:** **Number**
 
 A number represents a floating-point number. A number can have any double-precision 64-bit format [IEEE 754](http://www.w3.org/TR/xpath/#IEEE754) value.
 
@@ -48,7 +48,7 @@ The numeric operators convert their operands to numbers as if by calling the [`N
 
     1.6E-35
 
-<a name="string"></a>**Term:** **String**
+<a name="string"></a>**Type:** **String**
 
 Strings consist of a sequence of zero or more [Unicode](http://www.unicode.org/ "Unicode Consortium") characters.
 
@@ -56,7 +56,7 @@ Strings consist of a sequence of zero or more [Unicode](http://www.unicode.org/ 
 
     "It's not a tumor!"
 
-<a name="array"></a>**Term:** **Array**
+<a name="array"></a>**Type:** **Array**
 
 Arrays are an ordered sequence of other objects of any type (including other arrays).
 
@@ -64,7 +64,7 @@ Arrays are an ordered sequence of other objects of any type (including other arr
 
     [] // an empty array
 
-<a name="dictionary"></a>**Term:** **Dictionary**
+<a name="dictionary"></a>**Type:** **Dictionary**
 
 Dictionaries are name/value pairs that offer efficient storage and lookup by name.
 
@@ -72,7 +72,7 @@ Dictionaries are name/value pairs that offer efficient storage and lookup by nam
 
     {} // an empty dictionary
 
-<a name="function"></a>**Term:** **Function**
+<a name="function"></a>**Type:** **Function**
 
 Functions are callable portions of a program which can return a value. In MalerScript, all functions are objects.
 
@@ -97,8 +97,8 @@ The `String` function converts an object to a string as follows:
     * otherwise, the number is represented in decimal form as a Number including a decimal point with at least one digit before the decimal point and at least one digit after the decimal point, preceded by a minus sign (-) if the number is negative; there must be no leading zeros before the decimal point apart possibly from the one required digit immediately before the decimal point; beyond the one required digit after the decimal point there must be as many, but only as many, more digits as are needed to uniquely distinguish the number from all other IEEE 754 numeric values.
   
 * The boolean false value is converted to the string `false`. The boolean true value is converted to the string `true`.
-* TODO Array
-* TODO Dictionary
+* Arrays are converted into a string beginning with `[`, followed by the string representation of each item in the array (as if the `String` function were called on it), each item – except the last – followed by a comma and a single space character `, `, and then finally a `]`.
+* Dictionaries are converted into a string beginning with `{`, followed by the string representation of each name/value pair in the dictionary (as if the `String` function were called on them) separated by colon and a space character `: `, each pair – except the last – followed by a comma and a single space character `, `, and then finally a `}`.
 * TODO Subroutine
 * If the argument is omitted, it returns the empty string.
 
