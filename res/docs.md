@@ -1,7 +1,7 @@
-## Pathological Documentation
+## MalerScript Documentation
 
 * [Comments](#comments)
-* [Terms](#terms)
+* [Types](#types)
 * [String functions](#string-functions)
 * [Date functions](#date-functions)
 * [Number functions](#number-functions)
@@ -24,27 +24,47 @@ And a single-line:
 
     // TODO
 
-### <a name="terms"></a>Terms
+### <a name="types"></a>Types
+
+MalerScript includes six (6) data types: Boolean, Number, String, Array, Dictionary and Function.
 
 <a name="boolean"></a>**Term:** **Boolean**
 
 An object of type boolean can have one of two values, true and false.
 
+    true
+
+    false
+
 <a name="number"></a>**Term:** **Number**
 
 A number represents a floating-point number. A number can have any double-precision 64-bit format [IEEE 754](http://www.w3.org/TR/xpath/#IEEE754) value.
 
-The numeric operators convert their operands to numbers as if by calling the [`number`](#fn-number) function.
+The numeric operators convert their operands to numbers as if by calling the [`Number`](#fn-number) function.
+
+    42
+
+    3.14
+
+    1.6E-35
 
 <a name="string"></a>**Term:** **String**
 
 Strings consist of a sequence of zero or more [Unicode](http://www.unicode.org/ "Unicode Consortium") characters.
+
+    'Evil will always triumph, because good is dumb.'    
+
+    "It's not a tumor!"
 
 <a name="array"></a>**Term:** **Array**
 
 TODO
 
 <a name="dictionary"></a>**Term:** **Dictionary**
+
+TODO
+
+<a name="function"></a>**Term:** **Function**
 
 TODO
 
@@ -66,6 +86,7 @@ The `String` function converts an object to a string as follows:
 * The boolean false value is converted to the string `false`. The boolean true value is converted to the string `true`.
 * TODO Array
 * TODO Dictionary
+* TODO Subroutine
 * If the argument is omitted, it returns the empty string.
 
 **NOTE:** The [`String`](#fn-string) function is not intended for converting numbers into strings for presentation to users. The [`format-number`](#fn-format-number) function provides this functionality.
