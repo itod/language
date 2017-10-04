@@ -34,11 +34,15 @@
     TDEqualObjects(@"1", [self stringForName:@"res"]);
 }
 
+- (void)testSum {
+    [self exec:@"var v=[0,1,2,-10];var res=sum(v);"];
+    TDEquals(-7.0, [self doubleForName:@"res"]);
+}
+
 - (void)testMap {
     [self exec:@"var v=[0,1,2];var res=map(v, sub(n){return n+1});"];
     TDEqualObjects(@"[1, 2, 3]", [self stringForName:@"res"]);
 }
-
 
 - (void)testMap1 {
     [self exec:@"var v=[0,1,2];var res=map(v, sub(n){return n-1});"];

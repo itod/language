@@ -24,10 +24,10 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *coll = [XPSymbol symbolWithName:@"collection"];
-    funcSym.orderedParams = [NSMutableArray arrayWithObjects:coll, nil];
+    XPSymbol *seq = [XPSymbol symbolWithName:@"seq"];
+    funcSym.orderedParams = [NSMutableArray arrayWithObjects:seq, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      coll, @"collection",
+                      seq, @"seq",
                       nil];
     
     return funcSym;
@@ -35,15 +35,15 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
-    XPObject *coll = [space objectForName:@"collection"];
-    TDAssert(coll);
+    XPObject *seq = [space objectForName:@"seq"];
+    TDAssert(seq);
     
-    if (![coll isArrayObject]) {
+    if (![seq isArrayObject]) {
         [self raise:XPTypeError format:@"argument to `sum()` must be an Array object"];
         return nil;
     }
     
-    NSArray *vec = coll.value;
+    NSArray *vec = seq.value;
     double result = 0.0;
     
     for (XPObject *item in vec) {
