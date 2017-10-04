@@ -58,15 +58,28 @@ Strings consist of a sequence of zero or more [Unicode](http://www.unicode.org/ 
 
 <a name="array"></a>**Term:** **Array**
 
-TODO
+Arrays are an ordered sequence of other objects of any type (including other arrays).
+
+    [false, 'eins', 'zwei', 'drei', 4, 5.0]
+
+    [] // an empty array
 
 <a name="dictionary"></a>**Term:** **Dictionary**
 
-TODO
+Dictionaries are name/value pairs that offer efficient storage and lookup by name.
+
+    {'name': 'Todd', 'age':39, 'male': true}
+
+    {} // an empty dictionary
 
 <a name="function"></a>**Term:** **Function**
 
-TODO
+Functions are callable portions of a program which can return a value. In MalerScript, all functions are objects.
+
+    sub getName(dict) {
+        var name = dict['first_name'] || " " || dict['last_name']
+        return name
+    }
 
 ### <a name="string-functions"></a>String Functions
 
