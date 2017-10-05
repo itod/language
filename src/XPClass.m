@@ -54,19 +54,11 @@
 - (SEL)selectorForMethodNamed:(NSString *)methName {
     SEL sel = NULL;
     
-    if ([methName isEqualToString:@"asString"]) {
-        sel = @selector(asString:);
-    } if ([methName isEqualToString:@"asNumber"]) {
-        sel = @selector(asNumber:);
-    } if ([methName isEqualToString:@"asBoolean"]) {
-        sel = @selector(asBoolean:);
-
-//    } if ([methName isEqualToString:@"copy"]) {
+//    if ([methName isEqualToString:@"copy"]) {
 //        sel = @selector(copy:);
 //    } if ([methName isEqualToString:@"type"]) {
 //        sel = @selector(type:);
-
-    }
+//    }
     
     return sel;
 }

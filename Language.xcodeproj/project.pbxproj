@@ -469,6 +469,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D30078C81F8689A500452D2F /* Dictionary */ = {
+			isa = PBXGroup;
+			children = (
+				D3166E291E54DD4600DEE3A0 /* FNContains.h */,
+				D3166E2A1E54DD4600DEE3A0 /* FNContains.m */,
+				D3168C6F1ED122EB00517E9D /* FNRemove.h */,
+				D3168C701ED122EB00517E9D /* FNRemove.m */,
+			);
+			name = Dictionary;
+			sourceTree = "<group>";
+		};
+		D30078C91F8689D500452D2F /* Array */ = {
+			isa = PBXGroup;
+			children = (
+				D30078C61F8581E200452D2F /* FNSum.h */,
+				D30078C51F8581E100452D2F /* FNSum.m */,
+			);
+			name = Array;
+			sourceTree = "<group>";
+		};
 		D30562821E3BD929008BEC9A = {
 			isa = PBXGroup;
 			children = (
@@ -635,12 +655,10 @@
 		D3166E2D1E54E12D00DEE3A0 /* Seq */ = {
 			isa = PBXGroup;
 			children = (
-				D32E70C01E5367A900728D80 /* FNRange.h */,
-				D32E70C11E5367A900728D80 /* FNRange.m */,
+				D3166DD61E53989300DEE3A0 /* FNCount.h */,
+				D3166DD71E53989300DEE3A0 /* FNCount.m */,
 				D3168C6B1ED11ED200517E9D /* FNPosition.h */,
 				D3168C6C1ED11ED200517E9D /* FNPosition.m */,
-				D30078C61F8581E200452D2F /* FNSum.h */,
-				D30078C51F8581E100452D2F /* FNSum.m */,
 			);
 			name = Seq;
 			sourceTree = "<group>";
@@ -692,12 +710,8 @@
 		D3166E6D1E57A3D900DEE3A0 /* Collection */ = {
 			isa = PBXGroup;
 			children = (
-				D3166DD61E53989300DEE3A0 /* FNCount.h */,
-				D3166DD71E53989300DEE3A0 /* FNCount.m */,
-				D3166E291E54DD4600DEE3A0 /* FNContains.h */,
-				D3166E2A1E54DD4600DEE3A0 /* FNContains.m */,
-				D3168C6F1ED122EB00517E9D /* FNRemove.h */,
-				D3168C701ED122EB00517E9D /* FNRemove.m */,
+				D32E70C01E5367A900728D80 /* FNRange.h */,
+				D32E70C11E5367A900728D80 /* FNRange.m */,
 				D3166E2F1E54E2ED00DEE3A0 /* FNMap.h */,
 				D3166E301E54E2ED00DEE3A0 /* FNMap.m */,
 				D3166E361E54E4CD00DEE3A0 /* FNFilter.h */,
@@ -721,6 +735,8 @@
 				D3166E111E53F8E500DEE3A0 /* String */,
 				D3166E2D1E54E12D00DEE3A0 /* Seq */,
 				D3166E6D1E57A3D900DEE3A0 /* Collection */,
+				D30078C91F8689D500452D2F /* Array */,
+				D30078C81F8689A500452D2F /* Dictionary */,
 			);
 			name = Functions;
 			sourceTree = "<group>";

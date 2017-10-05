@@ -124,12 +124,12 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             [self declareNativeFunction:[FNDescription class]];
             
             // seq
+            [self declareNativeFunction:[FNCount class]];
             [self declareNativeFunction:[FNPosition class]];
             [self declareNativeFunction:[FNRange class]];
             [self declareNativeFunction:[FNSum class]];
 
             // coll
-            [self declareNativeFunction:[FNCount class]];
             [self declareNativeFunction:[FNContains class]];
             [self declareNativeFunction:[FNRemove class]];
             [self declareNativeFunction:[FNMap class]];

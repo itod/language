@@ -24,11 +24,11 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *col = [XPSymbol symbolWithName:@"dictionary"];
+    XPSymbol *obj = [XPSymbol symbolWithName:@"dictionary"];
     XPSymbol *key = [XPSymbol symbolWithName:@"key"];
-    funcSym.orderedParams = [NSMutableArray arrayWithObjects:col, key, nil];
+    funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, key, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      col, @"dictionary",
+                      obj, @"dictionary",
                       key, @"key",
                       nil];
     
