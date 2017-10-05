@@ -128,9 +128,9 @@ The `compare` function returns -1, 0, or 1, depending on whether the value of th
 
 The `contains` function returns true if the first argument string contains the second argument string, and otherwise returns false.
 
-<a name="fn-count"></a>**Function:** *Number* **count**(*String?*)
+<a name="fn-count"></a>**Function:** *Number* **count**(*sequence*)
 
-The `count` returns the number of characters in the string.
+The `count` returns the number of items in the sequence. If the sequence is a string, the result is the number of characters. If the sequence is an array, the result is the number of items in the array. If the sequence is a dictionary, the result is the number of name/value pairs in the dictionary.
 
 <a name="fn-trim"></a>**Function:** *String* **trim**(*String?*)
 
