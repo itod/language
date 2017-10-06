@@ -29,6 +29,7 @@
 #import "FNCopy.h"
 #import "FNDescription.h"
 #import "FNSleep.h"
+#import "FNExit.h"
 
 #import "FNPosition.h"
 #import "FNRange.h"
@@ -124,6 +125,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             [self declareNativeFunction:[FNCopy class]];
             [self declareNativeFunction:[FNDescription class]];
             [self declareNativeFunction:[FNSleep class]];
+            [self declareNativeFunction:[FNExit class]];
 
             // seq
             [self declareNativeFunction:[FNCount class]];

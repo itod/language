@@ -25,6 +25,7 @@ NSString * const XPRuntimeError = @"RuntimeError";
     NSString * const XPValueError = @"ValueError";
 
 NSString * const XPUserInterruptException = @"UserInterruptException";
+NSString * const XPSystemExitException = @"XPSystemExitException";
 
 @implementation XPException
 

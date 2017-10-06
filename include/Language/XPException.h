@@ -48,6 +48,7 @@ extern NSString * const XPRuntimeError;
     extern NSString * const XPValueError;
 
 extern NSString * const XPUserInterruptException;
+extern NSString * const XPSystemExitException;
 
 @interface XPException : NSException
 @property (nonatomic, assign) NSUInteger lineNumber;

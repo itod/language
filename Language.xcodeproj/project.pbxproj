@@ -87,6 +87,7 @@
 		D32E70C21E5367A900728D80 /* FNRange.h in Headers */ = {isa = PBXBuildFile; fileRef = D32E70C01E5367A900728D80 /* FNRange.h */; };
 		D32E70C31E5367A900728D80 /* FNRange.m in Sources */ = {isa = PBXBuildFile; fileRef = D32E70C11E5367A900728D80 /* FNRange.m */; };
 		D33C336D1F881E0A00B59CA5 /* FNSleep.m in Sources */ = {isa = PBXBuildFile; fileRef = D33C336B1F881E0800B59CA5 /* FNSleep.m */; };
+		D33C33701F881F7600B59CA5 /* FNExit.m in Sources */ = {isa = PBXBuildFile; fileRef = D33C336F1F881F7600B59CA5 /* FNExit.m */; };
 		D34A55DD1E7DD5AA0064DF65 /* XPMemorySpace.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A55DB1E7DD5AA0064DF65 /* XPMemorySpace.h */; };
 		D34A55DE1E7DD5AA0064DF65 /* XPSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A55DC1E7DD5AA0064DF65 /* XPSymbol.h */; };
 		D34A560A1E7F04F20064DF65 /* FNAbs.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A56081E7F04F20064DF65 /* FNAbs.h */; };
@@ -314,6 +315,8 @@
 		D32E70C11E5367A900728D80 /* FNRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNRange.m; path = src/FNRange.m; sourceTree = SOURCE_ROOT; };
 		D33C336B1F881E0800B59CA5 /* FNSleep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FNSleep.m; path = src/FNSleep.m; sourceTree = SOURCE_ROOT; };
 		D33C336C1F881E0900B59CA5 /* FNSleep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FNSleep.h; path = src/FNSleep.h; sourceTree = SOURCE_ROOT; };
+		D33C336E1F881F7600B59CA5 /* FNExit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FNExit.h; path = src/FNExit.h; sourceTree = SOURCE_ROOT; };
+		D33C336F1F881F7600B59CA5 /* FNExit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FNExit.m; path = src/FNExit.m; sourceTree = SOURCE_ROOT; };
 		D34A55DB1E7DD5AA0064DF65 /* XPMemorySpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPMemorySpace.h; path = src/XPMemorySpace.h; sourceTree = SOURCE_ROOT; };
 		D34A55DC1E7DD5AA0064DF65 /* XPSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPSymbol.h; path = src/XPSymbol.h; sourceTree = SOURCE_ROOT; };
 		D34A56081E7F04F20064DF65 /* FNAbs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNAbs.h; path = src/FNAbs.h; sourceTree = SOURCE_ROOT; };
@@ -679,6 +682,8 @@
 				D3E79A051E8D78DD001F9DC7 /* FNDescription.m */,
 				D33C336C1F881E0900B59CA5 /* FNSleep.h */,
 				D33C336B1F881E0800B59CA5 /* FNSleep.m */,
+				D33C336E1F881F7600B59CA5 /* FNExit.h */,
+				D33C336F1F881F7600B59CA5 /* FNExit.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1180,6 +1185,7 @@
 				D3ADB43A1E897E6100306142 /* XPLocalSpace.m in Sources */,
 				D3DF58BF1E429E45006CAA07 /* XPFunctionSymbol.m in Sources */,
 				D3166DE41E53B0C400DEE3A0 /* FNBoolean.m in Sources */,
+				D33C33701F881F7600B59CA5 /* FNExit.m in Sources */,
 				D3166DE01E53B03300DEE3A0 /* FNPrint.m in Sources */,
 				D37316A21E3EBD4B0034798E /* XPNode.m in Sources */,
 				D3166DD91E53989300DEE3A0 /* FNCount.m in Sources */,
