@@ -100,7 +100,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 }
 
 
-- (instancetype)initWithDelegate:(id<XPInterpreterDelegate>)d {
+- (instancetype)initWithDelegate:(id <XPInterpreterDelegate>)d {
     self = [super init];
     if (self) {
         self.delegate = d;
