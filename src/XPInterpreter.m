@@ -215,43 +215,56 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 
 - (id)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr {
-    input = [NSString stringWithFormat:@"%@\n", input]; // ensure final terminator
-
-    // PARSE
-    {
-        self.allScopes = [NSMutableArray array];
-        
-        self.root = [self parseInput:input error:outErr];
-        if (!_root) {
-            return nil;
-        }
-    }
-
-    // EVAL WALK
     id result = nil;
-    {
-        XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
-        walker.globalScope = _globalScope;
-        walker.globals = _globals;
-        walker.stdOut = _stdOut;
-        walker.stdErr = _stdErr;
-        walker.debug = _debug;
-        walker.breakpointCollection = _breakpointCollection;
-        if (path) walker.currentFilePath = path;
+
+    @autoreleasepool {
+        input = [NSString stringWithFormat:@"%@\n", input]; // ensure final terminator
         
-        TDAssert(_treeWalkerStack);
-        [_treeWalkerStack addObject:walker];
+        // PARSE
+        {
+            self.allScopes = [NSMutableArray array];
+            
+            self.root = [self parseInput:input error:outErr];
+            if (!_root) {
+                if (*outErr) {
+                    [(*outErr) retain];
+                }
+                return nil;
+            }
+        }
         
-        @try {
-            result = [self walk:_root with:walker error:outErr];
-        } @finally {
-            TDAssert([_treeWalkerStack count]);
-            [_treeWalkerStack removeLastObject];
-            self.allScopes = nil;
+        // EVAL WALK
+        {
+            XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
+            walker.globalScope = _globalScope;
+            walker.globals = _globals;
+            walker.stdOut = _stdOut;
+            walker.stdErr = _stdErr;
+            walker.debug = _debug;
+            walker.breakpointCollection = _breakpointCollection;
+            if (path) walker.currentFilePath = path;
+            
+            TDAssert(_treeWalkerStack);
+            [_treeWalkerStack addObject:walker];
+            
+            @try {
+                result = [[self walk:_root with:walker error:outErr] retain];
+                if (*outErr) {
+                    [(*outErr) retain];
+                }
+            } @finally {
+                TDAssert([_treeWalkerStack count]);
+                [_treeWalkerStack removeLastObject];
+                self.allScopes = nil;
+            }
         }
     }
     
-    return result;
+    if (*outErr) {
+        [(*outErr) autorelease];
+    }
+    
+    return [result autorelease];
 }
 
 
@@ -266,7 +279,9 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     
     if (err) {
         //NSLog(@"%@", err);
-        *outErr = [self errorFromPEGKitError:err];
+        if (outErr) {
+            *outErr = [self errorFromPEGKitError:err];
+        }
         return nil;
     }
     TDAssert(!(*outErr));
