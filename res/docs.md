@@ -122,9 +122,9 @@ The `flags` argument is interpreted in the same manner as for the [`matches`](#f
 
 The `compare` function returns -1, 0, or 1, depending on whether the value of the first argument is respectively less than, equal to, or greater than the value of the second argument, according to the rules of lexical string comparison.
 
-<a name="fn-contains"></a>**Function:** *Boolean* **contains**(*String*, *String*)
+<a name="fn-contains"></a>**Function:** *Number* **contains**(*String*, *String*)
 
-The `contains` function returns true if the first argument string contains the second argument string, and otherwise returns false.
+The `contains` function returns 0 if the first argument string does not contain the second argument string. If the first argument string *does* contain the second argument string, the index of the second string within the first string is returned. Recall that all indexes in MalerScript are 1-based, not 0-based.
 
 <a name="fn-count"></a>**Function:** *Number* **count**(*sequence*)
 
