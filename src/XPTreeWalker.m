@@ -71,7 +71,7 @@
     // or a statically-declared func
     if (!res) {
         NSString *name = node.name;
-        TDAssert(node.scope);
+        TDAssert([node.scope conformsToProtocol:@protocol(XPScope)]);
         XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
         if (funcSym) {
             res = [XPObject function:funcSym];
