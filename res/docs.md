@@ -102,7 +102,7 @@ The `String` function converts an object to a string as follows:
 * TODO Subroutine
 * If the argument is omitted, it returns the empty string.
 
-<a name="fn-matches"></a>**Function:** *String* **matches**(*String input*, *String pattern*, *String? flags*)
+<a name="fn-string-matches"></a>**Function:** *String* **matches**(*String input*, *String pattern*, *String? flags*)
 
 The `matches` function returns true if `input` matches the regular expression supplied as `pattern` as influenced by the value of `flags`, if present; otherwise, it returns false.
 
@@ -112,35 +112,35 @@ The available flags are:
 * `i`: If present, the match operates in case-insensitive mode.
 * `x`: If present, whitespace characters (`#x9`, `#xA`, `#xD` and `#x20`) in the regular expression are removed prior to matching with one exception: whitespace characters within character class expressions are not removed. This flag can be used, for example, to break up long regular expressions into readable lines.
 
-<a name="fn-replace"></a>**Function:** *String* **replace**(*String input*, *String pattern*, *String replacement*, *String? flags*)
+<a name="fn-string-replace"></a>**Function:** *String* **replace**(*String input*, *String pattern*, *String replacement*, *String? flags*)
 
 The `replace` function returns the string that is obtained by replacing each non-overlapping substring of `input` that matches the given regular expression supplied as `pattern` with an occurrence of the `replacement` string.
 
-The `flags` argument is interpreted in the same manner as for the [`matches`](#fn-matches) function.
+The `flags` argument is interpreted in the same manner as for the [`matches`](#fn-string-matches) function.
 
-<a name="fn-compare"></a>**Function:** *Number* **compare**(*String*, *String*)
+<a name="fn-string-compare"></a>**Function:** *Number* **compare**(*String*, *String*)
 
 The `compare` function returns -1, 0, or 1, depending on whether the value of the first argument is respectively less than, equal to, or greater than the value of the second argument, according to the rules of lexical string comparison.
 
-<a name="fn-contains"></a>**Function:** *Number* **contains**(*String*, *String*)
+<a name="fn-string-contains"></a>**Function:** *Number* **contains**(*String*, *String*)
 
 The `contains` function returns 0 if the first argument string does not contain the second argument string. If the first argument string *does* contain the second argument string, the index of the second string within the first string is returned. Recall that all indexes in MalerScript are 1-based, not 0-based.
 
-<a name="fn-count"></a>**Function:** *Number* **count**(*sequence*)
+<a name="fn-string-count"></a>**Function:** *Number* **count**(*String*)
 
-The `count` returns the number of items in the sequence. If the sequence is a string, the result is the number of characters. If the sequence is an array, the result is the number of items in the array. If the sequence is a dictionary, the result is the number of name/value pairs in the dictionary.
+The `count` returns the number of characters in the argument string.
 
-<a name="fn-trim"></a>**Function:** *String* **trim**(*String?*)
+<a name="fn-string-trim"></a>**Function:** *String* **trim**(*String*)
 
 The `trim` function returns the argument string with leading and trailing whitespace removed. Whitespace characters are the same as those allowed by the S production in XML (newline `#xA`, carriage return `#xD`, space `#x20`, and tab `#x9`).
 
-<a name="fn-lowercase"></a>**Function:** *String* **lower-case**(*String*)
+<a name="fn-string-lowercase"></a>**Function:** *String* **lowercase**(*String*)
 
-The `lower-case` function returns the argument string as a lowercase string.
+The `lowercase` function returns the argument string as a lowercase string.
 
-<a name="fn-uppercase"></a>**Function:** *String* **upper-case**(*String*)
+<a name="fn-string-uppercase"></a>**Function:** *String* **uppercase**(*String*)
 
-The `upper-case` function returns the argument string as a uppercase string.
+The `uppercase` function returns the argument string as a uppercase string.
 
 ### <a name="number-functions"></a>Number Functions
 
@@ -155,27 +155,27 @@ The `Number` function converts its argument to a number as follows:
 
 If the argument is omitted, it returns `0`.
 
-<a name="fn-sum"></a>**Function:** *Number* **sum**(*node-set*)
+<a name="fn-number-sum"></a>**Function:** *Number* **sum**(*node-set*)
 
 The `sum` function returns the sum, for each node in the argument node-set, of the result of converting the string-values of the node to a number.
 
-<a name="fn-abs"></a>**Function:** *Number* **abs**(*Number*)
+<a name="fn-number-abs"></a>**Function:** *Number* **abs**(*Number*)
 
 The `abs` function returns the absolute value of the argument.
 
-<a name="fn-floor"></a>**Function:** *Number* **floor**(*Number*)
+<a name="fn-number-floor"></a>**Function:** *Number* **floor**(*Number*)
 
 The `floor` function returns the largest (closest to positive infinity) number that is not greater than the argument and that is an integer.
 
-<a name="fn-ceil"></a>**Function:** *Number* **ceiling**(*Number*)
+<a name="fn-number-ceil"></a>**Function:** *Number* **ceiling**(*Number*)
 
 The `ceiling` function returns the smallest (closest to negative infinity) number that is not less than the argument and that is an integer.
 
-<a name="fn-round"></a>**Function:** *Number* **round**(*Number*)
+<a name="fn-number-round"></a>**Function:** *Number* **round**(*Number*)
 
 The `round` function returns the number that is closest to the argument and that is an integer. If there are two such numbers, then the one that is closest to positive infinity is returned. If the argument is NaN, then NaN is returned. If the argument is positive infinity, then positive infinity is returned. If the argument is negative infinity, then negative infinity is returned. If the argument is positive zero, then positive zero is returned. If the argument is negative zero, then negative zero is returned. If the argument is less than zero, but greater than or equal to -0.5, then negative zero is returned.
 
-**NOTE:** For these last two cases, the result of calling the [`round`](#fn-round) function is not the same as the result of adding 0.5 and then calling the [`floor`](#fn-floor) function.
+**NOTE:** For these last two cases, the result of calling the [`round`](#fn-number-round) function is not the same as the result of adding 0.5 and then calling the [`floor`](#fn-number-floor) function.
 
 
 ### <a name="boolean-functions"></a>Boolean Functions
@@ -184,24 +184,13 @@ Boolean Functions
 
 <a name="fn-boolean"></a>**Function:** *Boolean* **Boolean**(*object*)
 
-The `boolean` function converts its argument to a boolean as follows:
+The `Boolean` function converts its argument to a boolean as follows:
 
-* a `number` is true if and only if it is neither positive or negative zero nor NaN
-* a `node-set` is true if and only if it is non-empty
-* a `string` is true if and only if its length is non-zero
-* an object of a type other than the four basic types is converted to a boolean in a way that is dependent on that type
-
-<a name="fn-not"></a>**Function:** *Boolean* **not**(*Boolean*)
-
-The `not` function returns true if its argument is false, and false otherwise.
-
-<a name="fn-true"></a>**Function:** *Boolean* **true**()
-
-The `true` function returns true.
-
-<a name="fn-false"></a>**Function:** *Boolean* **false**()
-
-The `false` function returns false.
+* a `Number` is true if and only if it is neither positive or negative zero nor NaN
+* a `String` is true if and only if its count is non-zero (contains one or more characters)
+* an `Array` is true if and only if its count is non-zero (contains one or more items)
+* a `Dictionary` is true if and only if its count is non-zero (contains one or more name/value pairs)
+* a `Function` is always true
 
 ### <a name="node-set-functions"></a>Node Set Functions
 
