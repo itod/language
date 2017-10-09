@@ -24,9 +24,14 @@
     [super tearDown];
 }
 
-- (void)testTypeTrue {
+- (void)testAssertZero {
     [self fail:@"assert(0);"];
     TDEqualObjects(XPAssertionError, self.error.localizedDescription);
+}
+
+- (void)testExitAssertZero {
+    [self fail:@"exit();assert(0);"];
+    TDEqualObjects(XPSystemExitException, self.error.localizedDescription);
 }
 
 @end

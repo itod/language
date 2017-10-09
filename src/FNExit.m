@@ -27,7 +27,7 @@
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
     
-    [self raise:XPSystemExitException format:nil];
+    [self raise:XPSystemExitException format:@"exit() called."];
     
     return nil;
 }
