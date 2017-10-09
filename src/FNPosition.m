@@ -67,6 +67,10 @@
         } else {
             idx = [v rangeOfString:[obj stringValue]].location;
         }
+//    } else if ([seq isDictionaryObject]) {
+//        if (nil != [seq.value objectForKey:obj]) {
+//            idx = 0;
+//        }
     } else {
         [self raise:XPTypeError format:@"first argument to `position()` must be an Array or String object"];
     }

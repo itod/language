@@ -126,6 +126,10 @@ The `compare` function returns -1, 0, or 1, depending on whether the value of th
 
 The `contains` function returns 0 if the first argument string does not contain the second argument string. If the first argument string *does* contain the second argument string, the index of the second string within the first string is returned. Recall that all indexes in MalerScript are 1-based, not 0-based.
 
+<a name="fn-string-position"></a>**Function:** *Number* **position**(*String*, *String*)
+
+The `position` function returns 0 if the first argument string does not contain the second argument string. If the first argument string *does* contain the second argument string, the index of the second string within the first string is returned. Recall that all indexes in MalerScript are 1-based, not 0-based.
+
 <a name="fn-string-count"></a>**Function:** *Number* **count**(*String*)
 
 The `count` returns the number of characters in the argument string.
@@ -193,10 +197,6 @@ The `Boolean` function converts its argument to a boolean as follows:
 * a `Function` is always true
 
 ### <a name="node-set-functions"></a>Node Set Functions
-
-<a name="fn-last"></a>**Function:** *Number* **last**()
-
-The `last` function returns a number equal to the context size from the expression evaluation context.
 
 <a name="fn-position"></a>**Function:** *Number* **position**()
 
