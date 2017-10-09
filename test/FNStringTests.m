@@ -89,11 +89,11 @@
     TDFalse([self boolForName:@"b"]);
 }
 
-- (void)testContains {
-    [self exec:@"var i=contains('foo', 'foob');"];
+- (void)testPosition {
+    [self exec:@"var i=position('foo', 'foob');"];
     TDEquals(0.0, [self doubleForName:@"i"]);
 
-    [self exec:@"var i=contains('foo', 'foo');"];
+    [self exec:@"var i=position('foo', 'foo');"];
     TDEquals(1.0, [self doubleForName:@"i"]);
 }
 

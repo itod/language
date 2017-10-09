@@ -24,7 +24,7 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *obj = [XPSymbol symbolWithName:@"z"];
+    XPSymbol *obj = [XPSymbol symbolWithName:@"dictionary"];
     XPSymbol *key = [XPSymbol symbolWithName:@"key"];
     funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, key, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
