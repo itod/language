@@ -532,7 +532,6 @@
 				D368A0051E3BE0D4005783BB /* Resources */,
 			);
 			name = Framework;
-			path = Language;
 			sourceTree = "<group>";
 		};
 		D30562991E3BD929008BEC9A /* Tests */ = {
@@ -548,7 +547,6 @@
 				D305629C1E3BD929008BEC9A /* Info.plist */,
 			);
 			name = Tests;
-			path = LanguageTests;
 			sourceTree = "<group>";
 		};
 		D309BCE61E60AB42002B3199 /* Debug */ = {
