@@ -89,6 +89,14 @@
     TDFalse([self boolForName:@"b"]);
 }
 
+- (void)testContains {
+    [self exec:@"var i=contains('foo', 'foob');"];
+    TDEquals(0.0, [self doubleForName:@"i"]);
+
+    [self exec:@"var i=contains('foo', 'foo');"];
+    TDEquals(1.0, [self doubleForName:@"i"]);
+}
+
 - (void)testReplace {
     [self exec:@"var s=replace('abracadabra', 'bra', '*');"];
     TDEqualObjects(@"a*cada*", [self stringForName:@"s"]);

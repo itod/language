@@ -102,8 +102,6 @@ The `String` function converts an object to a string as follows:
 * TODO Subroutine
 * If the argument is omitted, it returns the empty string.
 
-**NOTE:** The [`String`](#fn-string) function is not intended for converting numbers into strings for presentation to users. The [`format-number`](#fn-format-number) function provides this functionality.
-
 <a name="fn-matches"></a>**Function:** *String* **matches**(*String input*, *String pattern*, *String? flags*)
 
 The `matches` function returns true if `input` matches the regular expression supplied as `pattern` as influenced by the value of `flags`, if present; otherwise, it returns false.
@@ -120,7 +118,7 @@ The `replace` function returns the string that is obtained by replacing each non
 
 The `flags` argument is interpreted in the same manner as for the [`matches`](#fn-matches) function.
 
-<a name="fn-compare"></a>**Function:** *String* **compare**(*String*, *String*)
+<a name="fn-compare"></a>**Function:** *Number* **compare**(*String*, *String*)
 
 The `compare` function returns -1, 0, or 1, depending on whether the value of the first argument is respectively less than, equal to, or greater than the value of the second argument, according to the rules of lexical string comparison.
 

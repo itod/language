@@ -24,11 +24,11 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *obj = [XPSymbol symbolWithName:@"dictionary"];
+    XPSymbol *obj = [XPSymbol symbolWithName:@"object"];
     XPSymbol *key = [XPSymbol symbolWithName:@"key"];
     funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, key, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      obj, @"dictionary",
+                      obj, @"object",
                       key, @"key",
                       nil];
     
@@ -37,20 +37,24 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
-    XPObject *obj = [space objectForName:@"dictionary"];
+    XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
     XPObject *key = [space objectForName:@"key"];
     TDAssert(key);
     
-    BOOL res = NO;
+    NSUInteger res = 0;
     
     if (obj.isDictionaryObject) {
         res = nil != [obj.value objectForKey:key];
     } else {
-        [self raise:XPTypeError format:@"first argument to `contains()` must be a Dictionary object"];
+        NSString *str = [obj stringValue];
+        NSRange range = [str rangeOfString:[key stringValue]];
+        if (NSNotFound != range.location) {
+            res = range.location + 1; // 1-indexed
+        }
     }
     
-    return [XPObject boolean:res];
+    return [XPObject number:res];
 }
 
 @end
