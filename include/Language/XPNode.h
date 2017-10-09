@@ -31,5 +31,5 @@
 @property (nonatomic, retain) PKToken *token;
 @property (nonatomic, retain, readonly) NSArray *children;
 
-@property (nonatomic, assign) id <XPScope>scope;
+@property (nonatomic, assign) id <XPScope>scope; // weakref
 @end

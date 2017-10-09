@@ -217,54 +217,42 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 - (id)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr {
     id result = nil;
 
-    @autoreleasepool {
-        input = [NSString stringWithFormat:@"%@\n", input]; // ensure final terminator
+    input = [NSString stringWithFormat:@"%@\n", input]; // ensure final terminator
+    
+    // PARSE
+    {
+        self.allScopes = [NSMutableArray array];
         
-        // PARSE
-        {
-            self.allScopes = [NSMutableArray array];
-            
-            self.root = [self parseInput:input error:outErr];
-            if (!_root) {
-                if (*outErr) {
-                    [(*outErr) retain];
-                }
-                return nil;
-            }
-        }
-        
-        // EVAL WALK
-        {
-            XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
-            walker.globalScope = _globalScope;
-            walker.globals = _globals;
-            walker.stdOut = _stdOut;
-            walker.stdErr = _stdErr;
-            walker.debug = _debug;
-            walker.breakpointCollection = _breakpointCollection;
-            if (path) walker.currentFilePath = path;
-            
-            TDAssert(_treeWalkerStack);
-            [_treeWalkerStack addObject:walker];
-            
-            @try {
-                result = [[self walk:_root with:walker error:outErr] retain];
-                if (*outErr) {
-                    [(*outErr) retain];
-                }
-            } @finally {
-                TDAssert([_treeWalkerStack count]);
-                [_treeWalkerStack removeLastObject];
-                self.allScopes = nil;
-            }
+        self.root = [self parseInput:input error:outErr];
+        if (!_root) {
+            return nil;
         }
     }
     
-    if (*outErr) {
-        [(*outErr) autorelease];
+    // EVAL WALK
+    {
+        XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
+        walker.globalScope = _globalScope;
+        walker.globals = _globals;
+        walker.stdOut = _stdOut;
+        walker.stdErr = _stdErr;
+        walker.debug = _debug;
+        walker.breakpointCollection = _breakpointCollection;
+        if (path) walker.currentFilePath = path;
+        
+        TDAssert(_treeWalkerStack);
+        [_treeWalkerStack addObject:walker];
+        
+        @try {
+            result = [self walk:_root with:walker error:outErr];
+        } @finally {
+            TDAssert([_treeWalkerStack count]);
+            [_treeWalkerStack removeLastObject];
+            self.allScopes = nil;
+        }
     }
     
-    return [result autorelease];
+    return result;
 }
 
 
