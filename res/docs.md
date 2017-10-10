@@ -26,7 +26,7 @@ And a single-line:
 
 ### <a name="types"></a>Types
 
-MalerScript includes six (6) data types: Boolean, Number, String, Array, Dictionary and Function.
+MalerScript includes six (6) concrete data types: Boolean, Number, String, Array, Dictionary and Function, and one abstract data type: Object.
 
 <a name="boolean"></a>**Type:** **Boolean**
 
@@ -80,6 +80,24 @@ Functions are callable portions of a program which can return a value. In MalerS
         var name = dict['first_name'] || " " || dict['last_name']
         return name
     }
+
+<a name="object"></a>**Type:** **Object**
+
+All other data types are a subclass of the root, abstract data type `Object`. You cannot instantiate an object of type `Object`, so it is only useful to know about in the context of argument types to functions.
+
+### <a name="boolean-functions"></a>Boolean Functions
+
+Boolean Functions
+
+<a name="fn-boolean"></a>**Function:** *Boolean* **Boolean**(*object*)
+
+The `Boolean` function converts its argument to a boolean as follows:
+
+* a `Number` is true if and only if it is neither positive or negative zero nor NaN
+* a `String` is true if and only if its count is non-zero (contains one or more characters)
+* an `Array` is true if and only if its count is non-zero (contains one or more items)
+* a `Dictionary` is true if and only if its count is non-zero (contains one or more name/value pairs)
+* a `Function` is always true
 
 ### <a name="string-functions"></a>String Functions
 
@@ -148,7 +166,7 @@ The `uppercase` function returns the argument string as a uppercase string.
 
 ### <a name="number-functions"></a>Number Functions
 
-<a name="fn-number"></a>**Function:** *Number* **Number**(*object?*)
+<a name="fn-number"></a>**Function:** *Number* **Number**(*Object?*)
 
 The `Number` function converts its argument to a number as follows:
 
@@ -159,9 +177,13 @@ The `Number` function converts its argument to a number as follows:
 
 If the argument is omitted, it returns `0`.
 
-<a name="fn-number-sum"></a>**Function:** *Number* **sum**(*node-set*)
+<a name="fn-number-abs"></a>**Function:** *Boolean* **isNaN**(*Number*)
 
-The `sum` function returns the sum, for each node in the argument node-set, of the result of converting the string-values of the node to a number.
+The `isNaN` function returns true if the argument is NaN. Otherwise, false. Note this is the only way to test for NaN as the expression `NaN == NaN` returns false.s
+
+<a name="fn-number-random"></a>**Function:** *Number* **random**(*Number* low, *Number* high?)
+
+The `random` function returns a random number between the low and high arguments. If the high argument is omitted, then the first argument becomes the high bound and zero is the lower bound.
 
 <a name="fn-number-abs"></a>**Function:** *Number* **abs**(*Number*)
 
@@ -171,9 +193,9 @@ The `abs` function returns the absolute value of the argument.
 
 The `floor` function returns the largest (closest to positive infinity) number that is not greater than the argument and that is an integer.
 
-<a name="fn-number-ceil"></a>**Function:** *Number* **ceiling**(*Number*)
+<a name="fn-number-ceil"></a>**Function:** *Number* **ceil**(*Number*)
 
-The `ceiling` function returns the smallest (closest to negative infinity) number that is not less than the argument and that is an integer.
+The `ceil` function returns the smallest (closest to negative infinity) number that is not less than the argument and that is an integer.
 
 <a name="fn-number-round"></a>**Function:** *Number* **round**(*Number*)
 
@@ -181,22 +203,48 @@ The `round` function returns the number that is closest to the argument and that
 
 **NOTE:** For these last two cases, the result of calling the [`round`](#fn-number-round) function is not the same as the result of adding 0.5 and then calling the [`floor`](#fn-number-floor) function.
 
+<a name="fn-number-sqrt"></a>**Function:** *Number* **sqrt**(*Number*)
 
-### <a name="boolean-functions"></a>Boolean Functions
+The `sqrt` function returns the square root of the argument.
 
-Boolean Functions
+<a name="fn-number-pow"></a>**Function:** *Number* **pow**(*Number* base, *Number* power)
 
-<a name="fn-boolean"></a>**Function:** *Boolean* **Boolean**(*object*)
+The `pow` function returns base raised to the power power.
 
-The `Boolean` function converts its argument to a boolean as follows:
+<a name="fn-number-max"></a>**Function:** *Number* **max**(*Number*, *Number*)
 
-* a `Number` is true if and only if it is neither positive or negative zero nor NaN
-* a `String` is true if and only if its count is non-zero (contains one or more characters)
-* an `Array` is true if and only if its count is non-zero (contains one or more items)
-* a `Dictionary` is true if and only if its count is non-zero (contains one or more name/value pairs)
-* a `Function` is always true
+The `max` function returns the argument with the greatest value.
 
-### <a name="node-set-functions"></a>Node Set Functions
+<a name="fn-number-min"></a>**Function:** *Number* **min**(*Number*, *Number*)
+
+The `max` function returns the argument with the least value.
+
+
+### <a name="trig-functions"></a>Trigonometry Functions
+
+<a name="fn-number-degrees"></a>**Function:** *Number* **degrees**(*Number* radians)
+
+The `degrees` function returns the radians argument as degrees.
+
+<a name="fn-number-radians"></a>**Function:** *Number* **radians**(*Number* degrees)
+
+The `radians` function returns the degrees argument as radians.
+
+<a name="fn-number-log"></a>**Function:** *Number* **log**(*Number*)
+<a name="fn-number-acos"></a>**Function:** *Number* **acos**(*Number*)
+<a name="fn-number-asin"></a>**Function:** *Number* **asin**(*Number*)
+<a name="fn-number-atan"></a>**Function:** *Number* **atan**(*Number*)
+<a name="fn-number-atan2"></a>**Function:** *Number* **atan2**(*Number*, *Number*)
+<a name="fn-number-cos"></a>**Function:** *Number* **cos**(*Number*)
+<a name="fn-number-sin"></a>**Function:** *Number* **sin**(*Number*)
+<a name="fn-number-tan"></a>**Function:** *Number* **tan**(*Number*)
+
+
+### <a name="array-functions"></a>Array Functions
+
+<a name="fn-array-sum"></a>**Function:** *Number* **sum**(*Array*)
+
+The `sum` function returns the sum, for each node in the argument node-set, of the result of converting the string-values of the node to a number.
 
 <a name="fn-position"></a>**Function:** *Number* **position**()
 
