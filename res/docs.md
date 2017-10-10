@@ -101,7 +101,7 @@ The `Boolean` function converts its argument to a boolean as follows:
 
 ### <a name="string-functions"></a>String Functions
 
-<a name="fn-string"></a>**Function:** *String* **String**(*object?*)
+<a name="fn-string"></a>**Function:** *String* **String**(*Object?*)
 
 The `String` function converts an object to a string as follows:
 
@@ -130,7 +130,7 @@ The available flags are:
 * `i`: If present, the match operates in case-insensitive mode.
 * `x`: If present, whitespace characters (`#x9`, `#xA`, `#xD` and `#x20`) in the regular expression are removed prior to matching with one exception: whitespace characters within character class expressions are not removed. This flag can be used, for example, to break up long regular expressions into readable lines.
 
-<a name="fn-string-replace"></a>**Function:** *String* **replace**(*String input*, *String pattern*, *String replacement*, *String? flags*)
+<a name="fn-string-replace"></a>**Function:** *String* **replace**(*String* input, *String* pattern, *String* replacement, *String?* flags)
 
 The `replace` function returns the string that is obtained by replacing each non-overlapping substring of `input` that matches the given regular expression supplied as `pattern` with an occurrence of the `replacement` string.
 
@@ -140,13 +140,9 @@ The `flags` argument is interpreted in the same manner as for the [`matches`](#f
 
 The `compare` function returns -1, 0, or 1, depending on whether the value of the first argument is respectively less than, equal to, or greater than the value of the second argument, according to the rules of lexical string comparison.
 
-<a name="fn-string-contains"></a>**Function:** *Number* **contains**(*String*, *String*)
+<a name="fn-string-contains"></a>**Function:** *Number* **contains**(*String* needle, *String* haystack)
 
 The `contains` function returns 0 if the first argument string does not contain the second argument string. If the first argument string *does* contain the second argument string, the index of the second string within the first string is returned. Recall that all indexes in MalerScript are 1-based, not 0-based.
-
-<a name="fn-string-position"></a>**Function:** *Number* **position**(*String*, *String*)
-
-The `position` function returns 0 if the first argument string does not contain the second argument string. If the first argument string *does* contain the second argument string, the index of the second string within the first string is returned. Recall that all indexes in MalerScript are 1-based, not 0-based.
 
 <a name="fn-string-count"></a>**Function:** *Number* **count**(*String*)
 
@@ -181,7 +177,7 @@ If the argument is omitted, it returns `0`.
 
 The `isNaN` function returns true if the argument is NaN. Otherwise, false. Note this is the only way to test for NaN as the expression `NaN == NaN` returns false.s
 
-<a name="fn-number-random"></a>**Function:** *Number* **random**(*Number* low, *Number* high?)
+<a name="fn-number-random"></a>**Function:** *Number* **random**(*Number* low, *Number?* high)
 
 The `random` function returns a random number between the low and high arguments. If the high argument is omitted, then the first argument becomes the high bound and zero is the lower bound.
 
@@ -231,95 +227,33 @@ The `degrees` function returns the radians argument as degrees.
 The `radians` function returns the degrees argument as radians.
 
 <a name="fn-number-log"></a>**Function:** *Number* **log**(*Number*)
-<a name="fn-number-acos"></a>**Function:** *Number* **acos**(*Number*)
-<a name="fn-number-asin"></a>**Function:** *Number* **asin**(*Number*)
-<a name="fn-number-atan"></a>**Function:** *Number* **atan**(*Number*)
-<a name="fn-number-atan2"></a>**Function:** *Number* **atan2**(*Number*, *Number*)
-<a name="fn-number-cos"></a>**Function:** *Number* **cos**(*Number*)
-<a name="fn-number-sin"></a>**Function:** *Number* **sin**(*Number*)
-<a name="fn-number-tan"></a>**Function:** *Number* **tan**(*Number*)
 
+<a name="fn-number-acos"></a>**Function:** *Number* **acos**(*Number*)
+
+<a name="fn-number-asin"></a>**Function:** *Number* **asin**(*Number*)
+
+<a name="fn-number-atan"></a>**Function:** *Number* **atan**(*Number*)
+
+<a name="fn-number-atan2"></a>**Function:** *Number* **atan2**(*Number*, *Number*)
+
+<a name="fn-number-cos"></a>**Function:** *Number* **cos**(*Number*)
+
+<a name="fn-number-sin"></a>**Function:** *Number* **sin**(*Number*)
+
+<a name="fn-number-tan"></a>**Function:** *Number* **tan**(*Number*)
 
 ### <a name="array-functions"></a>Array Functions
 
 <a name="fn-array-sum"></a>**Function:** *Number* **sum**(*Array*)
 
-The `sum` function returns the sum, for each node in the argument node-set, of the result of converting the string-values of the node to a number.
+The `sum` function returns the sum, for each item in the array argument, of the result of converting the item to a number.
 
-<a name="fn-position"></a>**Function:** *Number* **position**()
+<a name="fn-array-contains"></a>**Function:** *Number* **contains**(*Array* haystack, *Object* needle)
 
-The `position` function returns a number equal to the context position from the expression evaluation context.
+The `contains` function returns a number equal to the position of the needle argument in the haystack argument. If needle is not present in haystack, zero is returned. Recall that all indexes in MalerScript are 1-based, not 0-based.
 
-<a name="fn-count"></a>**Function:** *Number* **count**(*node-set*)
+<a name="fn-array-count"></a>**Function:** *Number* **count**(*Array*)
 
-The `count` function returns the number of nodes in the argument node-set.
+The `count` function returns the number of items in the argument array.
 
-<a name="fn-base"></a>**Function:** *String* **base**(*node-set?*)
-
-The `base` function returns the base part of the file name of the node in the argument node-set that is first in filesystem order. This excludes the file name extension such as `.jpg`. If the argument node-set is empty or the first node has no expanded-name, an empty string is returned. If the argument is omitted, it defaults to a node-set with the context node as its only member.
-
-<a name="fn-extension"></a>**Function:** *String* **extension**(*node-set?*)
-
-The `extension` function returns the extension part of the file name of the node in the argument node-set that is first in filesystem order. This excludes any part of the file name up to a `.`, and includes only the extension itself, such as `jpg` or `txt`. If the argument node-set is empty or the first node has no expanded-name, an empty string is returned. If the argument is omitted, it defaults to a node-set with the context node as its only member.
-
-<a name="fn-name"></a>**Function:** *String* **name**(*node-set?*)
-
-The `name` function returns a string containing the file name of the node in the argument node-set that is first in filesystem order. This includes both the base and extension parts of the filename. If the argument node-set is empty or the first node has no file name, an empty string is returned. If the argument it omitted, it defaults to a node-set with the context node as its only member.
-
-**NOTE:** The string returned by the [`name`](#fn-name) function will be the same as the string returned by the [`base`](#fn-base) function for folder nodes. For file nodes, they will differ.
-
-<a name="fn-bytes"></a>**Function:** *Number* **bytes**(*node-set?*)
-
-<a name="fn-kilobytes"></a>**Function:** *Number* **kilobytes**(*node-set?*)
-
-<a name="fn-megabytes"></a>**Function:** *Number* **megabytes**(*node-set?*)
-
-<a name="fn-gigabytes"></a>**Function:** *Number* **gigabytes**(*node-set?*)
-
-The `bytes` function returns the size in bytes of the node in the argument node-set that is first in filesystem order. If the argument node-set is empty or the first node has no expanded-name, an empty string is returned. If the argument is omitted, it defaults to a node-set with the context node as its only member.
-
-**NOTE:** the `kilobytes`, `megabytes` and `gigabytes` functions return decimal (as opposed to binary) values. That is, 1000 bytes are 1 KB. This matches the OS X Finder behavior as of OS X 10.10 Yosemite.
-
-<a name="fn-permissions"></a>**Function:** *Number* **permissions**(*node-set?*)
-
-The `permissions` function returns the posix permissions of the node in the argument node-set that is first in filesystem order. If the argument node-set is empty or the first node has no expanded-name, an empty string is returned. If the argument is omitted, it defaults to a node-set with the context node as its only member.
-
-<a name="fn-owner"></a>**Function:** *String* **owner**(*node-set?*)
-
-The `owner` function returns the account name of the user owner of the node in the argument node-set that is first in filesystem order. If the argument node-set is empty or the first node has no expanded-name, an empty string is returned. If the argument is omitted, it defaults to a node-set with the context node as its only member.
-
-<a name="fn-group"></a>**Function:** *String* **group**(*node-set?*)
-
-The `group` function returns the account name of the group owner of the node in the argument node-set that is first in filesystem order. If the argument node-set is empty or the first node has no expanded-name, an empty string is returned. If the argument is omitted, it defaults to a node-set with the context node as its only member.
-
-### <a name="formatting-functions"></a>Formatting Functions
-
-<a name="fn-format-number"></a>**Function:** *String* **format-number**(*Number*, *String*)
-
-The `format-number` function returns a formatted string representation of the number argument using the string argument as a format template. The template patterns match those [defined by XSLT 1.0](http://www.w3schools.com/xsl/func_formatnumber.asp).
-
-<a name="fn-format-date"></a>**Function:** *String* **format-date**(*date*, *String*)
-
-The `format-date` function returns a formatted string representation of the date argument using the string argument as a format template. The template patterns are described in the [Unicode TR35](http://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Format_Patterns).
-
-<a name="fn-format-bytes"></a>**Function:** *String* **format-bytes**(*Number*)
-
-<a name="fn-format-kilobytes"></a>**Function:** *String* **format-kilobytes**(*Number*)
-
-<a name="fn-format-megabytes"></a>**Function:** *String* **format-megabytes**(*Number*)
-
-<a name="fn-format-gigabytes"></a>**Function:** *String* **format-gigabytes**(*Number*)
-
-The `format-bytes` function returns a formatted string representation of the byte count passed as the first number argument.
-
-The `format-kilobytes`, `format-megabytes`, and `format-gigabytes` functions expect number arguments which respectively represent kilobytes, megabytes, and gigabytes. All of these functions will return the same formated string for a given number of *bytes*, but each function evaluates the provided number argument as a value given in the magnitude of the function's name.
-
-Some example results:
-
-Input                      | Output
--------------------------- | -------------
-format-bytes(5000)         | '5 KB'
-format-kilobytes(5000)     | '5.0 MB'
-format-megabytes(5000)     | '5.00 GB'
-format-gigabytes(5000)     | '5.00 TB'
 
