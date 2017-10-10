@@ -256,4 +256,24 @@ The `contains` function returns a number equal to the position of the needle arg
 
 The `count` function returns the number of items in the argument array.
 
+<a name="fn-array-range"></a>**Function:** *Array* **range**(*Number?* start, *Number* stop, *Number?* step)
 
+The `range` function returns an array of numbers from start (which is zero if the start argument is not explicitly included) to stop (*inclusive*). If the optional step argument is included, it will be used as the difference between each number in the result array.
+
+<a name="fn-array-map"></a>**Function:** *Array* **map**(*Array*, *Function*)
+
+<a name="fn-array-filter"></a>**Function:** *Array* **filter**(*Array*, *Function*)
+
+### <a name="dict-functions"></a>Dictionary Functions
+
+<a name="fn-dict-map"></a>**Function:** *Dictionary* **map**(*Dictionary*, *Function*)
+
+<a name="fn-dict-filter"></a>**Function:** *Dictionary* **filter**(*Dictionary*, *Function*)
+
+<a name="fn-dict-locals"></a>**Function:** *Dictionary* **locals**()
+
+The `locals` function returns all variables currently declared in the nearest local context as a Dictionary of name/value pairs.
+
+<a name="fn-dict-globals"></a>**Function:** *Dictionary* **globals**()
+
+The `globals` function returns all variables currently declared in the global context as a Dictionary of name/value pairs.
