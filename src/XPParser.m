@@ -165,6 +165,8 @@
     [t.wordState setWordChars:NO from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'\'' to:'\''];
     
+    t.quoteState.allowsEOFTerminatedQuotes = NO;
+    
     // dec numbers
     [t.numberState addGroupingSeparator:'_' forRadix:10];
     // hex numbers
@@ -2396,7 +2398,7 @@
     } else {
         [self raise:@"No viable alternative found in rule 'primaryExpr'."];
     }
-    while ([self speculate:^{ [self trailer_]; }]) {
+    while ([self predicts:XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_OPEN_BRACKET, 0]) {
         [self trailer_]; 
     }
 
