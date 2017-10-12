@@ -607,13 +607,13 @@
         
         // check for too many args
         if (argCount > paramCount) {
-            [self raise:XPTypeError node:node format:@"sub `%@` called with too many arguments. %ld given, no more than %ld expected", name, argCount, paramCount];
+            [self raise:XPTypeError node:node format:@"sub `%@` called with too many arguments.\n\t%ld given, no more than %ld expected", name, argCount, paramCount];
             return nil;
         }
         
         // check for too few args
         if (argCount + defaultParamCount < paramCount) {
-            [self raise:XPTypeError node:node format:@"sub `%@` called with too few arguments. %ld given, at least %ld expected", name, argCount, paramCount-defaultParamCount];
+            [self raise:XPTypeError node:node format:@"sub `%@` called with too few arguments.\n\t%ld given, at least %ld expected", name, argCount, paramCount-defaultParamCount];
             return nil;
         }
         
