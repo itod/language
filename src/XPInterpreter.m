@@ -359,10 +359,10 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     [_globalScope defineSymbol:funcSym];
     
     // define in memory
-//    XPObject *obj = [XPObject function:funcSym];
-//
-//    TDAssert(_globals);
-//    [_globals setObject:obj forName:name];
+    XPObject *obj = [XPObject function:funcSym];
+
+    TDAssert(_globals);
+    [_globals setObject:obj forName:name];
     
     [XPSymbol addReservedWord:name];
 }

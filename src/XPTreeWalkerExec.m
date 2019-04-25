@@ -93,7 +93,13 @@
         return;
     }
 
-    [self loadVariableReference:nameNode];
+    TDAssert([nameNode.scope conformsToProtocol:@protocol(XPScope)]);
+    XPFunctionSymbol *funcSym = (id)[nameNode.scope resolveSymbolNamed:name];
+    TDAssert([funcSym isKindOfClass:[XPFunctionSymbol class]]);
+    XPObject *obj = [XPObject function:funcSym];
+    TDAssert(self.currentSpace);
+    [self.currentSpace setObject:obj forName:name];
+    funcSym.closureSpace = self.currentSpace;
 }
 
 

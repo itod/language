@@ -93,29 +93,19 @@
 
 
 - (XPMemorySpace *)spaceWithSymbolNamed:(NSString *)name {
-    XPMemorySpace *res = nil;
-    
     // check local or func
     TDAssert(_currentSpace);
-    XPMemorySpace *space = _currentSpace;
-    do {
-        if ([space containsObjectForName:name]) {
-            res = space;
-            break;
-        } else {
-            space = space.enclosingSpace;
-        }
-    } while (space);
+    XPMemorySpace *res = [self crawlSpace:_currentSpace forName:name];
     
     // if in local, check func too
     TDAssert(_callStack);
-    if (!res && [_callStack count] && [_callStack lastObject] != _currentSpace && [[_callStack lastObject] containsObjectForName:name]) {
-        res = [_callStack lastObject];
+    if (!res && [_callStack count] && [_callStack lastObject] != _currentSpace) {
+        res = [self crawlSpace:[_callStack lastObject] forName:name];
     }
     
     // if present, check closure space
-    if (!res && _closureSpace != _currentSpace && [_closureSpace containsObjectForName:name]) {
-        res = _closureSpace;
+    if (!res && _closureSpace && _closureSpace != _currentSpace) {
+        res = [self crawlSpace:_closureSpace forName:name];
     }
     
     // if not currently in global space, check globals
@@ -126,6 +116,19 @@
     return res;
 }
 
+
+- (XPMemorySpace *)crawlSpace:(XPMemorySpace *)space forName:(NSString *)name {
+    XPMemorySpace *res = nil;
+    do {
+        if ([space containsObjectForName:name]) {
+            res = space;
+            break;
+        } else {
+            space = space.enclosingSpace;
+        }
+    } while (space);
+    return res;
+}
 
 #pragma mark -
 #pragma mark Debug Info
