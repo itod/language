@@ -130,34 +130,34 @@
     TDEquals(13.0, [self doubleForName:@"y"]);
 }
 
-//- (void)testNestedFunction {
-//    [self exec:[self sourceForSelector:_cmd]];
-//    TDEquals(1.0, [self doubleForName:@"x"]);
-//}
-//
-//- (void)testNestedFwdFunction {
-//    [self exec:[self sourceForSelector:_cmd]];
-//    TDEquals(2.0, [self doubleForName:@"x"]);
-//}
-//
-//- (void)testNestedFwdFunctionRef {
-//    [self exec:[self sourceForSelector:_cmd]];
-//    TDEquals(3.0, [self doubleForName:@"x"]);
-//}
-//
-//- (void)testLocalFunction {
-//    [self exec:[self sourceForSelector:_cmd]];
-//    TDEquals(1.0, [self doubleForName:@"x"]);
-//}
-//
-//- (void)testLocalFwdFunction {
-//    [self exec:[self sourceForSelector:_cmd]];
-//    TDEquals(2.0, [self doubleForName:@"x"]);
-//}
-//
-//- (void)testLocalFwdFunctionRef {
-//    [self exec:[self sourceForSelector:_cmd]];
-//    TDEquals(3.0, [self doubleForName:@"x"]);
-//}
+- (void)testNestedFunction {
+    [self exec:[self sourceForSelector:_cmd]];
+    TDEquals(1.0, [self doubleForName:@"x"]);
+}
+
+- (void)testNestedFwdFunction {
+    [self exec:[self sourceForSelector:_cmd]];
+    TDEquals(2.0, [self doubleForName:@"x"]);
+}
+
+- (void)testNestedFwdFunctionRef {
+    [self exec:[self sourceForSelector:_cmd]];
+    TDEquals(3.0, [self doubleForName:@"x"]);
+}
+
+- (void)testLocalFunction {
+    [self exec:[self sourceForSelector:_cmd]];
+    TDEquals(1.0, [self doubleForName:@"x"]);
+}
+
+- (void)testLocalFwdFunction {
+    [self exec:[self sourceForSelector:_cmd]];
+    TDEquals(2.0, [self doubleForName:@"x"]);
+}
+
+- (void)testLocalFwdFunctionRef {
+    [self exec:[self sourceForSelector:_cmd]];
+    TDEquals(3.0, [self doubleForName:@"x"]);
+}
 
 @end
