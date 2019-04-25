@@ -179,6 +179,8 @@
 		D3903E0E1E8441A0007E7674 /* testRecursion.js in Resources */ = {isa = PBXBuildFile; fileRef = D3903E0D1E8441A0007E7674 /* testRecursion.js */; };
 		D3903E121E84A504007E7674 /* XPUserThrownException.m in Sources */ = {isa = PBXBuildFile; fileRef = D3903E101E84A504007E7674 /* XPUserThrownException.m */; };
 		D3903E231E85DA7B007E7674 /* XPUserThrownException.h in Headers */ = {isa = PBXBuildFile; fileRef = D3903E221E85DA7B007E7674 /* XPUserThrownException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D39237252271433A009B5F83 /* FNRepr.h in Headers */ = {isa = PBXBuildFile; fileRef = D39237232271433A009B5F83 /* FNRepr.h */; };
+		D39237262271433A009B5F83 /* FNRepr.m in Sources */ = {isa = PBXBuildFile; fileRef = D39237242271433A009B5F83 /* FNRepr.m */; };
 		D393579E1F82CB5E008AE4A8 /* testExceptionNameReasonLine.js in Resources */ = {isa = PBXBuildFile; fileRef = D393579D1F82CB5E008AE4A8 /* testExceptionNameReasonLine.js */; };
 		D3A7F27D1E4D71CC00C7099B /* XPBooleanClass.h in Headers */ = {isa = PBXBuildFile; fileRef = D3A7F27B1E4D71CC00C7099B /* XPBooleanClass.h */; };
 		D3A7F27E1E4D71CC00C7099B /* XPBooleanClass.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F27C1E4D71CC00C7099B /* XPBooleanClass.m */; };
@@ -412,6 +414,8 @@
 		D3903E0D1E8441A0007E7674 /* testRecursion.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testRecursion.js; path = test/scripts/testRecursion.js; sourceTree = SOURCE_ROOT; };
 		D3903E101E84A504007E7674 /* XPUserThrownException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPUserThrownException.m; path = src/XPUserThrownException.m; sourceTree = SOURCE_ROOT; };
 		D3903E221E85DA7B007E7674 /* XPUserThrownException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPUserThrownException.h; path = include/Language/XPUserThrownException.h; sourceTree = SOURCE_ROOT; };
+		D39237232271433A009B5F83 /* FNRepr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNRepr.h; path = src/FNRepr.h; sourceTree = "<group>"; };
+		D39237242271433A009B5F83 /* FNRepr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNRepr.m; path = src/FNRepr.m; sourceTree = "<group>"; };
 		D393579D1F82CB5E008AE4A8 /* testExceptionNameReasonLine.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = testExceptionNameReasonLine.js; path = test/scripts/testExceptionNameReasonLine.js; sourceTree = SOURCE_ROOT; };
 		D3A7F27B1E4D71CC00C7099B /* XPBooleanClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPBooleanClass.h; path = src/XPBooleanClass.h; sourceTree = SOURCE_ROOT; };
 		D3A7F27C1E4D71CC00C7099B /* XPBooleanClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPBooleanClass.m; path = src/XPBooleanClass.m; sourceTree = SOURCE_ROOT; };
@@ -672,6 +676,8 @@
 		D3166E2E1E54E13700DEE3A0 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				D39237232271433A009B5F83 /* FNRepr.h */,
+				D39237242271433A009B5F83 /* FNRepr.m */,
 				D3166DDD1E53B03300DEE3A0 /* FNPrint.h */,
 				D3166DDE1E53B03300DEE3A0 /* FNPrint.m */,
 				D3166DF71E53B7D000DEE3A0 /* FNAssert.h */,
@@ -911,6 +917,7 @@
 			files = (
 				D3166DDF1E53B03300DEE3A0 /* FNPrint.h in Headers */,
 				D3166DF11E53B23500DEE3A0 /* FNType.h in Headers */,
+				D39237252271433A009B5F83 /* FNRepr.h in Headers */,
 				D3DF58C61E42F346006CAA07 /* XPFunctionSpace.h in Headers */,
 				D37316AE1E3EBDE20034798E /* XPInterpreter.h in Headers */,
 				D3166E141E54BAFE00DEE3A0 /* FNMatches.h in Headers */,
@@ -1111,6 +1118,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D39237262271433A009B5F83 /* FNRepr.m in Sources */,
 				D34A56461E7F38BF0064DF65 /* FNSin.m in Sources */,
 				D3ADB4361E897DBF00306142 /* XPGlobalSpace.m in Sources */,
 				D3166E081E53F6DB00DEE3A0 /* FNLowercase.m in Sources */,
