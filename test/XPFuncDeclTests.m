@@ -120,7 +120,7 @@
 }
 
 - (void)testFwdNativeFuncRef {
-    [self exec:@"var foo=abs;var bar=foo(-1.0)"];
+    [self exec:@"var foo=abs;var bar=foo(-1.0);"];
     TDEquals(1.0, [self doubleForName:@"bar"]);
 }
 

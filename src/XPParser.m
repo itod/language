@@ -39,7 +39,6 @@
 @property (nonatomic, assign) BOOL negation;
 @property (nonatomic, assign) BOOL negative;
 @property (nonatomic, assign) BOOL canBreak;
-@property (nonatomic, assign) BOOL valid;
 @property (nonatomic, assign) BOOL local;
 
 @property (nonatomic, retain) NSMutableDictionary *program_memo;
@@ -50,7 +49,6 @@
 @property (nonatomic, retain) NSMutableDictionary *funcBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *localBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *terminator_memo;
-@property (nonatomic, retain) NSMutableDictionary *stats_memo;
 @property (nonatomic, retain) NSMutableDictionary *stat_memo;
 @property (nonatomic, retain) NSMutableDictionary *realStat_memo;
 @property (nonatomic, retain) NSMutableDictionary *varDecl_memo;
@@ -353,7 +351,6 @@
         self.funcBlock_memo = [NSMutableDictionary dictionary];
         self.localBlock_memo = [NSMutableDictionary dictionary];
         self.terminator_memo = [NSMutableDictionary dictionary];
-        self.stats_memo = [NSMutableDictionary dictionary];
         self.stat_memo = [NSMutableDictionary dictionary];
         self.realStat_memo = [NSMutableDictionary dictionary];
         self.varDecl_memo = [NSMutableDictionary dictionary];
@@ -482,7 +479,6 @@
     self.funcBlock_memo = nil;
     self.localBlock_memo = nil;
     self.terminator_memo = nil;
-    self.stats_memo = nil;
     self.stat_memo = nil;
     self.realStat_memo = nil;
     self.varDecl_memo = nil;
@@ -584,7 +580,6 @@
     [_funcBlock_memo removeAllObjects];
     [_localBlock_memo removeAllObjects];
     [_terminator_memo removeAllObjects];
-    [_stats_memo removeAllObjects];
     [_stat_memo removeAllObjects];
     [_realStat_memo removeAllObjects];
     [_varDecl_memo removeAllObjects];
@@ -686,7 +681,6 @@
     
     [self execute:^{
     
-    self.valid = YES;
     self.currentScope = _globalScope;
 
     }];
@@ -724,8 +718,8 @@
     
     if ([self speculate:^{ [self anyBlock_]; }]) {
         [self anyBlock_]; 
-    } else if ([self speculate:^{ [self stats_]; }]) {
-        [self stats_]; 
+    } else if ([self speculate:^{ [self stat_]; }]) {
+        [self stat_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'item'."];
     }
@@ -740,7 +734,6 @@
 - (void)__anyBlock {
     
     if ([self predicts:XP_TOKEN_KIND_IF, 0]) {
-        [self testAndThrow:(id)^{ return _valid; }]; 
         [self ifBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_WHILE, 0]) {
         [self whileBlock_]; 
@@ -756,9 +749,6 @@
     } else {
         [self raise:@"No viable alternative found in rule 'anyBlock'."];
     }
-    [self execute:^{
-    self.valid=YES;
-    }];
 
     [self fireDelegateSelector:@selector(parser:didMatchAnyBlock:)];
 }
@@ -830,9 +820,6 @@
 - (void)__terminator {
     
     [self match:XP_TOKEN_KIND_TERMINATOR discard:YES]; 
-    [self execute:^{
-    self.valid=YES;
-    }];
 
     [self fireDelegateSelector:@selector(parser:didMatchTerminator:)];
 }
@@ -841,28 +828,13 @@
     [self parseRule:@selector(__terminator) withMemo:_terminator_memo];
 }
 
-- (void)__stats {
-    
-    [self stat_]; 
-    while ([self speculate:^{ [self terminator_]; [self stat_]; }]) {
-        [self terminator_]; 
-        [self stat_]; 
-    }
-
-    [self fireDelegateSelector:@selector(parser:didMatchStats:)];
-}
-
-- (void)stats_ {
-    [self parseRule:@selector(__stats) withMemo:_stats_memo];
-}
-
 - (void)__stat {
     
     if ([self predicts:XP_TOKEN_KIND_TERMINATOR, 0]) {
         [self terminator_]; 
     } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_RETURN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_THROW, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
-        [self testAndThrow:(id)^{ return _valid; }]; 
         [self realStat_]; 
+        [self terminator_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'stat'."];
     }
@@ -897,9 +869,6 @@
     } else {
         [self raise:@"No viable alternative found in rule 'realStat'."];
     }
-    [self execute:^{
-        self.valid=NO;
-    }];
     
     [self fireDelegateSelector:@selector(parser:didMatchRealStat:)];
 }
@@ -1260,9 +1229,6 @@
 
 - (void)__elifBlock {
     
-    [self execute:^{
-    self.valid=YES;
-    }];
     [self match:XP_TOKEN_KIND_ELSE discard:YES]; 
     [self match:XP_TOKEN_KIND_IF discard:NO]; 
     [self expr_]; 
@@ -1289,9 +1255,6 @@
 
 - (void)__elseBlock {
     
-    [self execute:^{
-    self.valid=YES;
-    }];
     [self match:XP_TOKEN_KIND_ELSE discard:NO]; 
     [self localBlock_]; 
     [self execute:^{
@@ -1344,9 +1307,6 @@
 
 - (void)__catchBlock {
     
-    [self execute:^{
-    self.valid=YES;
-    }];
     [self match:XP_TOKEN_KIND_CATCH discard:NO]; 
     [self qid_]; 
     [self localBlock_]; 
@@ -1372,9 +1332,6 @@
 
 - (void)__finallyBlock {
     
-    [self execute:^{
-    self.valid=YES;
-    }];
     [self match:XP_TOKEN_KIND_FINALLY discard:NO]; 
     [self localBlock_]; 
     [self execute:^{

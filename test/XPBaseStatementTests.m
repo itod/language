@@ -80,6 +80,7 @@
 
 
 - (id)eval:(NSString *)input {
+    input = [NSString stringWithFormat:@"%@;", input]; // ensure semi
     NSError *err = nil;
     id res = [self.interp interpretString:input filePath:nil error:&err];
     TDNil(err);

@@ -25,27 +25,27 @@
 }
 
 - (void)testTry {
-    [self exec:@"var x='foo';try{x='bar'}catch e{}finally{}"];
+    [self exec:@"var x='foo';try{x='bar';}catch e{}finally{}"];
     TDEqualObjects(@"bar", [self stringForName:@"x"]);
 }
 
 - (void)testCatch {
-    [self exec:@"var x='foo';try{throw 'boo'}catch e{x='bar'}finally{}"];
+    [self exec:@"var x='foo';try{throw 'boo';}catch e{x='bar';}finally{}"];
     TDEqualObjects(@"bar", [self stringForName:@"x"]);
 }
 
 - (void)testCatchFinally {
-    [self exec:@"var x='foo';try{x='bar'}catch e{}finally{x='baz'}"];
+    [self exec:@"var x='foo';try{x='bar';}catch e{}finally{x='baz';}"];
     TDEqualObjects(@"baz", [self stringForName:@"x"]);
 }
 
 - (void)testFinally {
-    [self exec:@"var x='foo';try{x='bar'}finally{x='baz'}"];
+    [self exec:@"var x='foo';try{x='bar';}finally{x='baz';}"];
     TDEqualObjects(@"baz", [self stringForName:@"x"]);
 }
 
 - (void)testCatchLocalsCount {
-    [self exec:@"var c=0;try{throw'foo'}catch e{c=count(locals())}"];
+    [self exec:@"var c=0;try{throw'foo';}catch e{c=count(locals());}"];
     TDEquals(1.0, [self doubleForName:@"c"]);
 }
 
@@ -54,13 +54,13 @@
 }
 
 - (void)testFinallyOnlyRethrowsOnThrow {
-    [self fail:@"try {throw 'foo'} finally {}"];
+    [self fail:@"try {throw 'foo';} finally {}"];
     TDEqualObjects(@"RuntimeError", self.error.localizedDescription);
     TDEqualObjects(@"foo", self.error.localizedFailureReason);
 }
 
 - (void)testFinallyOnlyRethrowsOnException {
-    [self fail:@"try {map(1, 1)} finally {}"];
+    [self fail:@"try {map(1, 1);} finally {}"];
     TDEqualObjects(@"TypeError", self.error.localizedDescription);
 }
 

@@ -65,7 +65,6 @@
 @property (nonatomic, assign) BOOL negation;
 @property (nonatomic, assign) BOOL negative;
 @property (nonatomic, assign) BOOL canBreak;
-@property (nonatomic, assign) BOOL valid;
 @property (nonatomic, assign) BOOL local;
 }
 
@@ -189,7 +188,6 @@
 // GLOBAL
 program
 @before {
-    self.valid = YES;
     self.currentScope = _globalScope;
 }
             = globalList;
@@ -200,10 +198,8 @@ globalList  = item* {
     [block addChildren:items];
     PUSH(block);
 };
-item  = anyBlock | stats;
-anyBlock
-@after {self.valid=YES;}
-            = { _valid }? ifBlock | whileBlock | forBlock | localBlock | tryBlock | { !_local }? funcDecl;
+item        = anyBlock | stat;
+anyBlock    = ifBlock | whileBlock | forBlock | localBlock | tryBlock | { !_local }? funcDecl;
 
 // LOCAL
 localList
@@ -226,13 +222,9 @@ localBlock
             = '{' localList '}'!;
 
 // STATEMENTS
-terminator 
-@after {self.valid=YES;}
-            = ';'!;
-stats       = stat (terminator stat)*;
-stat        = terminator | { _valid }? realStat;
+terminator  = ';'!;
+stat        = terminator | realStat terminator;
 realStat    
-@after {self.valid=NO;}
             = varDecl
             | assign
             | assignSubscript
@@ -358,9 +350,7 @@ ifBlock     = 'if' expr localBlock {
     PUSH(ifNode);
 }
               elifBlock* elseBlock?;
-elifBlock   
-@before {self.valid=YES;}
-            = 'else'! 'if' expr localBlock {
+elifBlock   = 'else'! 'if' expr localBlock {
     XPNode *block = POP();
     XPNode *expr = POP();
     XPNode *elifNode = [XPNode nodeWithToken:POP()];
@@ -370,9 +360,7 @@ elifBlock
     XPNode *ifNode = PEEK();
     [ifNode addChild:elifNode];
 };
-elseBlock
-@before {self.valid=YES;}
-            = 'else' localBlock {
+elseBlock   = 'else' localBlock {
     XPNode *block = POP();
     XPNode *elseNode = [XPNode nodeWithToken:POP()];
     [elseNode addChild:block];
@@ -389,9 +377,7 @@ tryBlock    = 'try' localBlock {
     PUSH(tryNode);
 }
               (catchBlock finallyBlock? | finallyBlock);
-catchBlock   
-@before {self.valid=YES;}
-          = 'catch' qid localBlock {
+catchBlock   = 'catch' qid localBlock {
   XPNode *block = POP();
   XPNode *qid = [XPNode nodeWithToken:POP()];
   XPNode *catchNode = [XPNode nodeWithToken:POP()];
@@ -401,9 +387,7 @@ catchBlock
   XPNode *tryNode = PEEK();
   [tryNode addChild:catchNode];
 };
-finallyBlock
-@before {self.valid=YES;}
-            = 'finally' localBlock {
+finallyBlock    = 'finally' localBlock {
     XPNode *block = POP();
     XPNode *finallyNode = [XPNode nodeWithToken:POP()];
     [finallyNode addChild:block];
