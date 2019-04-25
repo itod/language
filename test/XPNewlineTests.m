@@ -204,40 +204,40 @@
     TDEqualObjects(@"a", [self stringForName:@"foo"]);
     
     [self exec:@"var foo=['a','b','c','d'][1:2]"];
-    TDEqualObjects(@"['a', 'b']", [self descriptionForName:@"foo"]);
+    TDEqualObjects(@"['a', 'b']", [self evalString:@"foo"]);
     
     [self exec:@"var foo=['a','b','c','d'][\n1:2]"];
-    TDEqualObjects(@"['a', 'b']", [self descriptionForName:@"foo"]);
+    TDEqualObjects(@"['a', 'b']", [self evalString:@"foo"]);
     
     [self exec:@"var foo=['a','b','c','d'][1\n:2]"];
-    TDEqualObjects(@"['a', 'b']", [self descriptionForName:@"foo"]);
+    TDEqualObjects(@"['a', 'b']", [self evalString:@"foo"]);
     
     [self exec:@"var foo=['a','b','c','d'][1:\n2]"];
-    TDEqualObjects(@"['a', 'b']", [self descriptionForName:@"foo"]);
+    TDEqualObjects(@"['a', 'b']", [self evalString:@"foo"]);
     
     [self exec:@"var foo=['a','b','c','d'][1:2\n]"];
-    TDEqualObjects(@"['a', 'b']", [self descriptionForName:@"foo"]);
+    TDEqualObjects(@"['a', 'b']", [self evalString:@"foo"]);
     
     [self exec:@"var foo=['a','b','c','d'][1:4:2]"];
-    TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
+    TDEqualObjects(@"['a', 'c']", [self evalString:@"foo"]);
     
     [self exec:@"var foo=['a','b','c','d'][\n1:4:2]"];
-    TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
+    TDEqualObjects(@"['a', 'c']", [self evalString:@"foo"]);
     
     [self exec:@"var foo=['a','b','c','d'][1\n:4:2]"];
-    TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
+    TDEqualObjects(@"['a', 'c']", [self evalString:@"foo"]);
     
     [self exec:@"var foo=['a','b','c','d'][1:\n4:2]"];
-    TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
+    TDEqualObjects(@"['a', 'c']", [self evalString:@"foo"]);
     
     [self exec:@"var foo=['a','b','c','d'][1:4\n:2]"];
-    TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
+    TDEqualObjects(@"['a', 'c']", [self evalString:@"foo"]);
     
     [self exec:@"var foo=['a','b','c','d'][1:4:\n2]"];
-    TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
+    TDEqualObjects(@"['a', 'c']", [self evalString:@"foo"]);
     
     [self exec:@"var foo=['a','b','c','d'][1:4:2\n]"];
-    TDEqualObjects(@"['a', 'c']", [self descriptionForName:@"foo"]);
+    TDEqualObjects(@"['a', 'c']", [self evalString:@"foo"]);
 }
 
 - (void)testArrayLiteral {

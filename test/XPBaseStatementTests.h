@@ -20,13 +20,12 @@
 - (void)fail:(NSString *)input;
 
 - (id)eval:(NSString *)input;
-- (NSString *)evalString:(NSString *)input;
+- (NSString *)evalString:(NSString *)input; // returns `repr(result)`
 - (BOOL)evalBool:(NSString *)input;
 
 - (BOOL)boolForName:(NSString *)name;
 - (double)doubleForName:(NSString *)name;
 - (NSString *)stringForName:(NSString *)name;
-- (NSString *)descriptionForName:(NSString *)name;
 - (XPObject *)objectForName:(NSString *)name;
 
 - (NSString *)sourceForSelector:(SEL)sel;

@@ -90,7 +90,7 @@
 
 
 - (NSString *)evalString:(NSString *)input {
-    return [[self eval:input] description];
+    return [[self eval:input] reprValue];
 }
 
 
@@ -111,11 +111,6 @@
 
 - (NSString *)stringForName:(NSString *)name {
     return [[self objectForName:name] stringValue];
-}
-
-
-- (NSString *)descriptionForName:(NSString *)name {
-    return [[self objectForName:name] description];
 }
 
 
