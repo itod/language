@@ -21,10 +21,6 @@
 #import <Language/XPBreakpoint.h>
 #import <Language/XPBreakpointCollection.h>
 
-@interface XPObject ()
-@property (nonatomic, assign, readwrite) BOOL isNative;
-@end
-
 @implementation XPTreeWalker
 
 - (instancetype)init {
@@ -76,12 +72,8 @@
         if (funcSym) {
             res = [XPObject function:funcSym];
             TDAssert(self.currentSpace);
-            
-            if (funcSym.nativeBody) {
-                res.isNative = YES;
-            } else {
-                [self.currentSpace setObject:res forName:name];
-            }
+            TDAssert(!funcSym.nativeBody); // should not be a native func
+            [self.currentSpace setObject:res forName:name];
         }
     }
 
