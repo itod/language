@@ -1,8 +1,8 @@
-var x = 0
-foo()
+var x = 0;
+foo();
 sub foo() {
     var baz = bar;
-    baz()
+    baz();
     sub bar() {
         x = 3.0;
     }

@@ -1,6 +1,6 @@
 try {
-    throw 'foo'
+    throw 'foo';
 } catch e {
     
 }
-print(e)
+print(e);

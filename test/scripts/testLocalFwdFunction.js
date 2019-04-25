@@ -1,6 +1,6 @@
-var x = 0
+var x = 0;
 {
-    bar()
+    bar();
     sub bar() {
         x = 2;
     }

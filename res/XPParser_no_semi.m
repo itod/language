@@ -49,6 +49,7 @@
 @property (nonatomic, retain) NSMutableDictionary *localList_memo;
 @property (nonatomic, retain) NSMutableDictionary *funcBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *localBlock_memo;
+@property (nonatomic, retain) NSMutableDictionary *nl_memo;
 @property (nonatomic, retain) NSMutableDictionary *terminator_memo;
 @property (nonatomic, retain) NSMutableDictionary *stats_memo;
 @property (nonatomic, retain) NSMutableDictionary *stat_memo;
@@ -158,6 +159,8 @@
     [t.symbolState add:@"<<"];
     [t.symbolState add:@">>"];
     
+    [t setTokenizerState:t.symbolState from:'\n' to:'\n'];
+    [t.whitespaceState setWhitespaceChars:NO from:'\n' to:'\n'];
     [t setTokenizerState:t.symbolState from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'\'' to:'\''];
@@ -267,7 +270,7 @@
         self.tokenKindTab[@">="] = @(XP_TOKEN_KIND_GE);
         self.tokenKindTab[@":"] = @(XP_TOKEN_KIND_COLON);
         self.tokenKindTab[@"in"] = @(XP_TOKEN_KIND_IN);
-        self.tokenKindTab[@";"] = @(XP_TOKEN_KIND_TERMINATOR);
+        self.tokenKindTab[@";"] = @(XP_TOKEN_KIND_SEMI_COLON);
         self.tokenKindTab[@"for"] = @(XP_TOKEN_KIND_FOR);
         self.tokenKindTab[@">>"] = @(XP_TOKEN_KIND_SHIFTRIGHT);
         self.tokenKindTab[@"<"] = @(XP_TOKEN_KIND_LT);
@@ -284,6 +287,7 @@
         self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
         self.tokenKindTab[@"!"] = @(XP_TOKEN_KIND_BANG);
         self.tokenKindTab[@"true"] = @(XP_TOKEN_KIND_TRUE);
+        self.tokenKindTab[@"\n"] = @(XP_TOKEN_KIND__N);
         self.tokenKindTab[@"sub"] = @(XP_TOKEN_KIND_SUB);
         self.tokenKindTab[@"%"] = @(XP_TOKEN_KIND_MOD);
         self.tokenKindTab[@"&"] = @(XP_TOKEN_KIND_BITAND);
@@ -323,7 +327,7 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_GE] = @">=";
         self.tokenKindNameTab[XP_TOKEN_KIND_COLON] = @":";
         self.tokenKindNameTab[XP_TOKEN_KIND_IN] = @"in";
-        self.tokenKindNameTab[XP_TOKEN_KIND_TERMINATOR] = @";";
+        self.tokenKindNameTab[XP_TOKEN_KIND_SEMI_COLON] = @";";
         self.tokenKindNameTab[XP_TOKEN_KIND_FOR] = @"for";
         self.tokenKindNameTab[XP_TOKEN_KIND_SHIFTRIGHT] = @">>";
         self.tokenKindNameTab[XP_TOKEN_KIND_LT] = @"<";
@@ -340,6 +344,7 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
         self.tokenKindNameTab[XP_TOKEN_KIND_BANG] = @"!";
         self.tokenKindNameTab[XP_TOKEN_KIND_TRUE] = @"true";
+        self.tokenKindNameTab[XP_TOKEN_KIND__N] = @"\n";
         self.tokenKindNameTab[XP_TOKEN_KIND_SUB] = @"sub";
         self.tokenKindNameTab[XP_TOKEN_KIND_MOD] = @"%";
         self.tokenKindNameTab[XP_TOKEN_KIND_BITAND] = @"&";
@@ -352,6 +357,7 @@
         self.localList_memo = [NSMutableDictionary dictionary];
         self.funcBlock_memo = [NSMutableDictionary dictionary];
         self.localBlock_memo = [NSMutableDictionary dictionary];
+        self.nl_memo = [NSMutableDictionary dictionary];
         self.terminator_memo = [NSMutableDictionary dictionary];
         self.stats_memo = [NSMutableDictionary dictionary];
         self.stat_memo = [NSMutableDictionary dictionary];
@@ -481,6 +487,7 @@
     self.localList_memo = nil;
     self.funcBlock_memo = nil;
     self.localBlock_memo = nil;
+    self.nl_memo = nil;
     self.terminator_memo = nil;
     self.stats_memo = nil;
     self.stat_memo = nil;
@@ -583,6 +590,7 @@
     [_localList_memo removeAllObjects];
     [_funcBlock_memo removeAllObjects];
     [_localBlock_memo removeAllObjects];
+    [_nl_memo removeAllObjects];
     [_terminator_memo removeAllObjects];
     [_stats_memo removeAllObjects];
     [_stat_memo removeAllObjects];
@@ -827,9 +835,28 @@
     [self parseRule:@selector(__localBlock) withMemo:_localBlock_memo];
 }
 
+- (void)__nl {
+    
+    while ([self predicts:XP_TOKEN_KIND__N, 0]) {
+        [self match:XP_TOKEN_KIND__N discard:YES]; 
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchNl:)];
+}
+
+- (void)nl_ {
+    [self parseRule:@selector(__nl) withMemo:_nl_memo];
+}
+
 - (void)__terminator {
     
-    [self match:XP_TOKEN_KIND_TERMINATOR discard:YES]; 
+    if ([self predicts:XP_TOKEN_KIND__N, 0]) {
+        [self nl_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_SEMI_COLON, 0]) {
+        [self match:XP_TOKEN_KIND_SEMI_COLON discard:YES]; 
+    } else {
+        [self raise:@"No viable alternative found in rule 'terminator'."];
+    }
     [self execute:^{
     self.valid=YES;
     }];
@@ -858,7 +885,7 @@
 
 - (void)__stat {
     
-    if ([self predicts:XP_TOKEN_KIND_TERMINATOR, 0]) {
+    if ([self predicts:XP_TOKEN_KIND_SEMI_COLON, XP_TOKEN_KIND__N, 0]) {
         [self terminator_]; 
     } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_RETURN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_THROW, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
         [self testAndThrow:(id)^{ return _valid; }]; 
@@ -911,8 +938,11 @@
 - (void)__varDecl {
     
     [self match:XP_TOKEN_KIND_VAR discard:NO]; 
+    [self nl_]; 
     [self qid_]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
+    [self nl_]; 
     [self expr_]; 
     [self execute:^{
     
@@ -991,6 +1021,7 @@
 - (void)__assign {
     
     [self qid_]; 
+    [self nl_]; 
     if ([self predicts:XP_TOKEN_KIND_EQUALS, 0]) {
         [self match:XP_TOKEN_KIND_EQUALS discard:NO]; 
     } else if ([self predicts:XP_TOKEN_KIND_PLUSEQ, 0]) {
@@ -1004,6 +1035,7 @@
     } else {
         [self raise:@"No viable alternative found in rule 'assign'."];
     }
+    [self nl_]; 
     [self expr_]; 
     [self execute:^{
     
@@ -1027,10 +1059,15 @@
 - (void)__assignSubscript {
     
     [self qid_]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:NO]; 
+    [self nl_]; 
     [self assignSlice_]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
+    [self nl_]; 
     [self expr_]; 
     [self execute:^{
     
@@ -1066,7 +1103,7 @@
 
 - (void)__assignSlice {
     
-    if ([self speculate:^{ if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {[self expr_]; } else {[self matchEmpty:NO]; }[self match:XP_TOKEN_KIND_COLON discard:YES]; if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {[self expr_]; } else {[self matchEmpty:NO]; }}]) {
+    if ([self speculate:^{ if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {[self expr_]; } else {[self matchEmpty:NO]; }[self nl_]; [self match:XP_TOKEN_KIND_COLON discard:YES]; [self nl_]; if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {[self expr_]; } else {[self matchEmpty:NO]; }}]) {
         if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
             [self expr_]; 
         } else {
@@ -1075,7 +1112,9 @@
             PUSH(_firstNode);
             }];
         }
+        [self nl_]; 
         [self match:XP_TOKEN_KIND_COLON discard:YES]; 
+        [self nl_]; 
         if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
             [self expr_]; 
         } else {
@@ -1100,9 +1139,13 @@
 - (void)__assignAppend {
     
     [self qid_]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:YES]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_EQUALS discard:YES]; 
+    [self nl_]; 
     [self expr_]; 
     [self execute:^{
     
@@ -1232,7 +1275,9 @@
 - (void)__ifBlock {
     
     [self match:XP_TOKEN_KIND_IF discard:NO]; 
+    [self nl_]; 
     [self expr_]; 
+    [self nl_]; 
     [self localBlock_]; 
     [self execute:^{
     
@@ -1398,6 +1443,7 @@
 - (void)__throwStat {
     
     [self match:XP_TOKEN_KIND_THROW discard:NO]; 
+    [self nl_]; 
     [self expr_]; 
     [self execute:^{
     
@@ -1418,6 +1464,7 @@
 - (void)__returnStat {
     
     [self match:XP_TOKEN_KIND_RETURN discard:NO]; 
+    [self nl_]; 
     [self expr_]; 
     [self execute:^{
     
@@ -1640,9 +1687,11 @@
 - (void)__funcCall {
     
     [self match:XP_TOKEN_KIND_OPEN_PAREN discard:NO]; 
+    [self nl_]; 
     if ([self speculate:^{ [self argList_]; }]) {
         [self argList_]; 
     }
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_PAREN discard:YES]; 
     [self execute:^{
     
@@ -1665,8 +1714,10 @@
 - (void)__argList {
     
     [self arg_]; 
-    while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self arg_]; }]) {
+    while ([self speculate:^{ [self nl_]; [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self nl_]; [self arg_]; }]) {
+        [self nl_]; 
         [self match:XP_TOKEN_KIND_COMMA discard:YES]; 
+        [self nl_]; 
         [self arg_]; 
     }
 
@@ -1713,8 +1764,10 @@
 - (void)__orExpr {
     
     [self andExpr_]; 
-    while ([self speculate:^{ [self or_]; [self andExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; [self or_]; [self nl_]; [self andExpr_]; }]) {
+        [self nl_]; 
         [self or_]; 
+        [self nl_]; 
         [self andExpr_]; 
         [self execute:^{
         
@@ -1749,8 +1802,10 @@
 - (void)__andExpr {
     
     [self equalityExpr_]; 
-    while ([self speculate:^{ [self and_]; [self equalityExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; [self and_]; [self nl_]; [self equalityExpr_]; }]) {
+        [self nl_]; 
         [self and_]; 
+        [self nl_]; 
         [self equalityExpr_]; 
         [self execute:^{
         
@@ -1807,7 +1862,8 @@
 - (void)__equalityExpr {
     
     [self relationalExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_EQ, 0]) {[self eq_]; } else if ([self predicts:XP_TOKEN_KIND_NE, 0]) {[self ne_]; } else if ([self predicts:XP_TOKEN_KIND_IS, 0]) {[self is_]; } else {[self raise:@"No viable alternative found in rule 'equalityExpr'."];}[self relationalExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; if ([self predicts:XP_TOKEN_KIND_EQ, 0]) {[self eq_]; } else if ([self predicts:XP_TOKEN_KIND_NE, 0]) {[self ne_]; } else if ([self predicts:XP_TOKEN_KIND_IS, 0]) {[self is_]; } else {[self raise:@"No viable alternative found in rule 'equalityExpr'."];}[self nl_]; [self relationalExpr_]; }]) {
+        [self nl_]; 
         if ([self predicts:XP_TOKEN_KIND_EQ, 0]) {
             [self eq_]; 
         } else if ([self predicts:XP_TOKEN_KIND_NE, 0]) {
@@ -1817,6 +1873,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'equalityExpr'."];
         }
+        [self nl_]; 
         [self relationalExpr_]; 
         [self execute:^{
         
@@ -1884,7 +1941,8 @@
 - (void)__relationalExpr {
     
     [self additiveExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_LT, 0]) {[self lt_]; } else if ([self predicts:XP_TOKEN_KIND_GT, 0]) {[self gt_]; } else if ([self predicts:XP_TOKEN_KIND_LE, 0]) {[self le_]; } else if ([self predicts:XP_TOKEN_KIND_GE, 0]) {[self ge_]; } else {[self raise:@"No viable alternative found in rule 'relationalExpr'."];}[self additiveExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; if ([self predicts:XP_TOKEN_KIND_LT, 0]) {[self lt_]; } else if ([self predicts:XP_TOKEN_KIND_GT, 0]) {[self gt_]; } else if ([self predicts:XP_TOKEN_KIND_LE, 0]) {[self le_]; } else if ([self predicts:XP_TOKEN_KIND_GE, 0]) {[self ge_]; } else {[self raise:@"No viable alternative found in rule 'relationalExpr'."];}[self nl_]; [self additiveExpr_]; }]) {
+        [self nl_]; 
         if ([self predicts:XP_TOKEN_KIND_LT, 0]) {
             [self lt_]; 
         } else if ([self predicts:XP_TOKEN_KIND_GT, 0]) {
@@ -1896,6 +1954,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'relationalExpr'."];
         }
+        [self nl_]; 
         [self additiveExpr_]; 
         [self execute:^{
         
@@ -1941,7 +2000,8 @@
 - (void)__additiveExpr {
     
     [self multiplicativeExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_PLUS, 0]) {[self plus_]; } else if ([self predicts:XP_TOKEN_KIND_MINUS, 0]) {[self minus_]; } else {[self raise:@"No viable alternative found in rule 'additiveExpr'."];}[self multiplicativeExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; if ([self predicts:XP_TOKEN_KIND_PLUS, 0]) {[self plus_]; } else if ([self predicts:XP_TOKEN_KIND_MINUS, 0]) {[self minus_]; } else {[self raise:@"No viable alternative found in rule 'additiveExpr'."];}[self nl_]; [self multiplicativeExpr_]; }]) {
+        [self nl_]; 
         if ([self predicts:XP_TOKEN_KIND_PLUS, 0]) {
             [self plus_]; 
         } else if ([self predicts:XP_TOKEN_KIND_MINUS, 0]) {
@@ -1949,6 +2009,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'additiveExpr'."];
         }
+        [self nl_]; 
         [self multiplicativeExpr_]; 
         [self execute:^{
         
@@ -2005,7 +2066,8 @@
 - (void)__multiplicativeExpr {
     
     [self bitExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_TIMES, 0]) {[self times_]; } else if ([self predicts:XP_TOKEN_KIND_DIV, 0]) {[self div_]; } else if ([self predicts:XP_TOKEN_KIND_MOD, 0]) {[self mod_]; } else {[self raise:@"No viable alternative found in rule 'multiplicativeExpr'."];}[self bitExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; if ([self predicts:XP_TOKEN_KIND_TIMES, 0]) {[self times_]; } else if ([self predicts:XP_TOKEN_KIND_DIV, 0]) {[self div_]; } else if ([self predicts:XP_TOKEN_KIND_MOD, 0]) {[self mod_]; } else {[self raise:@"No viable alternative found in rule 'multiplicativeExpr'."];}[self nl_]; [self bitExpr_]; }]) {
+        [self nl_]; 
         if ([self predicts:XP_TOKEN_KIND_TIMES, 0]) {
             [self times_]; 
         } else if ([self predicts:XP_TOKEN_KIND_DIV, 0]) {
@@ -2015,6 +2077,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'multiplicativeExpr'."];
         }
+        [self nl_]; 
         [self bitExpr_]; 
         [self execute:^{
         
@@ -2071,7 +2134,8 @@
 - (void)__bitExpr {
     
     [self shiftExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_BITAND, 0]) {[self bitAnd_]; } else if ([self predicts:XP_TOKEN_KIND_BITOR, 0]) {[self bitOr_]; } else if ([self predicts:XP_TOKEN_KIND_BITXOR, 0]) {[self bitXor_]; } else {[self raise:@"No viable alternative found in rule 'bitExpr'."];}[self shiftExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; if ([self predicts:XP_TOKEN_KIND_BITAND, 0]) {[self bitAnd_]; } else if ([self predicts:XP_TOKEN_KIND_BITOR, 0]) {[self bitOr_]; } else if ([self predicts:XP_TOKEN_KIND_BITXOR, 0]) {[self bitXor_]; } else {[self raise:@"No viable alternative found in rule 'bitExpr'."];}[self nl_]; [self shiftExpr_]; }]) {
+        [self nl_]; 
         if ([self predicts:XP_TOKEN_KIND_BITAND, 0]) {
             [self bitAnd_]; 
         } else if ([self predicts:XP_TOKEN_KIND_BITOR, 0]) {
@@ -2081,6 +2145,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'bitExpr'."];
         }
+        [self nl_]; 
         [self shiftExpr_]; 
         [self execute:^{
         
@@ -2126,7 +2191,8 @@
 - (void)__shiftExpr {
     
     [self concatExpr_]; 
-    while ([self speculate:^{ if ([self predicts:XP_TOKEN_KIND_SHIFTLEFT, 0]) {[self shiftLeft_]; } else if ([self predicts:XP_TOKEN_KIND_SHIFTRIGHT, 0]) {[self shiftRight_]; } else {[self raise:@"No viable alternative found in rule 'shiftExpr'."];}[self concatExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; if ([self predicts:XP_TOKEN_KIND_SHIFTLEFT, 0]) {[self shiftLeft_]; } else if ([self predicts:XP_TOKEN_KIND_SHIFTRIGHT, 0]) {[self shiftRight_]; } else {[self raise:@"No viable alternative found in rule 'shiftExpr'."];}[self nl_]; [self concatExpr_]; }]) {
+        [self nl_]; 
         if ([self predicts:XP_TOKEN_KIND_SHIFTLEFT, 0]) {
             [self shiftLeft_]; 
         } else if ([self predicts:XP_TOKEN_KIND_SHIFTRIGHT, 0]) {
@@ -2134,6 +2200,7 @@
         } else {
             [self raise:@"No viable alternative found in rule 'shiftExpr'."];
         }
+        [self nl_]; 
         [self concatExpr_]; 
         [self execute:^{
         
@@ -2168,8 +2235,10 @@
 - (void)__concatExpr {
     
     [self unaryExpr_]; 
-    while ([self speculate:^{ [self cat_]; [self unaryExpr_]; }]) {
+    while ([self speculate:^{ [self nl_]; [self cat_]; [self nl_]; [self unaryExpr_]; }]) {
+        [self nl_]; 
         [self cat_]; 
+        [self nl_]; 
         [self unaryExpr_]; 
         [self execute:^{
         
@@ -2224,6 +2293,7 @@
          _negation = !_negation; 
         }];
     } while ([self predicts:XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_NOT, 0]);
+    [self nl_]; 
     [self unary_]; 
     [self execute:^{
     
@@ -2288,6 +2358,7 @@
              self.unaryTok = _negTok; _negative = !_negative; 
             }];
         } while ([self predicts:XP_TOKEN_KIND_MINUS, 0]);
+        [self nl_]; 
         [self primaryExpr_]; 
     } else if ([self predicts:XP_TOKEN_KIND_BITNOT, 0]) {
         do {
@@ -2296,6 +2367,7 @@
              self.unaryTok = POP(); _negative = !_negative; 
             }];
         } while ([self predicts:XP_TOKEN_KIND_BITNOT, 0]);
+        [self nl_]; 
         [self primaryExpr_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'signedPrimaryExpr'."];
@@ -2357,7 +2429,9 @@
 - (void)__subExpr {
     
     [self match:XP_TOKEN_KIND_OPEN_PAREN discard:NO]; 
+    [self nl_]; 
     [self expr_]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_PAREN discard:YES]; 
     [self execute:^{
     
@@ -2400,7 +2474,9 @@
 - (void)__loadSubscript {
     
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:NO]; 
+    [self nl_]; 
     [self loadSlice_]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
     [self execute:^{
     
@@ -2436,7 +2512,7 @@
 
 - (void)__loadSlice {
     
-    if ([self speculate:^{ if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {[self expr_]; } else {[self matchEmpty:NO]; }[self match:XP_TOKEN_KIND_COLON discard:YES]; if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {[self expr_]; } else {[self matchEmpty:NO]; }if ([self speculate:^{ [self sliceop_]; }]) {[self sliceop_]; }}]) {
+    if ([self speculate:^{ if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {[self expr_]; } else {[self matchEmpty:NO]; }[self nl_]; [self match:XP_TOKEN_KIND_COLON discard:YES]; [self nl_]; if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {[self expr_]; } else {[self matchEmpty:NO]; }if ([self speculate:^{ [self sliceop_]; }]) {[self sliceop_]; }}]) {
         if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
             [self expr_]; 
         } else {
@@ -2445,7 +2521,9 @@
             PUSH(_firstNode);
             }];
         }
+        [self nl_]; 
         [self match:XP_TOKEN_KIND_COLON discard:YES]; 
+        [self nl_]; 
         if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
             [self expr_]; 
         } else {
@@ -2472,7 +2550,9 @@
 
 - (void)__sliceop {
     
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_COLON discard:YES]; 
+    [self nl_]; 
     if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_TRUE, 0]) {
         [self expr_]; 
     } else {
@@ -2512,9 +2592,11 @@
 - (void)__arrayLiteral {
     
     [self match:XP_TOKEN_KIND_OPEN_BRACKET discard:NO]; 
+    [self nl_]; 
     if ([self speculate:^{ [self elemList_]; }]) {
         [self elemList_]; 
     }
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_BRACKET discard:YES]; 
     [self execute:^{
     
@@ -2536,8 +2618,10 @@
 - (void)__elemList {
     
     [self expr_]; 
-    while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self expr_]; }]) {
+    while ([self speculate:^{ [self nl_]; [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self nl_]; [self expr_]; }]) {
+        [self nl_]; 
         [self match:XP_TOKEN_KIND_COMMA discard:YES]; 
+        [self nl_]; 
         [self expr_]; 
     }
 
@@ -2551,9 +2635,11 @@
 - (void)__dictLiteral {
     
     [self match:XP_TOKEN_KIND_OPEN_CURLY discard:NO]; 
+    [self nl_]; 
     if ([self speculate:^{ [self pairList_]; }]) {
         [self pairList_]; 
     }
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_CLOSE_CURLY discard:YES]; 
     [self execute:^{
     
@@ -2575,8 +2661,10 @@
 - (void)__pairList {
     
     [self pair_]; 
-    while ([self speculate:^{ [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self pair_]; }]) {
+    while ([self speculate:^{ [self nl_]; [self match:XP_TOKEN_KIND_COMMA discard:YES]; [self nl_]; [self pair_]; }]) {
+        [self nl_]; 
         [self match:XP_TOKEN_KIND_COMMA discard:YES]; 
+        [self nl_]; 
         [self pair_]; 
     }
 
@@ -2590,7 +2678,9 @@
 - (void)__pair {
     
     [self expr_]; 
+    [self nl_]; 
     [self match:XP_TOKEN_KIND_COLON discard:NO]; 
+    [self nl_]; 
     [self expr_]; 
     [self execute:^{
     

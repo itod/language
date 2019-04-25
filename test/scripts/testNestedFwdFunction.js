@@ -1,7 +1,7 @@
-var x = 0
-foo()
+var x = 0;
+foo();
 sub foo() {
-    bar()
+    bar();
     sub bar() {
         x = 2.0;
     }

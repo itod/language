@@ -85,6 +85,8 @@
     [t.symbolState add:@"<<"];
     [t.symbolState add:@">>"];
     
+    [t setTokenizerState:t.symbolState from:'\n' to:'\n'];
+    [t.whitespaceState setWhitespaceChars:NO from:'\n' to:'\n'];
     [t setTokenizerState:t.symbolState from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'\'' to:'\''];
@@ -226,9 +228,10 @@ localBlock
             = '{' localList '}'!;
 
 // STATEMENTS
+nl = ('\n'!)*;
 terminator 
 @after {self.valid=YES;}
-            = ';'!;
+            = (nl|';'!);
 stats       = stat (terminator stat)*;
 stat        = terminator | { _valid }? realStat;
 realStat    
@@ -244,7 +247,7 @@ realStat
             | returnStat
             ;
             
-varDecl     = 'var' qid '='! expr {
+varDecl     = 'var' nl qid nl '='! nl expr {
     XPNode *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     PKToken *tok = POP();
@@ -259,7 +262,7 @@ plusEq  = '+=';
 minusEq = '-=';
 timesEq = '*=';
 divEq   = '/=';
-assign      = qid ('=' | plusEq | minusEq | timesEq | divEq) expr {
+assign      = qid nl ('=' | plusEq | minusEq | timesEq | divEq) nl expr {
     XPNode *rhs = POP();
     PKToken *tok = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
@@ -269,7 +272,7 @@ assign      = qid ('=' | plusEq | minusEq | timesEq | divEq) expr {
     PUSH(stat);
 };
 
-assignSubscript = qid '[' assignSlice ']'! '='! expr {
+assignSubscript = qid nl '[' nl assignSlice nl ']'! nl '='! nl expr {
     XPNode *rhs = POP();
 
     NSArray *nodes = REV(ABOVE(_openSquareTok));
@@ -292,11 +295,11 @@ assignSubscript = qid '[' assignSlice ']'! '='! expr {
     PUSH(callNode);
 };
 
-assignSlice = (expr|Empty{PUSH(_firstNode);}) ':'! (expr|Empty{PUSH(_lastNode);})
+assignSlice = (expr|Empty{PUSH(_firstNode);}) nl ':'! nl (expr|Empty{PUSH(_lastNode);})
             | expr
             ;
 
-assignAppend = qid '['! ']'! '='! expr {
+assignAppend = qid nl '['! nl ']'! nl '='! nl expr {
     XPNode *rhs = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];
     
@@ -349,7 +352,7 @@ forBlock
 };
 
 // IF BLOCK
-ifBlock     = 'if' expr localBlock {
+ifBlock     = 'if' nl expr nl localBlock {
     XPNode *block = POP();
     XPNode *expr = POP();
     XPNode *ifNode = [XPNode nodeWithToken:POP()];
@@ -412,7 +415,7 @@ finallyBlock
     [tryNode addChild:finallyNode];
 };
 
-throwStat   = 'throw' expr {
+throwStat   = 'throw' nl expr {
     XPNode *expr = POP();
     XPNode *throwNode = [XPNode nodeWithToken:POP()];
     [throwNode addChild:expr];
@@ -420,7 +423,7 @@ throwStat   = 'throw' expr {
 };
 
 // FUNCTION DECL
-returnStat  = 'return' expr {
+returnStat  = 'return' nl expr {
     XPNode *expr = POP();
     XPNode *ret = [XPNode nodeWithToken:POP()];
     [ret addChild:expr];
@@ -531,7 +534,7 @@ funcLiteral = 'sub' {
     funcBody;
 
 // FUNC CALL
-funcCall    = '(' argList? ')'! {
+funcCall    = '(' nl argList? nl ')'! {
     NSArray *args = REV(ABOVE(_openParenTok));
     POP(); // '('
     XPNode *callNode = [XPNode nodeWithToken:_callTok];
@@ -540,14 +543,14 @@ funcCall    = '(' argList? ')'! {
     PUSH(callNode);
 };
 
-argList     = arg (','! arg)*;
+argList     = arg (nl ','! nl arg)*;
 arg         = expr;
 
 // EXPRESSIONS
 expr    = orExpr;
 
 or      = 'or';
-orExpr  = andExpr (or andExpr {
+orExpr  = andExpr (nl or nl andExpr {
     id rhs = POP();
     XPNode *orNode = [XPNode nodeWithToken:POP()];
     id lhs = POP();
@@ -557,7 +560,7 @@ orExpr  = andExpr (or andExpr {
 })*;
 
 and     = 'and';
-andExpr = equalityExpr (and equalityExpr {
+andExpr = equalityExpr (nl and nl equalityExpr {
     id rhs = POP();
     XPNode *andNode = [XPNode nodeWithToken:POP()];
     id lhs = POP();
@@ -569,7 +572,7 @@ andExpr = equalityExpr (and equalityExpr {
 eq      = '==';
 ne      = '!=';
 is      = 'is';
-equalityExpr = relationalExpr ((eq | ne | is) relationalExpr {
+equalityExpr = relationalExpr (nl (eq | ne | is) nl relationalExpr {
     XPNode *rhs = POP();
     XPNode *eqNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -582,7 +585,7 @@ lt    =  '<';
 gt    =  '>';
 le    = '<=';
 ge    = '>=';
-relationalExpr = additiveExpr ((lt | gt | le | ge) additiveExpr {
+relationalExpr = additiveExpr (nl (lt | gt | le | ge) nl additiveExpr {
     XPNode *rhs = POP();
     XPNode *relNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -593,7 +596,7 @@ relationalExpr = additiveExpr ((lt | gt | le | ge) additiveExpr {
 
 plus    = '+';
 minus   = '-';
-additiveExpr = multiplicativeExpr ((plus | minus) multiplicativeExpr {
+additiveExpr = multiplicativeExpr (nl (plus | minus) nl multiplicativeExpr {
     XPNode *rhs = POP();
     XPNode *addNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -605,7 +608,7 @@ additiveExpr = multiplicativeExpr ((plus | minus) multiplicativeExpr {
 times   = '*';
 div     = '/';
 mod     = '%';
-multiplicativeExpr = bitExpr ((times | div | mod) bitExpr {
+multiplicativeExpr = bitExpr (nl (times | div | mod) nl bitExpr {
     XPNode *rhs = POP();
     XPNode *multNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -617,7 +620,7 @@ multiplicativeExpr = bitExpr ((times | div | mod) bitExpr {
 bitAnd  = '&';
 bitOr   = '|';
 bitXor  = '^';
-bitExpr = shiftExpr ((bitAnd | bitOr | bitXor) shiftExpr {
+bitExpr = shiftExpr (nl (bitAnd | bitOr | bitXor) nl shiftExpr {
     XPNode *rhs = POP();
     XPNode *bitNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -628,7 +631,7 @@ bitExpr = shiftExpr ((bitAnd | bitOr | bitXor) shiftExpr {
 
 shiftLeft = '<<';
 shiftRight = '>>';
-shiftExpr = concatExpr ((shiftLeft | shiftRight) concatExpr {
+shiftExpr = concatExpr (nl (shiftLeft | shiftRight) nl concatExpr {
     XPNode *rhs = POP();
     XPNode *shiftNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -638,7 +641,7 @@ shiftExpr = concatExpr ((shiftLeft | shiftRight) concatExpr {
 })*;
 
 cat    = '||';
-concatExpr = unaryExpr (cat unaryExpr {
+concatExpr = unaryExpr (nl cat nl unaryExpr {
     XPNode *rhs = POP();
     XPNode *catNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -661,7 +664,7 @@ negatedUnary
 		PUSH(notNode);
     }
 }
-	= (('not'! | '!'!) { _negation = !_negation; })+ unary {
+	= (('not'! | '!'!) { _negation = !_negation; })+ nl unary {
 };
 
 bitNot = '~';
@@ -677,15 +680,15 @@ signedPrimaryExpr
 		PUSH(negNode);
     }
 }
-    = ('-'! { self.unaryTok = _negTok; _negative = !_negative; })+ primaryExpr
-    | (bitNot { self.unaryTok = POP(); _negative = !_negative; })+ primaryExpr
+    = ('-'! { self.unaryTok = _negTok; _negative = !_negative; })+ nl primaryExpr
+    | (bitNot { self.unaryTok = POP(); _negative = !_negative; })+ nl primaryExpr
     ;
 
 primaryExpr = (atom | subExpr) trailer*;
 trailer = funcCall | loadSubscript;
 
 subExpr
-    = '(' expr ')'! {
+    = '(' nl expr nl ')'! {
     id objs = ABOVE(_openParenTok);
     POP(); // discard `(`
     PUSH_ALL(REV(objs));
@@ -693,7 +696,7 @@ subExpr
 
 atom = scalar | arrayLiteral | dictLiteral | funcLiteral | varRef;
 
-loadSubscript = '[' loadSlice ']'! {
+loadSubscript = '[' nl loadSlice nl ']'! {
     NSArray *nodes = REV(ABOVE(_openSquareTok));
     POP(); // square
     
@@ -716,10 +719,10 @@ loadSubscript = '[' loadSlice ']'! {
     PUSH(callNode);
 };
 
-loadSlice = (expr|Empty{PUSH(_firstNode);}) ':'! (expr|Empty{PUSH(_lastNode);}) sliceop?
+loadSlice = (expr|Empty{PUSH(_firstNode);}) nl ':'! nl (expr|Empty{PUSH(_lastNode);}) sliceop?
           | expr
           ;
-sliceop = ':'! (expr|Empty{PUSH(_lastNode);});
+sliceop = nl ':'! nl (expr|Empty{PUSH(_lastNode);});
 
 varRef = qid {
     XPNode *refNode = [XPNode nodeWithToken:_loadTok];
@@ -729,24 +732,24 @@ varRef = qid {
     PUSH(refNode);
 };
 
-arrayLiteral = '[' elemList? ']'! {
+arrayLiteral = '[' nl elemList? nl ']'! {
     NSArray *els = REV(ABOVE(_openSquareTok));
     POP(); // square
     XPNode *arrNode = [XPNode nodeWithToken:_arrayTok];
     [arrNode addChildren:els];
     PUSH(arrNode);
 };
-elemList = expr (','! expr)*;
+elemList = expr (nl ','! nl expr)*;
 
-dictLiteral = '{' pairList? '}'! {
+dictLiteral = '{' nl pairList? nl '}'! {
     NSArray *pairs = ABOVE(_openCurlyTok);
     POP(); // culry
     XPNode *dictNode = [XPNode nodeWithToken:_dictTok];
     [dictNode addChildren:pairs];
     PUSH(dictNode);
 };
-pairList = pair (','! pair)*;
-pair = expr ':' expr {
+pairList = pair (nl ','! nl pair)*;
+pair = expr nl ':' nl expr {
     XPNode *valExpr = POP();
     PKToken *colonTok = POP();
     XPNode *keyExpr = POP();

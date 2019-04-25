@@ -216,7 +216,6 @@
 		D3DF58C71E42F346006CAA07 /* XPFunctionSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58C51E42F346006CAA07 /* XPFunctionSpace.m */; };
 		D3DF58CD1E44E276006CAA07 /* XPIfBlockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58CC1E44E276006CAA07 /* XPIfBlockTests.m */; };
 		D3DF58CF1E44F69F006CAA07 /* XPWhileBlockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DF58CE1E44F69F006CAA07 /* XPWhileBlockTests.m */; };
-		D3E79A031E8D5933001F9DC7 /* XPNewlineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E79A021E8D5933001F9DC7 /* XPNewlineTests.m */; };
 		D3E79A061E8D78DD001F9DC7 /* FNDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = D3E79A041E8D78DD001F9DC7 /* FNDescription.h */; };
 		D3E79A071E8D78DD001F9DC7 /* FNDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E79A051E8D78DD001F9DC7 /* FNDescription.m */; };
 /* End PBXBuildFile section */
@@ -1216,7 +1215,6 @@
 				D373169E1E3EBA490034798E /* XPBaseStatementTests.m in Sources */,
 				D34A56891E80E2AE0064DF65 /* XPTryTests.m in Sources */,
 				D3166DF51E53B38A00DEE3A0 /* FNTypeTests.m in Sources */,
-				D3E79A031E8D5933001F9DC7 /* XPNewlineTests.m in Sources */,
 				D3B5F7361E47F50C00740161 /* XPArrayLiteralTests.m in Sources */,
 				D3166E1C1E54BF4200DEE3A0 /* FNStringTests.m in Sources */,
 				D368A01A1E3BE4F8005783BB /* XPEqualityExpressionTests.m in Sources */,
