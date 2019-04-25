@@ -135,6 +135,7 @@
 		D34A56931E81A63C0064DF65 /* testLocalFwdFunction.js in Resources */ = {isa = PBXBuildFile; fileRef = D34A56921E81A63C0064DF65 /* testLocalFwdFunction.js */; };
 		D34A56951E81A65C0064DF65 /* testLocalFwdFunctionRef.js in Resources */ = {isa = PBXBuildFile; fileRef = D34A56941E81A65C0064DF65 /* testLocalFwdFunctionRef.js */; };
 		D34A569B1E8219F20064DF65 /* testCaughtObjectScope.js in Resources */ = {isa = PBXBuildFile; fileRef = D34A569A1E8219F20064DF65 /* testCaughtObjectScope.js */; };
+		D34A703E22727F320055F933 /* testLocalVarFromClosure2.js in Resources */ = {isa = PBXBuildFile; fileRef = D34A703D22727F320055F933 /* testLocalVarFromClosure2.js */; };
 		D34B7CE01E52A3C80094D2EC /* XPStringLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */; };
 		D35167E11E515BE4004C43CC /* XPDictionaryLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F29C1E5130C200C7099B /* XPDictionaryLiteralTests.m */; };
 		D3689FA41E3BDB57005783BB /* PEGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA21E3BDB57005783BB /* PEGKit.framework */; };
@@ -366,6 +367,7 @@
 		D34A56921E81A63C0064DF65 /* testLocalFwdFunction.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testLocalFwdFunction.js; path = test/scripts/testLocalFwdFunction.js; sourceTree = SOURCE_ROOT; };
 		D34A56941E81A65C0064DF65 /* testLocalFwdFunctionRef.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testLocalFwdFunctionRef.js; path = test/scripts/testLocalFwdFunctionRef.js; sourceTree = SOURCE_ROOT; };
 		D34A569A1E8219F20064DF65 /* testCaughtObjectScope.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testCaughtObjectScope.js; path = test/scripts/testCaughtObjectScope.js; sourceTree = SOURCE_ROOT; };
+		D34A703D22727F320055F933 /* testLocalVarFromClosure2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = testLocalVarFromClosure2.js; path = test/scripts/testLocalVarFromClosure2.js; sourceTree = "<group>"; };
 		D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPStringLiteralTests.m; path = test/XPStringLiteralTests.m; sourceTree = SOURCE_ROOT; };
 		D3689FA21E3BDB57005783BB /* PEGKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PEGKit.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/PEGKit.framework"; sourceTree = "<group>"; };
 		D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TDTemplateEngine.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/TDTemplateEngine.framework"; sourceTree = "<group>"; };
@@ -705,6 +707,7 @@
 				D3166E611E5611F800DEE3A0 /* testGlobalVarFromClosure2.js */,
 				D3166E631E56121700DEE3A0 /* testGlobalVarFromClosure3.js */,
 				D3166E4A1E56046E00DEE3A0 /* testLocalVarFromClosure.js */,
+				D34A703D22727F320055F933 /* testLocalVarFromClosure2.js */,
 				D3166E6B1E57A11400DEE3A0 /* testLocalsInLocalBlock.js */,
 				D3ADB43E1E89D84500306142 /* testLocalsInLocalBlockRecursive.js */,
 				D3ADB4401E89D8D600306142 /* testLocalsInLocalBlockNotRecursive.js */,
@@ -1087,6 +1090,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3166E471E55FE6D00DEE3A0 /* testClosuresLoopWithGlobalVar.js in Resources */,
+				D34A703E22727F320055F933 /* testLocalVarFromClosure2.js in Resources */,
 				D3166EDD1E57F82B00DEE3A0 /* testLocalsInFunctionDecl.js in Resources */,
 				D34A56951E81A65C0064DF65 /* testLocalFwdFunctionRef.js in Resources */,
 				D393579E1F82CB5E008AE4A8 /* testExceptionNameReasonLine.js in Resources */,

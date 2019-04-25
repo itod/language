@@ -86,6 +86,11 @@
     TDEquals(47.0, [self doubleForName:@"x"]);
 }
 
+- (void)testLocalVarFromClosure2 {
+    [self exec:[self sourceForSelector:_cmd]];
+    TDEquals(47.0, [self doubleForName:@"x"]);
+}
+
 - (void)testClosuresLoopWithGlobalVar {
     [self exec:[self sourceForSelector:_cmd]];
     TDEquals(3.0, [self doubleForName:@"x"]);
