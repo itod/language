@@ -165,6 +165,8 @@
     [t.wordState setWordChars:NO from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'\'' to:'\''];
     
+    t.quoteState.allowsEOFTerminatedQuotes = NO;
+    
     // dec numbers
     [t.numberState addGroupingSeparator:'_' forRadix:10];
     // hex numbers
@@ -901,31 +903,31 @@
 
 - (void)__realStat {
     
-    if ([self speculate:^{ [self varDecl_]; }]) {
-        [self varDecl_]; 
+    if ([self predicts:XP_TOKEN_KIND_VAR, 0]) {
+        [self varDecl_];
+    } else if ([self predicts:XP_TOKEN_KIND_THROW, 0]) {
+        [self throwStat_];
+    } else if ([self predicts:XP_TOKEN_KIND_BREAK, 0]) {
+        [self break_];
+    } else if ([self predicts:XP_TOKEN_KIND_CONTINUE, 0]) {
+        [self continue_];
+    } else if ([self predicts:XP_TOKEN_KIND_RETURN, 0]) {
+        [self returnStat_];
     } else if ([self speculate:^{ [self assign_]; }]) {
-        [self assign_]; 
+        [self assign_];
     } else if ([self speculate:^{ [self assignSubscript_]; }]) {
-        [self assignSubscript_]; 
+        [self assignSubscript_];
     } else if ([self speculate:^{ [self assignAppend_]; }]) {
-        [self assignAppend_]; 
-    } else if ([self speculate:^{ [self throwStat_]; }]) {
-        [self throwStat_]; 
+        [self assignAppend_];
     } else if ([self speculate:^{ [self expr_]; }]) {
-        [self expr_]; 
-    } else if ([self speculate:^{ [self break_]; }]) {
-        [self break_]; 
-    } else if ([self speculate:^{ [self continue_]; }]) {
-        [self continue_]; 
-    } else if ([self speculate:^{ [self returnStat_]; }]) {
-        [self returnStat_]; 
+        [self expr_];
     } else {
         [self raise:@"No viable alternative found in rule 'realStat'."];
     }
     [self execute:^{
-    self.valid=NO;
+        self.valid=NO;
     }];
-
+    
     [self fireDelegateSelector:@selector(parser:didMatchRealStat:)];
 }
 
@@ -2396,7 +2398,7 @@
     } else {
         [self raise:@"No viable alternative found in rule 'primaryExpr'."];
     }
-    while ([self speculate:^{ [self trailer_]; }]) {
+    while ([self predicts:XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_OPEN_BRACKET, 0]) {
         [self trailer_]; 
     }
 

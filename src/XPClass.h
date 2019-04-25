@@ -23,7 +23,7 @@
 
 - (XPEnumeration *)enumeration:(XPObject *)this;
 
-- (NSString *)description:(XPObject *)this;
+- (NSString *)reprValue:(XPObject *)this;
 
 - (id)stringValue:(XPObject *)this;
 - (id)doubleValue:(XPObject *)this;

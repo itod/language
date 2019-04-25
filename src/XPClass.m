@@ -84,7 +84,7 @@
 }
 
 
-- (NSString *)description:(XPObject *)this {
+- (NSString *)reprValue:(XPObject *)this {
     return [this stringValue];
 }
 

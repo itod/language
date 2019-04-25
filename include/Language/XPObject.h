@@ -35,6 +35,7 @@
 
 - (BOOL)compareToObject:(XPObject *)other usingOperator:(NSInteger)op;
 
+- (NSString *)reprValue;
 - (NSString *)stringValue;
 - (double)doubleValue;
 - (BOOL)boolValue;

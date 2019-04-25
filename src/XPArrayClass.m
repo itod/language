@@ -132,8 +132,8 @@
 }
 
 
-- (NSString *)description:(XPObject *)this {
-    return [self repr:this withSelector:@selector(description)];
+- (NSString *)reprValue:(XPObject *)this {
+    return [self repr:this withSelector:@selector(reprValue)];
 }
 
 

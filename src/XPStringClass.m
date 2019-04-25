@@ -143,8 +143,10 @@
 }
 
 
-- (NSString *)description:(XPObject *)this {
-    return [NSString stringWithFormat:@"'%@'", this.value];
+- (NSString *)reprValue:(XPObject *)this {
+    NSString *val = this.value;
+    val = [val stringByReplacingOccurrencesOfString:@"'" withString:@"\\'" options:0 range:NSMakeRange(0, [val length])];
+    return [NSString stringWithFormat:@"'%@'", val];
 }
 
 
