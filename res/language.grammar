@@ -91,6 +91,8 @@
     [t.wordState setWordChars:NO from:'-' to:'-'];
     [t.wordState setWordChars:NO from:'\'' to:'\''];
     
+    t.quoteState.allowsEOFTerminatedQuotes = NO;
+    
     // dec numbers
     [t.numberState addGroupingSeparator:'_' forRadix:10];
     // hex numbers
