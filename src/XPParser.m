@@ -40,7 +40,6 @@
 @property (nonatomic, assign) BOOL negative;
 @property (nonatomic, assign) BOOL canBreak;
 @property (nonatomic, assign) BOOL valid;
-@property (nonatomic, assign) BOOL local;
 
 @property (nonatomic, retain) NSMutableDictionary *program_memo;
 @property (nonatomic, retain) NSMutableDictionary *globalList_memo;
@@ -759,7 +758,6 @@
     } else if ([self predicts:XP_TOKEN_KIND_TRY, 0]) {
         [self tryBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_SUB, 0]) {
-        [self testAndThrow:(id)^{ return !_local; }]; 
         [self funcDecl_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'anyBlock'."];
@@ -777,9 +775,6 @@
 
 - (void)__localList {
     
-    [self execute:^{
-    self.local=YES;
-    }];
     while ([self speculate:^{ [self item_]; }]) {
         [self item_]; 
     }
@@ -791,9 +786,6 @@
     [block addChildren:items];
     PUSH(block);
 
-    }];
-    [self execute:^{
-    self.local=NO;
     }];
 
     [self fireDelegateSelector:@selector(parser:didMatchLocalList:)];
@@ -2398,7 +2390,7 @@
     } else {
         [self raise:@"No viable alternative found in rule 'primaryExpr'."];
     }
-    while ([self predicts:XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_OPEN_BRACKET, 0]) {
+    while ([self speculate:^{ [self trailer_]; }]) {
         [self trailer_]; 
     }
 

@@ -66,7 +66,6 @@
 @property (nonatomic, assign) BOOL negative;
 @property (nonatomic, assign) BOOL canBreak;
 @property (nonatomic, assign) BOOL valid;
-@property (nonatomic, assign) BOOL local;
 }
 
 @implementation {
@@ -205,13 +204,10 @@ globalList  = item* {
 item  = anyBlock | stats;
 anyBlock
 @after {self.valid=YES;}
-            = { _valid }? ifBlock | whileBlock | forBlock | localBlock | tryBlock | { !_local }? funcDecl;
+            = { _valid }? ifBlock | whileBlock | forBlock | localBlock | tryBlock | funcDecl;
 
 // LOCAL
-localList
-@before {self.local=YES;}
-@after {self.local=NO;}
-   = item* {
+localList   = item* {
     NSArray *items = REV(ABOVE(_openCurlyTok));
     POP(); // 'curly'
     XPNode *block = [XPNode nodeWithToken:_blockTok];
