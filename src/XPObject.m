@@ -121,10 +121,10 @@
 }
 
 
-- (NSString *)description {
+- (NSString *)reprValue {
     //return [NSString stringWithFormat:@"<%@ %@>", [_objectClass name], _value];
     //return [NSString stringWithFormat:@"<%@ %@>", [_objectClass name], [self stringValue]];
-    return [self.objectClass description:self];
+    return [self.objectClass reprValue:self];
 }
 
 
