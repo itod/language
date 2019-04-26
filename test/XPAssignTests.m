@@ -35,17 +35,17 @@
 }
 
 - (void)testFuncAssignGlobal {
-    [self exec:@"var x=1;foo();sub foo(){x=2;}"];
+    [self exec:@"sub foo(){x=2;}var x=1;foo();"];
     TDEquals(2.0, [self doubleForName:@"x"]);
 }
 
 - (void)testFuncOverrideGlobal {
-    [self exec:@"var x=1;foo();sub foo(){var x=2;}"];
+    [self exec:@"sub foo(){var x=2;}var x=1;foo();"];
     TDEquals(1.0, [self doubleForName:@"x"]);
 }
 
 - (void)testFuncNestedOverride {
-    [self exec:@"var x=1;var y=0;f();sub f(){var x=2;var y=1000;g();}sub g(){y=x;}"];
+    [self exec:@"sub f(){var x=2;var y=1000;g();}sub g(){y=x;}var x=1;var y=0;f();"];
     TDEquals(1.0, [self doubleForName:@"y"]);
 }
 

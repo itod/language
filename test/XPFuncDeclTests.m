@@ -37,17 +37,17 @@
 }
 
 - (void)testCallSubFooRet1Plus1 {
-    [self exec:@"var bar = foo(); sub foo() { return 1+1; }"];
+    [self exec:@"sub foo() { return 1+1; } var bar = foo();"];
     TDEquals(2.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubFooRetAPlusB {
-    [self exec:@"var bar = foo(); sub foo() { var a = 1; var b = 3; return a + b; }"];
+    [self exec:@"sub foo() { var a = 1; var b = 3; return a + b; } var bar = foo();"];
     TDEquals(4.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubFooRetAPlusBGlobal {
-    [self exec:@"var b=5;var bar=foo();sub foo(){var a=10;return a+b;}"];
+    [self exec:@"sub foo(){var a=10;return a+b;}var b=5;var bar=foo();"];
     TDEquals(15.0, [self doubleForName:@"bar"]);
 }
 
@@ -57,47 +57,47 @@
 }
 
 - (void)testCallSubArg {
-    [self exec:@"var x=2;var bar=foo(x);sub foo(a){var b=10;return a+b;}"];
+    [self exec:@"sub foo(a){var b=10;return a+b;}var x=2;var bar=foo(x);"];
     TDEquals(12.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubArg2 {
-    [self exec:@"var bar=foo(4,5);sub foo(x,y){return x+y;}"];
+    [self exec:@"sub foo(x,y){return x+y;}var bar=foo(4,5);"];
     TDEquals(9.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubArg2Minus {
-    [self exec:@"var bar=foo(10,1);sub foo(x,y){return x -y;}"];
+    [self exec:@"sub foo(x,y){return x -y;}var bar=foo(10,1);"];
     TDEquals(9.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubArg2MinusNeg {
-    [self exec:@"var bar=foo(1,10);sub foo(x,y){return x-y;}"];
+    [self exec:@"sub foo(x,y){return x-y;}var bar=foo(1,10);"];
     TDEquals(-9.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubArg2MinusNeg2 {
-    [self exec:@"var bar=foo(1,10);sub foo(x,y){return x- y;}"];
+    [self exec:@"sub foo(x,y){return x- y;}var bar=foo(1,10);"];
     TDEquals(-9.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubDefaultVal {
-    [self exec:@"var bar = foo(); sub foo(a=77) { return a+1; }"];
+    [self exec:@"sub foo(a=77) { return a+1; }var bar = foo();"];
     TDEquals(78.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubDefaultValOverride {
-    [self exec:@"var bar = foo(22); sub foo(a=77) { return a+1; }"];
+    [self exec:@"sub foo(a=77) { return a+1; } var bar = foo(22);"];
     TDEquals(23.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubJustEnoughArgs {
-    [self exec:@"var bar = foo(22); sub foo(a,b=1) { return a+b; }"];
+    [self exec:@"sub foo(a,b=1) { return a+b; } var bar = foo(22);"];
     TDEquals(23.0, [self doubleForName:@"bar"]);
 }
 
 - (void)testCallSubMissingArg {
-    [self fail:@"var bar = foo(22); sub foo(a,b) { }"];
+    [self fail:@"sub foo(a,b) { } var bar = foo(22);"];
     TDEqualObjects(XPTypeError, self.error.localizedDescription);
 }
 
@@ -115,7 +115,7 @@
 }
 
 - (void)testFoo {
-    [self exec:@"var foo=test(0);sub test(n){if 0==n%2 {return true;} else {return false;}}"];
+    [self exec:@"sub test(n){if 0==n%2 {return true;} else {return false;}}var foo=test(0);"];
     TDTrue([self boolForName:@"foo"]);
 }
 

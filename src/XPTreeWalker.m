@@ -64,18 +64,18 @@
     XPMemorySpace *space = [self spaceWithSymbolNamed:name];
     XPObject *res = [space objectForName:name];
     
-    // or a statically-declared func
-    if (!res) {
-        NSString *name = node.name;
-        TDAssert([node.scope conformsToProtocol:@protocol(XPScope)]);
-        XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
-        if (funcSym) {
-            res = [XPObject function:funcSym];
-            TDAssert(self.currentSpace);
-            TDAssert(!funcSym.nativeBody); // should not be a native func
-            [self.currentSpace setObject:res forName:name];
-        }
-    }
+//    // or a statically-declared func
+//    if (!res) {
+//        NSString *name = node.name;
+//        TDAssert([node.scope conformsToProtocol:@protocol(XPScope)]);
+//        XPFunctionSymbol *funcSym = (id)[node.scope resolveSymbolNamed:name];
+//        if (funcSym) {
+//            res = [XPObject function:funcSym];
+//            TDAssert(self.currentSpace);
+//            TDAssert(!funcSym.nativeBody); // should not be a native func
+//            [self.currentSpace setObject:res forName:name];
+//        }
+//    }
 
     if (!res) {
         [self raise:XPNameError node:node format:@"unknown variable reference: `%@`", node.name];

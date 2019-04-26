@@ -69,7 +69,7 @@
 }
 
 - (void)testCopyFuncRetVal {
-    [self exec:@"var foo=make();foo[]=1;var bar=make();bar[]=2;sub make() {return [];}"];
+    [self exec:@"sub make() {return [];}var foo=make();foo[]=1;var bar=make();bar[]=2;"];
     TDEqualObjects(@"[1]", [self stringForName:@"foo"]);
     TDEqualObjects(@"[2]", [self stringForName:@"bar"]);
 }

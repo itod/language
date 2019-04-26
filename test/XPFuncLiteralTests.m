@@ -39,7 +39,7 @@
 }
 
 - (void)testFwdFuncValRef {
-    [self exec:@"var bar=foo;var baz=bar();sub foo(){return 33;}"];
+    [self exec:@"sub foo(){return 33;}var bar=foo;var baz=bar();"];
     TDEquals(33.0, [self doubleForName:@"baz"]);
 }
 
