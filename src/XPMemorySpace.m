@@ -61,6 +61,11 @@
 #pragma mark -
 #pragma mark Public
 
+- (XPMemorySpace *)debugEnclosingSpace {
+    return self.enclosingSpace;
+}
+
+
 - (BOOL)containsObjectForName:(NSString *)name {
     TDAssertExecuteThread();
     TDAssert([name length]);
@@ -118,7 +123,7 @@
         res = [NSMutableDictionary dictionaryWithDictionary:[_enclosingSpace allMembers]];
         [res addEntriesFromDictionary:self.members];
     } else {
-        TDAssert([self isKindOfClass:NSClassFromString(@"XPGlobalSpace")] || [self isKindOfClass:NSClassFromString(@"XPFunctionSpace")]);
+        TDAssert([self isKindOfClass:NSClassFromString(@"XPFunctionSpace")]);
         res = self.members;
     }
     return res;

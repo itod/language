@@ -105,6 +105,12 @@
         res = _globals;
     }
     
+    // check builtins
+    TDAssert(_globals.enclosingSpace);
+    if (!res && [_globals.enclosingSpace containsObjectForName:name]) {
+        res = _globals.enclosingSpace;
+    }
+    
     return res;
 }
 
@@ -153,8 +159,8 @@
             [frame setMembers:space.allMembers];
 
             // make sure you don't use the name 'local'. climb space tree to find nearest global or func space's name
-            while (space.enclosingSpace) {
-                space = space.enclosingSpace;
+            while (space.debugEnclosingSpace) {
+                space = space.debugEnclosingSpace;
             }
             frame.functionName = space.name;
 

@@ -22,6 +22,7 @@
 
 @property (nonatomic, copy, readonly) NSString *name;
 @property (nonatomic, retain, readonly) XPMemorySpace *enclosingSpace;
+@property (nonatomic, retain, readonly) XPMemorySpace *debugEnclosingSpace;
 
 // returns members placed exactly in this memory space
 @property (nonatomic, retain, readonly) NSMutableDictionary<NSString *, XPObject *> *members;

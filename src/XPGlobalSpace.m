@@ -7,11 +7,13 @@
 //
 
 #import "XPGlobalSpace.h"
+#import "XPBuiltinSpace.h"
 
 @implementation XPGlobalSpace
 
 - (instancetype)init {
-    self = [super initWithName:@"<global>" enclosingSpace:nil];
+    XPMemorySpace *builtins = [[[XPBuiltinSpace alloc] init] autorelease];
+    self = [super initWithName:@"<global>" enclosingSpace:builtins];
     if (self) {
         
     }
@@ -20,8 +22,18 @@
 
 
 - (void)dealloc {
-    TDAssert(!self.enclosingSpace);
+    TDAssert([self.enclosingSpace isKindOfClass:[XPBuiltinSpace class]]);
     [super dealloc];
+}
+
+
+- (XPMemorySpace *)debugEnclosingSpace {
+    return nil;
+}
+
+
+- (NSMutableDictionary *)allMembers {
+    return self.members;
 }
 
 @end

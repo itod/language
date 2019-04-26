@@ -87,10 +87,6 @@ NSString * const XPDebugInfoFrameStackKey = @"frameStack";
 NSString * const XPDebugInfoFilePathKey = @"filePath";
 NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
-@interface XPObject ()
-@property (nonatomic, assign, readwrite) BOOL isNative;
-@end
-
 @interface XPInterpreter ()
 @property (nonatomic, retain) NSMutableArray *treeWalkerStack;
 @property (nonatomic, retain, readonly) XPTreeWalker *treeWalker;
@@ -364,18 +360,19 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     
     // define in memory
     XPObject *obj = [XPObject function:funcSym];
-    obj.isNative = YES;
 
-    TDAssert(_globals);
-    [_globals setObject:obj forName:name];
+    XPMemorySpace *builtins = _globals.enclosingSpace;
+    TDAssert(builtins);
+    [builtins setObject:obj forName:name];
     
     [XPSymbol addReservedWord:name];
 }
 
 
 - (void)declareNativeVariable:(XPObject *)obj forName:(NSString *)name {
-    obj.isNative = YES;
-    [self.globals setObject:obj forName:name];
+    XPMemorySpace *builtins = _globals.enclosingSpace;
+    TDAssert(builtins);
+    [builtins setObject:obj forName:name];
 }
 
 
