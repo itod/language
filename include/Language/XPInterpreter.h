@@ -51,6 +51,7 @@ extern NSString * const XPDebugInfoLineNumberKey;
 @property (nonatomic, retain) NSFileHandle *stdErr;
 
 - (void)declareNativeFunction:(Class)cls;
+- (void)declareNativeVariable:(XPObject *)obj forName:(NSString *)name;
 @property (nonatomic, assign) id <XPInterpreterDelegate>delegate; // weakref
 
 // debug
