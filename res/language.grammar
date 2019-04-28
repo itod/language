@@ -627,23 +627,13 @@ bitExpr = shiftExpr (nl (bitAnd | bitOr | bitXor) nl shiftExpr {
 
 shiftLeft = '<<';
 shiftRight = '>>';
-shiftExpr = concatExpr (nl (shiftLeft | shiftRight) nl concatExpr {
+shiftExpr = unaryExpr (nl (shiftLeft | shiftRight) nl unaryExpr {
     XPNode *rhs = POP();
     XPNode *shiftNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
     [shiftNode addChild:lhs];
     [shiftNode addChild:rhs];
     PUSH(shiftNode);
-})*;
-
-cat    = '||';
-concatExpr = unaryExpr (nl cat nl unaryExpr {
-    XPNode *rhs = POP();
-    XPNode *catNode = [XPNode nodeWithToken:POP()];
-    XPNode *lhs = POP();
-    [catNode addChild:lhs];
-    [catNode addChild:rhs];
-    PUSH(catNode);
 })*;
 
 unaryExpr 

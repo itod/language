@@ -800,10 +800,10 @@
 
 
 - (id)rel:(XPNode *)node op:(NSInteger)op {
-    XPObject *lhs = [self walk:[node childAtIndex:0]];
-    XPObject *rhs = [self walk:[node childAtIndex:1]];
+    XPObject *lhsObj = [self walk:[node childAtIndex:0]];
+    XPObject *rhsObj = [self walk:[node childAtIndex:1]];
     
-    BOOL res = [lhs compareToObject:rhs usingOperator:op];
+    BOOL res = [lhsObj compareToObject:rhsObj usingOperator:op];
     return [XPObject boolean:res];
 }
 
@@ -819,10 +819,17 @@
 
 - (id)math:(XPNode *)node op:(NSInteger)op {
     // (+ `2` `1`)
-
-    double lhs = [[self walk:[node childAtIndex:0]] doubleValue];
-    double rhs = [[self walk:[node childAtIndex:1]] doubleValue];
+    XPObject *lhsObj = [self walk:[node childAtIndex:0]];
+    XPObject *rhsObj = [self walk:[node childAtIndex:1]];
     
+    return [self math:node lhs:lhsObj rhs:rhsObj op:op];
+}
+
+
+- (id)math:(XPNode *)node lhs:(XPObject *)lhsObj rhs:(XPObject *)rhsObj op:(NSInteger)op {
+    double lhs = [lhsObj doubleValue];
+    double rhs = [rhsObj doubleValue];
+
     double res = 0.0;
     switch (op) {
         case XP_TOKEN_KIND_PLUS:
@@ -849,16 +856,27 @@
     return [XPObject number:res];
 }
 
-- (id)plus:(XPNode *)node   { return [self math:node op:XP_TOKEN_KIND_PLUS]; }
+
+- (id)plus:(XPNode *)node   {
+    XPObject *lhsObj = [self walk:[node childAtIndex:0]];
+    XPObject *rhsObj = [self walk:[node childAtIndex:1]];
+
+    if ([lhsObj isStringObject]) {
+        return [self concat:node lhs:lhsObj rhs:rhsObj];
+    } else {
+        return [self math:node lhs:lhsObj rhs:rhsObj op:XP_TOKEN_KIND_PLUS];
+    }
+    
+}
 - (id)minus:(XPNode *)node  { return [self math:node op:XP_TOKEN_KIND_MINUS]; }
 - (id)times:(XPNode *)node  { return [self math:node op:XP_TOKEN_KIND_TIMES]; }
 - (id)div:(XPNode *)node    { return [self math:node op:XP_TOKEN_KIND_DIV]; }
 - (id)mod:(XPNode *)node    { return [self math:node op:XP_TOKEN_KIND_MOD]; }
 
 
-- (id)concat:(XPNode *)node {
-    NSString *lhs = [[self walk:[node childAtIndex:0]] stringValue];
-    NSString *rhs = [[self walk:[node childAtIndex:1]] stringValue];
+- (id)concat:(XPNode *)node lhs:(XPObject *)lhsObj rhs:(XPObject *)rhsObj {
+    NSString *lhs = [lhsObj stringValue];
+    NSString *rhs = [rhsObj stringValue];
     NSString *res = [NSString stringWithFormat:@"%@%@", lhs, rhs];
     return [XPObject string:res];
 }

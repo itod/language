@@ -4,7 +4,7 @@ var funcs = []
 for i in range(3) {
     funcs[] = sub () {
         x = i
-        print('i should be 3, i:' || i)
+        print('i should be 3, i:' + i)
     }
 }
 

@@ -289,8 +289,6 @@
         case XP_TOKEN_KIND_DIV:             res = [self div:node]; break;
         case XP_TOKEN_KIND_MOD:             res = [self mod:node]; break;
 
-        case XP_TOKEN_KIND_CAT:             res = [self concat:node]; break;
-
 // NULL
         case XP_TOKEN_KIND_NULL:            res = [self null:node]; break;
 // NaN

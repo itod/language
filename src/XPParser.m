@@ -113,8 +113,6 @@
 @property (nonatomic, retain) NSMutableDictionary *shiftLeft_memo;
 @property (nonatomic, retain) NSMutableDictionary *shiftRight_memo;
 @property (nonatomic, retain) NSMutableDictionary *shiftExpr_memo;
-@property (nonatomic, retain) NSMutableDictionary *cat_memo;
-@property (nonatomic, retain) NSMutableDictionary *concatExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *unaryExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *negatedUnary_memo;
 @property (nonatomic, retain) NSMutableDictionary *bitNot_memo;
@@ -258,7 +256,6 @@
         self.tokenKindTab[@"+="] = @(XP_TOKEN_KIND_PLUSEQ);
         self.tokenKindTab[@"<="] = @(XP_TOKEN_KIND_LE);
         self.tokenKindTab[@"["] = @(XP_TOKEN_KIND_OPEN_BRACKET);
-        self.tokenKindTab[@"||"] = @(XP_TOKEN_KIND_CAT);
         self.tokenKindTab[@"]"] = @(XP_TOKEN_KIND_CLOSE_BRACKET);
         self.tokenKindTab[@"^"] = @(XP_TOKEN_KIND_BITXOR);
         self.tokenKindTab[@"or"] = @(XP_TOKEN_KIND_OR);
@@ -315,7 +312,6 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_PLUSEQ] = @"+=";
         self.tokenKindNameTab[XP_TOKEN_KIND_LE] = @"<=";
         self.tokenKindNameTab[XP_TOKEN_KIND_OPEN_BRACKET] = @"[";
-        self.tokenKindNameTab[XP_TOKEN_KIND_CAT] = @"||";
         self.tokenKindNameTab[XP_TOKEN_KIND_CLOSE_BRACKET] = @"]";
         self.tokenKindNameTab[XP_TOKEN_KIND_BITXOR] = @"^";
         self.tokenKindNameTab[XP_TOKEN_KIND_OR] = @"or";
@@ -421,8 +417,6 @@
         self.shiftLeft_memo = [NSMutableDictionary dictionary];
         self.shiftRight_memo = [NSMutableDictionary dictionary];
         self.shiftExpr_memo = [NSMutableDictionary dictionary];
-        self.cat_memo = [NSMutableDictionary dictionary];
-        self.concatExpr_memo = [NSMutableDictionary dictionary];
         self.unaryExpr_memo = [NSMutableDictionary dictionary];
         self.negatedUnary_memo = [NSMutableDictionary dictionary];
         self.bitNot_memo = [NSMutableDictionary dictionary];
@@ -551,8 +545,6 @@
     self.shiftLeft_memo = nil;
     self.shiftRight_memo = nil;
     self.shiftExpr_memo = nil;
-    self.cat_memo = nil;
-    self.concatExpr_memo = nil;
     self.unaryExpr_memo = nil;
     self.negatedUnary_memo = nil;
     self.bitNot_memo = nil;
@@ -654,8 +646,6 @@
     [_shiftLeft_memo removeAllObjects];
     [_shiftRight_memo removeAllObjects];
     [_shiftExpr_memo removeAllObjects];
-    [_cat_memo removeAllObjects];
-    [_concatExpr_memo removeAllObjects];
     [_unaryExpr_memo removeAllObjects];
     [_negatedUnary_memo removeAllObjects];
     [_bitNot_memo removeAllObjects];
@@ -2182,8 +2172,8 @@
 
 - (void)__shiftExpr {
     
-    [self concatExpr_]; 
-    while ([self speculate:^{ [self nl_]; if ([self predicts:XP_TOKEN_KIND_SHIFTLEFT, 0]) {[self shiftLeft_]; } else if ([self predicts:XP_TOKEN_KIND_SHIFTRIGHT, 0]) {[self shiftRight_]; } else {[self raise:@"No viable alternative found in rule 'shiftExpr'."];}[self nl_]; [self concatExpr_]; }]) {
+    [self unaryExpr_]; 
+    while ([self speculate:^{ [self nl_]; if ([self predicts:XP_TOKEN_KIND_SHIFTLEFT, 0]) {[self shiftLeft_]; } else if ([self predicts:XP_TOKEN_KIND_SHIFTRIGHT, 0]) {[self shiftRight_]; } else {[self raise:@"No viable alternative found in rule 'shiftExpr'."];}[self nl_]; [self unaryExpr_]; }]) {
         [self nl_]; 
         if ([self predicts:XP_TOKEN_KIND_SHIFTLEFT, 0]) {
             [self shiftLeft_]; 
@@ -2193,7 +2183,7 @@
             [self raise:@"No viable alternative found in rule 'shiftExpr'."];
         }
         [self nl_]; 
-        [self concatExpr_]; 
+        [self unaryExpr_]; 
         [self execute:^{
         
     XPNode *rhs = POP();
@@ -2211,44 +2201,6 @@
 
 - (void)shiftExpr_ {
     [self parseRule:@selector(__shiftExpr) withMemo:_shiftExpr_memo];
-}
-
-- (void)__cat {
-    
-    [self match:XP_TOKEN_KIND_CAT discard:NO]; 
-
-    [self fireDelegateSelector:@selector(parser:didMatchCat:)];
-}
-
-- (void)cat_ {
-    [self parseRule:@selector(__cat) withMemo:_cat_memo];
-}
-
-- (void)__concatExpr {
-    
-    [self unaryExpr_]; 
-    while ([self speculate:^{ [self nl_]; [self cat_]; [self nl_]; [self unaryExpr_]; }]) {
-        [self nl_]; 
-        [self cat_]; 
-        [self nl_]; 
-        [self unaryExpr_]; 
-        [self execute:^{
-        
-    XPNode *rhs = POP();
-    XPNode *catNode = [XPNode nodeWithToken:POP()];
-    XPNode *lhs = POP();
-    [catNode addChild:lhs];
-    [catNode addChild:rhs];
-    PUSH(catNode);
-
-        }];
-    }
-
-    [self fireDelegateSelector:@selector(parser:didMatchConcatExpr:)];
-}
-
-- (void)concatExpr_ {
-    [self parseRule:@selector(__concatExpr) withMemo:_concatExpr_memo];
 }
 
 - (void)__unaryExpr {
