@@ -496,9 +496,13 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     NSError *err = nil;
     XPNode *node = [self parseInput:exprStr error:&err];
     
+    if (err) {
+        result = nil;
+        goto done;
+    }
+    
     if (node) {
         TDAssert(!err);
-        
         err = nil;
         
         // peel off BLOCK (that causes an eroneous local space to be created that clobbers the closure's surrounding scope - ie, where we paused)
@@ -516,17 +520,24 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
         [_treeWalkerStack addObject:walker];
 
         XPObject *obj = [self walk:node with:walker error:&err];
-        result = [NSString stringWithFormat:@"\n%@\n", [obj description]];
+        if (err) {
+            result = nil;
+            goto done;
+        }
+        
+        result = [obj reprValue];
     }
     
+done:
     if (!result) {
-        if (err) result = [err description];
+        if (err) result = [err localizedFailureReason];
         else result = @"Unknown Error.";
     }
 
+    result = [NSString stringWithFormat:@"\n%@\n", result];
+
     TDAssert(_stdOut);
     [_stdOut writeData:[result dataUsingEncoding:NSUTF8StringEncoding]];
-
 }
 
 
