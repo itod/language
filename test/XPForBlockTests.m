@@ -25,7 +25,7 @@
 }
 
 - (void)testLoopString {
-    [self exec:@"var x='321';var y='';for el in x {y[]=el;}var a=y[1];var b=y[2];var c=y[3];"];
+    [self exec:@"var x='321';var y='';for el in x {y=y+el;}var a=y[1];var b=y[2];var c=y[3];"];
     TDEquals(3.0, [self doubleForName:@"a"]);
     TDEquals(2.0, [self doubleForName:@"b"]);
     TDEquals(1.0, [self doubleForName:@"c"]);
