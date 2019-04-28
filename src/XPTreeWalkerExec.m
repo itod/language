@@ -931,9 +931,9 @@
         TDAssert(pat.range.length > 1);
         unichar c = [lhs characterAtIndex:NSMaxRange(pat.range)-1];
         switch (c) {
-            case 's':
+            case 's': {
                 [res replaceCharactersInRange:pat.range withString:[[arg asStringObject] stringValue]];
-                break;
+            } break;
             case 'i':
             case 'd': {
                 NSString *rep = [NSString stringWithFormat:@"%ld", lround([[arg asNumberObject] doubleValue])];
@@ -944,9 +944,9 @@
                 NSString *rep = [NSString stringWithFormat:fmt, [[arg asNumberObject] doubleValue]];
                 [res replaceCharactersInRange:pat.range withString:rep];
             } break;
-            default:
+            default: {
                 [self raise:XPTypeError node:node format:@"unknown format pattern : %%%C", c];
-                break;
+            } break;
         }
     }
     
