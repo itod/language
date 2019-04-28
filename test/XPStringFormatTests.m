@@ -28,9 +28,24 @@
     TDEqualObjects(@"3", [self stringForName:@"foo"]);
 }
 
-- (void)testFormatMultiIntToInt {
+- (void)testFormatMultiIntToStr {
     [self exec:@"var foo='%s %s' % [3, 4];"];
     TDEqualObjects(@"3 4", [self stringForName:@"foo"]);
+}
+
+- (void)testFormatMultiIntToDec {
+    [self exec:@"var foo='%d %d' % [3, 4];"];
+    TDEqualObjects(@"3 4", [self stringForName:@"foo"]);
+}
+
+- (void)testFormatMultiIntToInt {
+    [self exec:@"var foo='%i %i' % [3, 4];"];
+    TDEqualObjects(@"3 4", [self stringForName:@"foo"]);
+}
+
+- (void)testFormatMultiIntToFloat {
+    [self exec:@"var foo='%.1f %.1f' % [3, 4];"];
+    TDEqualObjects(@"3.0 4.0", [self stringForName:@"foo"]);
 }
 
 @end

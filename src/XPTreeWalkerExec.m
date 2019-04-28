@@ -907,7 +907,7 @@
     const NSRegularExpression *sRegex = nil;
     if (!sRegex) {
         NSError *err = nil;
-        sRegex = [[NSRegularExpression regularExpressionWithPattern:@"(?<!%)%[sdif]" options:0 error:&err] retain];
+        sRegex = [[NSRegularExpression regularExpressionWithPattern:@"(?<!%)%(?:[sdi]|(?:\\d+)?(?:\\.\\d+)?f)" options:0 error:&err] retain];
         TDAssert(!err);
         TDAssert(sRegex);
     }
@@ -928,7 +928,7 @@
     NSUInteger i = argCount-1;
     for (XPObject *arg in [args reverseObjectEnumerator]) {
         NSTextCheckingResult *pat = [pats objectAtIndex:i--];
-        TDAssert(2 == pat.range.length);
+        TDAssert(pat.range.length > 1);
         unichar c = [lhs characterAtIndex:NSMaxRange(pat.range)-1];
         switch (c) {
             case 's':
@@ -938,9 +938,11 @@
             case 'd':
                 [res replaceCharactersInRange:pat.range withString:[[arg asNumberObject] stringValue]];
                 break;
-            case 'f': // TODO
-                [res replaceCharactersInRange:pat.range withString:[[arg asNumberObject] stringValue]];
-                break;
+            case 'f': {
+                NSString *fmt = [lhs substringWithRange:pat.range];
+                NSString *rep = [NSString stringWithFormat:fmt, [[arg asNumberObject] doubleValue]];
+                [res replaceCharactersInRange:pat.range withString:rep];
+            } break;
             default:
                 [self raise:XPTypeError node:node format:@"unknown format pattern : %%%C", c];
                 break;
