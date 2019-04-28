@@ -23,12 +23,12 @@
     [super tearDown];
 }
 
-- (void)testeFormatIntToString {
+- (void)testFormatSingleIntToString {
     [self exec:@"var foo='%s' % 3;"];
     TDEqualObjects(@"3", [self stringForName:@"foo"]);
 }
 
-- (void)testeFormatIntToInt {
+- (void)testFormatMultiIntToInt {
     [self exec:@"var foo='%s %s' % [3, 4];"];
     TDEqualObjects(@"3 4", [self stringForName:@"foo"]);
 }

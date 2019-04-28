@@ -896,7 +896,6 @@
 
 - (id)format:(XPNode *)node lhs:(XPObject *)lhsObj rhs:(XPObject *)rhsObj {
     NSString *lhs = [lhsObj stringValue];
-    NSString *rhs = [rhsObj stringValue];
     
     NSArray *args = nil;
     if ([rhsObj isArrayObject]) {
@@ -906,7 +905,6 @@
     }
 
     const NSRegularExpression *sRegex = nil;
-    
     if (!sRegex) {
         NSError *err = nil;
         sRegex = [[NSRegularExpression regularExpressionWithPattern:@"(?<!%)%[sdif]" options:0 error:&err] retain];
