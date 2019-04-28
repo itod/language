@@ -161,31 +161,40 @@
     
     [self eval:@"var b = a[4:]"];
     TDEqualObjects(@"'defgh'"       , [self evalString:@"b"]);
-//    [self eval:@"b[2]=99"];
-//    TDEqualObjects(@"'d99fgh'"      , [self evalString:@"b"]);
+    
+#if MUTABLE_STRINGS
+    [self eval:@"b[2]=99"];
+    TDEqualObjects(@"'d99fgh'"      , [self evalString:@"b"]);
+#endif
     TDEqualObjects(@"'abcdefgh'"    , [self evalString:@"a"]);
     
 
     [self eval:@"var c = a[:]"]; // copy
     TDEqualObjects(@"'abcdefgh'"    , [self evalString:@"c"]);
     
-//    [self eval:@"c[-1]=47"];
-//    TDEqualObjects(@"'abcdefg47'"   , [self evalString:@"c"]);
+#if MUTABLE_STRINGS
+    [self eval:@"c[-1]=47"];
+    TDEqualObjects(@"'abcdefg47'"   , [self evalString:@"c"]);
+#endif
     TDEqualObjects(@"'abcdefgh'"    , [self evalString:@"a"]);
     
     [self eval:@"var d = a"]; // ref
     TDEqualObjects(@"'abcdefgh'"    , [self evalString:@"d"]);
-//    [self eval:@"d[1]=42"];
-//    TDEqualObjects(@"'42bcdefgh'"   , [self evalString:@"d"]);
-//    TDEqualObjects(@"'42bcdefgh'"   , [self evalString:@"a"]);
+#if MUTABLE_STRINGS
+    [self eval:@"d[1]=42"];
+    TDEqualObjects(@"'42bcdefgh'"   , [self evalString:@"d"]);
+    TDEqualObjects(@"'42bcdefgh'"   , [self evalString:@"a"]);
+#endif
 }
 
-//- (void)testAssignSlice {
-//    [self eval:@"var a = 'abcdefgh';"];
-//
-//    [self eval:@"a[2:7]=[99, 22, 14]"];
-//    //TDEqualObjects(@"'a992214h'"   , [self evalString:@"a"]);
-//    TDEqualObjects(@"'a[99, 22, 14]h'"   , [self evalString:@"a"]);
-//}
-
+#if MUTABLE_STRINGS
+- (void)testAssignSlice {
+    [self eval:@"var a = 'abcdefgh';"];
+    
+    [self eval:@"a[2:7]=[99, 22, 14]"];
+    //TDEqualObjects(@"'a992214h'"   , [self evalString:@"a"]);
+    TDEqualObjects(@"'a[99, 22, 14]h'"   , [self evalString:@"a"]);
+    
+}
+#endif
 @end

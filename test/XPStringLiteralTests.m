@@ -43,24 +43,26 @@
     TDEqualObjects(@"a", [self stringForName:@"bat"]);
 }
 
-//- (void)testInsertNegIndex3 {
-//    [self exec:@"var foo='abc';foo[-1]='z';foo[-2]='y';foo[-3]='x';var bar=foo[1];var baz=foo[2];var bat=foo[3];"];
-//    TDEqualObjects(@"x", [self stringForName:@"bar"]);
-//    TDEqualObjects(@"y", [self stringForName:@"baz"]);
-//    TDEqualObjects(@"z", [self stringForName:@"bat"]);
-//}
-//
-//- (void)testInsertAtIndex {
-//    [self exec:@"var foo='ab';foo[1]='c';foo[2]='d';var bar=foo[1];var baz=foo[2];"];
-//    TDEqualObjects(@"c", [self stringForName:@"bar"]);
-//    TDEqualObjects(@"d", [self stringForName:@"baz"]);
-//}
-//
-//- (void)testInsertAtIndexOutOfOrder {
-//    [self exec:@"var foo='ab';foo[2]='d';foo[1]='c';var bar=foo[1];var baz=foo[2];"];
-//    TDEqualObjects(@"c", [self stringForName:@"bar"]);
-//    TDEqualObjects(@"d", [self stringForName:@"baz"]);
-//}
+#if MUTABLE_STRINGS
+- (void)testInsertNegIndex3 {
+    [self exec:@"var foo='abc';foo[-1]='z';foo[-2]='y';foo[-3]='x';var bar=foo[1];var baz=foo[2];var bat=foo[3];"];
+    TDEqualObjects(@"x", [self stringForName:@"bar"]);
+    TDEqualObjects(@"y", [self stringForName:@"baz"]);
+    TDEqualObjects(@"z", [self stringForName:@"bat"]);
+}
+
+- (void)testInsertAtIndex {
+    [self exec:@"var foo='ab';foo[1]='c';foo[2]='d';var bar=foo[1];var baz=foo[2];"];
+    TDEqualObjects(@"c", [self stringForName:@"bar"]);
+    TDEqualObjects(@"d", [self stringForName:@"baz"]);
+}
+
+- (void)testInsertAtIndexOutOfOrder {
+    [self exec:@"var foo='ab';foo[2]='d';foo[1]='c';var bar=foo[1];var baz=foo[2];"];
+    TDEqualObjects(@"c", [self stringForName:@"bar"]);
+    TDEqualObjects(@"d", [self stringForName:@"baz"]);
+}
+#endif
 
 - (void)testAppend {
     [self exec:@"var foo=[];foo[]='c';foo[]='d';var bar=foo[1];var baz=foo[2];"];
