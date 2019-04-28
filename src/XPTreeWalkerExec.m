@@ -229,7 +229,8 @@
     XPNode *valNode = [node childAtIndex:1];
     XPObject *valObj = [self walk:valNode];
 
-    if ([collObj isStringObject] || [collObj isArrayObject]) {
+//    if ([collObj isStringObject] || [collObj isArrayObject]) {
+    if ([collObj isArrayObject]) {
         XPNode *startNode = [node childAtIndex:2];
         NSInteger start = [[self walk:startNode] doubleValue];
         
@@ -295,8 +296,9 @@
         return;
     }
     
-    if (![seqObj isStringObject] && ![seqObj isArrayObject]) {
-        [self raise:XPTypeError node:node format:@"attempting indexed assignment on non-sequence object `%@`", idNode.name];
+//    if (![seqObj isStringObject] && ![seqObj isArrayObject]) {
+    if (![seqObj isArrayObject]) {
+        [self raise:XPTypeError node:node format:@"attempting indexed assignment on non-Array object `%@`", idNode.name];
         return;
     }
     
