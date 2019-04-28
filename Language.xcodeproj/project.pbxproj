@@ -139,6 +139,7 @@
 		D34A704122734FA50055F933 /* XPBuiltinSpace.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A703F22734FA40055F933 /* XPBuiltinSpace.h */; };
 		D34A704222734FA50055F933 /* XPBuiltinSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A704022734FA40055F933 /* XPBuiltinSpace.m */; };
 		D34B7CE01E52A3C80094D2EC /* XPStringLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */; };
+		D34FF71C22763B3D009889A2 /* XPStringFormatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34FF71B22763B3D009889A2 /* XPStringFormatTests.m */; };
 		D35167E11E515BE4004C43CC /* XPDictionaryLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F29C1E5130C200C7099B /* XPDictionaryLiteralTests.m */; };
 		D3689FA41E3BDB57005783BB /* PEGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA21E3BDB57005783BB /* PEGKit.framework */; };
 		D3689FA51E3BDB57005783BB /* TDTemplateEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */; };
@@ -373,6 +374,7 @@
 		D34A703F22734FA40055F933 /* XPBuiltinSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPBuiltinSpace.h; path = src/XPBuiltinSpace.h; sourceTree = "<group>"; };
 		D34A704022734FA40055F933 /* XPBuiltinSpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPBuiltinSpace.m; path = src/XPBuiltinSpace.m; sourceTree = "<group>"; };
 		D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPStringLiteralTests.m; path = test/XPStringLiteralTests.m; sourceTree = SOURCE_ROOT; };
+		D34FF71B22763B3D009889A2 /* XPStringFormatTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPStringFormatTests.m; path = test/XPStringFormatTests.m; sourceTree = "<group>"; };
 		D3689FA21E3BDB57005783BB /* PEGKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PEGKit.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/PEGKit.framework"; sourceTree = "<group>"; };
 		D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TDTemplateEngine.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/TDTemplateEngine.framework"; sourceTree = "<group>"; };
 		D368A0041E3BE0C7005783BB /* Language-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Language-Prefix.pch"; path = "src/Language-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -791,6 +793,7 @@
 				D368A00F1E3BE4F8005783BB /* XPEqualityExpressionTests.m */,
 				D368A0141E3BE4F8005783BB /* XPRelationalExpressionTests.m */,
 				D368A00A1E3BE4F8005783BB /* XPArithmeticExpressionTests.m */,
+				D34FF71B22763B3D009889A2 /* XPStringFormatTests.m */,
 			);
 			name = Expr;
 			sourceTree = "<group>";
@@ -1232,6 +1235,7 @@
 				D3B5F7361E47F50C00740161 /* XPArrayLiteralTests.m in Sources */,
 				D3166E1C1E54BF4200DEE3A0 /* FNStringTests.m in Sources */,
 				D368A01A1E3BE4F8005783BB /* XPEqualityExpressionTests.m in Sources */,
+				D34FF71C22763B3D009889A2 /* XPStringFormatTests.m in Sources */,
 				D3166E351E54E48A00DEE3A0 /* FNCollectionTests.m in Sources */,
 				D37316931E3EB75F0034798E /* XPVarDeclTests.m in Sources */,
 				D3A7F2971E51245400C7099B /* XPForBlockTests.m in Sources */,

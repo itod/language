@@ -34,6 +34,7 @@
     return [NSString stringWithFormat:@"<%@ %p %ld>", [self class], self, _current];
 }
 
+
 - (BOOL)hasMore {
     return _current < [_values count];
 }

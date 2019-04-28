@@ -857,7 +857,7 @@
 }
 
 
-- (id)plus:(XPNode *)node   {
+- (id)plus:(XPNode *)node {
     XPObject *lhsObj = [self walk:[node childAtIndex:0]];
     XPObject *rhsObj = [self walk:[node childAtIndex:1]];
 
@@ -866,18 +866,89 @@
     } else {
         return [self math:node lhs:lhsObj rhs:rhsObj op:XP_TOKEN_KIND_PLUS];
     }
-    
 }
+
+
+- (id)mod:(XPNode *)node {
+    XPObject *lhsObj = [self walk:[node childAtIndex:0]];
+    XPObject *rhsObj = [self walk:[node childAtIndex:1]];
+    
+    if ([lhsObj isStringObject]) {
+        return [self format:node lhs:lhsObj rhs:rhsObj];
+    } else {
+        return [self math:node lhs:lhsObj rhs:rhsObj op:XP_TOKEN_KIND_MOD];
+    }
+}
+
+
 - (id)minus:(XPNode *)node  { return [self math:node op:XP_TOKEN_KIND_MINUS]; }
 - (id)times:(XPNode *)node  { return [self math:node op:XP_TOKEN_KIND_TIMES]; }
 - (id)div:(XPNode *)node    { return [self math:node op:XP_TOKEN_KIND_DIV]; }
-- (id)mod:(XPNode *)node    { return [self math:node op:XP_TOKEN_KIND_MOD]; }
 
 
 - (id)concat:(XPNode *)node lhs:(XPObject *)lhsObj rhs:(XPObject *)rhsObj {
     NSString *lhs = [lhsObj stringValue];
     NSString *rhs = [rhsObj stringValue];
     NSString *res = [NSString stringWithFormat:@"%@%@", lhs, rhs];
+    return [XPObject string:res];
+}
+
+
+- (id)format:(XPNode *)node lhs:(XPObject *)lhsObj rhs:(XPObject *)rhsObj {
+    NSString *lhs = [lhsObj stringValue];
+    NSString *rhs = [rhsObj stringValue];
+    
+    NSArray *args = nil;
+    if ([rhsObj isArrayObject]) {
+        args = [[rhsObj.value copy] autorelease];
+    } else {
+        args = @[rhsObj];
+    }
+
+    const NSRegularExpression *sRegex = nil;
+    
+    if (!sRegex) {
+        NSError *err = nil;
+        sRegex = [[NSRegularExpression regularExpressionWithPattern:@"(?<!%)%[sdif]" options:0 error:&err] retain];
+        TDAssert(!err);
+        TDAssert(sRegex);
+    }
+    
+    NSArray *pats = [sRegex matchesInString:lhs options:0 range:NSMakeRange(0, [lhs length])];
+    
+    NSUInteger argCount = [args count];
+    NSUInteger patCount = [pats count];
+    
+    if (argCount > patCount) {
+        [self raise:XPTypeError node:node format:@"too many arguments for format string"];
+    } else if (argCount < patCount) {
+        [self raise:XPTypeError node:node format:@"not enough arguments for format string"];
+    }
+    
+    NSMutableString *res = [NSMutableString stringWithString:lhs];
+    
+    NSUInteger i = argCount-1;
+    for (XPObject *arg in [args reverseObjectEnumerator]) {
+        NSTextCheckingResult *pat = [pats objectAtIndex:i--];
+        TDAssert(2 == pat.range.length);
+        unichar c = [lhs characterAtIndex:NSMaxRange(pat.range)-1];
+        switch (c) {
+            case 's':
+                [res replaceCharactersInRange:pat.range withString:[[arg asStringObject] stringValue]];
+                break;
+            case 'i':
+            case 'd':
+                [res replaceCharactersInRange:pat.range withString:[[arg asNumberObject] stringValue]];
+                break;
+            case 'f': // TODO
+                [res replaceCharactersInRange:pat.range withString:[[arg asNumberObject] stringValue]];
+                break;
+            default:
+                [self raise:XPTypeError node:node format:@"unknown format pattern : %%%C", c];
+                break;
+        }
+    }
+    
     return [XPObject string:res];
 }
 
