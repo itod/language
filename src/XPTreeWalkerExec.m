@@ -71,6 +71,7 @@
     TDAssert(self.currentSpace);
     if ([self.currentSpace.members objectForKey:name]) {
         [self raise:XPNameError node:node format:@"cannot re-define variable with same name (`%@`) within same scope", name];
+        return;
     }
     
     XPNode *expr = [node childAtIndex:1];
@@ -842,7 +843,10 @@
             res = lhs * rhs;
             break;
         case XP_TOKEN_KIND_DIV: {
-            if (0.0 == rhs) [self raise:XPZeroDivisionError node:node format:@"cannot divide by 0.0"];
+            if (0.0 == rhs) {
+                [self raise:XPZeroDivisionError node:node format:@"cannot divide by 0.0"];
+                return nil;
+            }
             res = lhs / rhs;
         } break;
         case XP_TOKEN_KIND_MOD:
@@ -919,8 +923,10 @@
     
     if (argCount > patCount) {
         [self raise:XPTypeError node:node format:@"too many arguments for format string"];
+        return nil;
     } else if (argCount < patCount) {
         [self raise:XPTypeError node:node format:@"not enough arguments for format string"];
+        return nil;
     }
     
     NSMutableString *res = [NSMutableString stringWithString:lhs];
@@ -946,6 +952,7 @@
             } break;
             default: {
                 [self raise:XPTypeError node:node format:@"unknown format pattern : %%%C", c];
+                return nil;
             } break;
         }
     }
