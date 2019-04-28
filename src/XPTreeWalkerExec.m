@@ -935,9 +935,10 @@
                 [res replaceCharactersInRange:pat.range withString:[[arg asStringObject] stringValue]];
                 break;
             case 'i':
-            case 'd':
-                [res replaceCharactersInRange:pat.range withString:[[arg asNumberObject] stringValue]];
-                break;
+            case 'd': {
+                NSString *rep = [NSString stringWithFormat:@"%ld", lround([[arg asNumberObject] doubleValue])];
+                [res replaceCharactersInRange:pat.range withString:rep];
+            } break;
             case 'f': {
                 NSString *fmt = [lhs substringWithRange:pat.range];
                 NSString *rep = [NSString stringWithFormat:fmt, [[arg asNumberObject] doubleValue]];
