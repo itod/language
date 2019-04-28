@@ -42,7 +42,7 @@
         NSString *inStr = seq.value;
         NSUInteger c = [inStr length];
         NSMutableString *outStr = [NSMutableString stringWithCapacity:c];
-        for (NSUInteger i = c-1; i >= 0; --i) {
+        for (NSInteger i = c-1; i >= 0; --i) {
             [outStr appendFormat:@"%C", [inStr characterAtIndex:i]];
         }
         res = [XPObject string:outStr];
