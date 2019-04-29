@@ -229,8 +229,11 @@
     XPNode *valNode = [node childAtIndex:1];
     XPObject *valObj = [self walk:valNode];
 
-//    if ([collObj isStringObject] || [collObj isArrayObject]) {
+#if MUTABLE_STRINGS
+    if ([collObj isStringObject] || [collObj isArrayObject]) {
+#else
     if ([collObj isArrayObject]) {
+#endif
         XPNode *startNode = [node childAtIndex:2];
         NSInteger start = [[self walk:startNode] doubleValue];
         
@@ -295,12 +298,18 @@
         [self raise:XPNameError node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.name];
         return;
     }
-    
-//    if (![seqObj isStringObject] && ![seqObj isArrayObject]) {
+
+#if MUTABLE_STRINGS
+    if (![seqObj isStringObject] && ![seqObj isArrayObject]) {
+        [self raise:XPTypeError node:node format:@"attempting indexed assignment on non-sequence object `%@`", idNode.name];
+        return;
+    }
+#else
     if (![seqObj isArrayObject]) {
         [self raise:XPTypeError node:node format:@"attempting indexed assignment on non-Array object `%@`", idNode.name];
         return;
     }
+#endif
     
     XPNode *valNode = [node childAtIndex:1];
     XPObject *valObj = [self walk:valNode];
