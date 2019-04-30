@@ -38,10 +38,12 @@
         sel = @selector(count:);
     } else if ([methName isEqualToString:@"get"]) {
         sel = @selector(get::::);
+#if MUTABLE_STRINGS
     } else if ([methName isEqualToString:@"set"]) {
         sel = @selector(set::::);
     } else if ([methName isEqualToString:@"append"]) {
         sel = @selector(append::);
+#endif
     }
     TDAssert(sel);
     

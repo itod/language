@@ -239,4 +239,16 @@
     TDEquals(0.0, [self doubleForName:@"i"]);
 }
 
+- (void)testReversedString {
+    [self exec:@"var s='abc';var t=reversed(s);"];
+    TDEqualObjects(@"abc", [self stringForName:@"s"]);
+    TDEqualObjects(@"cba", [self stringForName:@"t"]);
+}
+
+- (void)testReversedArray {
+    [self exec:@"var s=[4,5,6];var t=reversed(s);"];
+    TDEqualObjects(@"[4, 5, 6]", [[self objectForName:@"s"] reprValue]);
+    TDEqualObjects(@"[6, 5, 4]", [[self objectForName:@"t"] reprValue]);
+}
+
 @end

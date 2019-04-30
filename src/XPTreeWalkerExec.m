@@ -71,6 +71,7 @@
     TDAssert(self.currentSpace);
     if ([self.currentSpace.members objectForKey:name]) {
         [self raise:XPNameError node:node format:@"cannot re-define variable with same name (`%@`) within same scope", name];
+        return;
     }
     
     XPNode *expr = [node childAtIndex:1];
@@ -228,7 +229,11 @@
     XPNode *valNode = [node childAtIndex:1];
     XPObject *valObj = [self walk:valNode];
 
+#if MUTABLE_STRINGS
     if ([collObj isStringObject] || [collObj isArrayObject]) {
+#else
+    if ([collObj isArrayObject]) {
+#endif
         XPNode *startNode = [node childAtIndex:2];
         NSInteger start = [[self walk:startNode] doubleValue];
         
@@ -293,11 +298,18 @@
         [self raise:XPNameError node:node format:@"attempting to assign to undeclared symbol `%@`", idNode.name];
         return;
     }
-    
+
+#if MUTABLE_STRINGS
     if (![seqObj isStringObject] && ![seqObj isArrayObject]) {
         [self raise:XPTypeError node:node format:@"attempting indexed assignment on non-sequence object `%@`", idNode.name];
         return;
     }
+#else
+    if (![seqObj isArrayObject]) {
+        [self raise:XPTypeError node:node format:@"attempting indexed assignment on non-Array object `%@`", idNode.name];
+        return;
+    }
+#endif
     
     XPNode *valNode = [node childAtIndex:1];
     XPObject *valObj = [self walk:valNode];
@@ -842,7 +854,10 @@
             res = lhs * rhs;
             break;
         case XP_TOKEN_KIND_DIV: {
-            if (0.0 == rhs) [self raise:XPZeroDivisionError node:node format:@"cannot divide by 0.0"];
+            if (0.0 == rhs) {
+                [self raise:XPZeroDivisionError node:node format:@"cannot divide by 0.0"];
+                return nil;
+            }
             res = lhs / rhs;
         } break;
         case XP_TOKEN_KIND_MOD:
@@ -919,8 +934,10 @@
     
     if (argCount > patCount) {
         [self raise:XPTypeError node:node format:@"too many arguments for format string"];
+        return nil;
     } else if (argCount < patCount) {
         [self raise:XPTypeError node:node format:@"not enough arguments for format string"];
+        return nil;
     }
     
     NSMutableString *res = [NSMutableString stringWithString:lhs];
@@ -946,6 +963,7 @@
             } break;
             default: {
                 [self raise:XPTypeError node:node format:@"unknown format pattern : %%%C", c];
+                return nil;
             } break;
         }
     }

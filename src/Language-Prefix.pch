@@ -32,3 +32,6 @@
 #else
 #define TDAssertExecuteThread() NSAssert1(0==strcmp("EXECUTE-THREAD", dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL))||[[[NSThread currentThread] name] isEqualToString:@"EXECUTE-THREAD"], @"%s should be called on the EXECUTE-THREAD only.", __PRETTY_FUNCTION__);
 #endif
+
+#define MUTABLE_STRINGS 0
+

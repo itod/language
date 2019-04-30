@@ -43,6 +43,7 @@
     TDEqualObjects(@"a", [self stringForName:@"bat"]);
 }
 
+#if MUTABLE_STRINGS
 - (void)testInsertNegIndex3 {
     [self exec:@"var foo='abc';foo[-1]='z';foo[-2]='y';foo[-3]='x';var bar=foo[1];var baz=foo[2];var bat=foo[3];"];
     TDEqualObjects(@"x", [self stringForName:@"bar"]);
@@ -61,6 +62,7 @@
     TDEqualObjects(@"c", [self stringForName:@"bar"]);
     TDEqualObjects(@"d", [self stringForName:@"baz"]);
 }
+#endif
 
 - (void)testAppend {
     [self exec:@"var foo=[];foo[]='c';foo[]='d';var bar=foo[1];var baz=foo[2];"];
@@ -74,14 +76,14 @@
     TDEqualObjects(@"[2]", [self stringForName:@"bar"]);
 }
 
-- (void)testSetIndexNested {
-    [self exec:@"var a='x';{a[1]='y';}var b=a[1];"];
-    TDEqualObjects(@"y", [self stringForName:@"b"]);
-}
-
-- (void)testAppendNested {
-    [self exec:@"var a='';{a[]='c';}var b=a[1];"];
-    TDEqualObjects(@"c", [self stringForName:@"b"]);
-}
+//- (void)testSetIndexNested {
+//    [self exec:@"var a='x';{a[1]='y';}var b=a[1];"];
+//    TDEqualObjects(@"y", [self stringForName:@"b"]);
+//}
+//
+//- (void)testAppendNested {
+//    [self exec:@"var a='';{a[]='c';}var b=a[1];"];
+//    TDEqualObjects(@"c", [self stringForName:@"b"]);
+//}
 
 @end
