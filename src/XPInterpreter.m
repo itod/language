@@ -220,6 +220,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 
 - (id)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr {
     id result = nil;
+    
+    [self produceDocumentation];
 
     input = [NSString stringWithFormat:@"%@\n", input]; // ensure final terminator
     
@@ -542,6 +544,27 @@ done:
     [_stdOut writeData:[result dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
+
+- (void)produceDocumentation {
+    NSMutableArray *funcs = [NSMutableArray array];
+    //    NSDictionary *mems = _globals.enclosingSpace.members;
+    NSDictionary *symTab = _globalScope.symbols;
+    for (NSString *name in symTab) {
+        XPFunctionSymbol *funcSym = [symTab objectForKey:name];
+        id func = [NSMutableDictionary dictionary];
+        [funcs addObject:func];
+
+        [func setObject:name forKey:@"name"];
+        id params = [NSMutableArray array];
+        for (XPFunctionSymbol *paramSym in funcSym.orderedParams) {
+            id param = [NSMutableDictionary dictionary];
+            [params addObject:param];
+            [param setObject:paramSym.name forKey:@"name"];
+            [param setObject:@"foo" forKey:@"type"];
+        }
+        [func setObject:params forKey:@"params"];
+    }
+}
 
 #pragma mark -
 #pragma mark Properties
