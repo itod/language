@@ -39,6 +39,7 @@
 #import "FNContains.h"
 #import "FNRemove.h"
 #import "FNSum.h"
+#import "FNSort.h"
 #import "FNReversed.h"
 #import "FNMap.h"
 #import "FNFilter.h"
@@ -129,22 +130,25 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             [self declareNativeFunction:[FNDescription class]];
             [self declareNativeFunction:[FNSleep class]];
             [self declareNativeFunction:[FNExit class]];
+            [self declareNativeFunction:[FNLocals class]];
+            [self declareNativeFunction:[FNGlobals class]];
 
             // seq
             [self declareNativeFunction:[FNCount class]];
             [self declareNativeFunction:[FNPosition class]];
-            [self declareNativeFunction:[FNRange class]];
-            [self declareNativeFunction:[FNSum class]];
             [self declareNativeFunction:[FNReversed class]];
 
-            // coll
-            [self declareNativeFunction:[FNContains class]];
-            [self declareNativeFunction:[FNRemove class]];
+            // arr
+            [self declareNativeFunction:[FNRange class]];
+            [self declareNativeFunction:[FNSum class]];
+            [self declareNativeFunction:[FNSort class]];
             [self declareNativeFunction:[FNMap class]];
             [self declareNativeFunction:[FNFilter class]];
-            [self declareNativeFunction:[FNLocals class]];
-            [self declareNativeFunction:[FNGlobals class]];
             
+            // dict
+            [self declareNativeFunction:[FNContains class]];
+            [self declareNativeFunction:[FNRemove class]];
+
             // str
             [self declareNativeFunction:[FNTrim class]];
             [self declareNativeFunction:[FNLowercase class]];

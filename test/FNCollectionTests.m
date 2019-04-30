@@ -124,4 +124,9 @@
     TDEquals(0, [self boolForName:@"danach"]);
 }
 
+- (void)testSort1 {
+    [self exec:@"var v=['b','a','c'];sort(v)"];
+    TDEqualObjects(@"['a', 'b', 'c']", [[self objectForName:@"v"] reprValue]);
+}
+
 @end

@@ -33,6 +33,8 @@
                       func, @"function",
                       nil];
     
+    [funcSym setDefaultObject:[XPObject nullObject] forParamNamed:@"function"];
+
     return funcSym;
 }
 
@@ -43,65 +45,76 @@
     XPObject *func = [space objectForName:@"function"];
     TDAssert(func);
     
-    XPFunctionSymbol *funcSym = func.value;
-    
     if (![array isArrayObject]) {
         [self raise:XPTypeError format:@"first argument to `sort()` must be an Array object"];
         return nil;
     }
     
+    XPFunctionSymbol *funcSym = nil;
+
     if (![func isFunctionObject]) {
-        [self raise:XPTypeError format:@"second argument to `sort()` must be a Subroutine object"];
-        return nil;
+        if (func == [XPObject nullObject]) {
+            funcSym = nil;
+        } else {
+            [self raise:XPTypeError format:@"second argument to `sort()` must be a Subroutine object"];
+            return nil;
+        }
+    } else {
+        funcSym = func.value;
     }
-    
+
     XPMemorySpace *savedSpace = walker.currentSpace;
 
     NSMutableArray *vec = array.value;
-    [vec sortedArrayUsingComparator:^NSComparisonResult (id obj0, id obj1) {
+    [vec sortUsingComparator:^NSComparisonResult (id obj0, id obj1) {
         TDAssert([obj0 isKindOfClass:[XPObject class]]);
         TDAssert([obj1 isKindOfClass:[XPObject class]]);
 
-        // PUSH MEMORY SPACE
-        XPFunctionSpace *funcSpace = [[[XPFunctionSpace alloc] initWithSymbol:funcSym] autorelease];
+        NSComparisonResult res = NSOrderedSame;
         
-        walker.currentSpace = funcSpace;
-        
-        // EVAL ARGS
-        {
-            XPSymbol *param0 = funcSym.orderedParams[0];
-            [funcSpace setObject:obj0 forName:param0.name];
-
-            XPSymbol *param1 = funcSym.orderedParams[1];
-            [funcSpace setObject:obj1 forName:param1.name];
-        }
-        
-        // CALL
-        XPObject *retVal = nil;
-        {
-            TDAssert(walker.callStack);
-            [walker.callStack addObject:funcSpace];
+        if (funcSym) {
+            // PUSH MEMORY SPACE
+            XPFunctionSpace *funcSpace = [[[XPFunctionSpace alloc] initWithSymbol:funcSym] autorelease];
             
-            TDAssert(funcSym.blockNode);
-            @try {
-                [walker funcBlock:funcSym.blockNode];
-            } @catch (XPReturnExpception *ex) {
-                retVal = ex.value;
+            walker.currentSpace = funcSpace;
+            
+            // EVAL ARGS
+            {
+                XPSymbol *param0 = funcSym.orderedParams[0];
+                [funcSpace setObject:obj0 forName:param0.name];
+                
+                XPSymbol *param1 = funcSym.orderedParams[1];
+                [funcSpace setObject:obj1 forName:param1.name];
             }
             
-            [walker.callStack removeLastObject];
-        }
-        
-        // CONVERT TO NUMBER
-        retVal = [retVal asNumberObject];
-        
-        NSComparisonResult res;
-        if (retVal < 0) {
-            res = NSOrderedDescending;
-        } else if (retVal > 0) {
-            res = NSOrderedAscending;
+            // CALL
+            XPObject *retVal = nil;
+            {
+                TDAssert(walker.callStack);
+                [walker.callStack addObject:funcSpace];
+                
+                TDAssert(funcSym.blockNode);
+                @try {
+                    [walker funcBlock:funcSym.blockNode];
+                } @catch (XPReturnExpception *ex) {
+                    retVal = ex.value;
+                }
+                
+                [walker.callStack removeLastObject];
+            }
+            
+            // CONVERT TO NUMBER
+            retVal = [retVal asNumberObject];
+            
+            if (retVal < 0) {
+                res = NSOrderedDescending;
+            } else if (retVal > 0) {
+                res = NSOrderedAscending;
+            } else {
+                res = NSOrderedSame;
+            }
         } else {
-            res = NSOrderedSame;
+            res = [[obj0 value] compare:[obj1 value]];
         }
         
         return res;
