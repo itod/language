@@ -135,7 +135,7 @@
 }
 
 - (void)testNumericalSortFunction {
-    [self exec:@"var v=['1', '10', '2'];sort(v,sub(a,b){return Number(a)-Number(b)})"];
+    [self exec:@"var v=['1', '10', '2'];sort(v,sub(a){return Number(a)})"];
     TDEqualObjects(@"['1', '2', '10']", [[self objectForName:@"v"] reprValue]);
 }
 

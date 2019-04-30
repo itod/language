@@ -66,55 +66,26 @@
     XPMemorySpace *savedSpace = walker.currentSpace;
 
     NSMutableArray *vec = array.value;
-    [vec sortUsingComparator:^NSComparisonResult (id obj0, id obj1) {
-        TDAssert([obj0 isKindOfClass:[XPObject class]]);
-        TDAssert([obj1 isKindOfClass:[XPObject class]]);
+    [vec sortUsingComparator:^NSComparisonResult (id objA, id objB) {
+        TDAssert([objA isKindOfClass:[XPObject class]]);
+        TDAssert([objB isKindOfClass:[XPObject class]]);
 
         NSComparisonResult res = NSOrderedSame;
         
         if (funcSym) {
-            // PUSH MEMORY SPACE
-            XPFunctionSpace *funcSpace = [[[XPFunctionSpace alloc] initWithSymbol:funcSym] autorelease];
-            
-            walker.currentSpace = funcSpace;
-            
-            // EVAL ARGS
-            {
-                XPSymbol *param0 = funcSym.orderedParams[0];
-                [funcSpace setObject:obj0 forName:param0.name];
-                
-                XPSymbol *param1 = funcSym.orderedParams[1];
-                [funcSpace setObject:obj1 forName:param1.name];
-            }
-            
-            // CALL
-            XPObject *retObj = nil;
-            {
-                TDAssert(walker.callStack);
-                [walker.callStack addObject:funcSpace];
-                
-                TDAssert(funcSym.blockNode);
-                @try {
-                    [walker funcBlock:funcSym.blockNode];
-                } @catch (XPReturnExpception *ex) {
-                    retObj = ex.value;
-                }
-                
-                [walker.callStack removeLastObject];
-            }
-            
-            // CONVERT TO NUMBER
-            NSInteger retVal = lround([[retObj asNumberObject] doubleValue]);
-            
-            if (retVal < 0) {
-                res = NSOrderedDescending;
-            } else if (retVal > 0) {
+            NSInteger a = [self integerValueFromWithWalker:walker sortFunction:funcSym argument:objA];
+            NSInteger b = [self integerValueFromWithWalker:walker sortFunction:funcSym argument:objB];
+
+            if (a < b) {
                 res = NSOrderedAscending;
+            } else if (a > b) {
+                res = NSOrderedDescending;
             } else {
                 res = NSOrderedSame;
             }
+
         } else {
-            res = [[obj0 value] compare:[obj1 value]];
+            res = [[objA value] compare:[objB value]];
         }
         
         return res;
@@ -124,6 +95,40 @@
     walker.currentSpace = savedSpace;
 
     return nil;
+}
+
+
+- (NSInteger)integerValueFromWithWalker:(XPTreeWalker *)walker sortFunction:(XPFunctionSymbol *)funcSym argument:(XPObject *)arg {
+    // PUSH MEMORY SPACE
+    XPFunctionSpace *funcSpace = [[[XPFunctionSpace alloc] initWithSymbol:funcSym] autorelease];
+    
+    walker.currentSpace = funcSpace;
+    
+    // EVAL ARGS
+    {
+        XPSymbol *param = funcSym.orderedParams[0];
+        [funcSpace setObject:arg forName:param.name];
+    }
+    
+    // CALL
+    XPObject *retObj = nil;
+    {
+        TDAssert(walker.callStack);
+        [walker.callStack addObject:funcSpace];
+        
+        TDAssert(funcSym.blockNode);
+        @try {
+            [walker funcBlock:funcSym.blockNode];
+        } @catch (XPReturnExpception *ex) {
+            retObj = ex.value;
+        }
+        
+        [walker.callStack removeLastObject];
+    }
+    
+    // CONVERT TO NUMBER
+    NSInteger retVal = lround([[retObj asNumberObject] doubleValue]);
+    return retVal;
 }
 
 @end
