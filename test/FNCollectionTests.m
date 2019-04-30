@@ -144,4 +144,9 @@
     TDEqualObjects(@"['c', 'b', 'a']", [[self objectForName:@"v"] reprValue]);
 }
 
+- (void)testExtend {
+    [self exec:@"var v=['a','b','c'];extend(v, [4,5])"];
+    TDEqualObjects(@"['a', 'b', 'c', 4, 5]", [[self objectForName:@"v"] reprValue]);
+}
+
 @end

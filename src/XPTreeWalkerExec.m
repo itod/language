@@ -639,10 +639,9 @@
         
         NSUInteger i = 0;
         for (XPNode *argExpr in argExprs) {
-            XPSymbol *param = funcSym.orderedParams[i];
+            XPSymbol *param = funcSym.orderedParams[i++];
             XPObject *valObj = [self walk:argExpr];
             [funcSpace setObject:valObj forName:param.name];
-            ++i;
         }
     }
 

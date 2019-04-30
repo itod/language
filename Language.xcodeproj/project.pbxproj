@@ -144,6 +144,8 @@
 		D34FF7292278A392009889A2 /* FNSort.m in Sources */ = {isa = PBXBuildFile; fileRef = D34FF7262278A157009889A2 /* FNSort.m */; };
 		D34FF72C2278D031009889A2 /* FNReverse.h in Headers */ = {isa = PBXBuildFile; fileRef = D34FF72A2278D031009889A2 /* FNReverse.h */; };
 		D34FF72D2278D031009889A2 /* FNReverse.m in Sources */ = {isa = PBXBuildFile; fileRef = D34FF72B2278D031009889A2 /* FNReverse.m */; };
+		D34FF7302278D7AB009889A2 /* FNExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = D34FF72E2278D7AA009889A2 /* FNExtend.m */; };
+		D34FF7312278D7AB009889A2 /* FNExtend.h in Headers */ = {isa = PBXBuildFile; fileRef = D34FF72F2278D7AB009889A2 /* FNExtend.h */; };
 		D35167E11E515BE4004C43CC /* XPDictionaryLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F29C1E5130C200C7099B /* XPDictionaryLiteralTests.m */; };
 		D3689FA41E3BDB57005783BB /* PEGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA21E3BDB57005783BB /* PEGKit.framework */; };
 		D3689FA51E3BDB57005783BB /* TDTemplateEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */; };
@@ -385,6 +387,8 @@
 		D34FF7262278A157009889A2 /* FNSort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNSort.m; path = src/FNSort.m; sourceTree = "<group>"; };
 		D34FF72A2278D031009889A2 /* FNReverse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNReverse.h; path = src/FNReverse.h; sourceTree = "<group>"; };
 		D34FF72B2278D031009889A2 /* FNReverse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNReverse.m; path = src/FNReverse.m; sourceTree = "<group>"; };
+		D34FF72E2278D7AA009889A2 /* FNExtend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNExtend.m; path = src/FNExtend.m; sourceTree = "<group>"; };
+		D34FF72F2278D7AB009889A2 /* FNExtend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNExtend.h; path = src/FNExtend.h; sourceTree = "<group>"; };
 		D3689FA21E3BDB57005783BB /* PEGKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PEGKit.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/PEGKit.framework"; sourceTree = "<group>"; };
 		D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TDTemplateEngine.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/TDTemplateEngine.framework"; sourceTree = "<group>"; };
 		D368A0041E3BE0C7005783BB /* Language-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Language-Prefix.pch"; path = "src/Language-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -519,6 +523,8 @@
 				D34FF7262278A157009889A2 /* FNSort.m */,
 				D34FF72A2278D031009889A2 /* FNReverse.h */,
 				D34FF72B2278D031009889A2 /* FNReverse.m */,
+				D34FF72F2278D7AB009889A2 /* FNExtend.h */,
+				D34FF72E2278D7AA009889A2 /* FNExtend.m */,
 				D3166E2F1E54E2ED00DEE3A0 /* FNMap.h */,
 				D3166E301E54E2ED00DEE3A0 /* FNMap.m */,
 				D3166E361E54E4CD00DEE3A0 /* FNFilter.h */,
@@ -984,6 +990,7 @@
 				D309BCDC1E5FA17B002B3199 /* XPObject.h in Headers */,
 				D37316BF1E3EBFEB0034798E /* XPScope.h in Headers */,
 				D34FF7272278A157009889A2 /* FNSort.h in Headers */,
+				D34FF7312278D7AB009889A2 /* FNExtend.h in Headers */,
 				D34A55DE1E7DD5AA0064DF65 /* XPSymbol.h in Headers */,
 				D3ADB4391E897E6100306142 /* XPLocalSpace.h in Headers */,
 				D34A704122734FA50055F933 /* XPBuiltinSpace.h in Headers */,
@@ -1187,6 +1194,7 @@
 				D34A560B1E7F04F20064DF65 /* FNAbs.m in Sources */,
 				D37316B71E3EBF800034798E /* XPSymbol.m in Sources */,
 				D34A704222734FA50055F933 /* XPBuiltinSpace.m in Sources */,
+				D34FF7302278D7AB009889A2 /* FNExtend.m in Sources */,
 				D3A7F27E1E4D71CC00C7099B /* XPBooleanClass.m in Sources */,
 				D3A7F2951E51219900C7099B /* XPEnumeration.m in Sources */,
 				D3166E321E54E2ED00DEE3A0 /* FNMap.m in Sources */,
