@@ -549,7 +549,8 @@ done:
     NSMutableArray *funcs = [NSMutableArray array];
     //    NSDictionary *mems = _globals.enclosingSpace.members;
     NSDictionary *symTab = _globalScope.symbols;
-    for (NSString *name in symTab) {
+    NSArray *names = [[symTab allKeys] sortedArrayUsingSelector:@selector(compare:)];
+    for (NSString *name in names) {
         XPFunctionSymbol *funcSym = [symTab objectForKey:name];
         id func = [NSMutableDictionary dictionary];
         [funcs addObject:func];
