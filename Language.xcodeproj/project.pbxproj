@@ -140,8 +140,6 @@
 		D34A704222734FA50055F933 /* XPBuiltinSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A704022734FA40055F933 /* XPBuiltinSpace.m */; };
 		D34B7CE01E52A3C80094D2EC /* XPStringLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */; };
 		D34FF71C22763B3D009889A2 /* XPStringFormatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34FF71B22763B3D009889A2 /* XPStringFormatTests.m */; };
-		D34FF72322766EB4009889A2 /* FNReversed.m in Sources */ = {isa = PBXBuildFile; fileRef = D34FF72122766EB3009889A2 /* FNReversed.m */; };
-		D34FF72422766EB4009889A2 /* FNReversed.h in Headers */ = {isa = PBXBuildFile; fileRef = D34FF72222766EB4009889A2 /* FNReversed.h */; };
 		D34FF7272278A157009889A2 /* FNSort.h in Headers */ = {isa = PBXBuildFile; fileRef = D34FF7252278A157009889A2 /* FNSort.h */; };
 		D34FF7292278A392009889A2 /* FNSort.m in Sources */ = {isa = PBXBuildFile; fileRef = D34FF7262278A157009889A2 /* FNSort.m */; };
 		D35167E11E515BE4004C43CC /* XPDictionaryLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F29C1E5130C200C7099B /* XPDictionaryLiteralTests.m */; };
@@ -976,7 +974,6 @@
 				D34A56411E7F38990064DF65 /* FNCos.h in Headers */,
 				D37CE4AE1E4CE4500008945E /* XPClass.h in Headers */,
 				D3166E0B1E53F71800DEE3A0 /* FNUppercase.h in Headers */,
-				D34FF72422766EB4009889A2 /* FNReversed.h in Headers */,
 				D309BCDC1E5FA17B002B3199 /* XPObject.h in Headers */,
 				D37316BF1E3EBFEB0034798E /* XPScope.h in Headers */,
 				D34FF7272278A157009889A2 /* FNSort.h in Headers */,
@@ -1167,7 +1164,6 @@
 				D3166E251E54C8BD00DEE3A0 /* FNCompare.m in Sources */,
 				D34A564A1E7F38DF0064DF65 /* FNTan.m in Sources */,
 				D37CE4AF1E4CE4500008945E /* XPClass.m in Sources */,
-				D34FF72322766EB4009889A2 /* FNReversed.m in Sources */,
 				D32E70C31E5367A900728D80 /* FNRange.m in Sources */,
 				D33C336D1F881E0A00B59CA5 /* FNSleep.m in Sources */,
 				D3166E711E57A69500DEE3A0 /* FNGlobals.m in Sources */,

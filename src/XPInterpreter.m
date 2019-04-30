@@ -40,7 +40,6 @@
 #import "FNRemove.h"
 #import "FNSum.h"
 #import "FNSort.h"
-#import "FNReversed.h"
 #import "FNMap.h"
 #import "FNFilter.h"
 #import "FNLocals.h"
@@ -136,7 +135,6 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             // seq
             [self declareNativeFunction:[FNCount class]];
             [self declareNativeFunction:[FNPosition class]];
-            [self declareNativeFunction:[FNReversed class]];
 
             // arr
             [self declareNativeFunction:[FNRange class]];
