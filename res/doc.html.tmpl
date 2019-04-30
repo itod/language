@@ -2,11 +2,11 @@
 <div>
     <p>
         <i>{{func.returnType}}</i> <b>{{func.name}}</b>
-        ({% for param in func.params %}<i>{{param.type}}</i> {{param.name}}{% if not currentLoop.isLast %}, {% /if %}{% /for %})
+        ({% for param in func.params %}{{param.name}}{% if not currentLoop.isLast %}, {% /if %}{% /for %})
     </p>
     <p>
         <blockquote>
-            {{func.desc}}
+            <p></p>
         </blockquote>
     </p>
 </div>
