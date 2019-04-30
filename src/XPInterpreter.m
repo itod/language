@@ -555,6 +555,8 @@ done:
         [funcs addObject:func];
 
         [func setObject:name forKey:@"name"];
+        [func setObject:@"bar" forKey:@"returnType"];
+        [func setObject:@"baz" forKey:@"desc"];
         id params = [NSMutableArray array];
         for (XPFunctionSymbol *paramSym in funcSym.orderedParams) {
             id param = [NSMutableDictionary dictionary];
@@ -564,7 +566,30 @@ done:
         }
         [func setObject:params forKey:@"params"];
     }
+    
+    id eng = [[[NSClassFromString(@"TDTemplateEngine") alloc] init] autorelease];
+    NSString *tempFilePath = [@"~/work/github/language/res/doc.html" stringByExpandingTildeInPath];
+    NSString *tempStr = [NSString stringWithContentsOfFile:tempFilePath encoding:NSUTF8StringEncoding error:nil];
+    id vars = @{@"funcs": funcs};
+    
+    NSString *res = [self processTemplate:tempStr withEngine:eng variables:vars];
+    NSString *destFilePath = [@"~/Desktop/doc.html" stringByExpandingTildeInPath];
+    [res writeToFile:destFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
+
+
+- (NSString *)processTemplate:(NSString *)tempStr withEngine:(id)eng variables:(NSDictionary *)vars {
+    NSOutputStream *output = [NSOutputStream outputStreamToMemory];
+    
+    NSError *err = nil;
+    [eng processTemplateString:tempStr withVariables:vars toStream:output error:&err];
+    
+    NSString *result = [[[NSString alloc] initWithData:[output propertyForKey:NSStreamDataWrittenToMemoryStreamKey] encoding:NSUTF8StringEncoding] autorelease];
+    
+    NSAssert([result length], @"");
+    return result;
+}
+
 
 #pragma mark -
 #pragma mark Properties
