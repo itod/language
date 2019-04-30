@@ -80,7 +80,7 @@
 
 #define DEBUG_VAR_NAME @"XPDEBUG"
 
-#define DOCS 1
+#define DOCS 0
 
 NSString * const XPErrorDomain = @"XPErrorDomain";
 NSString * const XPErrorRangeKey = @"range";
