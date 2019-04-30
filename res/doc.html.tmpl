@@ -1,0 +1,13 @@
+{% for func in funcs %}
+<div>
+    <p>
+        <i>{{func.returnType}}</i> <b>{{func.name}}</b>
+        ({% for param in func.params %}<i>{{param.type}}</i> {{param.name}}{% if not currentLoop.isLast %}, {% /if %}{% /for %})
+    </p>
+    <p>
+        <blockquote>
+            {{func.desc}}
+        </blockquote>
+    </p>
+</div>
+{% /for %}
