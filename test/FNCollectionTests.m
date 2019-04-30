@@ -139,4 +139,9 @@
     TDEqualObjects(@"['1', '2', '10']", [[self objectForName:@"v"] reprValue]);
 }
 
+- (void)testReverse {
+    [self exec:@"var v=['a','b','c'];reverse(v)"];
+    TDEqualObjects(@"['c', 'b', 'a']", [[self objectForName:@"v"] reprValue]);
+}
+
 @end
