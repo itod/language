@@ -381,8 +381,6 @@
 		D34A704022734FA40055F933 /* XPBuiltinSpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPBuiltinSpace.m; path = src/XPBuiltinSpace.m; sourceTree = "<group>"; };
 		D34B7CDF1E52A3C80094D2EC /* XPStringLiteralTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPStringLiteralTests.m; path = test/XPStringLiteralTests.m; sourceTree = SOURCE_ROOT; };
 		D34FF71B22763B3D009889A2 /* XPStringFormatTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPStringFormatTests.m; path = test/XPStringFormatTests.m; sourceTree = "<group>"; };
-		D34FF72122766EB3009889A2 /* FNReversed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNReversed.m; path = src/FNReversed.m; sourceTree = "<group>"; };
-		D34FF72222766EB4009889A2 /* FNReversed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNReversed.h; path = src/FNReversed.h; sourceTree = "<group>"; };
 		D34FF7252278A157009889A2 /* FNSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNSort.h; path = src/FNSort.h; sourceTree = "<group>"; };
 		D34FF7262278A157009889A2 /* FNSort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNSort.m; path = src/FNSort.m; sourceTree = "<group>"; };
 		D34FF72A2278D031009889A2 /* FNReverse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNReverse.h; path = src/FNReverse.h; sourceTree = "<group>"; };
@@ -701,8 +699,6 @@
 				D3166DD71E53989300DEE3A0 /* FNCount.m */,
 				D3168C6B1ED11ED200517E9D /* FNPosition.h */,
 				D3168C6C1ED11ED200517E9D /* FNPosition.m */,
-				D34FF72222766EB4009889A2 /* FNReversed.h */,
-				D34FF72122766EB3009889A2 /* FNReversed.m */,
 			);
 			name = Seq;
 			sourceTree = "<group>";
