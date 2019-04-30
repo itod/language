@@ -115,4 +115,10 @@
     TDTrue(d >= 5.0 && d <= 12.0);
 }
 
+- (void)testNumberFromString {
+    [self exec:@"var x=Number('1');"];
+    double d = [self doubleForName:@"x"];
+    TDEquals(1.0, d);
+}
+
 @end

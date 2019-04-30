@@ -124,9 +124,19 @@
     TDEquals(0, [self boolForName:@"danach"]);
 }
 
-- (void)testSort1 {
+- (void)testSort {
     [self exec:@"var v=['b','a','c'];sort(v)"];
     TDEqualObjects(@"['a', 'b', 'c']", [[self objectForName:@"v"] reprValue]);
+}
+
+- (void)testLexicalSort {
+    [self exec:@"var v=['1','2','10'];sort(v)"];
+    TDEqualObjects(@"['1', '10', '2']", [[self objectForName:@"v"] reprValue]);
+}
+
+- (void)testNumericalSortFunction {
+    [self exec:@"var v=['1', '10', '2'];sort(v,sub(a,b){return Number(a)-Number(b)})"];
+    TDEqualObjects(@"['1', '2', '10']", [[self objectForName:@"v"] reprValue]);
 }
 
 @end

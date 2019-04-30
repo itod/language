@@ -34,7 +34,7 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
-    return [[walker.currentSpace objectForName:@"object"] asBooleanObject];
+    return [[space objectForName:@"object"] asBooleanObject];
 }
 
 @end

@@ -88,7 +88,7 @@
             }
             
             // CALL
-            XPObject *retVal = nil;
+            XPObject *retObj = nil;
             {
                 TDAssert(walker.callStack);
                 [walker.callStack addObject:funcSpace];
@@ -97,14 +97,14 @@
                 @try {
                     [walker funcBlock:funcSym.blockNode];
                 } @catch (XPReturnExpception *ex) {
-                    retVal = ex.value;
+                    retObj = ex.value;
                 }
                 
                 [walker.callStack removeLastObject];
             }
             
             // CONVERT TO NUMBER
-            retVal = [retVal asNumberObject];
+            NSInteger retVal = lround([[retObj asNumberObject] doubleValue]);
             
             if (retVal < 0) {
                 res = NSOrderedDescending;
