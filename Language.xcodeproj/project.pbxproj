@@ -142,6 +142,8 @@
 		D34FF71C22763B3D009889A2 /* XPStringFormatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D34FF71B22763B3D009889A2 /* XPStringFormatTests.m */; };
 		D34FF72322766EB4009889A2 /* FNReversed.m in Sources */ = {isa = PBXBuildFile; fileRef = D34FF72122766EB3009889A2 /* FNReversed.m */; };
 		D34FF72422766EB4009889A2 /* FNReversed.h in Headers */ = {isa = PBXBuildFile; fileRef = D34FF72222766EB4009889A2 /* FNReversed.h */; };
+		D34FF7272278A157009889A2 /* FNSort.h in Headers */ = {isa = PBXBuildFile; fileRef = D34FF7252278A157009889A2 /* FNSort.h */; };
+		D34FF7292278A392009889A2 /* FNSort.m in Sources */ = {isa = PBXBuildFile; fileRef = D34FF7262278A157009889A2 /* FNSort.m */; };
 		D35167E11E515BE4004C43CC /* XPDictionaryLiteralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A7F29C1E5130C200C7099B /* XPDictionaryLiteralTests.m */; };
 		D3689FA41E3BDB57005783BB /* PEGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA21E3BDB57005783BB /* PEGKit.framework */; };
 		D3689FA51E3BDB57005783BB /* TDTemplateEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */; };
@@ -379,6 +381,8 @@
 		D34FF71B22763B3D009889A2 /* XPStringFormatTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPStringFormatTests.m; path = test/XPStringFormatTests.m; sourceTree = "<group>"; };
 		D34FF72122766EB3009889A2 /* FNReversed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNReversed.m; path = src/FNReversed.m; sourceTree = "<group>"; };
 		D34FF72222766EB4009889A2 /* FNReversed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNReversed.h; path = src/FNReversed.h; sourceTree = "<group>"; };
+		D34FF7252278A157009889A2 /* FNSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNSort.h; path = src/FNSort.h; sourceTree = "<group>"; };
+		D34FF7262278A157009889A2 /* FNSort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNSort.m; path = src/FNSort.m; sourceTree = "<group>"; };
 		D3689FA21E3BDB57005783BB /* PEGKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PEGKit.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/PEGKit.framework"; sourceTree = "<group>"; };
 		D3689FA31E3BDB57005783BB /* TDTemplateEngine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TDTemplateEngine.framework; path = "../../../Library/Developer/Xcode/DerivedData/Language-bdsitepxpcksukdfokhytcnwouwy/Build/Products/Debug/TDTemplateEngine.framework"; sourceTree = "<group>"; };
 		D368A0041E3BE0C7005783BB /* Language-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Language-Prefix.pch"; path = "src/Language-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -509,6 +513,12 @@
 				D32E70C11E5367A900728D80 /* FNRange.m */,
 				D30078C61F8581E200452D2F /* FNSum.h */,
 				D30078C51F8581E100452D2F /* FNSum.m */,
+				D34FF7252278A157009889A2 /* FNSort.h */,
+				D34FF7262278A157009889A2 /* FNSort.m */,
+				D3166E2F1E54E2ED00DEE3A0 /* FNMap.h */,
+				D3166E301E54E2ED00DEE3A0 /* FNMap.m */,
+				D3166E361E54E4CD00DEE3A0 /* FNFilter.h */,
+				D3166E371E54E4CE00DEE3A0 /* FNFilter.m */,
 			);
 			name = Array;
 			sourceTree = "<group>";
@@ -704,6 +714,10 @@
 				D33C336B1F881E0800B59CA5 /* FNSleep.m */,
 				D33C336E1F881F7600B59CA5 /* FNExit.h */,
 				D33C336F1F881F7600B59CA5 /* FNExit.m */,
+				D3166E671E579FDE00DEE3A0 /* FNLocals.h */,
+				D3166E681E579FDE00DEE3A0 /* FNLocals.m */,
+				D3166E6E1E57A69500DEE3A0 /* FNGlobals.h */,
+				D3166E6F1E57A69500DEE3A0 /* FNGlobals.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -738,21 +752,6 @@
 			name = Scripts;
 			sourceTree = "<group>";
 		};
-		D3166E6D1E57A3D900DEE3A0 /* Collection */ = {
-			isa = PBXGroup;
-			children = (
-				D3166E2F1E54E2ED00DEE3A0 /* FNMap.h */,
-				D3166E301E54E2ED00DEE3A0 /* FNMap.m */,
-				D3166E361E54E4CD00DEE3A0 /* FNFilter.h */,
-				D3166E371E54E4CE00DEE3A0 /* FNFilter.m */,
-				D3166E671E579FDE00DEE3A0 /* FNLocals.h */,
-				D3166E681E579FDE00DEE3A0 /* FNLocals.m */,
-				D3166E6E1E57A69500DEE3A0 /* FNGlobals.h */,
-				D3166E6F1E57A69500DEE3A0 /* FNGlobals.m */,
-			);
-			name = Collection;
-			sourceTree = "<group>";
-		};
 		D32E70BB1E5365CF00728D80 /* Functions */ = {
 			isa = PBXGroup;
 			children = (
@@ -763,7 +762,6 @@
 				D3166E1D1E54C72F00DEE3A0 /* Number */,
 				D3166E111E53F8E500DEE3A0 /* String */,
 				D3166E2D1E54E12D00DEE3A0 /* Seq */,
-				D3166E6D1E57A3D900DEE3A0 /* Collection */,
 				D30078C91F8689D500452D2F /* Array */,
 				D30078C81F8689A500452D2F /* Dictionary */,
 			);
@@ -981,6 +979,7 @@
 				D34FF72422766EB4009889A2 /* FNReversed.h in Headers */,
 				D309BCDC1E5FA17B002B3199 /* XPObject.h in Headers */,
 				D37316BF1E3EBFEB0034798E /* XPScope.h in Headers */,
+				D34FF7272278A157009889A2 /* FNSort.h in Headers */,
 				D34A55DE1E7DD5AA0064DF65 /* XPSymbol.h in Headers */,
 				D3ADB4391E897E6100306142 /* XPLocalSpace.h in Headers */,
 				D34A704122734FA50055F933 /* XPBuiltinSpace.h in Headers */,
@@ -1179,6 +1178,7 @@
 				D34A562A1E7F36780064DF65 /* FNPow.m in Sources */,
 				D3E79A071E8D78DD001F9DC7 /* FNDescription.m in Sources */,
 				D3903E121E84A504007E7674 /* XPUserThrownException.m in Sources */,
+				D34FF7292278A392009889A2 /* FNSort.m in Sources */,
 				D3166E151E54BAFE00DEE3A0 /* FNMatches.m in Sources */,
 				D34A560B1E7F04F20064DF65 /* FNAbs.m in Sources */,
 				D37316B71E3EBF800034798E /* XPSymbol.m in Sources */,

@@ -25,11 +25,11 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *coll = [XPSymbol symbolWithName:@"collection"];
+    XPSymbol *array = [XPSymbol symbolWithName:@"array"];
     XPSymbol *func = [XPSymbol symbolWithName:@"function"];
-    funcSym.orderedParams = [NSMutableArray arrayWithObjects:coll, func, nil];
+    funcSym.orderedParams = [NSMutableArray arrayWithObjects:array, func, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      coll, @"collection",
+                      array, @"array",
                       func, @"function",
                       nil];
     
@@ -38,19 +38,24 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
-    XPObject *coll = [space objectForName:@"collection"];
-    TDAssert(coll);
+    XPObject *array = [space objectForName:@"array"];
+    TDAssert(array);
     XPObject *func = [space objectForName:@"function"];
     TDAssert(func);
     
     XPFunctionSymbol *funcSym = func.value;
     
-    if (![coll isArrayObject]) {
+    if (![array isArrayObject]) {
         [self raise:XPTypeError format:@"first argument to `filter()` must be an Array object"];
         return nil;
     }
     
-    NSArray *old = coll.value;
+    if (![func isFunctionObject]) {
+        [self raise:XPTypeError format:@"second argument to `filter()` must be a Subroutine object"];
+        return nil;
+    }
+    
+    NSArray *old = array.value;
     NSMutableArray *new = [NSMutableArray arrayWithCapacity:[old count]];
     
     for (XPObject *oldItem in old) {

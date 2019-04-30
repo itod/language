@@ -1,12 +1,12 @@
 //
-//  FNMap.m
+//  FNSort.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "FNMap.h"
+#import "FNSort.h"
 #import <Language/XPObject.h>
 #import "XPFunctionSymbol.h"
 #import "XPFunctionSpace.h"
@@ -14,10 +14,10 @@
 #import <Language/XPException.h>
 #import <Language/XPTreeWalker.h>
 
-@implementation FNMap
+@implementation FNSort
 
 + (NSString *)name {
-    return @"map";
+    return @"sort";
 }
 
 
@@ -46,36 +46,38 @@
     XPFunctionSymbol *funcSym = func.value;
     
     if (![array isArrayObject]) {
-        [self raise:XPTypeError format:@"first argument to `map()` must be an Array object"];
+        [self raise:XPTypeError format:@"first argument to `sort()` must be an Array object"];
         return nil;
     }
     
     if (![func isFunctionObject]) {
-        [self raise:XPTypeError format:@"second argument to `map()` must be a Subroutine object"];
+        [self raise:XPTypeError format:@"second argument to `sort()` must be a Subroutine object"];
         return nil;
     }
     
-    NSArray *old = array.value;
-    NSMutableArray *new = [NSMutableArray arrayWithCapacity:[old count]];
-    
-    for (XPObject *oldItem in old) {
-        TDAssert([oldItem isKindOfClass:[XPObject class]]);
-        
-        XPMemorySpace *savedSpace = walker.currentSpace;
+    XPMemorySpace *savedSpace = walker.currentSpace;
+
+    NSMutableArray *vec = array.value;
+    [vec sortedArrayUsingComparator:^NSComparisonResult (id obj0, id obj1) {
+        TDAssert([obj0 isKindOfClass:[XPObject class]]);
+        TDAssert([obj1 isKindOfClass:[XPObject class]]);
 
         // PUSH MEMORY SPACE
         XPFunctionSpace *funcSpace = [[[XPFunctionSpace alloc] initWithSymbol:funcSym] autorelease];
         
         walker.currentSpace = funcSpace;
-
+        
         // EVAL ARGS
         {
-            XPSymbol *param = funcSym.orderedParams[0];
-            [funcSpace setObject:oldItem forName:param.name];
+            XPSymbol *param0 = funcSym.orderedParams[0];
+            [funcSpace setObject:obj0 forName:param0.name];
+
+            XPSymbol *param1 = funcSym.orderedParams[1];
+            [funcSpace setObject:obj1 forName:param1.name];
         }
         
         // CALL
-        XPObject *newItem = nil;
+        XPObject *retVal = nil;
         {
             TDAssert(walker.callStack);
             [walker.callStack addObject:funcSpace];
@@ -84,19 +86,31 @@
             @try {
                 [walker funcBlock:funcSym.blockNode];
             } @catch (XPReturnExpception *ex) {
-                newItem = ex.value;
+                retVal = ex.value;
             }
             
             [walker.callStack removeLastObject];
         }
         
-        [new addObject:newItem];
+        // CONVERT TO NUMBER
+        retVal = [retVal asNumberObject];
         
-        // POP MEMORY SPACE
-        walker.currentSpace = savedSpace;
-    }
+        NSComparisonResult res;
+        if (retVal < 0) {
+            res = NSOrderedDescending;
+        } else if (retVal > 0) {
+            res = NSOrderedAscending;
+        } else {
+            res = NSOrderedSame;
+        }
+        
+        return res;
+    }];
     
-    return [XPObject array:new];
+    // POP MEMORY SPACE
+    walker.currentSpace = savedSpace;
+
+    return nil;
 }
 
 @end
