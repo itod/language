@@ -1,5 +1,5 @@
 //
-//  FNRemove.h
+//  FNRemoveKey.h
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
@@ -8,6 +8,6 @@
 
 #import "XPFunctionBody.h"
 
-@interface FNRemove : XPFunctionBody
+@interface FNRemoveKey : XPFunctionBody
 
 @end

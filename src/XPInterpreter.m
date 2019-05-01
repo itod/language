@@ -36,8 +36,8 @@
 #import "FNRange.h"
 
 #import "FNCount.h"
-#import "FNContains.h"
-#import "FNRemove.h"
+#import "FNHasKey.h"
+#import "FNRemoveKey.h"
 #import "FNSum.h"
 #import "FNSort.h"
 #import "FNReverse.h"
@@ -150,8 +150,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             [self declareNativeFunction:[FNFilter class]];
             
             // dict
-            [self declareNativeFunction:[FNContains class]];
-            [self declareNativeFunction:[FNRemove class]];
+            [self declareNativeFunction:[FNHasKey class]];
+            [self declareNativeFunction:[FNRemoveKey class]];
 
             // str
             [self declareNativeFunction:[FNTrim class]];

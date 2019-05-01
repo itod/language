@@ -1,5 +1,5 @@
 //
-//  FNContains.h
+//  FNHasKey.h
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
@@ -8,6 +8,6 @@
 
 #import "XPFunctionBody.h"
 
-@interface FNContains : XPFunctionBody
+@interface FNHasKey : XPFunctionBody
 
 @end

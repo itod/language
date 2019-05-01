@@ -98,26 +98,26 @@
 }
 
 - (void)testContains1 {
-    [self exec:@"var x={};x[3]=null;var i=contains(x, 3);"];
+    [self exec:@"var x={};x[3]=null;var i=hasKey(x, 3);"];
     TDEquals(1, [self boolForName:@"i"]);
     
-    [self exec:@"var x={3:null};var i=contains(x, 3);"];
+    [self exec:@"var x={3:null};var i=hasKey(x, 3);"];
     TDEquals(1, [self boolForName:@"i"]);
     
-    [self exec:@"var x={'3':null};var i=contains(x, 3);"];
+    [self exec:@"var x={'3':null};var i=hasKey(x, 3);"];
     TDEquals(1, [self boolForName:@"i"]);
     
-    [self exec:@"var x={'3':null};var i=contains(x, 3);"];
+    [self exec:@"var x={'3':null};var i=hasKey(x, 3);"];
     TDEquals(1, [self boolForName:@"i"]);
 }
 
 - (void)testContains2 {
-    [self exec:@"var key='3';var x={key:null};var i=contains(x, key);"];
+    [self exec:@"var key='3';var x={key:null};var i=hasKey(x, key);"];
     TDEquals(1, [self boolForName:@"i"]);
 }
 
 - (void)testRemove1 {
-    [self exec:@"var x={'foo':null};var bevor=contains(x,'foo');var entfernt1=remove(x,'foo');var entfernt2=remove(x,'bar');var danach=contains(x,'foo');"];
+    [self exec:@"var x={'foo':null};var bevor=hasKey(x,'foo');var entfernt1=removeKey(x,'foo');var entfernt2=removeKey(x,'bar');var danach=hasKey(x,'foo');"];
     TDEquals(1, [self boolForName:@"bevor"]);
     TDEquals(1, [self boolForName:@"entfernt1"]);
     TDEquals(0, [self boolForName:@"entfernt2"]);

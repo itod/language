@@ -1,22 +1,22 @@
 //
-//  FNRemove.m
+//  FNRemoveKey.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "FNRemove.h"
+#import "FNRemoveKey.h"
 #import <Language/XPObject.h>
 #import <Language/XPTreeWalker.h>
 #import <Language/XPException.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 
-@implementation FNRemove
+@implementation FNRemoveKey
 
 + (NSString *)name {
-    return @"remove";
+    return @"removeKey";
 }
 
 
@@ -50,7 +50,7 @@
             [obj.value removeObjectForKey:key];
         }
     } else {
-        [self raise:XPTypeError format:@"first argument to `remove()` must be a Dictionary object"];
+        [self raise:XPTypeError format:@"first argument to `removeKey()` must be a Dictionary object"];
     }
     
     return [XPObject boolean:res];

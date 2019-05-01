@@ -1,22 +1,22 @@
 //
-//  FNContains.m
+//  FNHasKey.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "FNContains.h"
+#import "FNHasKey.h"
 #import <Language/XPObject.h>
 #import <Language/XPTreeWalker.h>
 #import <Language/XPException.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 
-@implementation FNContains
+@implementation FNHasKey
 
 + (NSString *)name {
-    return @"contains";
+    return @"hasKey";
 }
 
 
@@ -47,7 +47,7 @@
     if (obj.isDictionaryObject) {
         res = nil != [obj.value objectForKey:key];
     } else {
-        [self raise:XPTypeError format:@"first argument to `contains()` must be a Dictionary object"];
+        [self raise:XPTypeError format:@"first argument to `hasKey()` must be a Dictionary object"];
     }
     
     return [XPObject boolean:res];
