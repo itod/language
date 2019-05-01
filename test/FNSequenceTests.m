@@ -279,9 +279,11 @@
     TDEqualObjects(XPIndexError, self.error.localizedDescription);
 }
 
+#if MUTABLE_STRINGS
 - (void)testStringAssignOutOfBounds0 {
     [self fail:@"var x='a';x[0]='b'"];
     TDEqualObjects(XPIndexError, self.error.localizedDescription);
 }
+#endif
 
 @end

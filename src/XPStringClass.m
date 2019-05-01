@@ -114,7 +114,6 @@
         start = [self nativeIndexForIndex:start inString:s];
         stop = [self nativeIndexForIndex:stop inString:s];
 
-        
         if (start == stop) {
             unichar c = [s characterAtIndex:start];
             strObj = [XPObject string:[NSString stringWithFormat:@"%C", c]];
