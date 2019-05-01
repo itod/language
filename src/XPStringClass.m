@@ -101,28 +101,33 @@
 - (XPObject *)get:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(NSInteger)step {
     TDAssert(1 == step);
     
+    XPObject *strObj = nil;
     NSMutableString *s = this.value;
     
-    [self checkBounds:s :start];
-    [self checkBounds:s :stop];
-
-    start = [self nativeIndexForIndex:start inString:s];
-    stop = [self nativeIndexForIndex:stop inString:s];
-
-    XPObject *strObj = nil;
-    
-    if (start == stop) {
-        unichar c = [s characterAtIndex:start];
-        strObj = [XPObject string:[NSString stringWithFormat:@"%C", c]];
+    if (1 == start && -1 == stop && 1 == step) {
+        // x[:] copy
+        strObj = [XPObject string:s]; // mutable copies
     } else {
-        NSMutableString *res = [NSMutableString stringWithCapacity:labs(stop-start)];
+        [self checkBounds:s :start];
+        [self checkBounds:s :stop];
+
+        start = [self nativeIndexForIndex:start inString:s];
+        stop = [self nativeIndexForIndex:stop inString:s];
+
         
-        for (NSInteger i = start; i <= stop; i += step) {
-            unichar c = [s characterAtIndex:i];
-            [res appendFormat:@"%C", c];
+        if (start == stop) {
+            unichar c = [s characterAtIndex:start];
+            strObj = [XPObject string:[NSString stringWithFormat:@"%C", c]];
+        } else {
+            NSMutableString *res = [NSMutableString stringWithCapacity:labs(stop-start)];
+            
+            for (NSInteger i = start; i <= stop; i += step) {
+                unichar c = [s characterAtIndex:i];
+                [res appendFormat:@"%C", c];
+            }
+            
+            strObj = [XPObject string:res];
         }
-        
-        strObj = [XPObject string:res];
     }
     
     return strObj;

@@ -254,6 +254,11 @@
 //    TDEqualObjects(@"[6, 5, 4]", [[self objectForName:@"t"] reprValue]);
 //}
 
+- (void)testArrayCopyEmpty {
+    [self exec:@"var x=[];var y=x[:]"];
+    TDEqualObjects(@"[]", [[self objectForName:@"y"] reprValue]);
+}
+
 - (void)testArrayLoadOutOfBounds0 {
     [self fail:@"var x=['a'];var y=x[0]"];
     TDEqualObjects(XPIndexError, self.error.localizedDescription);
@@ -262,6 +267,11 @@
 - (void)testArrayAssignOutOfBounds0 {
     [self fail:@"var x=['a'];x[0]='b'"];
     TDEqualObjects(XPIndexError, self.error.localizedDescription);
+}
+
+- (void)testStringCopyEmpty {
+    [self exec:@"var x='';var y=x[:]"];
+    TDEqualObjects(@"''", [[self objectForName:@"y"] reprValue]);
 }
 
 - (void)testStringLoadOutOfBounds0 {
