@@ -8,6 +8,7 @@
 
 #import "XPTreeWalkerExec.h"
 #import <Language/XPUserThrownException.h>
+#import <Language/XPIndexException.h>
 
 #import "XPMemorySpace.h"
 #import "XPFunctionSpace.h"
@@ -265,7 +266,12 @@
             }
         }
         
-        [collObj callInstanceMethodNamed:@"set" withArgs:@[@(start), @(stop), valObj]];
+        @try {
+            [collObj callInstanceMethodNamed:@"set" withArgs:@[@(start), @(stop), valObj]];
+        } @catch (XPIndexException *ex) {
+            [self raise:XPIndexError node:node format:@"Index `%ld` out of range `%ld–%ld`.", ex.index, ex.first, ex.last];
+            return;
+        }
     }
     
     else if ([collObj isDictionaryObject]) {
@@ -360,7 +366,13 @@
                 step = [[self walk:stepNode] doubleValue];
             }
         }
-        res = [targetObj callInstanceMethodNamed:@"get" withArgs:@[@(start), @(stop), @(step)]];
+        
+        @try {
+            res = [targetObj callInstanceMethodNamed:@"get" withArgs:@[@(start), @(stop), @(step)]];
+        } @catch (XPIndexException *ex) {
+            [self raise:XPIndexError node:node format:@"Index `%ld` out of range `%ld–%ld`.", ex.index, ex.first, ex.last];
+            return nil;
+        }
     }
     
     else if ([targetObj isDictionaryObject]) {

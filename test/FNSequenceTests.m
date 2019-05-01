@@ -251,4 +251,9 @@
 //    TDEqualObjects(@"[6, 5, 4]", [[self objectForName:@"t"] reprValue]);
 //}
 
+- (void)testOutOfBounds0 {
+    [self fail:@"var x=['a'];var y=x[0]"];
+    TDEqualObjects(XPIndexError, self.error.localizedDescription);
+}
+
 @end

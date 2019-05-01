@@ -8,6 +8,7 @@
 
 #import "XPArrayClass.h"
 #import <Language/XPObject.h>
+#import <Language/XPIndexException.h>
 #import "XPEnumeration.h"
 
 @interface XPObject ()
@@ -76,19 +77,32 @@
 }
 
 
+- (NSInteger)indexForNativeIndex:(NSInteger)inIdx {
+    NSInteger outIdx = inIdx+1;
+    return outIdx;
+}
+
+
 - (XPObject *)get:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(NSInteger)step {
     NSMutableArray *v = this.value;
-    start = [self nativeIndexForIndex:start inArray:v];
-    stop = [self nativeIndexForIndex:stop inArray:v];
+    NSInteger nativeStart = [self nativeIndexForIndex:start inArray:v];
+    NSInteger nativeStop = [self nativeIndexForIndex:stop inArray:v];
+    
+    NSInteger nativeLast = [v count]-1;
+    if (0 == start) {
+        NSInteger last = [self indexForNativeIndex:nativeLast];
+        [XPIndexException raise:XPIndexError format:@"Index `%ld` out of range `1–%ld`.", start, last];
+        return nil;
+    }
 
     XPObject *arrObj = nil;
     
-    if (start == stop) {
-        arrObj = [v objectAtIndex:start];
+    if (nativeStart == nativeStop) {
+        arrObj = [v objectAtIndex:nativeStart];
     } else {
-        NSMutableArray *res = [NSMutableArray arrayWithCapacity:labs(stop-start)];
+        NSMutableArray *res = [NSMutableArray arrayWithCapacity:labs(nativeStop-nativeStart)];
         
-        for (NSInteger i = start; i <= stop; i += step) {
+        for (NSInteger i = nativeStart; i <= nativeStop; i += step) {
             XPObject *obj = [v objectAtIndex:i];
             [res addObject:obj];
         }

@@ -159,6 +159,8 @@
 		D368A01F1E3BE4F8005783BB /* XPRelationalExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D368A0141E3BE4F8005783BB /* XPRelationalExpressionTests.m */; };
 		D368A0201E3BE4F8005783BB /* XPUnaryExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D368A0151E3BE4F8005783BB /* XPUnaryExpressionTests.m */; };
 		D368A0251E3BE7B5005783BB /* PEGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3689FA21E3BDB57005783BB /* PEGKit.framework */; };
+		D36B29502279EFE100BC53DD /* XPIndexException.h in Headers */ = {isa = PBXBuildFile; fileRef = D36B294F2279EFE100BC53DD /* XPIndexException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D36B29522279EFF800BC53DD /* XPIndexException.m in Sources */ = {isa = PBXBuildFile; fileRef = D36B29512279EFF800BC53DD /* XPIndexException.m */; };
 		D37316931E3EB75F0034798E /* XPVarDeclTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316921E3EB75F0034798E /* XPVarDeclTests.m */; };
 		D373169E1E3EBA490034798E /* XPBaseStatementTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D373169D1E3EBA490034798E /* XPBaseStatementTests.m */; };
 		D37316A21E3EBD4B0034798E /* XPNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316A01E3EBD4B0034798E /* XPNode.m */; };
@@ -401,6 +403,8 @@
 		D368A0141E3BE4F8005783BB /* XPRelationalExpressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPRelationalExpressionTests.m; path = test/XPRelationalExpressionTests.m; sourceTree = SOURCE_ROOT; };
 		D368A0151E3BE4F8005783BB /* XPUnaryExpressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPUnaryExpressionTests.m; path = test/XPUnaryExpressionTests.m; sourceTree = SOURCE_ROOT; };
 		D368A0211E3BE557005783BB /* XPTestScaffold.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPTestScaffold.h; path = test/XPTestScaffold.h; sourceTree = SOURCE_ROOT; };
+		D36B294F2279EFE100BC53DD /* XPIndexException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPIndexException.h; path = include/Language/XPIndexException.h; sourceTree = "<group>"; };
+		D36B29512279EFF800BC53DD /* XPIndexException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPIndexException.m; path = src/XPIndexException.m; sourceTree = "<group>"; };
 		D373168F1E3E735A0034798E /* XPBaseExpressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPBaseExpressionTests.m; path = test/XPBaseExpressionTests.m; sourceTree = SOURCE_ROOT; };
 		D37316911E3E73A20034798E /* XPBaseExpressionTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XPBaseExpressionTests.h; path = test/XPBaseExpressionTests.h; sourceTree = SOURCE_ROOT; };
 		D37316921E3EB75F0034798E /* XPVarDeclTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPVarDeclTests.m; path = test/XPVarDeclTests.m; sourceTree = SOURCE_ROOT; };
@@ -884,6 +888,8 @@
 				D37316EB1E4121110034798E /* XPException.m */,
 				D3903E221E85DA7B007E7674 /* XPUserThrownException.h */,
 				D3903E101E84A504007E7674 /* XPUserThrownException.m */,
+				D36B294F2279EFE100BC53DD /* XPIndexException.h */,
+				D36B29512279EFF800BC53DD /* XPIndexException.m */,
 				D3166E3A1E54EBA200DEE3A0 /* XPFlowExceptions.h */,
 				D3166E3B1E54EBA200DEE3A0 /* XPFlowExceptions.m */,
 				D309BCD21E5CF841002B3199 /* XPTreeWalker.h */,
@@ -1000,6 +1006,7 @@
 				D3166DE31E53B0C400DEE3A0 /* FNBoolean.h in Headers */,
 				D3ADB4441E8AC9BA00306142 /* FNRandom.h in Headers */,
 				D3166E701E57A69500DEE3A0 /* FNGlobals.h in Headers */,
+				D36B29502279EFE100BC53DD /* XPIndexException.h in Headers */,
 				D32E70BE1E5365F700728D80 /* XPFunctionBody.h in Headers */,
 				D3E79A061E8D78DD001F9DC7 /* FNDescription.h in Headers */,
 				D37316BA1E3EBF980034798E /* XPVariableSymbol.h in Headers */,
@@ -1150,6 +1157,7 @@
 				D3ADB4361E897DBF00306142 /* XPGlobalSpace.m in Sources */,
 				D3166E081E53F6DB00DEE3A0 /* FNLowercase.m in Sources */,
 				D37316D41E3EC5430034798E /* XPMemorySpace.m in Sources */,
+				D36B29522279EFF800BC53DD /* XPIndexException.m in Sources */,
 				D3166DFA1E53B7D000DEE3A0 /* FNAssert.m in Sources */,
 				D3ADB4451E8AC9BA00306142 /* FNRandom.m in Sources */,
 				D3A7F2911E511E3200C7099B /* XPNullClass.m in Sources */,
