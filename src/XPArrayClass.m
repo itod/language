@@ -8,7 +8,7 @@
 
 #import "XPArrayClass.h"
 #import <Language/XPObject.h>
-#import <Language/XPIndexException.h>
+#import "XPIndexException.h"
 #import "XPEnumeration.h"
 
 @interface XPObject ()

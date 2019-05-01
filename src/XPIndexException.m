@@ -6,7 +6,7 @@
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import <Language/XPIndexException.h>
+#import "XPIndexException.h"
 
 @implementation XPIndexException
 

@@ -8,7 +8,7 @@
 
 #import "XPTreeWalkerExec.h"
 #import <Language/XPUserThrownException.h>
-#import <Language/XPIndexException.h>
+#import "XPIndexException.h"
 
 #import "XPMemorySpace.h"
 #import "XPFunctionSpace.h"
