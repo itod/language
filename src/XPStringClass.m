@@ -8,6 +8,7 @@
 
 #import "XPStringClass.h"
 #import <Language/XPObject.h>
+#import <Language/XPIndexException.h>
 #import "XPEnumeration.h"
 
 @interface XPObject ()
@@ -86,10 +87,25 @@
 }
 
 
+- (void)checkBounds:(NSString *)s :(NSInteger)checkIdx {
+    checkIdx = labs(checkIdx);
+    NSInteger len = [s length];
+    
+    if (checkIdx < 1 || checkIdx > len) {
+        [[[[XPIndexException alloc] initWithIndex:checkIdx first:1 last:len] autorelease] raise];
+        return;
+    }
+}
+
+
 - (XPObject *)get:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(NSInteger)step {
     TDAssert(1 == step);
     
     NSMutableString *s = this.value;
+    
+    [self checkBounds:s :start];
+    [self checkBounds:s :stop];
+
     start = [self nativeIndexForIndex:start inString:s];
     stop = [self nativeIndexForIndex:stop inString:s];
 
@@ -115,6 +131,10 @@
 
 - (void)set:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(XPObject *)obj {
     NSMutableString *s = this.value;
+
+    [self checkBounds:s :start];
+    [self checkBounds:s :stop];
+
     start = [self nativeIndexForIndex:start inString:s];
     stop = [self nativeIndexForIndex:stop inString:s];
     

@@ -148,6 +148,9 @@
     [self eval:@"var a=[];var c = a[:]"]; // copy
     TDFalse([self evalBool:@"c is a or a is c"]);
 
+    [self eval:@"var x = [][:]"]; // copy
+    TDFalse([self evalBool:@"x"]);
+    
     [self eval:@"var b=[];var d=b"]; // copy
     TDTrue([self evalBool:@"b is d and d is b"]);
 }
@@ -251,13 +254,23 @@
 //    TDEqualObjects(@"[6, 5, 4]", [[self objectForName:@"t"] reprValue]);
 //}
 
-- (void)testLoadOutOfBounds0 {
+- (void)testArrayLoadOutOfBounds0 {
     [self fail:@"var x=['a'];var y=x[0]"];
     TDEqualObjects(XPIndexError, self.error.localizedDescription);
 }
 
-- (void)testAssignOutOfBounds0 {
+- (void)testArrayAssignOutOfBounds0 {
     [self fail:@"var x=['a'];x[0]='b'"];
+    TDEqualObjects(XPIndexError, self.error.localizedDescription);
+}
+
+- (void)testStringLoadOutOfBounds0 {
+    [self fail:@"var x='a';var y=x[0]"];
+    TDEqualObjects(XPIndexError, self.error.localizedDescription);
+}
+
+- (void)testStringAssignOutOfBounds0 {
+    [self fail:@"var x='a';x[0]='b'"];
     TDEqualObjects(XPIndexError, self.error.localizedDescription);
 }
 
