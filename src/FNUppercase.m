@@ -23,10 +23,10 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *str = [XPSymbol symbolWithName:@"str"];
+    XPSymbol *str = [XPSymbol symbolWithName:@"string"];
     funcSym.orderedParams = [NSMutableArray arrayWithObjects:str, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      str, @"str",
+                      str, @"string",
                       nil];
     
     return funcSym;
@@ -34,7 +34,7 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
-    XPObject *str = [space objectForName:@"str"];
+    XPObject *str = [space objectForName:@"string"];
     TDAssert(str);
     
     NSString *v = [[str stringValue] uppercaseString];
