@@ -41,6 +41,8 @@
         sel = @selector(get::::);
     } else if ([methName isEqualToString:@"set"]) {
         sel = @selector(set::::);
+    } else if ([methName isEqualToString:@"insert"]) {
+        sel = @selector(insert:::);
     } else if ([methName isEqualToString:@"append"]) {
         sel = @selector(append::);
     }
@@ -147,6 +149,32 @@
         [res addObjectsFromArray:tail];
         this.value = res;
     }
+}
+
+
+- (void)insert:(XPObject *)this :(NSInteger)idx :(XPObject *)obj {
+    NSMutableArray *v = this.value;
+    
+    [self checkBounds:v :idx];
+    
+    idx = [self nativeIndexForIndex:idx inArray:v];
+    
+//    NSArray *head = [v subarrayWithRange:NSMakeRange(0, idx)];
+//    NSRange r = NSMakeRange(idx, [v count]-idx);
+//    NSArray *tail = [v subarrayWithRange:r];
+//    NSMutableArray *res = [NSMutableArray arrayWithArray:head];
+//
+//    if (obj.isArrayObject) {
+//        for (id el in obj.value) {
+//            [res addObject:el];
+//        }
+//    } else {
+//        [res addObject:obj];
+//    }
+//    [res addObjectsFromArray:tail];
+//    this.value = res;
+
+    [v insertObject:obj atIndex:idx];
 }
 
 

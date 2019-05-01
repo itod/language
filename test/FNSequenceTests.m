@@ -286,4 +286,15 @@
 }
 #endif
 
+- (void)testArrayInsert {
+    [self exec:@"var x=['a', 'c'];insert(x, 2, 'b')"];
+    TDEqualObjects(@"['a', 'b', 'c']", [[self objectForName:@"x"] reprValue]);
+
+    [self exec:@"var x=['a', 'c'];insert(x, 1, 'b')"];
+    TDEqualObjects(@"['b', 'a', 'c']", [[self objectForName:@"x"] reprValue]);
+
+    [self exec:@"var x=['a', 'c'];insert(x, 1, ['b'])"];
+    TDEqualObjects(@"[['b'], 'a', 'c']", [[self objectForName:@"x"] reprValue]);
+}
+
 @end

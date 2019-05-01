@@ -163,6 +163,8 @@
 		D36B2965227A12C000BC53DD /* XPIndexException.h in Headers */ = {isa = PBXBuildFile; fileRef = D36B2964227A12C000BC53DD /* XPIndexException.h */; };
 		D36B296C227A13C200BC53DD /* FNAppend.h in Headers */ = {isa = PBXBuildFile; fileRef = D36B296A227A13C200BC53DD /* FNAppend.h */; };
 		D36B296D227A13C200BC53DD /* FNAppend.m in Sources */ = {isa = PBXBuildFile; fileRef = D36B296B227A13C200BC53DD /* FNAppend.m */; };
+		D36B2974227A395900BC53DD /* FNInsert.h in Headers */ = {isa = PBXBuildFile; fileRef = D36B2972227A395800BC53DD /* FNInsert.h */; };
+		D36B2975227A395900BC53DD /* FNInsert.m in Sources */ = {isa = PBXBuildFile; fileRef = D36B2973227A395900BC53DD /* FNInsert.m */; };
 		D37316931E3EB75F0034798E /* XPVarDeclTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316921E3EB75F0034798E /* XPVarDeclTests.m */; };
 		D373169E1E3EBA490034798E /* XPBaseStatementTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D373169D1E3EBA490034798E /* XPBaseStatementTests.m */; };
 		D37316A21E3EBD4B0034798E /* XPNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316A01E3EBD4B0034798E /* XPNode.m */; };
@@ -409,6 +411,8 @@
 		D36B2964227A12C000BC53DD /* XPIndexException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPIndexException.h; path = src/XPIndexException.h; sourceTree = "<group>"; };
 		D36B296A227A13C200BC53DD /* FNAppend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNAppend.h; path = src/FNAppend.h; sourceTree = "<group>"; };
 		D36B296B227A13C200BC53DD /* FNAppend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNAppend.m; path = src/FNAppend.m; sourceTree = "<group>"; };
+		D36B2972227A395800BC53DD /* FNInsert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNInsert.h; path = src/FNInsert.h; sourceTree = "<group>"; };
+		D36B2973227A395900BC53DD /* FNInsert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNInsert.m; path = src/FNInsert.m; sourceTree = "<group>"; };
 		D373168F1E3E735A0034798E /* XPBaseExpressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPBaseExpressionTests.m; path = test/XPBaseExpressionTests.m; sourceTree = SOURCE_ROOT; };
 		D37316911E3E73A20034798E /* XPBaseExpressionTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XPBaseExpressionTests.h; path = test/XPBaseExpressionTests.h; sourceTree = SOURCE_ROOT; };
 		D37316921E3EB75F0034798E /* XPVarDeclTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPVarDeclTests.m; path = test/XPVarDeclTests.m; sourceTree = SOURCE_ROOT; };
@@ -529,6 +533,8 @@
 				D34FF7262278A157009889A2 /* FNSort.m */,
 				D34FF72A2278D031009889A2 /* FNReverse.h */,
 				D34FF72B2278D031009889A2 /* FNReverse.m */,
+				D36B2972227A395800BC53DD /* FNInsert.h */,
+				D36B2973227A395900BC53DD /* FNInsert.m */,
 				D36B296A227A13C200BC53DD /* FNAppend.h */,
 				D36B296B227A13C200BC53DD /* FNAppend.m */,
 				D34FF72F2278D7AB009889A2 /* FNExtend.h */,
@@ -1012,6 +1018,7 @@
 				D3166DE31E53B0C400DEE3A0 /* FNBoolean.h in Headers */,
 				D3ADB4441E8AC9BA00306142 /* FNRandom.h in Headers */,
 				D3166E701E57A69500DEE3A0 /* FNGlobals.h in Headers */,
+				D36B2974227A395900BC53DD /* FNInsert.h in Headers */,
 				D32E70BE1E5365F700728D80 /* XPFunctionBody.h in Headers */,
 				D3E79A061E8D78DD001F9DC7 /* FNDescription.h in Headers */,
 				D36B2965227A12C000BC53DD /* XPIndexException.h in Headers */,
@@ -1172,6 +1179,7 @@
 				D3A7F2861E4D7A8A00C7099B /* XPStringClass.m in Sources */,
 				D34A56321E7F37EF0064DF65 /* FNAcos.m in Sources */,
 				D3166E391E54E4CE00DEE3A0 /* FNFilter.m in Sources */,
+				D36B2975227A395900BC53DD /* FNInsert.m in Sources */,
 				D30078C71F8581E200452D2F /* FNSum.m in Sources */,
 				D36B2963227A11C000BC53DD /* FNHasKey.m in Sources */,
 				D34A56361E7F381D0064DF65 /* FNAtan.m in Sources */,

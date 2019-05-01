@@ -1,12 +1,12 @@
 //
-//  FNAppend.m
+//  FNInsert.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "FNAppend.h"
+#import "FNInsert.h"
 #import <Language/XPObject.h>
 #import <Language/XPTreeWalker.h>
 #import <Language/XPException.h>
@@ -17,10 +17,10 @@
 @property (nonatomic, retain, readwrite) id value;
 @end
 
-@implementation FNAppend
+@implementation FNInsert
 
 + (NSString *)name {
-    return @"append";
+    return @"insert";
 }
 
 
@@ -29,10 +29,12 @@
     funcSym.nativeBody = self;
     
     XPSymbol *array = [XPSymbol symbolWithName:@"array"];
+    XPSymbol *idx = [XPSymbol symbolWithName:@"index"];
     XPSymbol *obj = [XPSymbol symbolWithName:@"object"];
-    funcSym.orderedParams = [NSMutableArray arrayWithObjects:array, obj, nil];
+    funcSym.orderedParams = [NSMutableArray arrayWithObjects:array, idx, obj, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                       array, @"array",
+                      idx, @"index",
                       obj, @"object",
                       nil];
     
@@ -45,16 +47,20 @@
     TDAssert(array);
     
     if (![array isArrayObject]) {
-        [self raise:XPTypeError format:@"first argument to `append()` must be an Array object"];
+        [self raise:XPTypeError format:@"first argument to `insert()` must be an Array object"];
         return nil;
     }
     
+    XPObject *idx = [space objectForName:@"index"];
+    TDAssert(idx);
+    
+    NSInteger i = lround(idx.doubleValue);
+
     XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
     
-    [array.value addObject:obj];
-    //[obj callInstanceMethodNamed:@"append" withArg:obj];
-
+    [array callInstanceMethodNamed:@"insert" withArgs:@[@(i), obj]];
+    
     return nil;
 }
 
