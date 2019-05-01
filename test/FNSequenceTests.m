@@ -149,8 +149,13 @@
     TDEqualObjects(@"['a', 1, 2, 3]"   , [self evalString:@"v"]);
 }
 
-- (void)testInsertViaAssign0Slice2 {
+- (void)testInsertViaAssign0Slice2_0 {
     [self eval:@"var v = [1,2,3];v[2:0]='a'"];
+    TDEqualObjects(@"[1, 'a', 2, 3]"   , [self evalString:@"v"]);
+}
+
+- (void)testInsertViaAssign0Slice2_2 {
+    [self eval:@"var v = [1,2,3];v[2:2]='a'"];
     TDEqualObjects(@"[1, 'a', 2, 3]"   , [self evalString:@"v"]);
 }
 
