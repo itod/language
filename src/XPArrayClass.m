@@ -89,27 +89,31 @@
 
 
 - (XPObject *)get:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(NSInteger)step {
-    NSMutableArray *v = this.value;
-    
-    [self checkBounds:v :start];
-    [self checkBounds:v :stop];
-
-    NSInteger nativeStart = [self nativeIndexForIndex:start inArray:v];
-    NSInteger nativeStop = [self nativeIndexForIndex:stop inArray:v];
-
     XPObject *arrObj = nil;
-    
-    if (nativeStart == nativeStop) {
-        arrObj = [v objectAtIndex:nativeStart];
+    NSMutableArray *v = this.value;
+
+    if (1 == start && -1 == stop && 1 == step) {
+        // x[:] copy
+        arrObj = [XPObject array:v]; // mutable copies
     } else {
-        NSMutableArray *res = [NSMutableArray arrayWithCapacity:labs(nativeStop-nativeStart)];
+        [self checkBounds:v :start];
+        [self checkBounds:v :stop];
         
-        for (NSInteger i = nativeStart; i <= nativeStop; i += step) {
-            XPObject *obj = [v objectAtIndex:i];
-            [res addObject:obj];
+        start = [self nativeIndexForIndex:start inArray:v];
+        stop = [self nativeIndexForIndex:stop inArray:v];
+        
+        if (start == stop) {
+            arrObj = [v objectAtIndex:start];
+        } else {
+            NSMutableArray *res = [NSMutableArray arrayWithCapacity:labs(stop-start)];
+            
+            for (NSInteger i = start; i <= stop; i += step) {
+                XPObject *obj = [v objectAtIndex:i];
+                [res addObject:obj];
+            }
+            
+            arrObj = [XPObject array:res];
         }
-        
-        arrObj = [XPObject array:res];
     }
     
     return arrObj;
