@@ -126,6 +126,12 @@
     NSMutableArray *v = this.value;
     
     [self checkBounds:v :start];
+    
+    if (0 == stop) {
+        [self insert:this :start :obj];
+        return;
+    }
+    
     [self checkBounds:v :stop];
     
     start = [self nativeIndexForIndex:start inArray:v];

@@ -144,6 +144,26 @@
     TDEqualObjects(@"[101, 102, 103]"   , [self evalString:@"a"]);
 }
 
+- (void)testInsertViaAssign0Slice1 {
+    [self eval:@"var v = [1,2,3];v[1:0]='a'"];
+    TDEqualObjects(@"['a', 1, 2, 3]"   , [self evalString:@"v"]);
+}
+
+- (void)testInsertViaAssign0Slice2 {
+    [self eval:@"var v = [1,2,3];v[2:0]='a'"];
+    TDEqualObjects(@"[1, 'a', 2, 3]"   , [self evalString:@"v"]);
+}
+
+- (void)testInsertViaAssign0Slice3 {
+    [self eval:@"var v = [1,2,3];v[3:0]='a'"];
+    TDEqualObjects(@"[1, 2, 'a', 3]"   , [self evalString:@"v"]);
+}
+
+- (void)testInsertViaAssign0Slice4 {
+    [self fail:@"var v = [1,2,3];v[4:0]='a'"];
+    TDEqualObjects(XPIndexError, self.error.localizedDescription);
+}
+
 - (void)testSliceIdentity {
     [self eval:@"var a=[];var c = a[:]"]; // copy
     TDFalse([self evalBool:@"c is a or a is c"]);
