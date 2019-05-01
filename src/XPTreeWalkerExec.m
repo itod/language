@@ -810,9 +810,27 @@
     return [XPObject boolean:res];
 }
 
+    
 - (id)eq:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_EQ]; }
 - (id)ne:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_NE]; }
 - (id)is:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_IS]; }
+
+
+- (id)membership:(XPNode *)node {
+    XPObject *obj = [self walk:[node childAtIndex:0]];
+    XPObject *dict = [self walk:[node childAtIndex:1]];
+    
+    BOOL res = NO;
+    
+    if (dict.isDictionaryObject) {
+        res = nil != [dict.value objectForKey:obj];
+    } else {
+        [self raise:XPTypeError node:node format:@"right-hand-side of `in` membership test must be a Dictionary object"];
+    }
+    
+    return [XPObject boolean:res];
+}
+    
 
 - (id)lt:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_LT]; }
 - (id)le:(XPNode *)node { return [self rel:node op:XP_TOKEN_KIND_LE]; }

@@ -97,7 +97,7 @@
     TDEquals(42.0, [self doubleForName:@"y"]);
 }
 
-- (void)testContains1 {
+- (void)testHasKey1 {
     [self exec:@"var x={};x[3]=null;var i=hasKey(x, 3);"];
     TDEquals(1, [self boolForName:@"i"]);
     
@@ -109,11 +109,39 @@
     
     [self exec:@"var x={'3':null};var i=hasKey(x, 3);"];
     TDEquals(1, [self boolForName:@"i"]);
+    
+    [self exec:@"var x={'3':null};var i=hasKey(x, 1);"];
+    TDEquals(0, [self boolForName:@"i"]);
 }
 
-- (void)testContains2 {
+- (void)testMembership1 {
+    [self exec:@"var x={};x[3]=null;var i=(3 in x);"];
+    TDEquals(1, [self boolForName:@"i"]);
+    
+    [self exec:@"var x={3:null};var i=(3 in x);"];
+    TDEquals(1, [self boolForName:@"i"]);
+    
+    [self exec:@"var x={'3':null};var i=(3 in x);"];
+    TDEquals(1, [self boolForName:@"i"]);
+    
+    [self exec:@"var x={'3':null};var i=(3 in x);"];
+    TDEquals(1, [self boolForName:@"i"]);
+    
+    [self exec:@"var x={'3':null};var i=(1 in x);"];
+    TDEquals(0, [self boolForName:@"i"]);
+}
+
+- (void)testHasKey2 {
     [self exec:@"var key='3';var x={key:null};var i=hasKey(x, key);"];
     TDEquals(1, [self boolForName:@"i"]);
+}
+
+- (void)testMembership2 {
+    [self exec:@"var key='3';var x={key:null};var i=(key in x);"];
+    TDEquals(1, [self boolForName:@"i"]);
+
+    [self exec:@"var key='3';var x={key:null};var i=(1 in x);"];
+    TDEquals(0, [self boolForName:@"i"]);
 }
 
 - (void)testRemove1 {

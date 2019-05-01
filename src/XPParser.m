@@ -90,6 +90,8 @@
 @property (nonatomic, retain) NSMutableDictionary *orExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *and_memo;
 @property (nonatomic, retain) NSMutableDictionary *andExpr_memo;
+@property (nonatomic, retain) NSMutableDictionary *inOp_memo;
+@property (nonatomic, retain) NSMutableDictionary *membershipExpr_memo;
 @property (nonatomic, retain) NSMutableDictionary *eq_memo;
 @property (nonatomic, retain) NSMutableDictionary *ne_memo;
 @property (nonatomic, retain) NSMutableDictionary *is_memo;
@@ -394,6 +396,8 @@
         self.orExpr_memo = [NSMutableDictionary dictionary];
         self.and_memo = [NSMutableDictionary dictionary];
         self.andExpr_memo = [NSMutableDictionary dictionary];
+        self.inOp_memo = [NSMutableDictionary dictionary];
+        self.membershipExpr_memo = [NSMutableDictionary dictionary];
         self.eq_memo = [NSMutableDictionary dictionary];
         self.ne_memo = [NSMutableDictionary dictionary];
         self.is_memo = [NSMutableDictionary dictionary];
@@ -522,6 +526,8 @@
     self.orExpr_memo = nil;
     self.and_memo = nil;
     self.andExpr_memo = nil;
+    self.inOp_memo = nil;
+    self.membershipExpr_memo = nil;
     self.eq_memo = nil;
     self.ne_memo = nil;
     self.is_memo = nil;
@@ -623,6 +629,8 @@
     [_orExpr_memo removeAllObjects];
     [_and_memo removeAllObjects];
     [_andExpr_memo removeAllObjects];
+    [_inOp_memo removeAllObjects];
+    [_membershipExpr_memo removeAllObjects];
     [_eq_memo removeAllObjects];
     [_ne_memo removeAllObjects];
     [_is_memo removeAllObjects];
@@ -1783,12 +1791,12 @@
 
 - (void)__andExpr {
     
-    [self equalityExpr_]; 
-    while ([self speculate:^{ [self nl_]; [self and_]; [self nl_]; [self equalityExpr_]; }]) {
+    [self membershipExpr_]; 
+    while ([self speculate:^{ [self nl_]; [self and_]; [self nl_]; [self membershipExpr_]; }]) {
         [self nl_]; 
         [self and_]; 
         [self nl_]; 
-        [self equalityExpr_]; 
+        [self membershipExpr_]; 
         [self execute:^{
         
     id rhs = POP();
@@ -1806,6 +1814,44 @@
 
 - (void)andExpr_ {
     [self parseRule:@selector(__andExpr) withMemo:_andExpr_memo];
+}
+
+- (void)__inOp {
+    
+    [self match:XP_TOKEN_KIND_IN discard:NO]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchInOp:)];
+}
+
+- (void)inOp_ {
+    [self parseRule:@selector(__inOp) withMemo:_inOp_memo];
+}
+
+- (void)__membershipExpr {
+    
+    [self equalityExpr_]; 
+    while ([self speculate:^{ [self nl_]; [self inOp_]; [self nl_]; [self equalityExpr_]; }]) {
+        [self nl_]; 
+        [self inOp_]; 
+        [self nl_]; 
+        [self equalityExpr_]; 
+        [self execute:^{
+        
+    XPNode *rhs = POP();
+    XPNode *eqNode = [XPNode nodeWithToken:POP()];
+    XPNode *lhs = POP();
+    [eqNode addChild:lhs];
+    [eqNode addChild:rhs];
+    PUSH(eqNode);
+
+        }];
+    }
+
+    [self fireDelegateSelector:@selector(parser:didMatchMembershipExpr:)];
+}
+
+- (void)membershipExpr_ {
+    [self parseRule:@selector(__membershipExpr) withMemo:_membershipExpr_memo];
 }
 
 - (void)__eq {

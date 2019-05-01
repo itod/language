@@ -556,13 +556,23 @@ orExpr  = andExpr (nl or nl andExpr {
 })*;
 
 and     = 'and';
-andExpr = equalityExpr (nl and nl equalityExpr {
+andExpr = membershipExpr (nl and nl membershipExpr {
     id rhs = POP();
     XPNode *andNode = [XPNode nodeWithToken:POP()];
     id lhs = POP();
     [andNode addChild:lhs];
     [andNode addChild:rhs];
     PUSH(andNode);
+})*;
+
+inOp    = 'in';
+membershipExpr = equalityExpr (nl inOp nl equalityExpr {
+    XPNode *rhs = POP();
+    XPNode *eqNode = [XPNode nodeWithToken:POP()];
+    XPNode *lhs = POP();
+    [eqNode addChild:lhs];
+    [eqNode addChild:rhs];
+    PUSH(eqNode);
 })*;
 
 eq      = '==';

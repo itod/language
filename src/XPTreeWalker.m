@@ -278,6 +278,8 @@
         case XP_TOKEN_KIND_NE:              res = [self ne:node]; break;
         case XP_TOKEN_KIND_IS:              res = [self is:node]; break;
             
+        case XP_TOKEN_KIND_IN:              res = [self membership:node]; break;
+
         case XP_TOKEN_KIND_LT:              res = [self lt:node]; break;
         case XP_TOKEN_KIND_LE:              res = [self le:node]; break;
         case XP_TOKEN_KIND_GT:              res = [self gt:node]; break;
@@ -444,6 +446,7 @@
 - (id)eq:(XPNode *)node {return nil;}
 - (id)ne:(XPNode *)node {return nil;}
 - (id)is:(XPNode *)node {return nil;}
+- (id)membership:(XPNode *)node {return nil;}
 
 - (id)lt:(XPNode *)node {return nil;}
 - (id)le:(XPNode *)node {return nil;}
