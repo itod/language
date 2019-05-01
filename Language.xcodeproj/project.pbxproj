@@ -161,6 +161,8 @@
 		D36B2962227A11C000BC53DD /* FNHasKey.h in Headers */ = {isa = PBXBuildFile; fileRef = D36B2960227A11C000BC53DD /* FNHasKey.h */; };
 		D36B2963227A11C000BC53DD /* FNHasKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D36B2961227A11C000BC53DD /* FNHasKey.m */; };
 		D36B2965227A12C000BC53DD /* XPIndexException.h in Headers */ = {isa = PBXBuildFile; fileRef = D36B2964227A12C000BC53DD /* XPIndexException.h */; };
+		D36B296C227A13C200BC53DD /* FNAppend.h in Headers */ = {isa = PBXBuildFile; fileRef = D36B296A227A13C200BC53DD /* FNAppend.h */; };
+		D36B296D227A13C200BC53DD /* FNAppend.m in Sources */ = {isa = PBXBuildFile; fileRef = D36B296B227A13C200BC53DD /* FNAppend.m */; };
 		D37316931E3EB75F0034798E /* XPVarDeclTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316921E3EB75F0034798E /* XPVarDeclTests.m */; };
 		D373169E1E3EBA490034798E /* XPBaseStatementTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D373169D1E3EBA490034798E /* XPBaseStatementTests.m */; };
 		D37316A21E3EBD4B0034798E /* XPNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D37316A01E3EBD4B0034798E /* XPNode.m */; };
@@ -405,6 +407,8 @@
 		D36B2960227A11C000BC53DD /* FNHasKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNHasKey.h; path = src/FNHasKey.h; sourceTree = "<group>"; };
 		D36B2961227A11C000BC53DD /* FNHasKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNHasKey.m; path = src/FNHasKey.m; sourceTree = "<group>"; };
 		D36B2964227A12C000BC53DD /* XPIndexException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPIndexException.h; path = src/XPIndexException.h; sourceTree = "<group>"; };
+		D36B296A227A13C200BC53DD /* FNAppend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FNAppend.h; path = src/FNAppend.h; sourceTree = "<group>"; };
+		D36B296B227A13C200BC53DD /* FNAppend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FNAppend.m; path = src/FNAppend.m; sourceTree = "<group>"; };
 		D373168F1E3E735A0034798E /* XPBaseExpressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPBaseExpressionTests.m; path = test/XPBaseExpressionTests.m; sourceTree = SOURCE_ROOT; };
 		D37316911E3E73A20034798E /* XPBaseExpressionTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XPBaseExpressionTests.h; path = test/XPBaseExpressionTests.h; sourceTree = SOURCE_ROOT; };
 		D37316921E3EB75F0034798E /* XPVarDeclTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPVarDeclTests.m; path = test/XPVarDeclTests.m; sourceTree = SOURCE_ROOT; };
@@ -525,6 +529,8 @@
 				D34FF7262278A157009889A2 /* FNSort.m */,
 				D34FF72A2278D031009889A2 /* FNReverse.h */,
 				D34FF72B2278D031009889A2 /* FNReverse.m */,
+				D36B296A227A13C200BC53DD /* FNAppend.h */,
+				D36B296B227A13C200BC53DD /* FNAppend.m */,
 				D34FF72F2278D7AB009889A2 /* FNExtend.h */,
 				D34FF72E2278D7AA009889A2 /* FNExtend.m */,
 				D3166E2F1E54E2ED00DEE3A0 /* FNMap.h */,
@@ -963,6 +969,7 @@
 				D368A0081E3BE383005783BB /* XPParser.h in Headers */,
 				D34A56121E7F31430064DF65 /* FNFloor.h in Headers */,
 				D34FF72C2278D031009889A2 /* FNReverse.h in Headers */,
+				D36B296C227A13C200BC53DD /* FNAppend.h in Headers */,
 				D3166DF91E53B7D000DEE3A0 /* FNAssert.h in Headers */,
 				D37316C31E3EC1470034798E /* XPBaseScope.h in Headers */,
 				D34A56391E7F38410064DF65 /* FNAsin.h in Headers */,
@@ -1173,6 +1180,7 @@
 				D34A56131E7F31430064DF65 /* FNFloor.m in Sources */,
 				D34A560F1E7F06720064DF65 /* FNRound.m in Sources */,
 				D34A56171E7F31680064DF65 /* FNCeil.m in Sources */,
+				D36B296D227A13C200BC53DD /* FNAppend.m in Sources */,
 				D37CE4AB1E4CE4470008945E /* XPObject.m in Sources */,
 				D34A562E1E7F37480064DF65 /* FNLog.m in Sources */,
 				D37316AC1E3EBDD20034798E /* XPInterpreter.m in Sources */,

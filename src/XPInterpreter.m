@@ -41,6 +41,7 @@
 #import "FNSum.h"
 #import "FNSort.h"
 #import "FNReverse.h"
+#import "FNAppend.h"
 #import "FNExtend.h"
 #import "FNMap.h"
 #import "FNFilter.h"
@@ -145,6 +146,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             [self declareNativeFunction:[FNSum class]];
             [self declareNativeFunction:[FNSort class]];
             [self declareNativeFunction:[FNReverse class]];
+            [self declareNativeFunction:[FNAppend class]];
             [self declareNativeFunction:[FNExtend class]];
             [self declareNativeFunction:[FNMap class]];
             [self declareNativeFunction:[FNFilter class]];

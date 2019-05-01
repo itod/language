@@ -149,4 +149,14 @@
     TDEqualObjects(@"['a', 'b', 'c', 4, 5]", [[self objectForName:@"v"] reprValue]);
 }
 
+- (void)testAppendScalar {
+    [self exec:@"var v=['a','b','c'];append(v, 4)"];
+    TDEqualObjects(@"['a', 'b', 'c', 4]", [[self objectForName:@"v"] reprValue]);
+}
+
+- (void)testAppendVector {
+    [self exec:@"var v=['a','b','c'];append(v, [4,5])"];
+    TDEqualObjects(@"['a', 'b', 'c', [4, 5]]", [[self objectForName:@"v"] reprValue]);
+}
+
 @end
