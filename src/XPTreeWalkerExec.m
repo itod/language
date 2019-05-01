@@ -627,6 +627,8 @@
         
         NSArray *argExprs = [node.children subarrayWithRange:NSMakeRange(OFFSET, argCount)];
         
+        TDAssert([funcSym.orderedParams count] >= [argExprs count]);
+        
         NSUInteger i = 0;
         for (XPNode *argExpr in argExprs) {
             XPSymbol *param = funcSym.orderedParams[i++];
