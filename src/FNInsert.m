@@ -59,11 +59,7 @@
     XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
     
-    @try {
-        [array callInstanceMethodNamed:@"insert" withArgs:@[@(i), obj]];
-    } @catch (XPIndexException *ex) {
-        [ex raise];
-    }
+    [array callInstanceMethodNamed:@"insert" withArgs:@[@(i), obj]]; // throws XPIndexError
     
     return nil;
 }
