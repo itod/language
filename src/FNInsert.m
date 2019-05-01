@@ -9,7 +9,7 @@
 #import "FNInsert.h"
 #import <Language/XPObject.h>
 #import <Language/XPTreeWalker.h>
-#import <Language/XPException.h>
+#import <Language/XPIndexException.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 
@@ -59,7 +59,11 @@
     XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
     
-    [array callInstanceMethodNamed:@"insert" withArgs:@[@(i), obj]];
+    @try {
+        [array callInstanceMethodNamed:@"insert" withArgs:@[@(i), obj]];
+    } @catch (XPIndexException *ex) {
+        [ex raise];
+    }
     
     return nil;
 }

@@ -11,7 +11,8 @@
 @implementation XPIndexException
 
 - (instancetype)initWithIndex:(NSInteger)index first:(NSInteger)first last:(NSInteger)last; {
-    self = [super initWithName:XPIndexError reason:nil userInfo:nil];
+    NSString *reason = [NSString stringWithFormat:@"Index `%ld` out of range `%ld–%ld`.", index, first, last];
+    self = [super initWithName:XPIndexError reason:reason userInfo:nil];
     if (self) {
         self.index = index;
         self.first = first;

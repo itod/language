@@ -295,6 +295,9 @@
 
     [self exec:@"var x=['a', 'c'];insert(x, 1, ['b'])"];
     TDEqualObjects(@"[['b'], 'a', 'c']", [[self objectForName:@"x"] reprValue]);
+
+    [self fail:@"var x=['a', 'c'];insert(x, 0, 'b')"];
+    TDEqualObjects(XPIndexError, self.error.localizedDescription);
 }
 
 @end

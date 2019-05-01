@@ -247,7 +247,7 @@
         @try {
             [collObj callInstanceMethodNamed:@"set" withArgs:@[@(start), @(stop), valObj]];
         } @catch (XPIndexException *ex) {
-            [self raise:XPIndexError node:node format:@"Index `%ld` out of range `%ld–%ld`.", ex.index, ex.first, ex.last];
+            [self raise:XPIndexError node:node format:ex.reason];
             return;
         }
     }
@@ -348,7 +348,7 @@
         @try {
             res = [targetObj callInstanceMethodNamed:@"get" withArgs:@[@(start), @(stop), @(step)]];
         } @catch (XPIndexException *ex) {
-            [self raise:XPIndexError node:node format:@"Index `%ld` out of range `%ld–%ld`.", ex.index, ex.first, ex.last];
+            [self raise:XPIndexError node:node format:ex.reason];
             return nil;
         }
     }
