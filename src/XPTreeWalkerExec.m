@@ -238,32 +238,10 @@
         XPNode *startNode = [node childAtIndex:2];
         NSInteger start = [[self walk:startNode] doubleValue];
         
-        // check array bounds
-        {
-            NSInteger checkIdx = labs(start);
-            NSInteger len = [[collObj callInstanceMethodNamed:@"count"] integerValue];
-            
-            if (checkIdx < 1 || checkIdx > len) {
-                [self raise:XPIndexError node:node format:@"array index out of bounds: `%ld`", start];
-                return;
-            }
-        }
-        
         NSInteger stop = start;
         if ([node childCount] > 3) {
             XPNode *stopNode = [node childAtIndex:3];
             stop = [[self walk:stopNode] doubleValue];
-            
-            // check array bounds
-            {
-                NSInteger checkIdx = labs(stop);
-                NSInteger len = [[collObj callInstanceMethodNamed:@"count"] integerValue];
-                
-                if (checkIdx < 1 || checkIdx > len) {
-                    [self raise:XPIndexError node:node format:@"array index out of bounds: `%ld`", stop];
-                    return;
-                }
-            }
         }
         
         @try {

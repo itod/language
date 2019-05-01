@@ -77,23 +77,25 @@
 }
 
 
-- (NSInteger)indexForNativeIndex:(NSInteger)inIdx {
-    NSInteger outIdx = inIdx+1;
-    return outIdx;
+- (void)checkBounds:(NSArray *)v :(NSInteger)checkIdx {
+    checkIdx = labs(checkIdx);
+    NSInteger len = [v count];
+    
+    if (checkIdx < 1 || checkIdx > len) {
+        [[[[XPIndexException alloc] initWithIndex:checkIdx first:1 last:len] autorelease] raise];
+        return;
+    }
 }
 
 
 - (XPObject *)get:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(NSInteger)step {
     NSMutableArray *v = this.value;
+    
+    [self checkBounds:v :start];
+    [self checkBounds:v :stop];
+
     NSInteger nativeStart = [self nativeIndexForIndex:start inArray:v];
     NSInteger nativeStop = [self nativeIndexForIndex:stop inArray:v];
-    
-    NSInteger nativeLast = [v count]-1;
-    if (0 == start) {
-        NSInteger last = [self indexForNativeIndex:nativeLast];
-        [XPIndexException raise:XPIndexError format:@"Index `%ld` out of range `1–%ld`.", start, last];
-        return nil;
-    }
 
     XPObject *arrObj = nil;
     
@@ -116,6 +118,10 @@
 
 - (void)set:(XPObject *)this :(NSInteger)start :(NSInteger)stop :(XPObject *)obj {
     NSMutableArray *v = this.value;
+    
+    [self checkBounds:v :start];
+    [self checkBounds:v :stop];
+    
     start = [self nativeIndexForIndex:start inArray:v];
     stop = [self nativeIndexForIndex:stop inArray:v];
     
