@@ -939,6 +939,14 @@
 
 
 - (id)concatString:(XPNode *)node lhs:(XPObject *)lhsObj rhs:(XPObject *)rhsObj {
+    TDAssert(lhsObj.isStringObject);
+    
+    if (!rhsObj.isStringObject) {
+        NSString *name = [rhsObj.objectClass name];
+        [self raise:XPTypeError node:node format:@"can only concatinate a String (not \"%@\") to a String", name];
+        return nil;
+    }
+    
     NSString *lhs = [lhsObj stringValue];
     NSString *rhs = [rhsObj stringValue];
     NSString *res = [NSString stringWithFormat:@"%@%@", lhs, rhs];
