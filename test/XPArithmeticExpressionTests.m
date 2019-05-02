@@ -39,13 +39,13 @@
 }
 
 - (void)testTruePlus1 {
-    [self exec:@"var foo=true + 1;"];
-    TDEquals(2.0, [self doubleForName:@"foo"]);
+    [self fail:@"var foo=true + 1;"];
+    TDEqualObjects(XPTypeError, self.error.localizedDescription);
 }
 
 - (void)testFalsePlus1 {
-    [self exec:@"var foo=false + 1;"];
-    TDEquals(1.0, [self doubleForName:@"foo"]);
+    [self fail:@"var foo=false + 1;"];
+    TDEqualObjects(XPTypeError, self.error.localizedDescription);
 }
 
 - (void)test2Times2 {

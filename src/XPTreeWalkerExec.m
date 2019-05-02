@@ -874,6 +874,14 @@
 
 
 - (id)math:(XPNode *)node lhs:(XPObject *)lhsObj rhs:(XPObject *)rhsObj op:(NSInteger)op {
+    TDAssert(lhsObj.isNumericObject);
+    
+    if (!rhsObj.isNumericObject) {
+        NSString *name = [rhsObj.objectClass name];
+        [self raise:XPTypeError node:node format:@"can only %@ a Number (not '%@') to a Number", name];
+        return nil;
+    }
+    
     double lhs = [lhsObj doubleValue];
     double rhs = [rhsObj doubleValue];
 
@@ -911,12 +919,17 @@
     XPObject *lhsObj = [self walk:[node childAtIndex:0]];
     XPObject *rhsObj = [self walk:[node childAtIndex:1]];
 
-    if (lhsObj.isStringObject) {
+    if (lhsObj.isNumericObject && rhsObj.isNumericObject) {
+        return [self math:node lhs:lhsObj rhs:rhsObj op:XP_TOKEN_KIND_PLUS];
+    } else if (lhsObj.isStringObject) {
         return [self concatString:node lhs:lhsObj rhs:rhsObj];
     } else if (lhsObj.isArrayObject) {
         return [self concatArray:node lhs:lhsObj rhs:rhsObj];
     } else {
-        return [self math:node lhs:lhsObj rhs:rhsObj op:XP_TOKEN_KIND_PLUS];
+        NSString *lhsName = [lhsObj.objectClass name];
+        NSString *rhsName = [rhsObj.objectClass name];
+        [self raise:XPTypeError node:node format:@"unsupported operand type(s) for %@: '%@' and '%@'", node.token.stringValue, lhsName, rhsName];
+        return nil;
     }
 }
 
@@ -943,7 +956,7 @@
     
     if (!rhsObj.isStringObject) {
         NSString *name = [rhsObj.objectClass name];
-        [self raise:XPTypeError node:node format:@"can only concatinate a String (not \"%@\") to a String", name];
+        [self raise:XPTypeError node:node format:@"can only concatinate a String (not '%@') to a String", name];
         return nil;
     }
     
@@ -957,7 +970,7 @@
 - (id)concatArray:(XPNode *)node lhs:(XPObject *)lhsObj rhs:(XPObject *)rhsObj {
     if (!rhsObj.isArrayObject) {
         NSString *name = [rhsObj.objectClass name];
-        [self raise:XPTypeError node:node format:@"can only concatinate an Array (not \"%@\") to an Array", name];
+        [self raise:XPTypeError node:node format:@"can only concatinate an Array (not '%@') to an Array", name];
         return nil;
     }
     

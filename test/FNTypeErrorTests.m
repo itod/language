@@ -29,4 +29,14 @@
     TDEqualObjects(XPTypeError, self.error.localizedDescription);
 }
 
+- (void)testArrayConcat {
+    [self fail:@"[]+1"];
+    TDEqualObjects(XPTypeError, self.error.localizedDescription);
+}
+
+- (void)testDictionaryConcat {
+    [self fail:@"{}+{}"];
+    TDEqualObjects(XPTypeError, self.error.localizedDescription);
+}
+
 @end
