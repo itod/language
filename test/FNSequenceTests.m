@@ -150,13 +150,13 @@
 }
 
 - (void)testInsertViaAssign0Slice2_0 {
-    [self eval:@"var v = [1,2,3];v[2:0]='a'"];
+    [self eval:@"var v = [1,2,3];v[2:0]='a'"]; // this matches python
     TDEqualObjects(@"[1, 'a', 2, 3]"   , [self evalString:@"v"]);
 }
 
 - (void)testInsertViaAssign0Slice2_2 {
-    [self eval:@"var v = [1,2,3];v[2:2]='a'"]; // python is different - this is insertion in python. implementing that would be hard
-    TDEqualObjects(@"[1, 'a', 3]"   , [self evalString:@"v"]);
+    [self eval:@"var v = [1,2,3];v[2:2]='a'"]; // this matches python too
+    TDEqualObjects(@"[1, 'a', 2, 3]"   , [self evalString:@"v"]);
 }
 
 - (void)testInsertViaAssign0Slice3 {
@@ -310,20 +310,6 @@
     TDEqualObjects(XPIndexError, self.error.localizedDescription);
 }
 #endif
-
-- (void)testArrayInsert {
-    [self exec:@"var x=['a', 'c'];insert(x, 2, 'b')"];
-    TDEqualObjects(@"['a', 'b', 'c']", [[self objectForName:@"x"] reprValue]);
-
-    [self exec:@"var x=['a', 'c'];insert(x, 1, 'b')"];
-    TDEqualObjects(@"['b', 'a', 'c']", [[self objectForName:@"x"] reprValue]);
-
-    [self exec:@"var x=['a', 'c'];insert(x, 1, ['b'])"];
-    TDEqualObjects(@"[['b'], 'a', 'c']", [[self objectForName:@"x"] reprValue]);
-
-    [self fail:@"var x=['a', 'c'];insert(x, 0, 'b')"];
-    TDEqualObjects(XPIndexError, self.error.localizedDescription);
-}
 
 - (void)testArrayConcat1 {
     [self exec:@"var x=['a', 'b'];var y=['c', 'd'];var z=x+y;"];

@@ -97,23 +97,6 @@
     TDEquals(42.0, [self doubleForName:@"y"]);
 }
 
-- (void)testHasKey1 {
-    [self exec:@"var x={};x[3]=null;var i=hasKey(x, 3);"];
-    TDEquals(1, [self boolForName:@"i"]);
-    
-    [self exec:@"var x={3:null};var i=hasKey(x, 3);"];
-    TDEquals(1, [self boolForName:@"i"]);
-    
-    [self exec:@"var x={'3':null};var i=hasKey(x, 3);"];
-    TDEquals(1, [self boolForName:@"i"]);
-    
-    [self exec:@"var x={'3':null};var i=hasKey(x, 3);"];
-    TDEquals(1, [self boolForName:@"i"]);
-    
-    [self exec:@"var x={'3':null};var i=hasKey(x, 1);"];
-    TDEquals(0, [self boolForName:@"i"]);
-}
-
 - (void)testMembership1 {
     [self exec:@"var x={};x[3]=null;var i=(3 in x);"];
     TDEquals(1, [self boolForName:@"i"]);
@@ -131,25 +114,12 @@
     TDEquals(0, [self boolForName:@"i"]);
 }
 
-- (void)testHasKey2 {
-    [self exec:@"var key='3';var x={key:null};var i=hasKey(x, key);"];
-    TDEquals(1, [self boolForName:@"i"]);
-}
-
 - (void)testMembership2 {
     [self exec:@"var key='3';var x={key:null};var i=(key in x);"];
     TDEquals(1, [self boolForName:@"i"]);
 
     [self exec:@"var key='3';var x={key:null};var i=(1 in x);"];
     TDEquals(0, [self boolForName:@"i"]);
-}
-
-- (void)testRemoveKey1 {
-    [self exec:@"var x={'foo':null};var bevor=hasKey(x,'foo');var entfernt1=removeKey(x,'foo');var entfernt2=removeKey(x,'bar');var danach=hasKey(x,'foo');"];
-    TDEquals(1, [self boolForName:@"bevor"]);
-    TDEquals(1, [self boolForName:@"entfernt1"]);
-    TDEquals(0, [self boolForName:@"entfernt2"]);
-    TDEquals(0, [self boolForName:@"danach"]);
 }
 
 - (void)testDel1 {
@@ -183,6 +153,7 @@
     TDEqualObjects(XPValueError, self.error.localizedDescription);
 }
 
+#if COLLECTION_FUNCS
 - (void)testReverse {
     [self exec:@"var v=['a','b','c'];reverse(v)"];
     TDEqualObjects(@"['c', 'b', 'a']", [[self objectForName:@"v"] reprValue]);
@@ -202,5 +173,50 @@
     [self exec:@"var v=['a','b','c'];append(v, [4,5])"];
     TDEqualObjects(@"['a', 'b', 'c', [4, 5]]", [[self objectForName:@"v"] reprValue]);
 }
+
+- (void)testHasKey1 {
+    [self exec:@"var x={};x[3]=null;var i=hasKey(x, 3);"];
+    TDEquals(1, [self boolForName:@"i"]);
+    
+    [self exec:@"var x={3:null};var i=hasKey(x, 3);"];
+    TDEquals(1, [self boolForName:@"i"]);
+    
+    [self exec:@"var x={'3':null};var i=hasKey(x, 3);"];
+    TDEquals(1, [self boolForName:@"i"]);
+    
+    [self exec:@"var x={'3':null};var i=hasKey(x, 3);"];
+    TDEquals(1, [self boolForName:@"i"]);
+    
+    [self exec:@"var x={'3':null};var i=hasKey(x, 1);"];
+    TDEquals(0, [self boolForName:@"i"]);
+}
+
+- (void)testHasKey2 {
+    [self exec:@"var key='3';var x={key:null};var i=hasKey(x, key);"];
+    TDEquals(1, [self boolForName:@"i"]);
+}
+
+- (void)testRemoveKey1 {
+    [self exec:@"var x={'foo':null};var bevor=hasKey(x,'foo');var entfernt1=removeKey(x,'foo');var entfernt2=removeKey(x,'bar');var danach=hasKey(x,'foo');"];
+    TDEquals(1, [self boolForName:@"bevor"]);
+    TDEquals(1, [self boolForName:@"entfernt1"]);
+    TDEquals(0, [self boolForName:@"entfernt2"]);
+    TDEquals(0, [self boolForName:@"danach"]);
+}
+
+- (void)testArrayInsert {
+    [self exec:@"var x=['a', 'c'];insert(x, 2, 'b')"];
+    TDEqualObjects(@"['a', 'b', 'c']", [[self objectForName:@"x"] reprValue]);
+    
+    [self exec:@"var x=['a', 'c'];insert(x, 1, 'b')"];
+    TDEqualObjects(@"['b', 'a', 'c']", [[self objectForName:@"x"] reprValue]);
+    
+    [self exec:@"var x=['a', 'c'];insert(x, 1, ['b'])"];
+    TDEqualObjects(@"[['b'], 'a', 'c']", [[self objectForName:@"x"] reprValue]);
+    
+    [self fail:@"var x=['a', 'c'];insert(x, 0, 'b')"];
+    TDEqualObjects(XPIndexError, self.error.localizedDescription);
+}
+#endif
 
 @end

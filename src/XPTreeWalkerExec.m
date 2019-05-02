@@ -250,12 +250,15 @@
     if ([collObj isArrayObject]) {
 #endif
         XPNode *startNode = [node childAtIndex:2];
-        NSInteger start = [[self walk:startNode] doubleValue];
+        NSInteger start = [[self walk:startNode] integerValue];
         
         NSInteger stop = start;
         if ([node childCount] > 3) {
             XPNode *stopNode = [node childAtIndex:3];
-            stop = [[self walk:stopNode] doubleValue];
+            stop = [[self walk:stopNode] integerValue];
+            if (stop == start) {
+                stop = 0; // insertion to match python
+            }
         }
         
         @try {

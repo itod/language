@@ -253,6 +253,11 @@
 }
 
 
+- (NSInteger)integerValue {
+    return lround(self.doubleValue);
+}
+
+
 - (BOOL)boolValue {
     return [[self.objectClass boolValue:self] boolValue];
 }

@@ -38,6 +38,7 @@
 - (NSString *)reprValue;
 - (NSString *)stringValue;
 - (double)doubleValue;
+- (NSInteger)integerValue;
 - (BOOL)boolValue;
 
 - (XPObject *)asBooleanObject;
