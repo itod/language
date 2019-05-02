@@ -325,4 +325,9 @@
     TDEqualObjects(XPIndexError, self.error.localizedDescription);
 }
 
+- (void)testArrayAddition {
+    [self exec:@"var x=['a', 'b'];var y=['c', 'd'];z=x+y;"];
+    TDEqualObjects(@"['a', 'b', 'c', 'd']", [[self objectForName:@"y"] reprValue]);
+}
+
 @end

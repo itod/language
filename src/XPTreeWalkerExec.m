@@ -885,7 +885,7 @@
     XPObject *lhsObj = [self walk:[node childAtIndex:0]];
     XPObject *rhsObj = [self walk:[node childAtIndex:1]];
 
-    if ([lhsObj isStringObject]) {
+    if (lhsObj.isStringObject) {
         return [self concat:node lhs:lhsObj rhs:rhsObj];
     } else {
         return [self math:node lhs:lhsObj rhs:rhsObj op:XP_TOKEN_KIND_PLUS];

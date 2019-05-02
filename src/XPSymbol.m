@@ -42,8 +42,10 @@ static NSMutableSet *sReserved = nil;
                      
                      @"sub",
                      @"var",
+                     @"let",
                      @"const",
-                     
+                     @"del",
+
                      @"new",
                      @"class",
                      @"extends",
