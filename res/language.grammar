@@ -647,20 +647,20 @@ shiftExpr = unaryExpr (nl (shiftLeft | shiftRight) nl unaryExpr {
 })*;
 
 unaryExpr 
-	= negatedUnary
-	| unary
-	;
-	
+    = negatedUnary
+    | unary
+    ;
+    
 negatedUnary 
 @before { _negation = NO; }
 @after {
     if (_negation) {
         XPNode *notNode = [XPNode nodeWithToken:_notTok];
         [notNode addChild:POP()];
-		PUSH(notNode);
+        PUSH(notNode);
     }
 }
-	= (('not'! | '!'!) { _negation = !_negation; })+ nl unary {
+    = (('not'! | '!'!) { _negation = !_negation; })+ nl unary {
 };
 
 bitNot = '~';
@@ -673,7 +673,7 @@ signedPrimaryExpr
     if (_negative) {
         XPNode *negNode = [XPNode nodeWithToken:_unaryTok];
         [negNode addChild:POP()];
-		PUSH(negNode);
+        PUSH(negNode);
     }
 }
     = ('-'! { self.unaryTok = _negTok; _negative = !_negative; })+ nl primaryExpr
