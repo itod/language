@@ -22,6 +22,8 @@
 #import "FNBoolean.h"
 #import "FNNumber.h"
 #import "FNString.h"
+#import "FNArray.h"
+#import "FNDictionary.h"
 #import "FNType.h"
 
 #import "FNRepr.h"
@@ -128,6 +130,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             [self declareNativeFunction:[FNBoolean class]];
             [self declareNativeFunction:[FNNumber class]];
             [self declareNativeFunction:[FNString class]];
+            [self declareNativeFunction:[FNArray class]];
+            [self declareNativeFunction:[FNDictionary class]];
             [self declareNativeFunction:[FNType class]];
             
             // util

@@ -46,7 +46,7 @@
     }
     
     NSDictionary *v = [arg value];
-    TDAssert([v isKindOfClass:[NSDictionary dictionary]]);
+    TDAssert([v isKindOfClass:[NSDictionary class]]);
     return [XPObject dictionary:v]; // mutable copies
 }
 

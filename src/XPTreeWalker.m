@@ -78,7 +78,7 @@
 //    }
 
     if (!res) {
-        [self raise:XPNameError node:node format:@"unknown variable reference: `%@`", node.name];
+        [self raise:XPNameError node:node format:@"unknown reference: `%@`", node.name];
     }
     return res;
 }
