@@ -29,6 +29,8 @@
                       obj, @"object",
                       nil];
     
+    [funcSym setDefaultObject:[XPObject string:@""] forParamNamed:@"object"];
+
     return funcSym;
 }
 

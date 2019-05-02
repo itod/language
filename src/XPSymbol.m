@@ -65,12 +65,16 @@ static NSMutableSet *sReserved = nil;
                      @"finally",
                      
                      @"Object",
-//                     @"Boolean",
-//                     @"Number",
-//                     @"String",
+                     @"Boolean",
+                     @"Number",
+                     @"String",
                      @"Array",
                      @"Dictionary",
                      @"void",
+                     @"int",
+                     @"integer",
+                     @"float",
+                     @"double",
                      
                      nil];
     }

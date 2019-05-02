@@ -28,7 +28,9 @@
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                       obj, @"object",
                       nil];
-    
+
+    [funcSym setDefaultObject:[XPObject number:0.0] forParamNamed:@"object"];
+
     return funcSym;
 }
 

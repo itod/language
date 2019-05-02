@@ -1,21 +1,22 @@
 //
-//  FNBoolean.m
+//  FNArray.m
 //  Language
 //
 //  Created by Todd Ditchendorf on 2/14/17.
 //  Copyright © 2017 Celestial Teapot. All rights reserved.
 //
 
-#import "FNBoolean.h"
+#import "FNArray.h"
 #import <Language/XPObject.h>
 #import <Language/XPTreeWalker.h>
+#import <Language/XPException.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 
-@implementation FNBoolean
+@implementation FNArray
 
 + (NSString *)name {
-    return @"Boolean";
+    return @"Array";
 }
 
 
@@ -23,20 +24,30 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *obj = [XPSymbol symbolWithName:@"object"];
+    XPSymbol *obj = [XPSymbol symbolWithName:@"array"];
     funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      obj, @"object",
+                      obj, @"array",
                       nil];
     
-    [funcSym setDefaultObject:[XPObject boolean:NO] forParamNamed:@"object"];
+    [funcSym setDefaultObject:[XPObject array:@[]] forParamNamed:@"array"]; // immutable here is fine. discarded below
 
     return funcSym;
 }
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
-    return [[space objectForName:@"object"] asBooleanObject];
+    XPObject *arg = [space objectForName:@"array"];
+    TDAssert([arg isKindOfClass:[XPObject class]]);
+
+    if (!arg.isArrayObject) {
+        [self raise:XPTypeError format:@"optional argument to Array() must be an Array object"];
+        return nil;
+    }
+    
+    NSArray *v = [arg value];
+    TDAssert([v isKindOfClass:[NSArray class]]);
+    return [XPObject array:v]; // mutable copies
 }
 
 @end
