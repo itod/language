@@ -1021,16 +1021,16 @@
         unichar c = [lhs characterAtIndex:NSMaxRange(pat.range)-1];
         switch (c) {
             case 's': {
-                [res replaceCharactersInRange:pat.range withString:[[arg asStringObject] stringValue]];
+                [res replaceCharactersInRange:pat.range withString:[arg stringValue]];
             } break;
             case 'i':
             case 'd': {
-                NSString *rep = [NSString stringWithFormat:@"%ld", [[arg asNumberObject] integerValue]];
+                NSString *rep = [NSString stringWithFormat:@"%ld", [arg integerValue]];
                 [res replaceCharactersInRange:pat.range withString:rep];
             } break;
             case 'f': {
                 NSString *fmt = [lhs substringWithRange:pat.range];
-                NSString *rep = [NSString stringWithFormat:fmt, [[arg asNumberObject] doubleValue]];
+                NSString *rep = [NSString stringWithFormat:fmt, [arg doubleValue]];
                 [res replaceCharactersInRange:pat.range withString:rep];
             } break;
             default: {
