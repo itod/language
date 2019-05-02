@@ -24,6 +24,11 @@
     [super tearDown];
 }
 
+- (void)testBooleanConcat {
+    [self fail:@"true+1"];
+    TDEqualObjects(XPTypeError, self.error.localizedDescription);
+}
+
 - (void)testStringConcat {
     [self fail:@"''+1"];
     TDEqualObjects(XPTypeError, self.error.localizedDescription);
@@ -36,6 +41,12 @@
 
 - (void)testDictionaryConcat {
     [self fail:@"{}+{}"];
+    TDEqualObjects(XPTypeError, self.error.localizedDescription);
+
+    [self fail:@"{}+1"];
+    TDEqualObjects(XPTypeError, self.error.localizedDescription);
+
+    [self fail:@"2+{}"];
     TDEqualObjects(XPTypeError, self.error.localizedDescription);
 }
 
