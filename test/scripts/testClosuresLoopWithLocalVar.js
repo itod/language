@@ -8,7 +8,7 @@ for i in range(3) {
     }
 }
 
-{
+if (1) {
     var i = 47
     for func in funcs {
         func()

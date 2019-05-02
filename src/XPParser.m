@@ -764,8 +764,6 @@
         [self whileBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_FOR, 0]) {
         [self forBlock_]; 
-    } else if ([self predicts:XP_TOKEN_KIND_OPEN_CURLY, 0]) {
-        [self localBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_TRY, 0]) {
         [self tryBlock_]; 
     } else if ([self predicts:XP_TOKEN_KIND_SUB, 0]) {

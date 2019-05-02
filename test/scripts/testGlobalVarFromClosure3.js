@@ -1,7 +1,7 @@
 var i = 47
 var x = 0
 
-{
+if (1) {
     var foo = sub() {
         print('i should be 47, i: %s' % i)
         x = i

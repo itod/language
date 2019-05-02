@@ -207,7 +207,7 @@ globalList  = item* {
 item  = anyBlock | stats;
 anyBlock
 @after {self.valid=YES;}
-            = { _valid }? ifBlock | whileBlock | forBlock | localBlock | tryBlock | funcDecl;
+            = { _valid }? ifBlock | whileBlock | forBlock | tryBlock | funcDecl; //| localBlock;
 
 // LOCAL
 localList   = item* {

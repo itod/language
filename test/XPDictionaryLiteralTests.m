@@ -49,12 +49,12 @@
 }
 
 - (void)testSetIndexNested {
-    [self exec:@"var a={'a':1};{a['a']=2;}var b=a['a'];"];
+    [self exec:@"var a={'a':1};if(1){a['a']=2;}var b=a['a'];"];
     TDEquals(2.0, [self doubleForName:@"b"]);
 }
 
 - (void)testAppendNested {
-    [self exec:@"var a={};{a['1']='c';}var b=a['1'];"];
+    [self exec:@"var a={};if(1){a['1']='c';}var b=a['1'];"];
     TDEqualObjects(@"c", [self stringForName:@"b"]);
 }
 

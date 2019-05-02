@@ -75,12 +75,12 @@
 }
 
 - (void)testSetIndexNested {
-    [self exec:@"var a=['x'];{a[1]='y';}var b=a[1];"];
+    [self exec:@"var a=['x'];if(1){a[1]='y';}var b=a[1];"];
     TDEqualObjects(@"y", [self stringForName:@"b"]);
 }
 
 - (void)testAppendNested {
-    [self exec:@"var a=[];{a[]='c';}var b=a[1];"];
+    [self exec:@"var a=[];if(1){a[]='c';}var b=a[1];"];
     TDEqualObjects(@"c", [self stringForName:@"b"]);
 }
 
