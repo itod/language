@@ -325,9 +325,16 @@
     TDEqualObjects(XPIndexError, self.error.localizedDescription);
 }
 
-- (void)testArrayAddition {
-    [self exec:@"var x=['a', 'b'];var y=['c', 'd'];z=x+y;"];
-    TDEqualObjects(@"['a', 'b', 'c', 'd']", [[self objectForName:@"y"] reprValue]);
+- (void)testArrayConcat1 {
+    [self exec:@"var x=['a', 'b'];var y=['c', 'd'];var z=x+y;"];
+    TDEqualObjects(@"['a', 'b']", [[self objectForName:@"x"] reprValue]);
+    TDEqualObjects(@"['c', 'd']", [[self objectForName:@"y"] reprValue]);
+    TDEqualObjects(@"['a', 'b', 'c', 'd']", [[self objectForName:@"z"] reprValue]);
+}
+
+- (void)testArrayConcat2 {
+    [self fail:@"var x=['a', 'b'];var y='c';var z=x+y;"];
+    TDEqualObjects(XPTypeError, self.error.localizedDescription);
 }
 
 @end

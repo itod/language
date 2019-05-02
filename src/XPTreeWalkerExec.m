@@ -886,7 +886,9 @@
     XPObject *rhsObj = [self walk:[node childAtIndex:1]];
 
     if (lhsObj.isStringObject) {
-        return [self concat:node lhs:lhsObj rhs:rhsObj];
+        return [self concatString:node lhs:lhsObj rhs:rhsObj];
+    } else if (lhsObj.isArrayObject) {
+        return [self concatArray:node lhs:lhsObj rhs:rhsObj];
     } else {
         return [self math:node lhs:lhsObj rhs:rhsObj op:XP_TOKEN_KIND_PLUS];
     }
@@ -910,7 +912,7 @@
 - (id)div:(XPNode *)node    { return [self math:node op:XP_TOKEN_KIND_DIV]; }
 
 
-- (id)concat:(XPNode *)node lhs:(XPObject *)lhsObj rhs:(XPObject *)rhsObj {
+- (id)concatString:(XPNode *)node lhs:(XPObject *)lhsObj rhs:(XPObject *)rhsObj {
     NSString *lhs = [lhsObj stringValue];
     NSString *rhs = [rhsObj stringValue];
     NSString *res = [NSString stringWithFormat:@"%@%@", lhs, rhs];
@@ -918,6 +920,20 @@
 }
 
 
+- (id)concatArray:(XPNode *)node lhs:(XPObject *)lhsObj rhs:(XPObject *)rhsObj {
+    if (!rhsObj.isArrayObject) {
+        NSString *name = [rhsObj.objectClass name];
+        [self raise:XPTypeError node:node format:@"can only concatinate an Array (not \"%@\") to an Array", name];
+        return nil;
+    }
+    
+    NSMutableArray *res = [NSMutableArray arrayWithArray:lhsObj.value];
+    [res addObjectsFromArray:rhsObj.value];
+    
+    return [XPObject array:res];
+}
+    
+    
 - (id)format:(XPNode *)node lhs:(XPObject *)lhsObj rhs:(XPObject *)rhsObj {
     NSString *lhs = [lhsObj stringValue];
     
