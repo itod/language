@@ -1379,8 +1379,6 @@
         }
     } else if ([self predicts:XP_TOKEN_KIND_FINALLY, 0]) {
         [self finallyBlock_]; 
-    } else {
-        [self raise:@"No viable alternative found in rule 'tryBlock'."];
     }
 
     [self fireDelegateSelector:@selector(parser:didMatchTryBlock:)];

@@ -1,6 +1,6 @@
 var x = 0
 var foo = null
-if 1 {
+try {
     var i = 47
     foo = sub() {
         print('should be 47, i: %s' % i)

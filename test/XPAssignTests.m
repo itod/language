@@ -50,13 +50,13 @@
 }
 
 - (void)testLocalNestedOverride {
-    [self exec:@"var x=1;var y=0;if(1){var x=2;y=10;}"];
+    [self exec:@"var x=1;var y=0;try{var x=2;y=10;}"];
     TDEquals(1.0, [self doubleForName:@"x"]);
     TDEquals(10.0, [self doubleForName:@"y"]);
 }
 
 - (void)testLocalNestedAssign {
-    [self exec:@"var x=1;if(1){x=2;}"];
+    [self exec:@"var x=1;try{x=2;}"];
     TDEquals(2.0, [self doubleForName:@"x"]);
 }
 

@@ -1,5 +1,5 @@
 var x = 0
-if 1 {
+try {
     sub bar() {
         x = 2;
     }

@@ -358,7 +358,7 @@
 #pragma mark BLOCK
 
 - (void)testIfBlock {
-    [self exec:@"var foo=0;if 1 {foo=22}"];
+    [self exec:@"var foo=0;try {foo=22}"];
     TDEquals(22.0, [self doubleForName:@"foo"]);
 
     [self exec:@"var foo=0;if\n1 {foo=22}"];
@@ -367,10 +367,10 @@
     [self exec:@"var foo=0;if 1\n{foo=22}"];
     TDEquals(22.0, [self doubleForName:@"foo"]);
     
-    [self exec:@"var foo=0;if 1 {\nfoo=22}"];
+    [self exec:@"var foo=0;try {\nfoo=22}"];
     TDEquals(22.0, [self doubleForName:@"foo"]);
     
-    [self exec:@"var foo=0;if 1 {foo=22\n}"];
+    [self exec:@"var foo=0;try {foo=22\n}"];
     TDEquals(22.0, [self doubleForName:@"foo"]);
 }
 
