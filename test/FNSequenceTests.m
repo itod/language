@@ -337,4 +337,19 @@
     TDEqualObjects(XPTypeError, self.error.localizedDescription);
 }
 
+- (void)testArrayMembership {
+    [self exec:@"var x=[1,2,3];var y=(2 in x);"];
+    TDEqualObjects(@"true", [[self objectForName:@"y"] reprValue]);
+}
+
+- (void)testStringMembership1 {
+    [self exec:@"var x='abc';var y=('c' in x);"];
+    TDEqualObjects(@"true", [[self objectForName:@"y"] reprValue]);
+}
+
+- (void)testStringMembership2 {
+    [self fail:@"var x='123';var y=(1 in x);"];
+    TDEqualObjects(XPTypeError, self.error.localizedDescription);
+}
+
 @end

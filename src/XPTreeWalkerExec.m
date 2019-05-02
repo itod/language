@@ -817,15 +817,24 @@
 
 
 - (id)membership:(XPNode *)node {
-    XPObject *obj = [self walk:[node childAtIndex:0]];
-    XPObject *dict = [self walk:[node childAtIndex:1]];
+    XPObject *needle = [self walk:[node childAtIndex:0]];
+    XPObject *haystack = [self walk:[node childAtIndex:1]];
     
     BOOL res = NO;
     
-    if (dict.isDictionaryObject) {
-        res = nil != [dict.value objectForKey:obj];
+    if (haystack.isStringObject) {
+        if (!needle.isStringObject) {
+            NSString *name = [needle.objectClass name];
+            [self raise:XPTypeError node:node format:@"left-hand-side of `in <String>` must be a String, not %@", name];
+            return nil;
+        }
+        res = NSNotFound != [haystack.value rangeOfString:[needle stringValue]].location;
+    } else if (haystack.isArrayObject) {
+        res = NSNotFound != [haystack.value indexOfObject:needle];
+    } else if (haystack.isDictionaryObject) {
+        res = nil != [haystack.value objectForKey:needle];
     } else {
-        [self raise:XPTypeError node:node format:@"right-hand-side of `in` membership test must be a Dictionary object"];
+        [self raise:XPTypeError node:node format:@"right-hand-side of `in` membership test must be an iterable type"];
     }
     
     return [XPObject boolean:res];
