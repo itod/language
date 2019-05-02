@@ -1004,7 +1004,7 @@
             } break;
             case 'i':
             case 'd': {
-                NSString *rep = [NSString stringWithFormat:@"%ld", lround([[arg asNumberObject] doubleValue])];
+                NSString *rep = [NSString stringWithFormat:@"%ld", [[arg asNumberObject] integerValue]];
                 [res replaceCharactersInRange:pat.range withString:rep];
             } break;
             case 'f': {

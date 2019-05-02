@@ -127,7 +127,7 @@
     }
     
     // CONVERT TO NUMBER
-    NSInteger retVal = lround([[retObj asNumberObject] doubleValue]);
+    NSInteger retVal = [[retObj asNumberObject] integerValue];
     return retVal;
 }
 

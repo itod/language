@@ -54,7 +54,7 @@
     XPObject *idx = [space objectForName:@"index"];
     TDAssert(idx);
     
-    NSInteger i = lround(idx.doubleValue);
+    NSInteger i = idx.integerValue;
 
     XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
