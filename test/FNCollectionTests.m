@@ -144,12 +144,18 @@
     TDEquals(0, [self boolForName:@"i"]);
 }
 
-- (void)testRemove1 {
+- (void)testRemoveKey1 {
     [self exec:@"var x={'foo':null};var bevor=hasKey(x,'foo');var entfernt1=removeKey(x,'foo');var entfernt2=removeKey(x,'bar');var danach=hasKey(x,'foo');"];
     TDEquals(1, [self boolForName:@"bevor"]);
     TDEquals(1, [self boolForName:@"entfernt1"]);
     TDEquals(0, [self boolForName:@"entfernt2"]);
     TDEquals(0, [self boolForName:@"danach"]);
+}
+
+- (void)testDel1 {
+    [self exec:@"var x={'foo':null,'bar':null};var bevor=('foo' in x);del x['foo'];"];
+    TDEquals(1, [self boolForName:@"bevor"]);
+    TDEqualObjects(@"{'bar': null}", [[self objectForName:@"x"] reprValue]);
 }
 
 - (void)testSort {

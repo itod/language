@@ -54,6 +54,7 @@
 @property (nonatomic, retain) PKToken *minusTok;
 @property (nonatomic, retain) PKToken *colonTok;
 @property (nonatomic, retain) PKToken *equalsTok;
+@property (nonatomic, retain) PKToken *delTok;
 @property (nonatomic, retain) PKToken *notTok;
 @property (nonatomic, retain) PKToken *negTok;
 @property (nonatomic, retain) PKToken *unaryTok;
@@ -143,6 +144,8 @@
     self.minusTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
     self.colonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@":" doubleValue:0.0];
     self.equalsTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"=" doubleValue:0.0];
+    self.delTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"del" doubleValue:0.0];
+    self.delTok.tokenKind = XP_TOKEN_KIND_DEL;
     self.notTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"not" doubleValue:0.0];
     self.notTok.tokenKind = XP_TOKEN_KIND_NOT;
     self.negTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"NEG" doubleValue:0.0];
@@ -240,6 +243,7 @@ realStat
             | expr
             | break
             | continue
+            | delStat
             | returnStat
             ;
             
@@ -416,6 +420,13 @@ throwStat   = 'throw' nl expr {
     XPNode *throwNode = [XPNode nodeWithToken:POP()];
     [throwNode addChild:expr];
     PUSH(throwNode);
+};
+
+del = 'del'!;
+delStat = del nl expr {
+    XPNode *delNode = [XPNode nodeWithToken:_delTok];
+    [delNode addChild:POP()];
+    PUSH(delNode);
 };
 
 // FUNCTION DECL
@@ -650,7 +661,7 @@ unaryExpr
     = negatedUnary
     | unary
     ;
-    
+
 negatedUnary 
 @before { _negation = NO; }
 @after {

@@ -118,6 +118,20 @@
 }
 
 
+- (void)del:(XPNode *)node {
+    XPNode *child = [node childAtIndex:0];
+    
+    if (XP_TOKEN_KIND_SUBSCRIPT_LOAD == child.token.tokenKind) {
+        XPObject *dict = [self walk:[child childAtIndex:0]];
+        XPObject *key = [self walk:[child childAtIndex:1]];
+        
+        [dict.value removeObjectForKey:key];
+    } else {
+        [self raise:XPTypeError node:node format:@"right-hand-side of `del` statement must be a Dictionary key"];
+    }
+}
+
+
 #pragma mark -
 #pragma mark ASSIGN
 

@@ -28,6 +28,7 @@
 @property (nonatomic, retain) PKToken *minusTok;
 @property (nonatomic, retain) PKToken *colonTok;
 @property (nonatomic, retain) PKToken *equalsTok;
+@property (nonatomic, retain) PKToken *delTok;
 @property (nonatomic, retain) PKToken *notTok;
 @property (nonatomic, retain) PKToken *negTok;
 @property (nonatomic, retain) PKToken *unaryTok;
@@ -74,6 +75,8 @@
 @property (nonatomic, retain) NSMutableDictionary *catchBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *finallyBlock_memo;
 @property (nonatomic, retain) NSMutableDictionary *throwStat_memo;
+@property (nonatomic, retain) NSMutableDictionary *del_memo;
+@property (nonatomic, retain) NSMutableDictionary *delStat_memo;
 @property (nonatomic, retain) NSMutableDictionary *returnStat_memo;
 @property (nonatomic, retain) NSMutableDictionary *funcDecl_memo;
 @property (nonatomic, retain) NSMutableDictionary *funcBody_memo;
@@ -219,6 +222,8 @@
     self.minusTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"-" doubleValue:0.0];
     self.colonTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@":" doubleValue:0.0];
     self.equalsTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"=" doubleValue:0.0];
+    self.delTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"del" doubleValue:0.0];
+    self.delTok.tokenKind = XP_TOKEN_KIND_DEL;
     self.notTok = [PKToken tokenWithTokenType:PKTokenTypeWord stringValue:@"not" doubleValue:0.0];
     self.notTok.tokenKind = XP_TOKEN_KIND_NOT;
     self.negTok = [PKToken tokenWithTokenType:PKTokenTypeSymbol stringValue:@"NEG" doubleValue:0.0];
@@ -279,8 +284,9 @@
         self.tokenKindTab[@"while"] = @(XP_TOKEN_KIND_WHILE);
         self.tokenKindTab[@"is"] = @(XP_TOKEN_KIND_IS);
         self.tokenKindTab[@"else"] = @(XP_TOKEN_KIND_ELSE);
-        self.tokenKindTab[@"NaN"] = @(XP_TOKEN_KIND_NAN);
+        self.tokenKindTab[@"del"] = @(XP_TOKEN_KIND_DEL);
         self.tokenKindTab[@"/="] = @(XP_TOKEN_KIND_DIVEQ);
+        self.tokenKindTab[@"NaN"] = @(XP_TOKEN_KIND_NAN);
         self.tokenKindTab[@"var"] = @(XP_TOKEN_KIND_VAR);
         self.tokenKindTab[@"not"] = @(XP_TOKEN_KIND_NOT);
         self.tokenKindTab[@"!"] = @(XP_TOKEN_KIND_BANG);
@@ -335,8 +341,9 @@
         self.tokenKindNameTab[XP_TOKEN_KIND_WHILE] = @"while";
         self.tokenKindNameTab[XP_TOKEN_KIND_IS] = @"is";
         self.tokenKindNameTab[XP_TOKEN_KIND_ELSE] = @"else";
-        self.tokenKindNameTab[XP_TOKEN_KIND_NAN] = @"NaN";
+        self.tokenKindNameTab[XP_TOKEN_KIND_DEL] = @"del";
         self.tokenKindNameTab[XP_TOKEN_KIND_DIVEQ] = @"/=";
+        self.tokenKindNameTab[XP_TOKEN_KIND_NAN] = @"NaN";
         self.tokenKindNameTab[XP_TOKEN_KIND_VAR] = @"var";
         self.tokenKindNameTab[XP_TOKEN_KIND_NOT] = @"not";
         self.tokenKindNameTab[XP_TOKEN_KIND_BANG] = @"!";
@@ -380,6 +387,8 @@
         self.catchBlock_memo = [NSMutableDictionary dictionary];
         self.finallyBlock_memo = [NSMutableDictionary dictionary];
         self.throwStat_memo = [NSMutableDictionary dictionary];
+        self.del_memo = [NSMutableDictionary dictionary];
+        self.delStat_memo = [NSMutableDictionary dictionary];
         self.returnStat_memo = [NSMutableDictionary dictionary];
         self.funcDecl_memo = [NSMutableDictionary dictionary];
         self.funcBody_memo = [NSMutableDictionary dictionary];
@@ -510,6 +519,8 @@
     self.catchBlock_memo = nil;
     self.finallyBlock_memo = nil;
     self.throwStat_memo = nil;
+    self.del_memo = nil;
+    self.delStat_memo = nil;
     self.returnStat_memo = nil;
     self.funcDecl_memo = nil;
     self.funcBody_memo = nil;
@@ -613,6 +624,8 @@
     [_catchBlock_memo removeAllObjects];
     [_finallyBlock_memo removeAllObjects];
     [_throwStat_memo removeAllObjects];
+    [_del_memo removeAllObjects];
+    [_delStat_memo removeAllObjects];
     [_returnStat_memo removeAllObjects];
     [_funcDecl_memo removeAllObjects];
     [_funcBody_memo removeAllObjects];
@@ -877,7 +890,7 @@
     
     if ([self predicts:XP_TOKEN_KIND_SEMI_COLON, XP_TOKEN_KIND__N, 0]) {
         [self terminator_]; 
-    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_RETURN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_THROW, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
+    } else if ([self predicts:TOKEN_KIND_BUILTIN_NUMBER, TOKEN_KIND_BUILTIN_QUOTEDSTRING, TOKEN_KIND_BUILTIN_WORD, XP_TOKEN_KIND_BANG, XP_TOKEN_KIND_BITNOT, XP_TOKEN_KIND_BREAK, XP_TOKEN_KIND_CONTINUE, XP_TOKEN_KIND_DEL, XP_TOKEN_KIND_FALSE, XP_TOKEN_KIND_MINUS, XP_TOKEN_KIND_NAN, XP_TOKEN_KIND_NOT, XP_TOKEN_KIND_NULL, XP_TOKEN_KIND_OPEN_BRACKET, XP_TOKEN_KIND_OPEN_CURLY, XP_TOKEN_KIND_OPEN_PAREN, XP_TOKEN_KIND_RETURN, XP_TOKEN_KIND_SUB, XP_TOKEN_KIND_THROW, XP_TOKEN_KIND_TRUE, XP_TOKEN_KIND_VAR, 0]) {
         [self testAndThrow:(id)^{ return _valid; }]; 
         [self realStat_]; 
     } else {
@@ -903,6 +916,8 @@
         [self continue_];
     } else if ([self predicts:XP_TOKEN_KIND_RETURN, 0]) {
         [self returnStat_];
+    } else if ([self predicts:XP_TOKEN_KIND_DEL, 0]) {
+        [self delStat_];
     } else if ([self speculate:^{ [self assign_]; }]) {
         [self assign_];
     } else if ([self speculate:^{ [self assignSubscript_]; }]) {
@@ -1449,6 +1464,37 @@
 
 - (void)throwStat_ {
     [self parseRule:@selector(__throwStat) withMemo:_throwStat_memo];
+}
+
+- (void)__del {
+    
+    [self match:XP_TOKEN_KIND_DEL discard:YES]; 
+
+    [self fireDelegateSelector:@selector(parser:didMatchDel:)];
+}
+
+- (void)del_ {
+    [self parseRule:@selector(__del) withMemo:_del_memo];
+}
+
+- (void)__delStat {
+    
+    [self del_]; 
+    [self nl_]; 
+    [self expr_]; 
+    [self execute:^{
+    
+    XPNode *delNode = [XPNode nodeWithToken:_delTok];
+    [delNode addChild:POP()];
+    PUSH(delNode);
+
+    }];
+
+    [self fireDelegateSelector:@selector(parser:didMatchDelStat:)];
+}
+
+- (void)delStat_ {
+    [self parseRule:@selector(__delStat) withMemo:_delStat_memo];
 }
 
 - (void)__returnStat {
@@ -2294,7 +2340,7 @@
     if (_negation) {
         XPNode *notNode = [XPNode nodeWithToken:_notTok];
         [notNode addChild:POP()];
-		PUSH(notNode);
+        PUSH(notNode);
     }
 
     }];
@@ -2367,7 +2413,7 @@
     if (_negative) {
         XPNode *negNode = [XPNode nodeWithToken:_unaryTok];
         [negNode addChild:POP()];
-		PUSH(negNode);
+        PUSH(negNode);
     }
 
     }];

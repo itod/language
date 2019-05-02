@@ -227,6 +227,7 @@
 // DECLARATIONS
         case XP_TOKEN_KIND_VAR:             [self varDecl:node]; break;
         case XP_TOKEN_KIND_SUB:             [self funcDecl:node]; break;
+        case XP_TOKEN_KIND_DEL:             [self del:node]; break;
 
 // REFERENCES
         case XP_TOKEN_KIND_LOAD:            res = [self load:node]; break;
@@ -410,6 +411,7 @@
 
 - (void)varDecl:(XPNode *)node {}
 - (void)funcDecl:(XPNode *)node {}
+- (void)del:(XPNode *)node {}
 
 - (void)assign:(XPNode *)node {}
 - (void)plusEq:(XPNode *)node {}
