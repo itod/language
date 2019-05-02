@@ -35,3 +35,4 @@
 
 #define MUTABLE_STRINGS 0
 
+#define COLLECTION_FUNCS 1

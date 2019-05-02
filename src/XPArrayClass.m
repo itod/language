@@ -101,6 +101,11 @@
         [self checkBounds:v :start];
         [self checkBounds:v :stop];
         
+        if (0 == step) {
+            [XPException raise:XPValueError format:@"slice `step` cannot be zero"];
+            return nil;
+        }
+        
         start = [self nativeIndexForIndex:start inArray:v];
         stop = [self nativeIndexForIndex:stop inArray:v];
         
@@ -108,10 +113,17 @@
             arrObj = [v objectAtIndex:start];
         } else {
             NSMutableArray *res = [NSMutableArray arrayWithCapacity:labs(stop-start)];
-            
-            for (NSInteger i = start; i <= stop; i += step) {
-                XPObject *obj = [v objectAtIndex:i];
-                [res addObject:obj];
+
+            if (step > 0) {
+                for (NSInteger i = start; i <= stop; i += step) {
+                    XPObject *obj = [v objectAtIndex:i];
+                    [res addObject:obj];
+                }
+            } else {
+                for (NSInteger i = stop; i >= start; i += step) {
+                    XPObject *obj = [v objectAtIndex:i];
+                    [res addObject:obj];
+                }
             }
             
             arrObj = [XPObject array:res];

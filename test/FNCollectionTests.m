@@ -173,6 +173,16 @@
     TDEqualObjects(@"['1', '2', '10']", [[self objectForName:@"v"] reprValue]);
 }
 
+- (void)testReverseSlice {
+    [self exec:@"var v=['a','b','c'];v=v[::-1]"];
+    TDEqualObjects(@"['c', 'b', 'a']", [[self objectForName:@"v"] reprValue]);
+}
+
+- (void)testZeroSliceStep {
+    [self fail:@"var v=['a','b','c'];v=v[::0]"];
+    TDEqualObjects(XPValueError, self.error.localizedDescription);
+}
+
 - (void)testReverse {
     [self exec:@"var v=['a','b','c'];reverse(v)"];
     TDEqualObjects(@"['c', 'b', 'a']", [[self objectForName:@"v"] reprValue]);

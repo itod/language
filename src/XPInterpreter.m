@@ -36,18 +36,21 @@
 #import "FNRange.h"
 
 #import "FNCount.h"
-#import "FNHasKey.h"
-#import "FNRemoveKey.h"
 #import "FNSum.h"
 #import "FNSort.h"
-#import "FNReverse.h"
-#import "FNAppend.h"
-#import "FNExtend.h"
-#import "FNInsert.h"
 #import "FNMap.h"
 #import "FNFilter.h"
 #import "FNLocals.h"
 #import "FNGlobals.h"
+
+#if COLLECTION_FUNCS
+#import "FNReverse.h"
+#import "FNAppend.h"
+#import "FNExtend.h"
+#import "FNInsert.h"
+#import "FNHasKey.h"
+#import "FNRemoveKey.h"
+#endif
 
 #import "FNTrim.h"
 #import "FNLowercase.h"
@@ -146,17 +149,18 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             [self declareNativeFunction:[FNRange class]];
             [self declareNativeFunction:[FNSum class]];
             [self declareNativeFunction:[FNSort class]];
+            [self declareNativeFunction:[FNMap class]];
+            [self declareNativeFunction:[FNFilter class]];
+
+#if COLLECTION_FUNCS
             [self declareNativeFunction:[FNReverse class]];
             [self declareNativeFunction:[FNAppend class]];
             [self declareNativeFunction:[FNExtend class]];
             [self declareNativeFunction:[FNInsert class]];
-            [self declareNativeFunction:[FNMap class]];
-            [self declareNativeFunction:[FNFilter class]];
-            
-            // dict
             [self declareNativeFunction:[FNHasKey class]];
             [self declareNativeFunction:[FNRemoveKey class]];
-
+#endif
+            
             // str
             [self declareNativeFunction:[FNTrim class]];
             [self declareNativeFunction:[FNLowercase class]];
