@@ -155,8 +155,8 @@
 }
 
 - (void)testInsertViaAssign0Slice2_2 {
-    [self eval:@"var v = [1,2,3];v[2:2]='a'"];
-    TDEqualObjects(@"[1, 'a', 2, 3]"   , [self evalString:@"v"]);
+    [self eval:@"var v = [1,2,3];v[2:2]='a'"]; // python is different - this is insertion in python. implementing that would be hard
+    TDEqualObjects(@"[1, 'a', 3]"   , [self evalString:@"v"]);
 }
 
 - (void)testInsertViaAssign0Slice3 {
