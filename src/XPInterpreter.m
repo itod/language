@@ -87,7 +87,7 @@
 
 #define DEBUG_VAR_NAME @"XPDEBUG"
 
-#define DOCS 0
+#define DOCS 1
 
 NSString * const XPErrorDomain = @"XPErrorDomain";
 NSString * const XPErrorRangeKey = @"range";
@@ -589,6 +589,8 @@ done:
             [params addObject:param];
             [param setObject:paramSym.name forKey:@"name"];
             [param setObject:@"foo" forKey:@"type"];
+            BOOL optional = nil != [funcSym.defaultParamObjects objectForKey:paramSym.name];
+            [param setObject:@(optional) forKey:@"optional"];
         }
         [func setObject:params forKey:@"params"];
     }
