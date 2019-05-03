@@ -1,19 +1,18 @@
-<html>
 {% for func in funcs %}
 <div>
     <p>
         <table>
             <tr>
                 <td><b>Name</b></td>
-                <td colspan="2"><b>{{func.name}}()</b></td>
+                <td><b>{{func.name}}()</b></td>
             </tr>
             <tr>
                 <td><b>Description</b></td>
-                <td colspan="2"></td>
+                <td>FuncDescription</td>
             </tr>
             <tr>
                 <td><b>Syntax</b></td>
-                <td colspan="2">
+                <td>
                     <code>
                         <i>{{func.returnType}}</i> <b>{{func.name}}</b>
                         ({% for param in func.params %}{{param.name}}{% if param.optional %}?{% /if %}{% if not currentLoop.isLast %}, {% /if %}{% /for %})
@@ -22,14 +21,16 @@
             </tr>
             <tr>
                 <td><b>Parameters</b></td>
+                <td>
                 {% for param in func.params %}
-                    <td><b><code>{{param.name}}{% if param.optional %}?{% /if %}</code></b></td>
-                    <td></td>
+                    <dt><b><code>{{param.name}}{% if param.optional %}?{% /if %}</code></b></dt>
+                    <dd>ParamDescription</dd>
                 {% /for %}
+                </td>
             </tr>
             <tr>
                 <td><b>Returns</b></td>
-                <td colspan="2"></td>
+                <td>ReturnDescription</td>
             </tr>
             <!-- <tr>
                 <td><b>Related</b></td>
@@ -39,4 +40,3 @@
     </p>
 </div>
 {% /for %}
-</html>
