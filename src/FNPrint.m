@@ -11,6 +11,7 @@
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
+#import "XPNullClass.h"
 
 @implementation FNPrint
 
@@ -22,6 +23,7 @@
 - (XPFunctionSymbol *)symbol {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
+    funcSym.returnType = [XPNullClass classInstance];
     
     XPSymbol *obj = [XPSymbol symbolWithName:@"object"];
     funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, nil];

@@ -12,6 +12,7 @@
 #import <Language/XPException.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
+#import "XPDictionaryClass.h"
 
 @implementation FNDictionary
 
@@ -23,6 +24,7 @@
 - (XPFunctionSymbol *)symbol {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
+    funcSym.returnType = [XPDictionaryClass classInstance];
     
     XPSymbol *obj = [XPSymbol symbolWithName:@"dictionary"];
     funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, nil];

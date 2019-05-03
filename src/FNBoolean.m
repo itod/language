@@ -11,6 +11,7 @@
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
+#import "XPBooleanClass.h"
 
 @implementation FNBoolean
 
@@ -22,6 +23,7 @@
 - (XPFunctionSymbol *)symbol {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
+    funcSym.returnType = [XPBooleanClass classInstance];
     
     XPSymbol *obj = [XPSymbol symbolWithName:@"object"];
     funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, nil];

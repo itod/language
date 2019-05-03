@@ -12,6 +12,7 @@
 #import <Language/XPException.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
+#import "XPNullClass.h"
 
 @implementation FNAssert
 
@@ -23,6 +24,7 @@
 - (XPFunctionSymbol *)symbol {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
+    funcSym.returnType = [XPNullClass classInstance];
     
     XPSymbol *test = [XPSymbol symbolWithName:@"test"];
     XPSymbol *msg = [XPSymbol symbolWithName:@"message"];

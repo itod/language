@@ -11,6 +11,7 @@
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
+#import "XPNumberClass.h"
 
 @implementation FNRadians
 
@@ -22,6 +23,7 @@
 - (XPFunctionSymbol *)symbol {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
+    funcSym.returnType = [XPNumberClass classInstance];
     
     XPSymbol *degrees = [XPSymbol symbolWithName:@"degrees"];
     funcSym.orderedParams = [NSMutableArray arrayWithObjects:degrees, nil];

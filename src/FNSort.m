@@ -13,6 +13,7 @@
 #import "XPFlowExceptions.h"
 #import <Language/XPException.h>
 #import <Language/XPTreeWalker.h>
+#import "XPNullClass.h"
 
 @implementation FNSort
 
@@ -24,6 +25,7 @@
 - (XPFunctionSymbol *)symbol {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
+    funcSym.returnType = [XPNullClass classInstance];
     
     XPSymbol *array = [XPSymbol symbolWithName:@"array"];
     XPSymbol *func = [XPSymbol symbolWithName:@"function"];

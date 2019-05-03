@@ -12,6 +12,7 @@
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
 #import <Language/XPException.h>
+#import "XPBooleanClass.h"
 
 @implementation FNMatches
 
@@ -52,6 +53,7 @@
 - (XPFunctionSymbol *)symbol {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
+    funcSym.returnType = [XPBooleanClass classInstance];
     
     XPSymbol *input = [XPSymbol symbolWithName:@"input"];
     XPSymbol *pattern = [XPSymbol symbolWithName:@"pattern"];

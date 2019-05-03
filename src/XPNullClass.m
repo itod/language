@@ -41,9 +41,9 @@
 }
 
 
-//- (NSString *)name {
-//    return @"Object";
-//}
+- (NSString *)name {
+    return @"Void";
+}
 
 
 - (SEL)selectorForMethodNamed:(NSString *)methName {

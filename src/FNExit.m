@@ -9,6 +9,7 @@
 #import "FNExit.h"
 #import <Language/XPException.h>
 #import "XPFunctionSymbol.h"
+#import "XPNullClass.h"
 
 @implementation FNExit
 
@@ -20,6 +21,7 @@
 - (XPFunctionSymbol *)symbol {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
+    funcSym.returnType = [XPNullClass classInstance];
     
     return funcSym;
 }

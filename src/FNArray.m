@@ -12,6 +12,7 @@
 #import <Language/XPException.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
+#import "XPArrayClass.h"
 
 @implementation FNArray
 
@@ -23,6 +24,7 @@
 - (XPFunctionSymbol *)symbol {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
+    funcSym.returnType = [XPArrayClass classInstance];
     
     XPSymbol *obj = [XPSymbol symbolWithName:@"array"];
     funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, nil];

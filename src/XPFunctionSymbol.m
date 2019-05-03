@@ -29,6 +29,7 @@
 - (void)dealloc {
     self.blockNode = nil;
     self.nativeBody = nil;
+    self.returnType = nil;
     self.closureSpace = nil;
     self.params = nil;
     self.members = nil;

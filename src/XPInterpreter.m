@@ -87,7 +87,7 @@
 
 #define DEBUG_VAR_NAME @"XPDEBUG"
 
-#define DOCS 0
+#define DOCS 1
 
 NSString * const XPErrorDomain = @"XPErrorDomain";
 NSString * const XPErrorRangeKey = @"range";
@@ -581,7 +581,11 @@ done:
         [funcs addObject:func];
 
         [func setObject:name forKey:@"name"];
-        [func setObject:@"bar" forKey:@"returnType"];
+        NSString *retType = [funcSym.returnType name]; //[ stringByReplacingOccurrencesOfString:@"null" withString:@"Void"];
+        if (!retType) {
+            retType = @"Void";
+        }
+        [func setObject:retType forKey:@"returnType"];
         [func setObject:@"baz" forKey:@"desc"];
         id params = [NSMutableArray array];
         for (XPFunctionSymbol *paramSym in funcSym.orderedParams) {

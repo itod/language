@@ -11,6 +11,7 @@
 #import <Language/XPTreeWalker.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
+#import "XPDictionaryClass.h"
 
 @implementation FNLocals
 
@@ -22,6 +23,7 @@
 - (XPFunctionSymbol *)symbol {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
+    funcSym.returnType = [XPDictionaryClass classInstance];
     
     XPSymbol *recurse = [XPSymbol symbolWithName:@"recurse"];
     funcSym.orderedParams = [NSMutableArray arrayWithObjects:recurse, nil];

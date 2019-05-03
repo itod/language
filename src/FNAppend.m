@@ -12,6 +12,7 @@
 #import <Language/XPException.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
+#import "XPNullClass.h"
 
 @interface XPObject ()
 @property (nonatomic, retain, readwrite) id value;
@@ -27,6 +28,7 @@
 - (XPFunctionSymbol *)symbol {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
+    funcSym.returnType = [XPNullClass classInstance];
     
     XPSymbol *array = [XPSymbol symbolWithName:@"array"];
     XPSymbol *obj = [XPSymbol symbolWithName:@"object"];

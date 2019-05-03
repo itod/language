@@ -12,7 +12,7 @@
 #import <Language/XPException.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
-#import "XPClass.h"
+#import "XPNumberClass.h"
 
 @implementation FNPosition
 
@@ -24,6 +24,7 @@
 - (XPFunctionSymbol *)symbol {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
+    funcSym.returnType = [XPNumberClass classInstance];
     
     XPSymbol *seq = [XPSymbol symbolWithName:@"sequence"];
     XPSymbol *obj = [XPSymbol symbolWithName:@"object"];

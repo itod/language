@@ -12,8 +12,12 @@
 @implementation XPClass
 
 + (instancetype)classInstance {
-    NSAssert2(0, @"%s is an abstract method and must be implemented in %@", __PRETTY_FUNCTION__, [self class]);
-    return nil;
+    TDAssertExecuteThread();
+    static XPClass *cls = nil;
+    if (!cls) {
+        cls = [[self alloc] init];
+    }
+    return cls;
 }
 
 

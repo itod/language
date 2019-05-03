@@ -9,6 +9,7 @@
 #import "XPScopedSymbol.h"
 
 @class XPNode;
+@class XPClass;
 @class XPObject;
 @class XPTreeWalker;
 @class XPFunctionBody;
@@ -25,6 +26,7 @@
 @property (nonatomic, assign, readonly) XPNode *lineNumberNode;
 @property (nonatomic, retain) XPNode *blockNode;
 @property (nonatomic, retain) XPFunctionBody *nativeBody;
+@property (nonatomic, retain) XPClass *returnType;
 @property (nonatomic, retain) XPMemorySpace *closureSpace;
 @property (nonatomic, retain) NSMutableDictionary<NSString *, XPSymbol *> *params;
 @property (nonatomic, retain) NSMutableDictionary<NSString *, XPSymbol *> *members;

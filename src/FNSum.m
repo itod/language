@@ -12,6 +12,7 @@
 #import <Language/XPException.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
+#import "XPNumberClass.h"
 
 @implementation FNSum
 
@@ -23,6 +24,7 @@
 - (XPFunctionSymbol *)symbol {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
+    funcSym.returnType = [XPNumberClass classInstance];
     
     XPSymbol *seq = [XPSymbol symbolWithName:@"sequence"];
     funcSym.orderedParams = [NSMutableArray arrayWithObjects:seq, nil];

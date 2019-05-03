@@ -12,6 +12,7 @@
 #import <Language/XPException.h>
 #import "XPFunctionSymbol.h"
 #import "XPMemorySpace.h"
+#import "XPBooleanClass.h"
 
 @implementation FNRemoveKey
 
@@ -23,6 +24,7 @@
 - (XPFunctionSymbol *)symbol {
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
+    funcSym.returnType = [XPBooleanClass classInstance];
     
     XPSymbol *col = [XPSymbol symbolWithName:@"dictionary"];
     XPSymbol *key = [XPSymbol symbolWithName:@"key"];
