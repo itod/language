@@ -38,7 +38,10 @@
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
     XPObject *y = [space objectForName:@"y"]; TDAssert(y);
     XPObject *x = [space objectForName:@"x"]; TDAssert(x);
-    
+
+    [self checkNumberArgument:x];
+    [self checkNumberArgument:y];
+
     double res = atan2(y.doubleValue, x.doubleValue);
     return [XPObject number:res];
 }

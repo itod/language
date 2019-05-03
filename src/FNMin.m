@@ -50,6 +50,9 @@
             res = MIN(res, obj.doubleValue);
         }
     } else {
+        [self checkNumberArgument:aObj];
+        [self checkNumberArgument:bObj];
+        
         res = MIN(aObj.doubleValue, bObj.doubleValue);
     }
     

@@ -37,6 +37,8 @@
     XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
     
+    [self checkNumberArgument:obj];
+    
     BOOL res = isnan([obj.value doubleValue]);
     return [XPObject boolean:res];
 }

@@ -36,7 +36,9 @@
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
     XPObject *radians = [space objectForName:@"radians"];
     TDAssert(radians);
-    
+
+    [self checkNumberArgument:radians];
+
     double res = ((radians.doubleValue) * 180.0 / M_PI);
     return [XPObject number:res];
 }

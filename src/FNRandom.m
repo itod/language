@@ -88,11 +88,15 @@ NSInteger random_number(NSInteger min_num, NSInteger max_num)
     XPObject *low = [space objectForName:@"low"]; TDAssert(low);
     XPObject *high = [space objectForName:@"high"]; TDAssert(high);
     
+    [self checkNumberArgument:low];
+
     if (1 == argc) {
         high = low;
         low = [XPObject number:0];
+    } else {
+        [self checkNumberArgument:high];
     }
-    
+
     NSInteger res = random_number(low.doubleValue, high.doubleValue);
     return [XPObject number:res];
 }

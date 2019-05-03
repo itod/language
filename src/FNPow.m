@@ -39,6 +39,9 @@
     XPObject *n = [space objectForName:@"n"]; TDAssert(n);
     XPObject *e = [space objectForName:@"e"]; TDAssert(e);
     
+    [self checkNumberArgument:n];
+    [self checkNumberArgument:e];
+
     double res = pow(n.doubleValue, e.doubleValue);
     return [XPObject number:res];
 }

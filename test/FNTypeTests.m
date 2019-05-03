@@ -90,8 +90,8 @@
 }
 
 - (void)testIsNan2 {
-    [self exec:@"var b=isNaN('NaN');"];
-    TDFalse([self boolForName:@"b"]);
+    [self fail:@"var b=isNaN('NaN');"];
+    TDEqualObjects(XPTypeError, self.error.localizedDescription);
 }
 
 - (void)testIsNan3 {

@@ -8,6 +8,7 @@
 
 #import "XPFunctionBody.h"
 #import <Language/XPException.h>
+#import <Language/XPObject.h>
 
 @implementation XPFunctionBody
 
@@ -46,6 +47,16 @@
     
     XPException *ex = [[[XPException alloc] initWithName:name reason:msg userInfo:nil] autorelease];
     [ex raise];
+}
+
+
+- (void)checkNumberArgument:(XPObject *)obj {
+    if (!obj.isNumericObject) {
+        NSString *name = [[self class] name];
+        NSString *type = [obj.objectClass name];
+        NSString *reason = [NSString stringWithFormat:@"argument to %@() must be a Number, not '%@'", name, type];
+        [[[[XPException alloc] initWithName:XPTypeError reason:reason userInfo:nil] autorelease] raise];
+    }
 }
 
 @end

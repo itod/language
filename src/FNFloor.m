@@ -37,6 +37,8 @@
     XPObject *obj = [space objectForName:@"object"];
     TDAssert(obj);
     
+    [self checkNumberArgument:obj];
+
     double res = floor(obj.doubleValue);
     return [XPObject number:res];
 }

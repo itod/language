@@ -45,8 +45,8 @@
 }
 
 - (void)testMax5 {
-    [self exec:@"var x=max('0','2');"];
-    TDEquals(2.0, [self doubleForName:@"x"]);
+    [self fail:@"var x=max('0','2');"];
+    TDEqualObjects(XPTypeError, self.error.localizedDescription);
 }
 
 - (void)testMax6 {
@@ -70,8 +70,8 @@
 }
 
 - (void)testMin4 {
-    [self exec:@"var x=min('0','2');"];
-    TDEquals(0.0, [self doubleForName:@"x"]);
+    [self fail:@"var x=min('0','2');"];
+    TDEqualObjects(XPTypeError, self.error.localizedDescription);
 }
 
 - (void)testMin5 {

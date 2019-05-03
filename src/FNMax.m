@@ -50,6 +50,9 @@
             res = MAX(res, obj.doubleValue);
         }
     } else {
+        [self checkNumberArgument:aObj];
+        [self checkNumberArgument:bObj];
+        
         res = MAX(aObj.doubleValue, bObj.doubleValue);
     }
     

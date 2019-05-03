@@ -36,7 +36,9 @@
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
     XPObject *degrees = [space objectForName:@"degrees"];
     TDAssert(degrees);
-    
+
+    [self checkNumberArgument:degrees];
+
     double res = (M_PI * (degrees.doubleValue) / 180.0);
     return [XPObject number:res];
 }

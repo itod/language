@@ -36,7 +36,9 @@
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
     XPObject *n = [space objectForName:@"object"];
     TDAssert(n);
-    
+
+    [self checkNumberArgument:n];
+
     double res = acos(n.doubleValue);
     return [XPObject number:res];
 }
