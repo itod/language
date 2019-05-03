@@ -14,20 +14,19 @@
                 <td><b>Syntax</b></td>
                 <td>
                     <code>
-                        <i>{{func.returnType}}</i> <b>{{func.name}}</b>
-                        ({% for param in func.params %}{{param.name}}{% if param.optional %}?{% /if %}{% if not currentLoop.isLast %}, {% /if %}{% /for %})
+                        <i>{{func.returnType}}</i> <b>{{func.name}}</b>({% for param in func.params %}{{param.name}}{% if param.optional %}?{% /if %}{% if not currentLoop.isLast %}, {% /if %}{% /for %})
                     </code>
                 </td>
             </tr>
             <tr>
                 <td><b>Parameters</b></td>
                 <td>{% for param in func.params %}
-                    <div><b><code>{{param.name}}{% if param.optional %}?{% /if %}</code></b> : ParamDescription</div>{% /for %}
+                    <div><b><code>{{param.name}}{% if param.optional %}?{% /if %}</code></b> : </div>{% /for %}
                 </td>
             </tr>
             <tr>
                 <td><b>Returns</b></td>
-                <td>ReturnDescription</td>
+                <td><i>{{func.returnType}}</i></td>
             </tr>
             <!-- <tr>
                 <td><b>Related</b></td>
