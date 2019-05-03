@@ -23,10 +23,10 @@
     XPFunctionSymbol *funcSym = [XPFunctionSymbol symbolWithName:[[self class] name] enclosingScope:nil];
     funcSym.nativeBody = self;
     
-    XPSymbol *n = [XPSymbol symbolWithName:@"n"];
-    funcSym.orderedParams = [NSMutableArray arrayWithObjects:n, nil];
+    XPSymbol *obj = [XPSymbol symbolWithName:@"n"];
+    funcSym.orderedParams = [NSMutableArray arrayWithObjects:obj, nil];
     funcSym.params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      n, @"n",
+                      obj, @"n",
                       nil];
     
     return funcSym;
@@ -34,12 +34,12 @@
 
 
 - (XPObject *)callWithWalker:(XPTreeWalker *)walker functionSpace:(XPMemorySpace *)space argc:(NSUInteger)argc {
-    XPObject *n = [space objectForName:@"n"];
-    TDAssert(n);
+    XPObject *obj = [space objectForName:@"n"];
+    TDAssert(obj);
 
-    [self checkNumberArgument:n];
+    [self checkNumberArgument:obj];
 
-    double res = acos(n.doubleValue);
+    double res = acos(obj.doubleValue);
     return [XPObject number:res];
 }
 
