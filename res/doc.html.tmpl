@@ -1,7 +1,7 @@
 {% for func in funcs %}
 <div>
     <p>
-        <table>
+        <table width="100%" border="1" cellpadding="10" style="border-collapse:collapse;">
             <tr>
                 <td><b>Name</b></td>
                 <td><b>{{func.name}}()</b></td>
@@ -21,11 +21,8 @@
             </tr>
             <tr>
                 <td><b>Parameters</b></td>
-                <td>
-                {% for param in func.params %}
-                    <dt><b><code>{{param.name}}{% if param.optional %}?{% /if %}</code></b></dt>
-                    <dd>ParamDescription</dd>
-                {% /for %}
+                <td>{% for param in func.params %}
+                    <div><b><code>{{param.name}}{% if param.optional %}?{% /if %}</code></b> : ParamDescription</div>{% /for %}
                 </td>
             </tr>
             <tr>
