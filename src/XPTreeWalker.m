@@ -89,11 +89,11 @@
     TDAssert(_currentSpace);
     XPMemorySpace *res = [self crawlSpace:_currentSpace forName:name];
     
-    // if in local, check func too
-    TDAssert(_callStack);
-    if (!res && [_callStack count] && [_callStack lastObject] != _currentSpace) {
-        res = [self crawlSpace:[_callStack lastObject] forName:name];
-    }
+//    // if in local, check func too
+//    TDAssert(_callStack);
+//    if (!res && [_callStack count] && [_callStack lastObject] != _currentSpace) {
+//        res = [self crawlSpace:[_callStack lastObject] forName:name];
+//    }
     
     // if present, check closure space
     if (!res && _closureSpace && _closureSpace != _currentSpace) {
