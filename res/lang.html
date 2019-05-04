@@ -1,3 +1,7 @@
+<h3>null</h3>
+
+<p>This type has a single value. There is a single object with this value. This object is accessed through the built-in name <code>null</code>. It is used to signify the absence of a value in many situations, e.g., it is returned from functions that don’t explicitly return anything. Its truth value is false.</p>
+
 <h3>Booleans</h3>
 
 <p>An object of type boolean can have one of two values, <code>true</code> and <code>false</code>.</p>
@@ -35,5 +39,4 @@
 
 <h3>Strings</h3>
 
-<p>Strings consist of a sequence of zero or more characters, where a character is defined as in the XML Recommendation [XML]. A single character in XPath thus corresponds to a single Unicode abstract character with a single corresponding Unicode scalar value (see [Unicode]); this is not the same thing as a 16-bit Unicode code value: the Unicode coded character representation for an abstract character with Unicode scalar value greater that U+FFFF is a pair of 16-bit Unicode code values (a surrogate pair). In many programming languages, a string is represented by a sequence of 16-bit Unicode code values; implementations of XPath in such languages must take care to ensure that a surrogate pair is correctly treated as a single XPath character.</p>
-
+<p>A string is a sequence of values that represent Unicode code points. All the code points in the range U+0000 - U+10FFFF can be represented in a string. The built-in function <code>ord()</code> converts a code point from its string form to an integer in the range <code>0 - 10FFFF</code>; <code>chr()</code> converts an integer in the range <code>0 - 10FFFF</code> to the corresponding length 1 string object.</p>
