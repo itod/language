@@ -69,7 +69,11 @@
 
 
 - (id)stringValue:(XPObject *)this {
-    return [NSString stringWithFormat:@"%@", this.value];
+    if (isnan([this.value doubleValue])) {
+        return @"NaN";
+    } else {
+        return [NSString stringWithFormat:@"%@", this.value];
+    }
 }
 
 
