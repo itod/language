@@ -194,7 +194,27 @@
     [self eval:@"a[2:7]=[99, 22, 14]"];
     //TDEqualObjects(@"'a992214h'"   , [self evalString:@"a"]);
     TDEqualObjects(@"'a[99, 22, 14]h'"   , [self evalString:@"a"]);
-    
 }
 #endif
+
+- (void)testOrd1 {
+    [self eval:@"var n=ord('A');"];
+    TDEqualObjects(@"65", [[self objectForName:@"n"] reprValue]);
+}
+
+- (void)testOrd2 {
+    [self eval:@"var n=ord('a');"];
+    TDEqualObjects(@"97", [[self objectForName:@"n"] reprValue]);
+}
+
+- (void)testChr1 {
+    [self eval:@"var n=chr(65);"];
+    TDEqualObjects(@"'A'", [[self objectForName:@"n"] reprValue]);
+}
+
+- (void)testChr2 {
+    [self eval:@"var n=chr(97);"];
+    TDEqualObjects(@"'a'", [[self objectForName:@"n"] reprValue]);
+}
+
 @end
