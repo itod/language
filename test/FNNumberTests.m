@@ -121,4 +121,28 @@
     TDEquals(1.0, d);
 }
 
+- (void)testMod1 {
+    [self exec:@"var n = 5 % 2;"];
+    double d = [self doubleForName:@"n"];
+    TDEquals(1.0, d);
+}
+
+- (void)testMod2 {
+    [self exec:@"var n = 5 % -2;"];
+    double d = [self doubleForName:@"n"];
+    TDEquals(1.0, d);
+}
+
+- (void)testMod3 {
+    [self exec:@"var n = -5 % 2;"];
+    double d = [self doubleForName:@"n"];
+    TDEquals(-1.0, d);
+}
+
+- (void)testMod4 {
+    [self exec:@"var n = -5 % -2;"];
+    double d = [self doubleForName:@"n"];
+    TDEquals(-1.0, d);
+}
+
 @end

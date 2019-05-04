@@ -747,21 +747,48 @@
 #pragma mark -
 #pragma mark Binary Expr
 
+//- (id)and:(XPNode *)node {
+//    BOOL lhs = [[self walk:[node childAtIndex:0]] boolValue];
+//    BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
+//
+//    BOOL res = lhs && rhs;
+//    return [XPObject boolean:res];
+//}
+
 - (id)and:(XPNode *)node {
+    XPObject *res = nil;
+
     BOOL lhs = [[self walk:[node childAtIndex:0]] boolValue];
-    BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
-    
-    BOOL res = lhs && rhs;
-    return [XPObject boolean:res];
+    if (!lhs) {
+        res = [XPObject falseObject];
+    } else {
+        BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
+        res = [XPObject boolean:rhs];
+    }
+
+    return res;
 }
 
+//- (id)or:(XPNode *)node {
+//    BOOL lhs = [[self walk:[node childAtIndex:0]] boolValue];
+//    BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
+//
+//    BOOL res = lhs || rhs;
+//    return [XPObject boolean:res];
+//}
 
 - (id)or:(XPNode *)node {
+    XPObject *res = nil;
+
     BOOL lhs = [[self walk:[node childAtIndex:0]] boolValue];
-    BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
-    
-    BOOL res = lhs || rhs;
-    return [XPObject boolean:res];
+    if (lhs) {
+        res = [XPObject trueObject];
+    } else {
+        BOOL rhs = [[self walk:[node childAtIndex:1]] boolValue];
+        res = [XPObject boolean:rhs];
+    }
+
+    return res;
 }
 
 

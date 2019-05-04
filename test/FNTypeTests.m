@@ -25,7 +25,7 @@
 }
 
 - (void)testTypeNull {
-    [self exec:@"var b=type(null)=='Object';"];
+    [self exec:@"var b=type(null)=='Void';"];
     TDTrue([self boolForName:@"b"]);
 }
 
