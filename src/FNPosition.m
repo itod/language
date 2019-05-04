@@ -74,6 +74,7 @@
 //        }
     } else {
         [self raise:XPTypeError format:@"first argument to `position()` must be an Array or String object"];
+        return nil;
     }
     
     double res = NSNotFound == idx ? 0 : idx+1;

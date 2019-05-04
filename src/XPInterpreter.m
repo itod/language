@@ -54,6 +54,8 @@
 #import "FNRemoveKey.h"
 #endif
 
+#import "FNOrd.h"
+#import "FNChr.h"
 #import "FNTrim.h"
 #import "FNLowercase.h"
 #import "FNUppercase.h"
@@ -166,6 +168,8 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 #endif
             
             // str
+            [self declareNativeFunction:[FNOrd class]];
+            [self declareNativeFunction:[FNChr class]];
             [self declareNativeFunction:[FNTrim class]];
             [self declareNativeFunction:[FNLowercase class]];
             [self declareNativeFunction:[FNUppercase class]];
