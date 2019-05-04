@@ -10,4 +10,6 @@
 
 @interface XPNumberClass : XPClass
 - (XPObject *)nanObject;
+- (XPObject *)positiveInfinityObject;
+- (XPObject *)negativeInfinityObject;
 @end

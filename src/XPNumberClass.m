@@ -16,6 +16,8 @@
 @interface XPNumberClass ()
 @property (nonatomic, retain) NSMutableDictionary *cache;
 @property (nonatomic, retain) XPObject *nanObject;
+@property (nonatomic, retain) XPObject *positiveInfinityObject;
+@property (nonatomic, retain) XPObject *negativeInfinityObject;
 @end
 
 @implementation XPNumberClass
@@ -33,6 +35,8 @@
 - (void)dealloc {
     self.cache = nil;
     self.nanObject = nil;
+    self.positiveInfinityObject = nil;
+    self.negativeInfinityObject = nil;
     [super dealloc];
 }
 
@@ -104,8 +108,23 @@
     if (!_nanObject) {
         self.nanObject = [[[XPObject alloc] initWithClass:self value:@(NAN)] autorelease];
     }
-    
     return _nanObject;
+}
+
+
+- (XPObject *)positiveInfinityObject {
+    if (!_positiveInfinityObject) {
+        self.positiveInfinityObject = [[[XPObject alloc] initWithClass:self value:@((INFINITY))] autorelease];
+    }
+    return _positiveInfinityObject;
+}
+
+
+- (XPObject *)negativeInfinityObject {
+    if (!_negativeInfinityObject) {
+        self.negativeInfinityObject = [[[XPObject alloc] initWithClass:self value:@((-INFINITY))] autorelease];
+    }
+    return _negativeInfinityObject;
 }
 
 @end

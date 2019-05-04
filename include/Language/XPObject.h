@@ -16,6 +16,8 @@
 
 + (instancetype)nullObject;
 + (instancetype)nanObject;
++ (instancetype)positiveInfinityObject;
++ (instancetype)negativeInfinityObject;
 + (instancetype)trueObject;
 + (instancetype)falseObject;
 + (instancetype)boolean:(BOOL)b;

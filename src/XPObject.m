@@ -36,6 +36,18 @@
 }
 
 
++ (instancetype)positiveInfinityObject {
+    TDAssertExecuteThread();
+    return [[XPNumberClass classInstance] positiveInfinityObject];
+}
+
+
++ (instancetype)negativeInfinityObject {
+    TDAssertExecuteThread();
+    return [[XPNumberClass classInstance] negativeInfinityObject];
+}
+
+
 + (instancetype)trueObject {
     TDAssertExecuteThread();
     return [[XPBooleanClass classInstance] trueObject];
