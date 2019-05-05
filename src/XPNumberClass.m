@@ -73,8 +73,18 @@
 
 
 - (id)stringValue:(XPObject *)this {
-    if (isnan([this.value doubleValue])) {
+    double d = [this.value doubleValue];
+    if (isnan(d)) {
+        TDAssert([XPObject nanObject] == this)
         return @"NaN";
+    } else if (isinf(d)) {
+        if (d < 0.0) {
+            TDAssert([XPObject negativeInfinityObject] == this)
+            return @"-Infinity";
+        } else {
+            TDAssert([XPObject positiveInfinityObject] == this)
+            return @"Infinity";
+        }
     } else {
         return [NSString stringWithFormat:@"%@", this.value];
     }

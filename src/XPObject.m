@@ -66,7 +66,19 @@
 
 
 + (instancetype)number:(double)n {
-    return [XPNumberClass instanceWithValue:@(n)];
+    XPObject *obj = nil;
+    if (isnan(n)) {
+        obj = [self nanObject];
+    } else if (isinf(n)) {
+        if (n < 0.0) {
+            obj = [self negativeInfinityObject];
+        } else {
+            obj = [self positiveInfinityObject];
+        }
+    } else {
+        obj = [XPNumberClass instanceWithValue:@(n)];
+    }
+    return obj;
 }
 
 
