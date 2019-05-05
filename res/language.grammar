@@ -76,14 +76,27 @@
     [t.symbolState add:@"!="];
     [t.symbolState add:@"<="];
     [t.symbolState add:@">="];
+
+//    [t.symbolState add:@"&&"];
+//    [t.symbolState add:@"||"];
+
+    [t.symbolState add:@"<<"];
+    [t.symbolState add:@">>"];
+
+    [t.symbolState add:@"**"];
+
     [t.symbolState add:@"+="];
     [t.symbolState add:@"-="];
     [t.symbolState add:@"*="];
     [t.symbolState add:@"/="];
-//    [t.symbolState add:@"&&"];
-    [t.symbolState add:@"||"];
-    [t.symbolState add:@"<<"];
-    [t.symbolState add:@">>"];
+    [t.symbolState add:@"**="];
+
+    [t.symbolState add:@"|="];
+    [t.symbolState add:@"&="];
+    [t.symbolState add:@"^="];
+
+    [t.symbolState add:@"<<="];
+    [t.symbolState add:@">>="];
     
     [t setTokenizerState:t.symbolState from:'\n' to:'\n'];
     [t.whitespaceState setWhitespaceChars:NO from:'\n' to:'\n'];
@@ -262,6 +275,12 @@ plusEq  = '+=';
 minusEq = '-=';
 timesEq = '*=';
 divEq   = '/=';
+powEq   = '**=';
+orEq    = '|=';
+andEq   = '&=';
+xorEq   = '^=';
+leftEq  = '<<=';
+rightEq = '>>=';
 assign      = qid nl ('=' | plusEq | minusEq | timesEq | divEq) nl expr {
     XPNode *rhs = POP();
     PKToken *tok = POP();
@@ -648,7 +667,17 @@ bitExpr = shiftExpr (nl (bitAnd | bitOr | bitXor) nl shiftExpr {
 
 shiftLeft = '<<';
 shiftRight = '>>';
-shiftExpr = unaryExpr (nl (shiftLeft | shiftRight) nl unaryExpr {
+shiftExpr = powExpr (nl (shiftLeft | shiftRight) nl powExpr {
+    XPNode *rhs = POP();
+    XPNode *shiftNode = [XPNode nodeWithToken:POP()];
+    XPNode *lhs = POP();
+    [shiftNode addChild:lhs];
+    [shiftNode addChild:rhs];
+    PUSH(shiftNode);
+})*;
+
+pow = '**';
+powExpr = unaryExpr (nl pow nl unaryExpr{
     XPNode *rhs = POP();
     XPNode *shiftNode = [XPNode nodeWithToken:POP()];
     XPNode *lhs = POP();
@@ -766,13 +795,17 @@ pair = expr nl ':' nl expr {
     PUSH(pairNode);
 };
 
-scalar = null | nan | str | num | bool;
+scalar = null | inf | nan | str | num | bool;
 
 null = 'null' {
     PUSH([XPNode nodeWithToken:POP()]);
 };
 
 nan = 'NaN' {
+    PUSH([XPNode nodeWithToken:POP()]);
+};
+
+inf = 'Infinity' {
     PUSH([XPNode nodeWithToken:POP()]);
 };
 
