@@ -281,7 +281,7 @@ andEq   = '&=';
 xorEq   = '^=';
 leftEq  = '<<=';
 rightEq = '>>=';
-assign      = qid nl ('=' | plusEq | minusEq | timesEq | divEq) nl expr {
+assign      = qid nl ('=' | plusEq | minusEq | timesEq | divEq | powEq | orEq | andEq | xorEq | leftEq | rightEq) nl expr {
     XPNode *rhs = POP();
     PKToken *tok = POP();
     XPNode *lhs = [XPNode nodeWithToken:POP()];

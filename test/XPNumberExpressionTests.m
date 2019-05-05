@@ -47,15 +47,24 @@
 - (void)testBitAnd {
     [self exec:@"var n=$10 & $1;"];
     TDEquals(0.0, [self doubleForName:@"n"]);
+
+    [self exec:@"var x=$10; x &= $1;"];
+    TDEquals(0.0, [self doubleForName:@"x"]);
 }
 
 - (void)testBitOr {
     [self exec:@"var n=$10 | $1;"];
     TDEquals(3.0, [self doubleForName:@"n"]);
+
+    [self exec:@"var x=$10; x |= $1;"];
+    TDEquals(3.0, [self doubleForName:@"x"]);
 }
 
 - (void)testBitXOr {
     [self exec:@"var n=$010 ^ $101;"];
+    TDEquals(7.0, [self doubleForName:@"n"]);
+
+    [self exec:@"var n=$010; n ^= $101;"];
     TDEquals(7.0, [self doubleForName:@"n"]);
 }
 
@@ -68,6 +77,10 @@
     
     [self exec:@"var n=$10 << 2;"];
     TDEquals(8.0, [self doubleForName:@"n"]);
+
+    
+    [self exec:@"var n=$10; n <<= 2;"];
+    TDEquals(8.0, [self doubleForName:@"n"]);
 }
 
 - (void)testShiftRight {
@@ -76,14 +89,15 @@
     
     [self exec:@"var n=$100 >> 2;"];
     TDEquals(1.0, [self doubleForName:@"n"]);
+
+    [self exec:@"var n=$100; n >>= 2;"];
+    TDEquals(1.0, [self doubleForName:@"n"]);
 }
 
 - (void)testPow {
     [self exec:@"var n=2**2;"];
     TDEquals(4.0, [self doubleForName:@"n"]);
-}
 
-- (void)testNegPow {
     [self exec:@"var n=2**-2;"];
     TDEquals(0.25, [self doubleForName:@"n"]);
 }

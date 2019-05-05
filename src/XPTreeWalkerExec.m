@@ -163,6 +163,23 @@
         case XP_TOKEN_KIND_DIVEQ:
             res = lhs / rhs;
             break;
+
+        case XP_TOKEN_KIND_OREQ:
+            res = lrint(lhs) | lrint(rhs);
+            break;
+        case XP_TOKEN_KIND_ANDEQ:
+            res = lrint(lhs) & lrint(rhs);
+            break;
+        case XP_TOKEN_KIND_XOREQ:
+            res = lrint(lhs) ^ lrint(rhs);
+            break;
+
+        case XP_TOKEN_KIND_LEFTEQ:
+            res = lrint(lhs) << lrint(rhs);
+            break;
+        case XP_TOKEN_KIND_RIGHTEQ:
+            res = lrint(lhs) >> lrint(rhs);
+            break;
         default:
             TDAssert(0);
             break;
@@ -177,6 +194,12 @@
 - (void)minusEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_MINUSEQ]; }
 - (void)timesEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_TIMESEQ]; }
 - (void)divEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_DIVEQ]; }
+
+- (void)orEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_OREQ]; }
+- (void)andEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_ANDEQ]; }
+- (void)xorEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_XOREQ]; }
+- (void)leftEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_LEFTEQ]; }
+- (void)rightEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_RIGHTEQ]; }
 
 
 - (void)assign:(XPNode *)node {
@@ -985,13 +1008,6 @@
 - (id)minus:(XPNode *)node  { return [self math:node op:XP_TOKEN_KIND_MINUS]; }
 - (id)times:(XPNode *)node  { return [self math:node op:XP_TOKEN_KIND_TIMES]; }
 - (id)div:(XPNode *)node    { return [self math:node op:XP_TOKEN_KIND_DIV]; }
-
-
-- (id)orEq:(XPNode *)node {return nil;}
-- (id)andEq:(XPNode *)node {return nil;}
-- (id)xorEq:(XPNode *)node {return nil;}
-- (id)leftEq:(XPNode *)node {return nil;}
-- (id)rightEq:(XPNode *)node {return nil;}
 
 
 - (id)concatString:(XPNode *)node lhs:(XPObject *)lhsObj rhs:(XPObject *)rhsObj {

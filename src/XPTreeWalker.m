@@ -243,6 +243,12 @@
         case XP_TOKEN_KIND_TIMESEQ:         [self timesEq:node]; break;
         case XP_TOKEN_KIND_DIVEQ:           [self divEq:node]; break;
 
+        case XP_TOKEN_KIND_OREQ:            [self orEq:node]; break;
+        case XP_TOKEN_KIND_ANDEQ:           [self andEq:node]; break;
+        case XP_TOKEN_KIND_XOREQ:           [self xorEq:node]; break;
+        case XP_TOKEN_KIND_LEFTEQ:          [self leftEq:node]; break;
+        case XP_TOKEN_KIND_RIGHTEQ:         [self rightEq:node]; break;
+
 // FUNCTIONS
         case XP_TOKEN_KIND_CALL:            res = [self call:node]; break;
         case XP_TOKEN_KIND_RETURN:          [self returnStat:node]; break;
@@ -292,11 +298,6 @@
         case XP_TOKEN_KIND_DIV:             res = [self div:node]; break;
         case XP_TOKEN_KIND_MOD:             res = [self mod:node]; break;
         case XP_TOKEN_KIND_POW:             res = [self pow:node]; break;
-
-        case XP_TOKEN_KIND_OREQ:            res = [self orEq:node]; break;
-        case XP_TOKEN_KIND_ANDEQ:           res = [self andEq:node]; break;
-        case XP_TOKEN_KIND_LEFTEQ:          res = [self leftEq:node]; break;
-        case XP_TOKEN_KIND_RIGHTEQ:         res = [self rightEq:node]; break;
 
 // NULL
         case XP_TOKEN_KIND_NULL:            res = [self null:node]; break;

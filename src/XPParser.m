@@ -1166,6 +1166,18 @@
         [self timesEq_]; 
     } else if ([self predicts:XP_TOKEN_KIND_DIVEQ, 0]) {
         [self divEq_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_POWEQ, 0]) {
+        [self powEq_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_OREQ, 0]) {
+        [self orEq_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_ANDEQ, 0]) {
+        [self andEq_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_XOREQ, 0]) {
+        [self xorEq_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_LEFTEQ, 0]) {
+        [self leftEq_]; 
+    } else if ([self predicts:XP_TOKEN_KIND_RIGHTEQ, 0]) {
+        [self rightEq_]; 
     } else {
         [self raise:@"No viable alternative found in rule 'assign'."];
     }

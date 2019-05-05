@@ -153,4 +153,9 @@
     TDEqualObjects(XPZeroDivisionError, self.error.localizedDescription);
 }
 
+- (void)testPlusEq {
+    [self exec:@"var n=1;n+=1;"];
+    TDEquals(2.0, [self doubleForName:@"n"]);
+}
+
 @end
