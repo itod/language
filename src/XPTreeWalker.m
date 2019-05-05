@@ -291,6 +291,12 @@
         case XP_TOKEN_KIND_TIMES:           res = [self times:node]; break;
         case XP_TOKEN_KIND_DIV:             res = [self div:node]; break;
         case XP_TOKEN_KIND_MOD:             res = [self mod:node]; break;
+        case XP_TOKEN_KIND_POW:             res = [self pow:node]; break;
+
+        case XP_TOKEN_KIND_OREQ:            res = [self orEq:node]; break;
+        case XP_TOKEN_KIND_ANDEQ:           res = [self andEq:node]; break;
+        case XP_TOKEN_KIND_LEFTEQ:          res = [self leftEq:node]; break;
+        case XP_TOKEN_KIND_RIGHTEQ:         res = [self rightEq:node]; break;
 
 // NULL
         case XP_TOKEN_KIND_NULL:            res = [self null:node]; break;
@@ -460,6 +466,13 @@
 - (id)times:(XPNode *)node {return nil;}
 - (id)div:(XPNode *)node {return nil;}
 - (id)mod:(XPNode *)node {return nil;}
+- (id)pow:(XPNode *)node {return nil;}
+
+- (id)orEq:(XPNode *)node {return nil;}
+- (id)andEq:(XPNode *)node {return nil;}
+- (id)xorEq:(XPNode *)node {return nil;}
+- (id)leftEq:(XPNode *)node {return nil;}
+- (id)rightEq:(XPNode *)node {return nil;}
 
 - (id)concat:(XPNode *)node {return nil;}
 

@@ -78,4 +78,14 @@
     TDEquals(1.0, [self doubleForName:@"n"]);
 }
 
+- (void)testPow {
+    [self exec:@"var n=2**2;"];
+    TDEquals(4.0, [self doubleForName:@"n"]);
+}
+
+- (void)testNegPow {
+    [self exec:@"var n=2**-2;"];
+    TDEquals(0.25, [self doubleForName:@"n"]);
+}
+
 @end

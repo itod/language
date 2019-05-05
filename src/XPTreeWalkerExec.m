@@ -973,9 +973,25 @@
 }
 
 
+- (id)pow:(XPNode *)node {
+    XPObject *lhsObj = [self walk:[node childAtIndex:0]];
+    XPObject *rhsObj = [self walk:[node childAtIndex:1]];
+    
+    double d = pow(lhsObj.doubleValue, rhsObj.doubleValue);
+    return [XPObject number:d];
+}
+
+
 - (id)minus:(XPNode *)node  { return [self math:node op:XP_TOKEN_KIND_MINUS]; }
 - (id)times:(XPNode *)node  { return [self math:node op:XP_TOKEN_KIND_TIMES]; }
 - (id)div:(XPNode *)node    { return [self math:node op:XP_TOKEN_KIND_DIV]; }
+
+
+- (id)orEq:(XPNode *)node {return nil;}
+- (id)andEq:(XPNode *)node {return nil;}
+- (id)xorEq:(XPNode *)node {return nil;}
+- (id)leftEq:(XPNode *)node {return nil;}
+- (id)rightEq:(XPNode *)node {return nil;}
 
 
 - (id)concatString:(XPNode *)node lhs:(XPObject *)lhsObj rhs:(XPObject *)rhsObj {
