@@ -126,11 +126,6 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             self.globals = [[[XPGlobalSpace alloc] init] autorelease];       // global memory;
         }
         
-        // DECLARE NATIVE VARS
-        {
-            [self declareNativeVariable:[XPObject positiveInfinityObject] forName:@"Infinity"];
-        }
-        
         // DECLARE NATIVE FUNCS
         {
             // types
