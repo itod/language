@@ -242,6 +242,7 @@
         case XP_TOKEN_KIND_MINUSEQ:         [self minusEq:node]; break;
         case XP_TOKEN_KIND_TIMESEQ:         [self timesEq:node]; break;
         case XP_TOKEN_KIND_DIVEQ:           [self divEq:node]; break;
+        case XP_TOKEN_KIND_POWEQ:           [self powEq:node]; break;
 
         case XP_TOKEN_KIND_OREQ:            [self orEq:node]; break;
         case XP_TOKEN_KIND_ANDEQ:           [self andEq:node]; break;
@@ -425,6 +426,14 @@
 - (void)minusEq:(XPNode *)node {}
 - (void)timesEq:(XPNode *)node {}
 - (void)divEq:(XPNode *)node {}
+- (void)powEq:(XPNode *)node {}
+
+- (void)orEq:(XPNode *)node {}
+- (void)andEq:(XPNode *)node {}
+- (void)xorEq:(XPNode *)node {}
+- (void)leftEq:(XPNode *)node {}
+- (void)rightEq:(XPNode *)node {}
+
 - (void)subscriptAssign:(XPNode *)node {}
 - (void)append:(XPNode *)node {}
 
@@ -468,12 +477,6 @@
 - (id)div:(XPNode *)node {return nil;}
 - (id)mod:(XPNode *)node {return nil;}
 - (id)pow:(XPNode *)node {return nil;}
-
-- (id)orEq:(XPNode *)node {return nil;}
-- (id)andEq:(XPNode *)node {return nil;}
-- (id)xorEq:(XPNode *)node {return nil;}
-- (id)leftEq:(XPNode *)node {return nil;}
-- (id)rightEq:(XPNode *)node {return nil;}
 
 - (id)concat:(XPNode *)node {return nil;}
 

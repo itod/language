@@ -163,6 +163,9 @@
         case XP_TOKEN_KIND_DIVEQ:
             res = lhs / rhs;
             break;
+        case XP_TOKEN_KIND_POWEQ:
+            res = pow(lhs, rhs);
+            break;
 
         case XP_TOKEN_KIND_OREQ:
             res = lrint(lhs) | lrint(rhs);
@@ -194,6 +197,7 @@
 - (void)minusEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_MINUSEQ]; }
 - (void)timesEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_TIMESEQ]; }
 - (void)divEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_DIVEQ]; }
+- (void)powEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_POWEQ]; }
 
 - (void)orEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_OREQ]; }
 - (void)andEq:(XPNode *)node { [self assignEq:node op:XP_TOKEN_KIND_ANDEQ]; }

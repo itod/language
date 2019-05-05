@@ -100,6 +100,9 @@
 
     [self exec:@"var n=2**-2;"];
     TDEquals(0.25, [self doubleForName:@"n"]);
+
+    [self exec:@"var x=2; x**=-2;"];
+    TDEquals(0.25, [self doubleForName:@"x"]);
 }
 
 @end
