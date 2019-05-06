@@ -439,6 +439,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
 - (void)updateBreakpoints:(XPBreakpointCollection *)bpColl {
     self.breakpointCollection = bpColl;
     self.treeWalker.breakpointCollection = bpColl;
+    self.treeWalker.debug = nil != bpColl;
 }
 
 
