@@ -691,6 +691,10 @@
         if (funcSym.blockNode) {
             TDAssert(!funcSym.nativeBody);
 
+            // PUSH PAUSE ON RET
+            BOOL savedPauseOnReturn = self.wantsPauseOnReturn;
+            self.wantsPauseOnReturn = NO;
+            
             // PUSH MEMORY SPACE
             XPMemorySpace *savedCurrentSpace = self.currentSpace;
             TDAssert(savedCurrentSpace);
@@ -715,6 +719,9 @@
             if (self.wantsPauseOnReturn) {
                 self.currentSpace.wantsPause = YES;
             }
+
+            // POP PAUSE ON RET
+            self.wantsPauseOnReturn = savedPauseOnReturn;
         }
         
         // native function
