@@ -47,9 +47,9 @@
     NSInteger stop = 0;
     NSInteger step = 0;
     {
-        XPObject *aObj = [space objectForName:@"a"];           TDAssert(aObj);
-        XPObject *bObj = [space objectForName:@"b"];           TDAssert(bObj);
-        XPObject *stepObj = [space objectForName:@"step"];     TDAssert(stepObj);
+        XPObject *aObj = [space objectForName:@"a"]; TDAssert(aObj);
+        XPObject *bObj = [space objectForName:@"b"]; TDAssert(bObj);
+        XPObject *stepObj = [space objectForName:@"step"]; TDAssert(stepObj);
         
         double a = [aObj doubleValue];
         double b = [bObj doubleValue];
@@ -72,7 +72,7 @@
         NSMutableArray *v = [NSMutableArray arrayWithCapacity:labs(stop-start)];
         
 //        for (NSInteger i = start; i <= stop; i = start+i*step) {
-        for (NSInteger i = start; i > 0 && i <= stop; i += step) {
+        for (NSInteger i = start; i <= stop; i += step) {
             XPObject *obj = [XPObject number:i];
             [v addObject:obj];
         }
