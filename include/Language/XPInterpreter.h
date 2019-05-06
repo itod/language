@@ -42,6 +42,9 @@ extern NSString * const XPDebugInfoLineNumberKey;
 - (id)interpretFileAtPath:(NSString *)path error:(NSError **)outErr;
 - (id)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr;
 
+- (XPNode *)parseInput:(NSString *)input error:(NSError **)outErr;
+- (id)eval:(XPNode *)root filePath:(NSString *)path error:(NSError **)outErr;
+
 @property (nonatomic, retain) XPGlobalScope *globalScope;
 @property (nonatomic, retain) XPMemorySpace *globals;
 @property (nonatomic, retain) XPNode *root;               // the AST represents our code memory
