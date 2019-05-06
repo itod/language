@@ -710,6 +710,10 @@
             // POP MEMORY SPACE
             self.closureSpace = savedClosureSpace;
             self.currentSpace = savedCurrentSpace;
+            
+            if (self.wantsPauseOnReturn) {
+                self.currentSpace.wantsPause = YES;
+            }
         }
         
         // native function
@@ -728,10 +732,6 @@
         }
         
         [self.callStack removeLastObject];
-    }
-    
-    if (self.wantsPauseOnReturn) {
-        self.currentSpace.wantsPause = YES;
     }
     
     if (!result) {
