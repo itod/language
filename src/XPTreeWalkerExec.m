@@ -711,6 +711,7 @@
             self.closureSpace = savedClosureSpace;
             self.currentSpace = savedCurrentSpace;
             
+            // only check this for non-native functions
             if (self.wantsPauseOnReturn) {
                 self.currentSpace.wantsPause = YES;
             }
