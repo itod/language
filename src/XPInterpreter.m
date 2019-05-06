@@ -295,6 +295,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
     id result = nil;
     
     self.root = root;
+    _globals.wantsPause = NO; // reset pause state for looping like draw()
     
     XPTreeWalker *walker = [[[XPTreeWalkerExec alloc] initWithDelegate:self] autorelease];
     walker.globalScope = _globalScope;
