@@ -137,26 +137,6 @@
     
     [self exec:@"var foo=ceil(12.5\n)"];
     TDEquals(13.0, [self doubleForName:@"foo"]);
-    
-    [self exec:@"var foo=pow(3.0,2.0)"];
-    TDEquals(9.0, [self doubleForName:@"foo"]);
-    
-    [self fail:@"var foo=pow\n(3.0,2.0)"];
-    TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
-    
-    [self exec:@"var foo=pow(\n3.0,2.0)"];
-    TDEquals(9.0, [self doubleForName:@"foo"]);
-    
-    [self exec:@"var foo=pow(3.0\n,2.0)"];
-    TDEquals(9.0, [self doubleForName:@"foo"]);
-    
-    [self exec:@"var foo=pow(3.0,\n2.0)"];
-    TDEquals(9.0, [self doubleForName:@"foo"]);
-    
-    [self exec:@"var foo=pow(3.0,2.0\n)"];
-    TDEquals(9.0, [self doubleForName:@"foo"]);
-
-
 
     [self exec:@"var foo=ceil(12.5)"];
     TDEquals(13.0, [self doubleForName:@"foo"]);
@@ -171,23 +151,41 @@
     [self exec:@"var foo=ceil(12.5 \n )"];
     TDEquals(13.0, [self doubleForName:@"foo"]);
     
-    [self exec:@"var foo=pow(3.0,2.0)"];
-    TDEquals(9.0, [self doubleForName:@"foo"]);
+    [self exec:@"var foo=min(3.0,2.0)"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
     
-    [self fail:@"var foo=pow \n (3.0,2.0)"];
+    [self fail:@"var foo=min\n(3.0,2.0)"];
     TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
     
-    [self exec:@"var foo=pow( \n 3.0,2.0)"];
-    TDEquals(9.0, [self doubleForName:@"foo"]);
+    [self exec:@"var foo=min(\n3.0,2.0)"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
     
-    [self exec:@"var foo=pow(3.0 \n ,2.0)"];
-    TDEquals(9.0, [self doubleForName:@"foo"]);
+    [self exec:@"var foo=min(3.0\n,2.0)"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
     
-    [self exec:@"var foo=pow(3.0, \n 2.0)"];
-    TDEquals(9.0, [self doubleForName:@"foo"]);
+    [self exec:@"var foo=min(3.0,\n2.0)"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
     
-    [self exec:@"var foo=pow(3.0,2.0 \n )"];
-    TDEquals(9.0, [self doubleForName:@"foo"]);
+    [self exec:@"var foo=min(3.0,2.0\n)"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+
+    [self exec:@"var foo=min(3.0,2.0)"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+    
+    [self fail:@"var foo=min \n (3.0,2.0)"];
+    TDEqualObjects(XPSyntaxError, self.error.localizedDescription);
+    
+    [self exec:@"var foo=min( \n 3.0,2.0)"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+    
+    [self exec:@"var foo=min(3.0 \n ,2.0)"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+    
+    [self exec:@"var foo=min(3.0, \n 2.0)"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
+    
+    [self exec:@"var foo=min(3.0,2.0 \n )"];
+    TDEquals(2.0, [self doubleForName:@"foo"]);
 }
 
 - (void)testSlicing {

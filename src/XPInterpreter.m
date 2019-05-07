@@ -89,7 +89,7 @@
 
 #define DEBUG_VAR_NAME @"XPDEBUG"
 
-#define DOCS 0
+#define DOCS 1
 
 NSString * const XPErrorDomain = @"XPErrorDomain";
 NSString * const XPErrorRangeKey = @"range";
@@ -187,7 +187,7 @@ NSString * const XPDebugInfoLineNumberKey = @"lineNumber";
             [self declareNativeFunction:[FNMax class]];
             [self declareNativeFunction:[FNMin class]];
             [self declareNativeFunction:[FNSqrt class]];
-            [self declareNativeFunction:[FNPow class]];
+//            [self declareNativeFunction:[FNPow class]];
             [self declareNativeFunction:[FNLog class]];
             
             // trig

@@ -104,7 +104,6 @@
 		D34A56251E7F35E70064DF65 /* FNMin.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A56231E7F35E70064DF65 /* FNMin.h */; };
 		D34A56261E7F35E70064DF65 /* FNMin.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56241E7F35E70064DF65 /* FNMin.m */; };
 		D34A56291E7F36780064DF65 /* FNPow.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A56271E7F36780064DF65 /* FNPow.h */; };
-		D34A562A1E7F36780064DF65 /* FNPow.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A56281E7F36780064DF65 /* FNPow.m */; };
 		D34A562D1E7F37480064DF65 /* FNLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A562B1E7F37480064DF65 /* FNLog.h */; };
 		D34A562E1E7F37480064DF65 /* FNLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D34A562C1E7F37480064DF65 /* FNLog.m */; };
 		D34A56311E7F37EF0064DF65 /* FNAcos.h in Headers */ = {isa = PBXBuildFile; fileRef = D34A562F1E7F37EE0064DF65 /* FNAcos.h */; };
@@ -1239,7 +1238,6 @@
 				D34A56261E7F35E70064DF65 /* FNMin.m in Sources */,
 				D3166E001E53B9A900DEE3A0 /* FNCopy.m in Sources */,
 				D32E70BF1E5365F700728D80 /* XPFunctionBody.m in Sources */,
-				D34A562A1E7F36780064DF65 /* FNPow.m in Sources */,
 				D3E79A071E8D78DD001F9DC7 /* FNDescription.m in Sources */,
 				D3903E121E84A504007E7674 /* XPUserThrownException.m in Sources */,
 				D34FF7292278A392009889A2 /* FNSort.m in Sources */,
