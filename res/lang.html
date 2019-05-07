@@ -1,21 +1,38 @@
+
+<h2>Language</h2>
+
+<p>KonsolSkript is a simple, dynamic, interpreted language designed for use in the Grafik Konsol application. KonsolSkript is implemented in Objective-C using a Test-Driven Development style (it has decent test coverage) and is <a href="https://github.com/itod/Language">open-source</a>.</p>
+
+<p>KonsolSkript is heavily influenced by several popular languages, including Python, JavaScript and XPath.</p>
+
+<p>KonsolSkript is object-based (everthing is an Object), but not (yet) object-oriented – there is no <code>class</code> construct available to users.</p>
+
+<p>KonsolSkript features functions using the <code>sub</code> construct (short for subroutine). Functions are first-class objects as in Python or JavaScript, and may be treated like any other variable. A function can be passed as an argument to other functions, can be returned by another function and can be assigned as a value to a variable.</p>
+
+<h2>Types</h2>
+
+<h3>Object</h3>
+
+<p>Abstract base class of all objects in KonsolSkript.</p>
+
 <h3>null</h3>
 
 <p>This type has a single value. There is a single object with this value. This object is accessed through the built-in name <code>null</code>. It is used to signify the absence of a value in many situations, e.g., it is returned from functions that don’t explicitly return anything. Its truth value is false.</p>
 
-<h3>Booleans</h3>
+<h3>Boolean</h3>
 
-<p>An object of type boolean can have one of two values, <code>true</code> and <code>false</code>.</p>
+<p>An object of type Boolean can have one of two values, <code>true</code> and <code>false</code>.</p>
 
-<p>An <code>or</code> expression is evaluated by evaluating each operand and converting its value to a boolean as if by a call to the <code><a href="#fn-Boolean">Boolean</a></code> function. The result is true if either value is true and false otherwise. The right operand is not evaluated if the left operand evaluates to true.</p>
+<p>An <code>or</code> expression is evaluated by evaluating each operand and converting its value to a Boolean as if by a call to the <code><a href="#fn-Boolean">Boolean</a></code> function. The result is true if either value is true and false otherwise. The right operand is not evaluated if the left operand evaluates to true.</p>
 
-<p>An <code>and</code> expression is evaluated by evaluating each operand and converting its value to a boolean as if by a call to the <code><a href="#fn-Boolean">Boolean</a></code> function. The result is true if both values are true and false otherwise. The right operand is not evaluated if the left operand evaluates to false.</p>
+<p>An <code>and</code> expression is evaluated by evaluating each operand and converting its value to a Boolean as if by a call to the <code><a href="#fn-Boolean">Boolean</a></code> function. The result is true if both values are true and false otherwise. The right operand is not evaluated if the left operand evaluates to false.</p>
 
 <p>An EqualityExpr (that is not just a RelationalExpr) or a RelationalExpr (that is not just an AdditiveExpr) is evaluated by comparing the objects that result from evaluating the two operands.</p>
 
 <p>When the operator is <code>&lt;=</code>, <code>&lt;</code>, <code>&gt;=</code> or <code>&gt;</code>, then the objects are compared by converting both objects to numbers and comparing the numbers according to IEEE 754. The <code>&lt;</code> comparison will be true if and only if the first number is less than the second number. The <code>&lt;=</code> comparison will be true if and only if the first number is less than or equal to the second number. The <code>&gt;</code> comparison will be true if and only if the first number is greater than the second number. The <code>&gt;=</code> comparison will be true if and only if the first number is greater than or equal to the second number.</p>
 
 
-<h3>Numbers</h3>
+<h3>Number</h3>
 
 <p>A number represents a floating-point number. A number can have any double-precision 64-bit format IEEE 754 value. These include a special "Not-a-Number" (<code>NaN</code>) value, positive and negative infinity, and positive and negative zero.</p>
 
@@ -69,18 +86,18 @@
 <p>NOTE: This is the same as the <code>%</code> operator in Java and ECMAScript.</p>
 <p>NOTE: This is not the same as the IEEE 754 remainder operation, which returns the remainder from a rounding division.</p>
 
-<h3>Strings</h3>
+<h3>String</h3>
 
-<p>A string is a sequence of values that represent Unicode code points. All the code points in the range <code>U+0000 - U+10FFFF</code> can be represented in a string. The built-in function <code><a href="#fn-ord">ord()</a></code> converts a code point from its string form to an integer in the range <code>0 - 10FFFF</code>; <code><a href="#fn-chr">chr()</a></code> converts an integer in the range <code>0 - 10FFFF</code> to the corresponding length 1 string object.</p>
+<p>A String is a sequence of values that represent Unicode code points. All the code points in the range <code>U+0000 - U+10FFFF</code> can be represented in a String. The built-in function <code><a href="#fn-ord">ord()</a></code> converts a code point from its String form to an integer in the range <code>0 - 10FFFF</code>; <code><a href="#fn-chr">chr()</a></code> converts an integer in the range <code>0 - 10FFFF</code> to the corresponding length 1 String object.</p>
 
-<p>More documentation is obviously needed here, but KonsoleSkript is implemented in Objective-C, so various features of KS String objects will obviously mirror aspects of <code>NSString</code> from Objective-C.</p>
+<p>More documentation is obviously needed here, but KonsolSkript is implemented in Objective-C, so various features of KS String objects will obviously mirror aspects of <code>NSString</code> from Objective-C.</p>
 
-<h3>Arrays</h3>
+<h3>Array</h3>
 
-<p>KonsoleSkript Arrays are virtually identical to Arrays in Python, with two important differences:</p>
+<p>KonsolSkript Arrays are virtually identical to Arrays in Python, with two important differences:</p>
 
 <ul>
-    <li>KonsoleSkript Arrays are 1-index based (like XPath), not 0-index based (like Python).</li>
+    <li>KonsolSkript Arrays are 1-index based (like XPath), not 0-index based (like Python).</li>
     <li>The following syntax (borrowed from PHP) is used for appending an object to an Array in KS:
     <pre>
     var a = ['x'] // create array
@@ -92,7 +109,7 @@
     
 </ul>
 
-<p>Python-style Array slicing is fully supported in KonsoleSkript Arrays (again, with the difference that KS Arrays are 1-index based).</p>
+<p>Python-style Array slicing is fully supported in KonsolSkript Arrays (again, with the difference that KS Arrays are 1-index based).</p>
 
 <pre>
     // …continued from above
@@ -109,7 +126,7 @@
 
 <h3>Dictionary</h3>
 
-<p>KonsoleSkript Dictionaries are virtually identical to Dictionaries in Python, with the exception that accessing a key which is not present in the Dictionary returns <code>null</code> rather than throwing an exception.</p>
+<p>KonsolSkript Dictionaries are virtually identical to Dictionaries in Python, with the exception that accessing a key which is not present in the Dictionary returns <code>null</code> rather than throwing an exception.</p>
 
 <pre>
     var d = {'foo': 1}
@@ -117,3 +134,7 @@
     print(d)        // {'foo': 1, 'bar': 2}
     print(d['baz']) // null
 </pre>
+
+<h3>Function</h3>
+
+<p>Functions are first class objects in KonsolSkript.</p>
