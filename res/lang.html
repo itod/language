@@ -59,12 +59,14 @@
 
 <p>The % operator returns the remainder from a truncating division. For example,</p>
 
-<p><code>5 mod 2</code> returns <code>1</code></p>
-<p><code>5 mod -2</code> returns <code>1</code></p>
-<p><code>-5 mod 2</code> returns <code>-1</code></p>
-<p><code>-5 mod -2</code> returns <code>-1</code></p>
+<pre>
+     5 %  2  // returns 1
+     5 % -2  // returns 1
+    -5 %  2  // returns -1
+    -5 % -2  // returns -1
+</pre>
 
-<p>NOTE: This is the same as the % operator in Java and ECMAScript.</p>
+<p>NOTE: This is the same as the <code>%</code> operator in Java and ECMAScript.</p>
 <p>NOTE: This is not the same as the IEEE 754 remainder operation, which returns the remainder from a rounding division.</p>
 
 <h3>Strings</h3>
@@ -74,6 +76,28 @@
 
 <h3>Arrays</h3>
 
+<p>KonsoleSkript Arrays are virtually identical to Arrays in Python, with two important differences:</p>
 
+<ul>
+    <li>KonsoleSkript Arrays are 1-index based (like XPath), not 0-index based (like Python).</li>
+    <li>The following syntax (borrowed from PHP is use for appending an object to an Array in KS):
+    <pre>
+    var a = ['x'] // create array
+    a[] = 'y'     // appends 'y'
+    print(a)      // prints ['x', 'y']
+    </pre>
+    </li>
+    
+</ul>
+
+<p>Python-style Array slicing is fully supported in KonsoleSkript Arrays (again, with the difference that KS Arrays are 1-index based).</p>
 
 <h3>Dictionary</h3>
+
+<p>KonsoleSkript Dictionaries are virtually identical to Dictionaries in Python, with the exception that accessing a key which is not present in the Dictionary returns <code>null</code> rather than throwing an exception.</p>
+
+<pre>
+    var d = {'foo': 1}
+    d['bar'] = 2
+    print(d) // prints {'foo': 1, 'bar': 2}
+</pre>
