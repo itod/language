@@ -1,9 +1,9 @@
 
 <h2>Language</h2>
 
-<p>KonsolSkript is a simple, dynamic, interpreted language designed for use in the Grafik Konsol application. KonsolSkript is implemented in Objective-C using a Test-Driven Development style (it has decent test coverage) and is <a href="https://github.com/itod/Language">open-source</a>.</p>
+<p>KonsolSkript is a simple, dynamic, interpreted scripting language designed for use in the <a href="http://celestialteapot.com/grafikkonsol/">Grafik Konsol</a> application. KonsolSkript is implemented in Objective-C using a Test-Driven Development style (it has decent test coverage) and is <a href="https://github.com/itod/Language">open-source</a>.</p>
 
-<p>KonsolSkript is heavily influenced by several popular languages, including Python, JavaScript and XPath.</p>
+<p>KonsolSkript is heavily influenced by several popular languages, including Python, JavaScript and XPath. It is intended to be appropriate for users learning their very first programming langauge.</p>
 
 <p>KonsolSkript is object-based (everthing is an Object), but not (yet) object-oriented – there is no <code>class</code> construct available to users.</p>
 
@@ -11,9 +11,20 @@
 
 <h2>Types</h2>
 
+<p>The type of any object can be inspected using the <code>type()</code> function, which returns the object's type name as a String.</p>
+
+<pre>
+type(false) // 'Boolean'
+type(1.0)   // 'Number'
+type('')    // 'String'
+type([])    // 'Array'
+type({})    // 'Dictionary'
+type(sub(){return false}) // 'Function'
+</pre>
+
 <h3>Object</h3>
 
-<p>Abstract base class of all objects in KonsolSkript.</p>
+<p>Object is the abstract base class of all objects in KonsolSkript.</p>
 
 <h3>null</h3>
 
