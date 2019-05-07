@@ -19,6 +19,36 @@
 
 <p>A number represents a floating-point number. A number can have any double-precision 64-bit format IEEE 754 value. These include a special "Not-a-Number" (<code>NaN</code>) value, positive and negative infinity, and positive and negative zero.</p>
 
+<p>There are three different ways to represent a Number literal. All three types allow underscore separator chars (<code>_</code>) anywhere within the Number literal – these can be used to enhance readability but have no effect on the literal value.</p>
+
+<ul>
+    <li>
+        <p><i>Decimal</i> Number literals consist of an optionally signed sequence of digits with an optional decimal point and fractional part.</p>
+        <pre>
+    42
+    -280
+    3.14
+    47.
+    1_000_000
+        </pre>
+    </li>
+    <li>
+        <p><i>Hexadecimal</i> Number literals consist of an octothorpe (<code>#</code>) followed by a sequence of case-insensitive hexadecimal digits (<code>0-9</code>, <code>A-F</code> or <code>a-f</code>).</p>
+        <pre>
+    #FFFFFF
+    #00CC77
+    #00_CC_77
+        </pre>
+    </li>
+    <li>
+        <p><i>Binary</i> Number literals consist of a dollar sign (<code>$</code>) followed by a sequence of binary digits (<code>0-1</code>).</p>
+        <pre>
+    $1111
+    $0101_0000
+        </pre>
+    </li>
+</ul>
+
 <p>The numeric operators convert their operands to numbers as if by calling the <code><a href="#fn-Number">Number</a></code> function.</p>
 
 <p>The <code>+</code> operator performs addition.</p>
