@@ -137,10 +137,9 @@
 
 <h3>Function</h3>
 
-<p>Functions are first class objects in KonsolSkript.</p>
+<p>Functions are first class objects in KonsolSkript, and are very similar to JavaScript as of ECMAScript 5.</p>
 
 <pre>
-
 sub add(a, b) {
     return a + b
 }
@@ -156,4 +155,14 @@ var div = sub (a, b) {
 }
 
 div(4, 2) // 2
+</pre>
+
+<p>Default parameter values are supported as in Python. Any parameter with a default value is option when calling the function:</p>
+
+<pre>
+sub pow(base, exp=2) {
+    return base ** exp
+}
+
+pow(4) // 16
 </pre>
