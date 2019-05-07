@@ -19,7 +19,7 @@ type(1.0)   // 'Number'
 type('')    // 'String'
 type([])    // 'Array'
 type({})    // 'Dictionary'
-type(sub(){return false}) // 'Function'
+type(sub(){return false}) // 'Subroutine'
 </pre>
 
 <h3>Object</h3>
@@ -146,9 +146,11 @@ type(sub(){return false}) // 'Function'
     print(d['baz']) // null
 </pre>
 
-<h3>Function</h3>
+<h3>Subroutine</h3>
 
-<p>Functions are first class objects in KonsolSkript, and are very similar to JavaScript as of ECMAScript 5.</p>
+<p>The terms "function" and "subroutine" are used completely interchangeably in the context of KonsolSkript. In this context, "subroutine" simply means "function" (all subroutines/functions may return a value). But the official type name is <code>Subroutine</code>.</p>
+
+<p>Subroutines are first class objects in KonsolSkript, and are very similar to functions in JavaScript as of ECMAScript 5.</p>
 
 <pre>
 sub add(a, b) {
