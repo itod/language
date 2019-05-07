@@ -15,7 +15,7 @@
 <p>When the operator is <code>&lt;=</code>, <code>&lt;</code>, <code>&gt;=</code> or <code>&gt;</code>, then the objects are compared by converting both objects to numbers and comparing the numbers according to IEEE 754. The <code>&lt;</code> comparison will be true if and only if the first number is less than the second number. The <code>&lt;=</code> comparison will be true if and only if the first number is less than or equal to the second number. The <code>&gt;</code> comparison will be true if and only if the first number is greater than the second number. The <code>&gt;=</code> comparison will be true if and only if the first number is greater than or equal to the second number.</p>
 
 
-<h2>Numbers</h2>
+<h3>Numbers</h3>
 
 <p>A number represents a floating-point number. A number can have any double-precision 64-bit format IEEE 754 value. These include a special "Not-a-Number" (<code>NaN</code>) value, positive and negative infinity, and positive and negative zero.</p>
 
@@ -60,10 +60,10 @@
 <p>The % operator returns the remainder from a truncating division. For example,</p>
 
 <pre>
-     5 %  2  // returns 1
-     5 % -2  // returns 1
-    -5 %  2  // returns -1
-    -5 % -2  // returns -1
+     5 %  2  // 1
+     5 % -2  // 1
+    -5 %  2  // -1
+    -5 % -2  // -1
 </pre>
 
 <p>NOTE: This is the same as the <code>%</code> operator in Java and ECMAScript.</p>
@@ -73,6 +73,7 @@
 
 <p>A string is a sequence of values that represent Unicode code points. All the code points in the range <code>U+0000 - U+10FFFF</code> can be represented in a string. The built-in function <code><a href="#fn-ord">ord()</a></code> converts a code point from its string form to an integer in the range <code>0 - 10FFFF</code>; <code><a href="#fn-chr">chr()</a></code> converts an integer in the range <code>0 - 10FFFF</code> to the corresponding length 1 string object.</p>
 
+<p>More documentation is obviously needed here, but KonsoleSkript is implemented in Objective-C, so various features of KS String objects will obviously mirror aspects of <code>NSString</code> from Objective-C.</p>
 
 <h3>Arrays</h3>
 
@@ -80,17 +81,31 @@
 
 <ul>
     <li>KonsoleSkript Arrays are 1-index based (like XPath), not 0-index based (like Python).</li>
-    <li>The following syntax (borrowed from PHP is use for appending an object to an Array in KS):
+    <li>The following syntax (borrowed from PHP) is used for appending an object to an Array in KS:
     <pre>
     var a = ['x'] // create array
     a[] = 'y'     // appends 'y'
-    print(a)      // prints ['x', 'y']
-    </pre>
+    a[] = 'z'     // appends 'z'
+    print(a)      // ['x', 'y', 'z']
+</pre>
     </li>
     
 </ul>
 
 <p>Python-style Array slicing is fully supported in KonsoleSkript Arrays (again, with the difference that KS Arrays are 1-index based).</p>
+
+<pre>
+    // …continued from above
+    print(a)      // ['x', 'y', 'z']
+    print(a[1])   // 'x'
+    print(a[2])   // 'y'
+    print(a[-1])  // 'z'
+    print(a[-2])  // 'y'
+    print(a[:])   // ['x', 'y', 'z']
+    print(a[:1])  // 'x'
+    print(a[3:])  // 'z'
+    print(a[1:2]) // ['x', 'y']
+</pre>
 
 <h3>Dictionary</h3>
 
@@ -99,5 +114,6 @@
 <pre>
     var d = {'foo': 1}
     d['bar'] = 2
-    print(d) // prints {'foo': 1, 'bar': 2}
+    print(d)        // {'foo': 1, 'bar': 2}
+    print(d['baz']) // null
 </pre>
