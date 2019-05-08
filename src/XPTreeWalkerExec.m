@@ -939,8 +939,9 @@
     TDAssert(lhsObj.isNumericObject);
     
     if (!rhsObj.isNumericObject) {
-        NSString *name = [rhsObj.objectClass name];
-        [self raise:XPTypeError node:node format:@"can only %@ a Number (not '%@') to a Number", name];
+        NSString *lhsName = [lhsObj.objectClass name];
+        NSString *rhsName = [rhsObj.objectClass name];
+        [self raise:XPTypeError node:node format:@"unsupported operand type(s) for %@: '%@' and '%@'", node.token.stringValue, lhsName, rhsName];
         return nil;
     }
     
@@ -959,8 +960,8 @@
             res = lhs * rhs;
             break;
         case XP_TOKEN_KIND_DIV: {
-            if (0.0 == rhs) {
-                [self raise:XPZeroDivisionError node:node format:@"cannot divide by 0.0"];
+            if (0.0 == rhs || -0.0 == rhs) {
+                [self raise:XPZeroDivisionError node:node format:@"cannot divide by zero"];
                 return nil;
             }
             res = lhs / rhs;
