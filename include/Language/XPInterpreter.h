@@ -37,7 +37,7 @@ extern NSString * const XPDebugInfoLineNumberKey;
 
 @interface XPInterpreter : NSObject <XPTreeWalkerDelegate>
 
-- (id)initWithDelegate:(id <XPInterpreterDelegate>)d;
+- (instancetype)initWithDelegate:(id <XPInterpreterDelegate>)d;
 
 - (id)interpretFileAtPath:(NSString *)path error:(NSError **)outErr;
 - (id)interpretString:(NSString *)input filePath:(NSString *)path error:(NSError **)outErr;
