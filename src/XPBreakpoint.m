@@ -165,7 +165,7 @@
 
 
 - (NSString *)displayString {
-    return [NSString stringWithFormat:NSLocalizedString(@"line %d", @""), _lineNumber];
+    return [NSString stringWithFormat:NSLocalizedString(@"line %lu", @""), _lineNumber];
 }
 
 @end
